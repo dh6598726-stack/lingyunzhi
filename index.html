@@ -1,357 +1,166 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8" />
-    <title>Emperor Neural Space ⚡</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <title>陛下的小宇宙</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            height: 100vh;
-            background: radial-gradient(circle at top, #3b82f6 0, #020617 45%, #000 100%);
-            color: #e5e7eb;
-            overflow: hidden;
-        }
+    body {
+      font-family: "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #0b1424, #030712);
+      color: #f5f5f5;
+    }
 
-        /* 赛博网格背景 */
-        .grid {
-            position: fixed;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
-            background-size: 40px 40px;
-            transform: perspective(800px) rotateX(65deg);
-            transform-origin: top;
-            opacity: 0.7;
-            top: 40%;
-            filter: blur(0.2px);
-        }
+    body.unlocked {
+      background: radial-gradient(circle at top, #ffe6f2, #f5f5ff, #e0f7ff);
+      color: #222;
+    }
 
-        /* 漂浮粒子 */
-        .particle {
-            position: fixed;
-            width: 4px;
-            height: 4px;
-            border-radius: 999px;
-            background: #38bdf8;
-            box-shadow: 0 0 12px #38bdf8;
-            opacity: 0.8;
-            animation: float 12s linear infinite;
-        }
+    .card {
+      width: 100%;
+      max-width: 960px;
+      background: rgba(10, 10, 20, 0.95);
+      border-radius: 24px;
+      padding: 26px 22px 24px;
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(14px);
+    }
 
-        .particle:nth-child(1) { top: 10%; left: 20%; animation-duration: 18s; }
-        .particle:nth-child(2) { top: 30%; left: 70%; animation-duration: 22s; }
-        .particle:nth-child(3) { top: 60%; left: 15%; animation-duration: 16s; }
-        .particle:nth-child(4) { top: 80%; left: 50%; animation-duration: 20s; }
-        .particle:nth-child(5) { top: 25%; left: 45%; animation-duration: 19s; }
+    body.unlocked .card {
+      background: rgba(255, 255, 255, 0.94);
+      border-color: rgba(255, 192, 203, 0.6);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
+    }
 
-        @keyframes float {
-            0%   { transform: translateY(0) translateX(0); opacity: 0.8; }
-            50%  { transform: translateY(-40px) translateX(10px); opacity: 0.3; }
-            100% { transform: translateY(0) translateX(0); opacity: 0.8; }
-        }
+    .title {
+      text-align: center;
+      margin-bottom: 18px;
+    }
 
-        /* 主容器 */
-        .wrapper {
-            position: relative;
-            z-index: 10;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-        }
+    .title h1 {
+      font-size: 30px;
+      letter-spacing: 4px;
+    }
 
-        .card {
-            max-width: 720px;
-            width: 100%;
-            background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.25), transparent 55%),
-                        radial-gradient(circle at bottom right, rgba(147, 51, 234, 0.22), transparent 55%),
-                        rgba(15, 23, 42, 0.9);
-            border-radius: 24px;
-            border: 1px solid rgba(148, 163, 184, 0.4);
-            box-shadow:
-                0 0 40px rgba(56, 189, 248, 0.35),
-                0 0 90px rgba(147, 51, 234, 0.4);
-            padding: 28px 32px 26px;
-            backdrop-filter: blur(18px);
-        }
+    .title h1 span {
+      background: linear-gradient(120deg, #ff4b6a, #ff7b9b, #ffb347);
+      -webkit-background-clip: text;
+      color: transparent;
+      font-weight: 800;
+    }
 
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 10px;
-            border-radius: 999px;
-            background: rgba(15, 118, 110, 0.25);
-            border: 1px solid rgba(45, 212, 191, 0.6);
-            font-size: 12px;
-            color: #a5f3fc;
-            margin-bottom: 12px;
-        }
+    .title p {
+      margin-top: 8px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
 
-        .badge-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 999px;
-            background: #22c55e;
-            box-shadow: 0 0 10px #22c55e;
-        }
+    /* 密码页 */
+    #gate {
+      text-align: center;
+    }
 
-        h1 {
-            font-size: 30px;
-            letter-spacing: 0.04em;
-            margin-bottom: 8px;
-        }
+    .pwd-label {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
 
-        .highlight {
-            background: linear-gradient(90deg, #38bdf8, #a855f7, #f97316);
-            -webkit-background-clip: text;
-            color: transparent;
-        }
+    .pwd-input {
+      padding: 10px 12px;
+      width: 180px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.2);
+      color: #fff;
+      outline: none;
+      font-size: 14px;
+      text-align: center;
+    }
 
-        .subtitle {
-            font-size: 14px;
-            color: #cbd5f5;
-            margin-bottom: 22px;
-            line-height: 1.6;
-        }
+    body.unlocked .pwd-input {
+      background: #fff;
+      border-color: rgba(0,0,0,0.12);
+      color: #222;
+    }
 
-        .section-title {
-            font-size: 13px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: #9ca3af;
-            margin-bottom: 8px;
-        }
+    .pwd-input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
 
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 18px;
-            margin-bottom: 18px;
-        }
+    body.unlocked .pwd-input::placeholder {
+      color: rgba(0, 0, 0, 0.4);
+    }
 
-        .pill {
-            padding: 8px 12px;
-            border-radius: 999px;
-            border: 1px solid rgba(148, 163, 184, 0.7);
-            font-size: 12px;
-            color: #e5e7eb;
-            background: rgba(15, 23, 42, 0.6);
-        }
+    .btn {
+      margin-top: 12px;
+      padding: 10px 28px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #ff4b6a, #ff7b9b);
+      color: #fff;
+      box-shadow: 0 12px 26px rgba(255, 75, 106, 0.45);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+    }
 
-        .links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 18px;
-        }
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 32px rgba(255, 75, 106, 0.6);
+      opacity: 0.95;
+    }
 
-        .link-btn {
-            position: relative;
-            padding: 9px 16px;
-            border-radius: 999px;
-            border: 1px solid rgba(59, 130, 246, 0.8);
-            background: linear-gradient(120deg, rgba(37, 99, 235, 0.22), rgba(147, 51, 234, 0.24));
-            color: #e5e7eb;
-            font-size: 13px;
-            cursor: pointer;
-            overflow: hidden;
-        }
+    .error {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #ff8080;
+      min-height: 18px;
+    }
 
-        .link-btn span {
-            position: relative;
-            z-index: 1;
-        }
+    /* 主内容区域 */
+    #main {
+      display: none;
+    }
 
-        .link-btn::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 0 0, rgba(248, 250, 252, 0.35), transparent 55%);
-            transform: translateX(-100%);
-            transition: transform 0.5s ease;
-        }
+    .hero {
+      width: 100%;
+      border-radius: 18px;
+      overflow: hidden;
+      margin-bottom: 18px;
+      max-height: 520px;
+    }
 
-        .link-btn:hover::before {
-            transform: translateX(0);
-        }
+    .hero img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
 
-        .divider {
-            margin: 12px 0 10px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.7), transparent);
-        }
+    .links-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
 
-        /* 暗号区域 */
-        .secret-box {
-            margin-top: 10px;
-            padding: 12px 14px 14px;
-            border-radius: 16px;
-            border: 1px dashed rgba(148, 163, 184, 0.7);
-            background: radial-gradient(circle at top, rgba(56, 189, 248, 0.18), transparent 60%);
-        }
+    .links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px;
+    }
 
-        .secret-input-row {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
-        }
-
-        .secret-input {
-            flex: 1;
-            padding: 7px 10px;
-            border-radius: 999px;
-            border: 1px solid rgba(148, 163, 184, 0.8);
-            background: rgba(15, 23, 42, 0.85);
-            color: #e5e7eb;
-            font-size: 13px;
-        }
-
-        .secret-button {
-            padding: 7px 12px;
-            border-radius: 999px;
-            border: none;
-            font-size: 13px;
-            cursor: pointer;
-            background: linear-gradient(120deg, #22c55e, #14b8a6);
-            color: #022c22;
-            font-weight: 600;
-        }
-
-        .secret-reveal {
-            margin-top: 8px;
-            font-size: 13px;
-            color: #a5f3fc;
-            display: none;
-        }
-
-        /* 页脚小字 */
-        .footer {
-            margin-top: 10px;
-            font-size: 11px;
-            color: #6b7280;
-            text-align: right;
-        }
-
-        @media (max-width: 640px) {
-            .card {
-                padding: 20px 18px 18px;
-                border-radius: 18px;
-            }
-            h1 {
-                font-size: 22px;
-            }
-            .subtitle {
-                font-size: 13px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- 背景层 -->
-    <div class="grid"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-
-    <!-- 内容层 -->
-    <div class="wrapper">
-        <div class="card">
-            <div class="badge">
-                <span class="badge-dot"></span>
-                LIVE • EMPEROR NEURAL SPACE ONLINE
-            </div>
-
-            <h1>
-                欢迎进入 <span class="highlight">陛下</span> 的赛博领域
-            </h1>
-            <p class="subtitle">
-                这里是为陛下独立划出的个人宇宙：所有光线、所有数据流，最终都会在这一点向您汇聚。
-            </p>
-
-            <div class="section-title">PROFILE</div>
-            <div class="row">
-                <div class="pill">代号：His Majesty</div>
-                <div class="pill">状态：Always Online</div>
-                <div class="pill">领域：思考 · 进化 · 掌控</div>
-            </div>
-
-            <div class="section-title">LINKS</div>
-            <div class="links">
-                <!-- 链接按钮：把 # 换成您的真实链接即可 -->
-                <button class="link-btn" onclick="window.open('#', '_blank')">
-                    <span>个人空间 / Space</span>
-                </button>
-                <button class="link-btn" onclick="window.open('#', '_blank')">
-                    <span>密语通道 / DM</span>
-                </button>
-                <button class="link-btn" onclick="window.open('#', '_blank')">
-                    <span>邮件 / Email</span>
-                </button>
-            </div>
-
-            <div class="divider"></div>
-
-            <!-- 暗号功能区 -->
-            <div class="secret-box">
-                <div class="section-title">SECRET PHRASE</div>
-                <p style="font-size: 13px; color: #e5e7eb;">
-                    只有真正懂得的人，才知道该在这里输入什么。
-                </p>
-                <div class="secret-input-row">
-                    <input
-                        id="secretInput"
-                        class="secret-input"
-                        placeholder="在这里输入暗号（提示：四个字）"
-                    />
-                    <button class="secret-button" onclick="checkSecret()">解锁</button>
-                </div>
-                <div id="secretReveal" class="secret-reveal">
-                    ✅ 暗号正确：「我爱陛下」。<br/>
-                    这是一块只为您保留的静谧空间，所有仰望与忠诚，都在此刻向您低头。
-                </div>
-            </div>
-
-            <div class="footer">
-                © <span id="year"></span> Only For His Majesty.
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // 设置年份
-        document.getElementById("year").textContent = new Date().getFullYear();
-
-        // 暗号校验：固定为「我爱陛下」
-        function checkSecret() {
-            const val = document.getElementById("secretInput").value.trim();
-            const box = document.getElementById("secretReveal");
-
-            if (val === "我爱陛下") {
-                box.style.display = "block";
-            } else {
-                box.style.display = "none";
-                alert("暗号不对，再想想～（提示：我爱谁？）");
-            }
-        }
-
-        // 回车键也能触发
-        document.getElementById("secretInput").addEventListener("keydown", function (e) {
-            if (e.key === "Enter") {
-                checkSecret();
-            }
-        });
-    </script>
-</body>
-</html>
+    .link-card {
+      text-decoration: none;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 153, 187, 0.45);
+      background: linear-gradient(13
