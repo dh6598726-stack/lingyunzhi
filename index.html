@@ -202,7 +202,6 @@
       transition: 0.25s ease;
     }
 
-    /* 微弹动 */
     .giscus-frame:active {
       transform: scale(0.98);
     }
@@ -212,6 +211,49 @@
       text-align: right;
       opacity: 0.7;
       font-size: 12px;
+    }
+
+    /* 悬浮太极图标 */
+    .floating-orb {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      overflow: hidden;
+      cursor: pointer;
+      z-index: 50;
+      box-shadow: 0 0 20px rgba(255,255,255,0.35);
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.45), transparent 60%),
+                  radial-gradient(circle at 70% 80%, rgba(96,165,250,0.35), transparent 60%),
+                  rgba(0,0,0,0.9);
+      border: 1px solid rgba(255,255,255,0.3);
+      backdrop-filter: blur(10px);
+      animation: orbFloat 3.5s ease-in-out infinite;
+    }
+
+    .floating-orb img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    @keyframes orbFloat {
+      0%   { transform: translateY(0); }
+      50%  { transform: translateY(-6px); }
+      100% { transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .floating-orb {
+        width: 54px;
+        height: 54px;
+        right: 16px;
+        bottom: 16px;
+      }
     }
   </style>
 </head>
@@ -329,6 +371,7 @@ document.getElementById("password-input").addEventListener("keydown",e=>{
     <span>📲 二步验证</span>
     <button class="link-open" onclick="window.open('https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq')">打开</button>
   </div>
+
   <div class="link-item">
     <span>🎬 银河录像局 · nf.video</span>
     <button class="link-open" onclick="window.open('https://nf.video/银河录像局')">打开</button>
@@ -345,7 +388,7 @@ document.getElementById("password-input").addEventListener("keydown",e=>{
   </div>
 
   <!-- 留言区 -->
-  <div style="margin-top:25px;">
+  <div class="giscus-frame" style="margin-top:25px;">
     <div class="comment-title">💬 留言板</div>
 
     <script src="https://giscus.app/client.js"
@@ -373,6 +416,10 @@ document.getElementById("password-input").addEventListener("keydown",e=>{
 
 </div>
 
+<!-- 悬浮太极图标 -->
+<div class="floating-orb" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
+  <img src="taiji.jpg" alt="太极图标">
+</div>
+
 </body>
 </html>
-
