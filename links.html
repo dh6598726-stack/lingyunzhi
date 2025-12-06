@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>常用链接清单｜小东勇闯东南亚</title>
+
+  <!-- 标签小图标 -->
+  <link rel="icon" href="J.png" type="image/png">
+  <link rel="shortcut icon" href="J.png" type="image/png">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-main: #070312;
+      --panel: rgba(11, 15, 40, 0.96);
+      --border: rgba(148, 163, 184, 0.7);
+      --accent: #facc15;
+      --accent2: #60a5fa;
+      --text-main: #f9fafb;
+      --text-sub: rgba(209, 213, 219, 0.88);
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --shadow: 0 18px 45px rgba(0,0,0,0.6);
+    }
+
+    body {
+      font-family: "PingFang SC","Microsoft YaHei",sans-serif;
+      background: radial-gradient(circle at 10% 0%, #1f2937 0, #020014 45%) fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 980px;
+      margin: 26px 18px;
+      background:
+        radial-gradient(circle at 0 0, rgba(96,165,250,0.18), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(250,204,21,0.18), transparent 60%),
+        var(--panel);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      overflow: hidden;
+    }
+
+    header {
+      padding: 20px 22px 14px;
+      border-bottom: 1px solid rgba(148,163,184,0.6);
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .title-block {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 30px;
+      height: 30px;
+      border-radius: 30%;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,0.55), transparent 60%),
+        #1f2937;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.18);
+    }
+
+    .title-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .title-text h1 {
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+
+    .title-text span {
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.8);
+      font-size: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+      background: rgba(15,23,42,0.8);
+      backdrop-filter: blur(10px);
+      transition: 0.18s ease;
+    }
+
+    nav a:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 16px rgba(250,204,21,0.5);
+      transform: translateY(-1px);
+    }
+
+    nav a.active {
+      border-color: var(--accent);
+      background: radial-gradient(circle at 0 0, rgba(250,204,21,0.35), transparent 60%),
+                  rgba(15,23,42,0.95);
+    }
+
+    main {
+      padding: 16px 20px 20px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(229,231,235,0.95);
+    }
+
+    .section-title::before {
+      content: "";
+      width: 16px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg,var(--accent),var(--accent2));
+    }
+
+    .intro {
+      font-size: 13px;
+      color: var(--text-sub);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+
+    .group-title {
+      font-size: 13px;
+      margin: 14px 0 8px;
+      color: rgba(243,244,246,0.95);
+    }
+
+    .group-title span {
+      font-size: 11px;
+      color: rgba(156,163,175,0.9);
+      margin-left: 6px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 10px;
+    }
+
+    .card {
+      position: relative;
+      padding: 11px 12px 11px;
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 0 0, rgba(96,165,250,0.18), transparent 60%),
+        rgba(15,23,42,0.96);
+      border: 1px solid rgba(148,163,184,0.9);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .card-main {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .card-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      background: rgba(15,23,42,0.86);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .card-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-desc {
+      font-size: 11px;
+      color: var(--text-sub);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-btn {
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(209,213,219,0.85);
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+      font-size: 11px;
+      cursor: pointer;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      transition: 0.16s ease;
+    }
+
+    .card-btn span { font-size: 13px; }
+
+    .card-btn:hover {
+      border-color: var(--accent);
+      background: linear-gradient(135deg,rgba(250,204,21,0.95),rgba(248,250,252,0.95));
+      color: #111827;
+      box-shadow: 0 8px 22px rgba(250,204,21,0.45);
+      transform: translateY(-1px);
+    }
+
+    .card-url {
+      margin-top: 2px;
+      font-size: 11px;
+      color: rgba(156,163,175,0.95);
+      word-break: break-all;
+    }
+
+    footer {
+      padding: 10px 20px 14px;
+      border-top: 1px solid rgba(148,163,184,0.6);
+      font-size: 11px;
+      color: rgba(156,163,175,0.95);
+      text-align: right;
+    }
+
+    @media (max-width: 600px) {
+      .page { margin: 18px 10px; }
+      header { padding: 16px; }
+      main { padding: 14px 14px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="top-row">
+        <div class="title-block">
+          <div class="logo">J</div>
+          <div class="title-text">
+            <h1>常用链接清单</h1>
+            <span>小东勇闯东南亚 · 工作与生活工具索引</span>
+          </div>
+        </div>
+        <nav>
+          <a href="index.html">首页 / 命盘</a>
+          <a href="yunshi.html">每日运势</a>
+          <a href="links.html" class="active">常用链接</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="section-title">OVERVIEW</div>
+      <p class="intro">
+        本页将常用站点按用途分类整理，定位是「索引页」：不做花哨展示，只记录清晰、可长期复用的信息。
+      </p>
+
+      <!-- 图库与素材 -->
+      <div class="group-title">一、图库与素材 <span>找图、找灵感用</span></div>
+      <div class="grid">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-main">
+              <div class="card-icon">🖼️</div>
+              <div class="card-text">
+                <div class="card-title">Pinterest · 图库</div>
+                <div class="card-desc">灵感类图片墙，适合找封面、头像、风格参考。</div>
+              </div>
+            </div>
+            <button class="card-btn" onclick="window.open('https://ru.pinterest.com/', '_blank')">
+              打开 <span>↗</span>
+            </button>
+          </div>
+          <div class="card-url">https://ru.pinterest.com/</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-main">
+              <div class="card-icon">🔍</div>
+              <div class="card-text">
+                <div class="card-title">Yandex · 图搜</div>
+                <div class="card-desc">以图搜图，适合追溯图片来源或找相似图。</div>
+              </div>
+            </div>
+            <button class="card-btn" onclick="window.open('https://yandex.com/', '_blank')">
+              打开 <span>↗</span>
+            </button>
+          </div>
+          <div class="card-url">https://yandex.com/</div>
+        </div>
+      </div>
+
+      <!-- 网络与基础设施 -->
+      <div class="group-title">二、网络与基础设施 <span>IP、域名、二步验证</span></div>
+      <div class="grid">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-main">
+              <div class="card-icon">🌐</div>
+              <div class="card-text">
+                <div class="card-title">Thordata · IP 管理</div>
+                <div class="card-desc">购买与管理多地区 IP，日常换节点用。</div>
+              </div>
+            </div>
+            <button class="card-btn" onclick="window.open('https://dashboard.thordata.com/', '_blank')">
+              打开 <span>↗</span>
+            </button>
+          </div>
+          <div class="card-url">https://dashboard.thordata.com/</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-main">
+              <div class="card-icon">🔑</div>
+              <div class="card-text">
+                <div class="card-title">Porkbun · 域名</div>
+                <div class="card-desc">bixia 等域名的注册与解析管理入口。</div>
+              </div>
+            </div>
+            <button class="card-btn" onclick="window.open('https://porkbun.com/account/domainsSpeedy', '_blank')">
+              打开 <span>↗</span>
+            </button>
+          </div>
+          <div class="card-url">https://porkbun.com/account/domainsSpeedy</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-main">
+              <div class="card-icon">📦</div>
+              <div class="card-text">
+                <div class="card-title">GitHub · woaibixia 仓库</div>
+                <div class="card-desc">本站源代码与历史版本，所有页面的起点。</div>
+              </div>
+            </div>
+            <button class="card-btn" onclick="window.open('https://github.com/dh6598726-stack/woaibixia', '_blank')">
+              打开 <span>↗</span>
+            </button>
+          </div>
+          <div class="card-url">https://github.com/dh6598726-stack/woaibixia</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-main">
+              <div class="card-icon">🛡️</div>
+              <div class="card-text">
+                <div class="card-title">2FA · 动态令牌</div>
+                <div class="card-desc">二步验证链接，用于登录时验证身份。</div>
+              </div>
+            </div>
+            <button class="card-btn" onclick="window.open('https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq', '_blank')">
+              打开 <span>↗</span>
+            </button>
+          </div>
+          <div class="card-url">https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq</div>
+        </div>
+      </div>
+
+      <!-- 内容与 AI 工具 -->
+      <div class="group-title">三、内容与 AI 工具 <span>看片、问答、写东西</span></div>
+      <div class="grid">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-main">
+              <div class="card-icon">🎬</div>
+              <div class="card-text">
+                <div class="card-title">银河录像局 · nf.video</div>
+                <div class="card-desc">电影与视频内容入口，偏氛围向。</div>
+              </div>
+            </div>
+            <button class="card-btn" onclick="window.open('https://nf.video/银河录像局', '_blank')">
+              打开 <span>↗</span>
+            </button>
+          </div>
+          <div class="card-url">https://nf.video/银河录像局</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-main">
+              <div class="card-icon">🤖</div>
+              <div class="card-text">
+                <div class="card-title">Grok · AI</div>
+                <div class="card-desc">另一套风格的 AI 对话工具，可交叉验证答案。</div>
+              </div>
+            </div>
+            <button class="card-btn" onclick="window.open('https://grok.com', '_blank')">
+              打开 <span>↗</span>
+            </button>
+          </div>
+          <div class="card-url">https://grok.com</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-main">
+              <div class="card-icon">🧠</div>
+              <div class="card-text">
+                <div class="card-title">ChatGPT · 主力智囊</div>
+                <div class="card-desc">当前使用的模型入口，用于推演、写作与查资料。</div>
+              </div>
+            </div>
+            <button class="card-btn" onclick="window.open('https://chatgpt.com', '_blank')">
+              打开 <span>↗</span>
+            </button>
+          </div>
+          <div class="card-url">https://chatgpt.com</div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      本页仅做个人导航使用，链接内容以各站点实际页面为准。
+    </footer>
+  </div>
+</body>
+</html>
