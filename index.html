@@ -945,11 +945,11 @@ document.getElementById("password-input").addEventListener("keydown", e => {
 
     <!-- 今日紫微斗数运势（专业术语版） -->
     <div class="fortune-section">
-      <div class="section-title">今日紫微斗数 · 流日盘评注</div>
+      <div class="section-title">今日紫微斗数 · 流日盘面</div>
       <div class="fortune-card">
         <div class="fortune-inner">
           <div class="fortune-header">
-            <div class="fortune-star" id="fortune-main-star">紫微 · 命宫</div>
+            <div class="fortune-star" id="fortune-main-star">紫微坐命 · 三方四正</div>
             <div class="fortune-score">
               <span class="fortune-score-label">流日综合指数</span>
               <span class="fortune-score-value" id="fortune-score">80</span>
@@ -957,46 +957,46 @@ document.getElementById("password-input").addEventListener("keydown", e => {
           </div>
           <div class="fortune-body">
             <div class="fortune-row">
-              <div class="fortune-tag">整体</div>
+              <div class="fortune-tag">命宫</div>
               <div class="fortune-text" id="fortune-overall">
                 运行加载中……
               </div>
             </div>
             <div class="fortune-row">
-              <div class="fortune-tag">财帛</div>
+              <div class="fortune-tag">财帛宫</div>
               <div class="fortune-text" id="fortune-money">
                 运行加载中……
               </div>
             </div>
             <div class="fortune-row">
-              <div class="fortune-tag">情感</div>
+              <div class="fortune-tag">夫妻宫</div>
               <div class="fortune-text" id="fortune-love">
                 运行加载中……
               </div>
             </div>
             <div class="fortune-row">
-              <div class="fortune-tag">行动</div>
+              <div class="fortune-tag">官禄宫</div>
               <div class="fortune-text" id="fortune-action">
                 运行加载中……
               </div>
             </div>
           </div>
           <div class="fortune-foot">
-            <div class="fortune-level" id="fortune-luck-level">今日格局：平</div>
-            <div class="fortune-note">※ 紫微斗数属术数参考，不作现实投资与医疗决策依据。</div>
+            <div class="fortune-level" id="fortune-luck-level">今日格局：平盘</div>
+            <div class="fortune-note">※ 紫微斗数盘面解读，用作术数研习与自我观察参考。</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 命盘 / 八字摘要：只写你给的那句 -->
+    <!-- 命盘 / 八字：只显示四柱 -->
     <div class="bazi-block">
-      <div class="bazi-title">命盘底色 · 八字摆盘</div>
+      <div class="bazi-title">命盘底色 · 四柱八字</div>
       <div class="bazi-content" id="bazi-text">
         正在加载……
       </div>
       <div class="bazi-tagline">
-        （固定命盘说明，不随日期变化。）
+        （固定四柱，不随日期变化，用作流日与时间线的底色参考。）
       </div>
     </div>
 
@@ -1006,7 +1006,7 @@ document.getElementById("password-input").addEventListener("keydown", e => {
       <div class="week-wrap">
         <div class="week-row" id="week-bar"></div>
         <div class="week-foot">
-          <span class="week-foot-main">柱子越高，当天「可动用」的好运与能量越多。</span>
+          <span class="week-foot-main">柱体高度对应当日可动用的气场强度。</span>
           <span class="week-foot-sub">黄色高亮为今天。</span>
         </div>
       </div>
@@ -1216,101 +1216,100 @@ document.getElementById("password-input").addEventListener("keydown", e => {
     return list[idx];
   }
 
-  // 今日紫微斗数
-(function(){
-  const today = new Date();
-  const dStr = today.toISOString().slice(0,10); // YYYY-MM-DD
-  const seedObj = { value: createSeed("ziwei-" + dStr) };
-
-  const stars = [
-    "紫微坐命 · 暗流在底",
-    "天府临财 · 藏锋守仓",
-    "武曲拱命 · 刀口要稳",
-    "天同拱福 · 福厚不免劳心",
-    "廉贞化气 · 先压后放",
-    "贪狼动象 · 欲起则生耗",
-    "天相会照 · 资源不白给",
-    "天机旺动 · 心念即是福祸"
-  ];
-
-  const overallList = [
-    "命宫三方四正吉煞同场，格局偏「带煞之吉」。
-    "流日四化有忌星牵命，主「形势在我，气数不完全在我」。
-    "身命轴线上有暗刑暗冲，,
-    "官禄与迁移互动偏重，主「人在局中难置身事外」。
-    "福德宫有力，田宅宫略受耗，心里撑得住，但环境未必帮忙
-  ];
-
-  const moneyList = [
-    "财帛宫受煞星轻夹，主「见财有路，路上多坑」。
-    "禄存不显、忌星露头，偏向「有进有出，不留死角」。
-    "田宅线牵动财帛，凡动用大额资金者，都算动根基。
-    "偏财讯号带火带煞，
-    "财星不至于断，但带「破耗气」。
-  ];
-
-  const loveList = [
-    "夫妻宫遇刑星遥会，主「一硬碰一硬，话就废」
-    "福德宫能撑心，夫妻宫受一点气，容易出现
-    "桃花星带轻煞，暧昧有火花，也有伤人边缘。
-    "命迁线同动，人缘看似热闹，
-    "子女宫牵夫妻位，凡带家庭色彩的对话都容易放大矛盾。
-  ];
-
-  const actionList = [
-    "官禄宫带煞，主「能成事，但要挨一下」。
-    "迁移宫气势旺，宜动不宜闷
-    "三方四正星曜杂，事务一定会乱
-    "流日化忌轻点官禄线，硬顶就硬伤,
-    "命宫受气而福德宫扛着，主「身累、心更累」
-
-  const luckLevels = [
-    { label: "今日格局：带煞小吉", note: "有得有失
-    { label: "今日格局：带煞中吉", note: "格局不差，
-    { label: "今日格局：平而不安", note: "表面平稳，底层带一点躁动。
-    { label: "今日格局：劳而有耗", note: "不至于翻车，
-  ];
-
-  const scoreBase = 70;
-  const scoreFloat = (nextRand(seedObj) % 21) - 10; // -10 ~ +10
-  let score = scoreBase + scoreFloat;
-  if (score < 55) score = 55;
-  if (score > 95) score = 95;
-
-  const star = pick(stars, seedObj);
-  const overall = pick(overallList, seedObj);
-  const money = pick(moneyList, seedObj);
-  const love = pick(loveList, seedObj);
-  const action = pick(actionList, seedObj);
-  const level = pick(luckLevels, seedObj);
-
-  const starEl = document.getElementById("fortune-main-star");
-  const scoreEl = document.getElementById("fortune-score");
-  const oEl = document.getElementById("fortune-overall");
-  const mEl = document.getElementById("fortune-money");
-  const lEl = document.getElementById("fortune-love");
-  const aEl = document.getElementById("fortune-action");
-  const levelEl = document.getElementById("fortune-luck-level");
-  const noteEl = document.querySelector(".fortune-note");
-
-  if (starEl) starEl.textContent = star;
-  if (scoreEl) scoreEl.textContent = score;
-  if (oEl) oEl.textContent = overall;
-  if (mEl) mEl.textContent = money;
-  if (lEl) lEl.textContent = love;
-  if (aEl) aEl.textContent = action;
-  if (levelEl) levelEl.textContent = level.label;
-  if (noteEl && level.note) {
-    noteEl.textContent = "※ " + level.note + " 紫微斗数属术数参考，请配合理性与风险意识。";
-  }
-})();
-
-
-  // 八字 & 本周运势时间线
+  // 今日紫微斗数（纯术语版文案）
   (function(){
-    // 
-    const BAZI_TEXT =
-      "辛巳　壬午　戊子　己申    日主：戊土（阳土），生于午月得令，坐子水为七杀，申巳刑、午子害，格局偏官格兼伤官佩印";
+    const today = new Date();
+    const dStr = today.toISOString().slice(0,10); // YYYY-MM-DD
+    const seedObj = { value: createSeed("ziwei-" + dStr) };
+
+    const stars = [
+      "紫微坐命 · 三方四正会吉煞",
+      "天府临财 · 宫干带禄权",
+      "武曲拱命 · 刚星主事",
+      "天同守福 · 福德宫得气",
+      "廉贞同度 · 刑忌并临",
+      "贪狼动象 · 桃火并行",
+      "天相会照 · 资源宫得护",
+      "天机旺动 · 思路多变"
+    ];
+
+    const overallList = [
+      "命宫三方四正会吉曜，煞星退居他宫，流日四化多落命身轴，主当值之日气场集中，心神易守不易散。",
+      "身命同宫得助，官禄线轻受制，盘面呈「身强事杂」之象，事务纵多，仍在命身可控范围之内。",
+      "命宫受化权、化科照临，主判断与应变能力上提，星曜结构利于先观大势，再落细则。",
+      "命迁线成夹，内外之气同时发动，为「人在局中、不易旁观」格局，中宫自守为主。",
+      "福德宫旺而煞星在三合位，心性稳住，外缘起伏不至伤及命盘根本，可视作流日层级之波动。"
+    ];
+
+    const moneyList = [
+      "财帛宫三方会禄存及吉曜，煞星处边宫轻夹，主财星运行以守成为主，偏向稳定盘整之象。",
+      "流日化忌轻触财帛线，财帛宫有泄耗之象，宜视为「整理期」结构，多在核算、归档层面体现。",
+      "田宅宫与财帛宫成气，资金动向多联动布局与架构，属「动结构不动根本」的财帛运行。",
+      "偏财星有讯而不当令，主消息层面较为活跃，实质落袋仍需参考本命格与大限格局。",
+      "财帛宫受煞不重而连线拉长，财务议题易被放大，宜在数字与条款层面多作覆盘检视。"
+    ];
+
+    const loveList = [
+      "夫妻宫受吉煞并临，三方四正成轻刑合之局，主关系宫位气场有波动但具调和空间。",
+      "福德宫得气而夫妻宫受制不深，属「心性可安、人事有动」格局，情绪起伏不改底盘。",
+      "命迁线与夫妻宫交会，外缘讯号容易牵动关系宫位，属社交信息放大的流日结构。",
+      "子女宫牵引夫妻位，家庭与现实事务易并入情感宫位，盘主需自辨事件层与情绪层。",
+      "桃花星动且煞曜同度，主缘分气场活跃而带耗，边界感以本命格与行运阶段为裁决。"
+    ];
+
+    const actionList = [
+      "官禄宫见刚星会煞，主行事节奏偏刚，推进力实，阻力亦实，为典型「官禄带煞」之象。",
+      "官禄与迁移互发，外务、出行、对接宫位同动，当值之日多体现于对外交涉与流程衔接。",
+      "三方四正星曜杂沓，事务节点偏多，盘面对「轻重缓急」之排序有较高要求。",
+      "流日化权、化科若落事业轴线，主文书、数据、策略层面具理顺契机，可藉此调整结构。",
+      "化忌若触及官禄或迁移位，则示签约、变动、决策宜再审条款，以免形成结构性负担。"
+    ];
+
+    const luckLevels = [
+      { label: "今日格局：禄权并见", note: "命宫与官禄线承接度佳，属可用之日，可按原规划推演要事。"},
+      { label: "今日格局：吉中带煞", note: "吉星当令而煞曜不退，属「可成事、需用力」之盘面结构。"},
+      { label: "今日格局：平盘运行", note: "星曜力道平均，重在执行细节，不在造势求变。"},
+      { label: "今日格局：劳心劳力", note: "事业轴线星曜多动，身心耗损略重，节奏与边界需自盘内掌控。"}
+    ];
+
+    const scoreBase = 70;
+    const scoreFloat = (nextRand(seedObj) % 21) - 10; // -10 ~ +10
+    let score = scoreBase + scoreFloat;
+    if (score < 55) score = 55;
+    if (score > 95) score = 95;
+
+    const star = pick(stars, seedObj);
+    const overall = pick(overallList, seedObj);
+    const money = pick(moneyList, seedObj);
+    const love = pick(loveList, seedObj);
+    const action = pick(actionList, seedObj);
+    const level = pick(luckLevels, seedObj);
+
+    const starEl = document.getElementById("fortune-main-star");
+    const scoreEl = document.getElementById("fortune-score");
+    const oEl = document.getElementById("fortune-overall");
+    const mEl = document.getElementById("fortune-money");
+    const lEl = document.getElementById("fortune-love");
+    const aEl = document.getElementById("fortune-action");
+    const levelEl = document.getElementById("fortune-luck-level");
+    const noteEl = document.querySelector(".fortune-note");
+
+    if (starEl) starEl.textContent = star;
+    if (scoreEl) scoreEl.textContent = score;
+    if (oEl) oEl.textContent = overall;
+    if (mEl) mEl.textContent = money;
+    if (lEl) lEl.textContent = love;
+    if (aEl) aEl.textContent = action;
+    if (levelEl) levelEl.textContent = level.label;
+    if (noteEl && level.note) {
+      noteEl.textContent = "※ " + level.note + " 紫微斗数属术数推演，请配合理性判断与现实盘面。";
+    }
+  })();
+
+  // 八字 & 本周运势时间线（只用四柱作种子）
+  (function(){
+    // ★ 只显示你给的四柱，不加任何说明 ★
+    const BAZI_TEXT = "辛巳　壬午　戊子　己申";
 
     const baziEl = document.getElementById("bazi-text");
     if (baziEl) {
@@ -1323,7 +1322,7 @@ document.getElementById("password-input").addEventListener("keydown", e => {
     const today = new Date();
     const weekdays = ["一","二","三","四","五","六","日"];
 
-    // 让本周时间线和这句命盘绑定
+    // 让本周时间线和四柱绑定
     const year = today.getFullYear();
     const weekSeedStr = year + "-w-" + BAZI_TEXT;
     const baseSeedVal = createSeed(weekSeedStr);
