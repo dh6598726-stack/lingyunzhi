@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>｜小东勇闯东南亚</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" href="J.png" type="image/png">
+  <link rel="shortcut icon" href="J.png" type="image/png">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-main: #e0f2fe;
+      --bg-panel: rgba(255,255,255,0.98);
+      --text-main: #0f172a;
+      --text-sub: rgba(15,23,42,0.65);
+      --accent: #0ea5e9;
+      --accent-2: #38bdf8;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --shadow-strong: 0 24px 60px rgba(15,23,42,0.18);
+      --shadow-soft: 0 14px 32px rgba(148,163,184,0.35);
+    }
+
+    body {
+      font-family: "PingFang SC","Microsoft YaHei",sans-serif;
+      background:
+        radial-gradient(circle at 22% 8%, rgba(191,219,254,0.95), transparent 55%),
+        radial-gradient(circle at 80% 80%, rgba(224,242,254,0.95), transparent 55%),
+        linear-gradient(180deg,#e0f2fe,#ffffff);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    /* 锁屏 */
+    #lock-screen {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(191,219,254,0.8), transparent 55%),
+        radial-gradient(circle at 80% 100%, rgba(224,242,254,0.9), transparent 55%),
+        rgba(148,163,184,0.25);
+      backdrop-filter: blur(22px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 99;
+    }
+
+    .lock-box {
+      width: 320px;
+      padding: 24px 22px 20px;
+      background: rgba(255,255,255,0.96);
+      border-radius: 22px;
+      border: 1px solid rgba(191,219,254,0.95);
+      text-align: center;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .lock-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .lock-sub {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-bottom: 10px;
+    }
+
+    .lock-input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 999px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    .lock-btn {
+      margin-top: 10px;
+      width: 100%;
+      padding: 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg,#7dd3fc,#38bdf8);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    .page {
+      display: none;
+      width: 100%;
+      max-width: 980px;
+      margin: 24px 16px;
+      background: var(--bg-panel);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-strong);
+    }
+
+    header {
+      padding: 18px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    nav {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    nav a {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid #93c5fd;
+      text-decoration: none;
+      font-size: 12px;
+      color: #0369a1;
+    }
+
+    nav a.active {
+      background: linear-gradient(135deg,#38bdf8,#0ea5e9);
+      color: #fff;
+    }
+
+    main {
+      padding: 18px;
+    }
+
+    .guest-card {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 18px;
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+    }
+
+    footer {
+      text-align: right;
+      font-size: 11px;
+      color: #6b7280;
+      padding: 10px 16px;
+      border-top: 1px solid #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+
+<!-- 密码锁 -->
+<div id="lock-screen">
+  <div class="lock-box">
+    <div class="lock-title">输入通关暗号</div>
+    <div class="lock-sub">墙</div>
+    <input id="password-input" class="lock-input" placeholder="请输入密码" />
+    <button class="lock-btn" onclick="checkPassword()">进入</button>
+    <div id="lock-error"></div>
+  </div>
+</div>
+
+<div class="page">
+  <header>
+    <h1></h1>
+    <nav>
+      <a href="index.html">首页</a>
+      <a href="yunshi.html">每日运势</a>
+      <a href="links.html">常用链接</a>
+      <a href="talk.html" class="active">互动留言</a>
+    </nav>
+  </header>
+
+  <main>
+    <p>任何人都可以在这里匿名留言，所有访客看到的是同一块留言墙。</p>
+
+    <div class="guest-card">
+      <div
+        id="cusdis_thread"
+        data-host="https://cusdis.com"
+        data-app-id="09e5c5ee-688e-440e-89f3-f173a143e0ec"
+        data-page-id="talk-guestbook"
+        data-page-url="https://bixia.vip/talk.html"
+        data-page-title="｜小东勇闯东南亚"
+      ></div>
+      <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+    </div>
+  </main>
+
+  <footer>
+    留言由 Cusdis 在线托管
+  </footer>
+</div>
+
+<script>
+  const PASSWORD = "180999";
+  const UNLOCK_KEY = "xd_console_unlocked";
+
+  function unlockPage() {
+    document.getElementById("lock-screen").style.display = "none";
+    document.querySelector(".page").style.display = "block";
+  }
+
+  function checkPassword() {
+    const input = document.getElementById("password-input");
+    const err = document.getElementById("lock-error");
+    if (input.value === PASSWORD) {
+      localStorage.setItem(UNLOCK_KEY, "1");
+      unlockPage();
+    } else {
+      err.textContent = "密码不对";
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    if (localStorage.getItem(UNLOCK_KEY) === "1") {
+      unlockPage();
+    }
+  });
+</script>
+
+</body>
+</html>
