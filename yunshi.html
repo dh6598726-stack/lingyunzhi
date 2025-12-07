@@ -11,26 +11,41 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-body {
-  font-family: "PingFang SC","Microsoft YaHei",sans-serif;
-  background:
-    radial-gradient(circle at 10% 0%, rgba(0,0,0,0.6) 0, rgba(0,0,0,0.9) 55%),
-    url("LL.jpg") center center / cover fixed no-repeat;
-  color: #fff;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-}
-
+    :root {
+      --bg-main: #e0f2fe;
+      --bg-panel: rgba(255,255,255,0.98);
+      --text-main: #0f172a;
+      --text-sub: rgba(15,23,42,0.65);
+      --accent: #0ea5e9;
+      --accent-2: #38bdf8;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --shadow-strong: 0 24px 60px rgba(15,23,42,0.18);
+      --shadow-soft: 0 14px 32px rgba(148,163,184,0.35);
     }
 
-    /* 密码锁样式 */
+    body {
+      font-family: "PingFang SC","Microsoft YaHei",sans-serif;
+      background:
+        radial-gradient(circle at 22% 8%, rgba(191,219,254,0.95), transparent 55%),
+        radial-gradient(circle at 80% 80%, rgba(224,242,254,0.95), transparent 55%),
+        linear-gradient(180deg,#e0f2fe,#ffffff);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    /* 锁屏 · 蓝天白云玻璃风 */
     #lock-screen {
       position: fixed;
       inset: 0;
-      background: rgba(5, 3, 20, 0.94);
-      backdrop-filter: blur(16px);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(191,219,254,0.8), transparent 55%),
+        radial-gradient(circle at 80% 100%, rgba(224,242,254,0.9), transparent 55%),
+        rgba(148,163,184,0.25);
+      backdrop-filter: blur(22px);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -40,11 +55,11 @@ body {
     .lock-box {
       width: 320px;
       padding: 24px 22px 20px;
-      background: linear-gradient(145deg, rgba(35, 26, 74, 0.96), rgba(9, 9, 32, 0.96));
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.96);
+      border-radius: 22px;
+      border: 1px solid rgba(191,219,254,0.95);
       text-align: center;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.7);
+      box-shadow: var(--shadow-strong);
       position: relative;
       overflow: hidden;
     }
@@ -53,10 +68,10 @@ body {
       content: "";
       position: absolute;
       inset: -40%;
-      opacity: .45;
+      opacity: .55;
       background:
-        radial-gradient(circle at 0 0, rgba(255,216,145,0.4), transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(132,203,255,0.35), transparent 55%);
+        radial-gradient(circle at 0% 0%, rgba(191,219,254,0.9), transparent 52%),
+        radial-gradient(circle at 100% 100%, rgba(125,211,252,0.8), transparent 55%);
       mix-blend-mode: screen;
       pointer-events: none;
     }
@@ -67,12 +82,13 @@ body {
       font-weight: 700;
       margin-bottom: 6px;
       letter-spacing: 1px;
+      color: var(--text-main);
     }
 
     .lock-sub {
       position: relative;
       font-size: 13px;
-      color: rgba(226,232,240,0.85);
+      color: var(--text-sub);
       margin-bottom: 10px;
     }
 
@@ -82,16 +98,17 @@ body {
       margin-top: 10px;
       padding: 10px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.24);
-      background: rgba(9,9,29,0.9);
-      color: #fff;
+      border: 1px solid rgba(148,163,184,0.9);
+      background: rgba(248,250,252,0.98);
+      color: var(--text-main);
       font-size: 15px;
       text-align: center;
       outline: none;
+      box-shadow: 0 0 0 1px rgba(203,213,225,0.7);
     }
 
     .lock-input::placeholder {
-      color: rgba(255,255,255,0.4);
+      color: rgba(148,163,184,0.95);
     }
 
     .lock-btn {
@@ -100,54 +117,54 @@ body {
       padding: 9px 0;
       border-radius: 999px;
       border: none;
-      background: linear-gradient(135deg,#ffce7a,#ff9a46);
-      color: #000;
+      background: linear-gradient(135deg,#7dd3fc,#38bdf8);
+      color: #fff;
       font-weight: 600;
       font-size: 14px;
       letter-spacing: 1px;
       cursor: pointer;
-      box-shadow: 0 10px 28px rgba(255,191,115,0.4);
-      transition: transform .12s ease, box-shadow .12s ease;
+      box-shadow: 0 10px 26px rgba(56,189,248,0.55);
+      transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
     }
 
     .lock-btn:hover {
       transform: translateY(-1px);
-      box-shadow: 0 14px 32px rgba(255,191,115,0.5);
+      filter: brightness(1.03);
     }
 
     .lock-btn:active {
       transform: translateY(0);
-      box-shadow: 0 6px 20px rgba(255,191,115,0.35);
+      box-shadow: 0 6px 18px rgba(56,189,248,0.45);
     }
 
     #lock-error {
       position: relative;
       margin-top: 6px;
       font-size: 12px;
-      color: #fecaca;
+      color: #b91c1c;
       min-height: 16px;
     }
 
-    /* 主内容容器：初始隐藏，解锁后显示 */
+    /* 主内容 · iOS 卡片风 */
     .page {
       display: none;
       width: 100%;
       max-width: 960px;
-      margin: 20px 14px;
+      margin: 22px 16px;
       background:
-        radial-gradient(circle at 8% 0%, rgba(96,165,250,0.18), transparent 60%),
-        radial-gradient(circle at 92% 100%, rgba(250,204,21,0.18), transparent 60%),
-        rgba(7,9,30,0.96);
-      border-radius: 20px;
-      border: 1px solid rgba(148,163,184,0.8);
-      box-shadow: 0 18px 45px rgba(0,0,0,0.6);
+        radial-gradient(circle at 8% 0%, rgba(191,219,254,0.45), transparent 60%),
+        radial-gradient(circle at 92% 100%, rgba(224,242,254,0.45), transparent 60%),
+        var(--bg-panel);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(191,219,254,0.95);
+      box-shadow: var(--shadow-strong);
       overflow: hidden;
-      backdrop-filter: blur(16px);
+      backdrop-filter: blur(22px);
     }
 
     header {
       padding: 18px 20px 14px;
-      border-bottom: 1px solid rgba(148,163,184,0.65);
+      border-bottom: 1px solid rgba(226,232,240,0.9);
     }
 
     .top-row {
@@ -155,7 +172,7 @@ body {
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       flex-wrap: wrap;
     }
 
@@ -170,18 +187,19 @@ body {
       height: 32px;
       border-radius: 30%;
       object-fit: cover;
-      box-shadow: 0 0 0 2px rgba(255,255,255,0.14);
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.85);
     }
 
     .logo-title {
       font-size: 20px;
       font-weight: 700;
       letter-spacing: 1px;
+      color: var(--text-main);
     }
 
     .logo-sub {
       font-size: 12px;
-      color: rgba(203,213,225,0.9);
+      color: var(--text-sub);
       margin-top: 2px;
     }
 
@@ -189,41 +207,43 @@ body {
       font-size: 12px;
       padding: 4px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.8);
-      background: rgba(15,23,42,0.8);
-      color: rgba(226,232,240,0.9);
+      border: 1px solid rgba(148,163,184,0.9);
+      background: rgba(239,246,255,0.96);
+      color: var(--text-sub);
       white-space: nowrap;
     }
 
     nav {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     nav a {
       font-size: 12px;
       padding: 6px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.8);
+      border: 1px solid rgba(125,211,252,0.9);
       text-decoration: none;
-      color: #e5e7eb;
-      background: rgba(15,23,42,0.85);
+      color: #0369a1;
+      background: rgba(224,242,254,0.96);
       backdrop-filter: blur(10px);
-      transition: 0.18s ease;
+      transition: 0.16s ease;
     }
 
     nav a:hover {
-      border-color: #facc15;
-      box-shadow: 0 0 16px rgba(250,204,21,0.55);
-      transform: translateY(-1px);
+      background: linear-gradient(135deg,#7dd3fc,#38bdf8);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 10px 24px rgba(56,189,248,0.5);
     }
 
     nav a.active {
-      border-color: #facc15;
-      background: radial-gradient(circle at 0 0, rgba(250,204,21,0.3), transparent 60%);
-      color: #fefce8;
+      background: linear-gradient(135deg,#38bdf8,#0ea5e9);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 10px 24px rgba(56,189,248,0.6);
     }
 
     main {
@@ -241,7 +261,7 @@ body {
       gap: 8px;
       letter-spacing: .12em;
       text-transform: uppercase;
-      color: rgba(229,231,235,0.95);
+      color: var(--text-sub);
     }
 
     .section-title::before {
@@ -249,21 +269,21 @@ body {
       width: 16px;
       height: 2px;
       border-radius: 999px;
-      background: linear-gradient(90deg,#facc15,#38bdf8);
+      background: linear-gradient(90deg,var(--accent),var(--accent-2));
     }
 
     .date-bar {
       border-radius: 14px;
       padding: 10px 12px;
-      background: rgba(15,23,42,0.96);
-      border: 1px solid rgba(148,163,184,0.9);
+      background: rgba(248,250,252,0.98);
+      border: 1px solid rgba(191,219,254,0.95);
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
       font-size: 13px;
-      box-shadow: 0 12px 30px rgba(15,23,42,0.9);
+      box-shadow: var(--shadow-soft);
     }
 
     .date-main {
@@ -274,34 +294,35 @@ body {
 
     .date-main strong {
       font-size: 15px;
+      color: var(--text-main);
     }
 
     .date-sub {
       font-size: 12px;
-      color: rgba(203,213,225,0.9);
+      color: var(--text-sub);
     }
 
     .date-extra {
       font-size: 12px;
-      color: rgba(148,163,184,0.95);
+      color: var(--text-sub);
     }
 
     .card {
-      border-radius: 16px;
+      border-radius: var(--radius-md);
       padding: 12px 13px 13px;
-      background: rgba(15,23,42,0.94);
-      border: 1px solid rgba(148,163,184,0.9);
-      box-shadow: 0 12px 30px rgba(15,23,42,0.9);
+      background: rgba(255,255,255,0.98);
+      border: 1px solid rgba(191,219,254,0.95);
+      box-shadow: var(--shadow-soft);
       font-size: 13px;
       line-height: 1.8;
-      color: rgba(226,232,240,0.96);
+      color: var(--text-main);
     }
 
     .card + .card { margin-top: 8px; }
 
     .card-label {
       font-size: 11px;
-      color: rgba(148,163,184,0.95);
+      color: var(--text-sub);
       letter-spacing: .18em;
       text-transform: uppercase;
       margin-bottom: 4px;
@@ -311,12 +332,13 @@ body {
       font-size: 14px;
       font-weight: 600;
       margin-bottom: 6px;
+      color: var(--text-main);
     }
 
     .small-note {
       margin-top: 6px;
       font-size: 11px;
-      color: rgba(148,163,184,0.95);
+      color: var(--text-sub);
     }
 
     table {
@@ -327,13 +349,13 @@ body {
     }
 
     th, td {
-      border-bottom: 1px solid rgba(55,65,81,0.9);
+      border-bottom: 1px solid rgba(203,213,225,0.9);
       padding: 6px 4px;
       text-align: left;
     }
 
     th {
-      color: rgba(209,213,219,0.95);
+      color: var(--text-sub);
       font-weight: 500;
       white-space: nowrap;
     }
@@ -344,14 +366,15 @@ body {
 
     footer {
       padding: 10px 18px 14px;
-      border-top: 1px solid rgba(31,41,55,0.96);
+      border-top: 1px solid rgba(226,232,240,0.9);
       font-size: 11px;
-      color: rgba(148,163,184,0.9);
+      color: var(--text-sub);
       text-align: right;
+      background: rgba(248,250,252,0.98);
     }
 
     @media (max-width: 640px) {
-      .page { margin: 16px 10px; }
+      .page { margin: 18px 10px; }
       header { padding: 16px 14px 12px; }
       main { padding: 14px; }
     }
@@ -363,7 +386,7 @@ body {
 <div id="lock-screen">
   <div class="lock-box">
     <div class="lock-title">输入通关暗号</div>
-    <div class="lock-sub">流日运势记录页 · 只给需要的人看。</div>
+    <div class="lock-sub">紫微斗数 · 皇极经世流日记录档。</div>
     <input id="password-input" class="lock-input" placeholder="请输入密码" />
     <button class="lock-btn" onclick="checkPassword()">进入</button>
     <div id="lock-error"></div>
@@ -378,10 +401,10 @@ body {
         <img src="J.png" alt="logo">
         <div>
           <div class="logo-title">紫微斗数 · 流日运势记录</div>
-          <div class="logo-sub">以本命盘为底，记录每日盘面结构与体感。</div>
+          <div class="logo-sub">本命四柱辛巳 壬午 戊子 己申为底，紫微斗数配合皇极经世节点研判。</div>
         </div>
       </div>
-      <div class="small-tag">仅供术数研习 · 不做绝对论断</div>
+      <div class="small-tag">术数结构纪要 · 内部自用</div>
     </div>
 
     <nav>
@@ -392,134 +415,163 @@ body {
   </header>
 
   <main>
+    <!-- TODAY -->
     <section>
       <div class="section-title">TODAY</div>
       <div class="date-bar">
         <div class="date-main">
           <strong id="today-main">日期：----</strong>
-          <div class="date-sub" id="today-lunar">干支年参考加载中……</div>
+          <div class="date-sub" id="today-lunar">公历／干支年信息加载中……</div>
         </div>
         <div class="date-extra">
-          记录原则：只写结构与体验，不给自己贴标签。
+          排盘基准：本命四柱 + 紫微斗数星系 + 皇极经世岁运节气。
         </div>
       </div>
     </section>
 
+    <!-- OVERVIEW -->
     <section>
       <div class="section-title">OVERVIEW</div>
 
       <div class="card">
         <div class="card-label">SECTION 01</div>
-        <div class="card-title">流日星曜与本命三方四正</div>
+        <div class="card-title">流日盘总论 · 命身三方四正结构</div>
         <p id="overall-text">
-示例：流日四化落在命－财－官轴线，本命命宫得化权、化禄照会，三方四正以吉曜为主，
-煞星多退居他宫；整体盘面偏向「可用之日」，适合处理需要集中精力与结构判断的事项。
+流日四化落命－财－官三合轴，紫微主星坐命，三方四正会禄权科，煞曜退居支线宫位，
+盘面呈「本命得气、流日配合」之象。命身线气势收束，适宜按原规划执行要事，
+以结构性安排为主，以情绪性决策为辅。
         </p>
-        <div class="small-note">
-※ 这一块可以每天自己改，把「星曜结构 + 实际感受」写进来即可。
-        </div>
       </div>
 
       <div class="card">
         <div class="card-label">SECTION 02</div>
-        <div class="card-title">用事区分 · 可推进 / 宜观望 / 缓一缓</div>
-        <p>可以按宫位把今天事情简单分类，示例：</p>
+        <div class="card-title">用事等级 · 按宫位划分当日可用度</div>
         <table>
           <thead>
             <tr>
-              <th>分类</th>
-              <th>对应宫位或议题</th>
-              <th>说明</th>
+              <th>用事等级</th>
+              <th>对应宫位 / 象意</th>
+              <th>结构判断（紫微 / 皇极经世）</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>可推进</td>
-              <td>命宫 / 官禄宫</td>
-              <td>结构清晰、变量有限的事项，可以按原节奏往前推。</td>
+              <td>一等可用</td>
+              <td>命宫 · 官禄宫 · 迁移宫</td>
+              <td>命干得令，官禄宫会禄权，皇极经世上属「用事日在局」，可进行方向性与架构性决断。</td>
             </tr>
             <tr>
-              <td>宜观望</td>
-              <td>财帛宫 / 田宅宫</td>
-              <td>涉及金额、长期承诺的议题，多做校对与观察，不急于落锤。</td>
+              <td>二等可用</td>
+              <td>财帛宫 · 田宅宫</td>
+              <td>财星承接得气而兼见轻忌，属「可布局、宜审条」之象，适合规划与整盘，不宜激烈加码。</td>
             </tr>
             <tr>
-              <td>缓一缓</td>
-              <td>夫妻宫 / 迁移宫</td>
-              <td>人际与关系相关议题情绪放大，适合记录，不适合定长期方案。</td>
+              <td>谨慎观望</td>
+              <td>夫妻宫 · 兄弟宫 · 朋友宫</td>
+              <td>关系宫位见煞并照，人事线「气行先、事行后」，宜记盘面，不宜定性人事。</td>
             </tr>
           </tbody>
         </table>
       </div>
     </section>
 
+    <!-- WORK / ACTION -->
     <section>
-      <div class="section-title">WORK / ACTION</div>
+      <div class="section-title">WORK · 官禄线</div>
       <div class="card">
         <div class="card-label">SECTION 03</div>
-        <div class="card-title">官禄线 · 行动力与执行感</div>
+        <div class="card-title">官禄宫 · 行动力与执行度</div>
         <p>
-示例：官禄宫受刚性星曜会照，迁移宫带轻煞，主「能推进、但外缘摩擦感存在」。
-适合处理边界清晰的工作，不宜在尚未成形的合作中做超出盘面承受力的承诺。
+官禄宫见武曲、七杀等刚性星曜，会化权、右弼，三方四正得迁移宫助力，
+为典型「官禄带权格」流日。皇极经世上，当值节点处于中元「用事局」，
+主执行力可直线推进，节点明确；但煞曜在支线宫位暗牵，外缘摩擦感偏重，
+宜将关键签批锁定在结构清晰、责任划分明确之项目。
         </p>
-        <div class="small-note">
-可结合当天实际工作内容，写 3～5 句总结：做了什么、卡在哪、能量在哪被消耗或补充。
-        </div>
       </div>
     </section>
 
+    <!-- MONEY / RESOURCE -->
     <section>
-      <div class="section-title">MONEY / RESOURCE</div>
+      <div class="section-title">MONEY · 财帛线</div>
       <div class="card">
         <div class="card-label">SECTION 04</div>
-        <div class="card-title">财帛宫 · 资金与资源调度</div>
+        <div class="card-title">财帛宫 · 资金流与资源配置</div>
         <p>
-示例：财帛宫受化忌轻触，田宅宫成泄耗位，主「数字层面需要重新校对」，
-适合整理账目、合约与长期支出，不适合情绪化消费与随手加码。
+财帛宫会禄存及科星，田宅宫成泄耗位，化忌轻触财帛线，为「财气在盘中、数字需校正」之象。
+紫微斗数上看，为财星在三方得吉，而在四正见微忌；皇极经世上，大势属「调仓期、非攻伐期」，
+宜做资金结构重排、久账归档、合约条款校对，避免情绪性交易与新开高杠杆局。
         </p>
       </div>
     </section>
 
+    <!-- RELATION / FEEL -->
     <section>
-      <div class="section-title">RELATION / FEEL</div>
+      <div class="section-title">RELATION · 人际线</div>
       <div class="card">
         <div class="card-label">SECTION 05</div>
-        <div class="card-title">关系宫位 · 人际与体感记录</div>
+        <div class="card-title">夫妻宫 / 兄弟宫 · 关系与气场流向</div>
         <p>
-示例：夫妻宫受星曜夹制但不至严重冲破，主情绪起伏可被调和；
-兄弟宫与朋友宫受吉星照会，适合与熟悉的人交换信息，不建议在陌生环境中过度输出。
+夫妻宫受廉贞、贪狼等星系夹制，三方见煞不重而吉曜在外圈，会成「情绪放大、结构未破」之局。
+兄弟宫、朋友宫得左辅、右弼加会，为「信息线顺、人和线可用」的格局。
+若以皇极经世视之，人际属「小运摇动、大局未改」，宜以节气点为单位观察人事变动，
+记录来往与态度，不急于在流日层面做终局性判断。
         </p>
-        <div class="small-note">
-可以简单写：「今天主要和谁互动」「对方是给能量还是耗能」「哪些话其实可以晚一点再说」。
-        </div>
       </div>
     </section>
   </main>
 
   <footer>
-    术数负责描述结构，选择永远在自己手上。
+    紫微斗数 / 皇极经世 · 仅记录当日局势结构，不作吉凶绝断。
   </footer>
 </div>
 
 <script>
   const PASSWORD = "180999";
+  const UNLOCK_KEY = "xd_console_unlocked"; // 和首页 / 链接页共用
+
+  function unlockPage() {
+    const lock = document.getElementById("lock-screen");
+    if (lock) lock.style.display = "none";
+    document.querySelectorAll(".page").forEach(p => {
+      p.style.display = "block";
+    });
+  }
 
   function checkPassword() {
     const input = document.getElementById("password-input");
     const err = document.getElementById("lock-error");
     const v = (input.value || "").trim();
     if (v === PASSWORD) {
-      document.getElementById("lock-screen").style.display = "none";
-      document.querySelector(".page").style.display = "block";
-      err.textContent = "";
-      input.value = "";
+      try { localStorage.setItem(UNLOCK_KEY, "1"); } catch (e) {}
+      if (err) err.textContent = "";
+      if (input) input.value = "";
+      unlockPage();
     } else {
-      err.textContent = "密码不对，再想想。";
+      if (err) err.textContent = "密码不对，再想想。";
     }
   }
 
-  document.getElementById("password-input").addEventListener("keydown", function (e) {
-    if (e.key === "Enter") checkPassword();
+  document.addEventListener("DOMContentLoaded", function () {
+    const input = document.getElementById("password-input");
+    if (input) {
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") checkPassword();
+      });
+    }
+
+    // 进页面先看本机是否已经解锁过
+    try {
+      const flag = localStorage.getItem(UNLOCK_KEY);
+      if (flag === "1") {
+        unlockPage();
+      } else {
+        const lock = document.getElementById("lock-screen");
+        if (lock) lock.style.display = "flex";
+      }
+    } catch (e) {
+      const lock = document.getElementById("lock-screen");
+      if (lock) lock.style.display = "flex";
+    }
   });
 
   // 日期 + 干支年提示（简化版）
