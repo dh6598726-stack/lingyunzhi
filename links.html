@@ -23,7 +23,6 @@
       align-items: stretch;
     }
 
-    /* 密码锁 */
     #lock-screen {
       position: fixed;
       inset: 0;
@@ -47,35 +46,10 @@
       overflow: hidden;
     }
 
-    .lock-box::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      opacity: .45;
-      background:
-        radial-gradient(circle at 0 0, rgba(255,216,145,0.4), transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(132,203,255,0.35), transparent 55%);
-      mix-blend-mode: screen;
-      pointer-events: none;
-    }
-
-    .lock-title {
-      position: relative;
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 6px;
-      letter-spacing: 1px;
-    }
-
-    .lock-sub {
-      position: relative;
-      font-size: 13px;
-      color: rgba(226,232,240,0.85);
-      margin-bottom: 10px;
-    }
+    .lock-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .lock-sub { font-size: 13px; color: rgba(226,232,240,0.85); margin-bottom: 10px; }
 
     .lock-input {
-      position: relative;
       width: 100%;
       margin-top: 10px;
       padding: 10px 12px;
@@ -88,10 +62,6 @@
       outline: none;
     }
 
-    .lock-input::placeholder {
-      color: rgba(255,255,255,0.4);
-    }
-
     .lock-btn {
       margin-top: 10px;
       width: 100%;
@@ -102,104 +72,36 @@
       color: #000;
       font-weight: 600;
       font-size: 14px;
-      letter-spacing: 1px;
       cursor: pointer;
-      box-shadow: 0 10px 28px rgba(255,191,115,0.4);
-      transition: transform .12s ease, box-shadow .12s ease;
     }
 
-    .lock-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 32px rgba(255,191,115,0.5);
-    }
+    #lock-error { margin-top: 6px; font-size: 12px; color: #fecaca; }
 
-    .lock-btn:active {
-      transform: translateY(0);
-      box-shadow: 0 6px 20px rgba(255,191,115,0.35);
-    }
-
-    #lock-error {
-      position: relative;
-      margin-top: 6px;
-      font-size: 12px;
-      color: #fecaca;
-      min-height: 16px;
-    }
-
-    /* 主内容 */
     .page {
       display: none;
       width: 100%;
       max-width: 980px;
       margin: 26px 18px;
-      background:
-        radial-gradient(circle at 5% 0, rgba(56,189,248,0.18), transparent 60%),
-        radial-gradient(circle at 95% 100, rgba(250,204,21,0.18), transparent 60%),
-        rgba(8,11,30,0.96);
+      background: rgba(8,11,30,0.96);
       border-radius: 22px;
       border: 1px solid rgba(148,163,184,0.8);
       box-shadow: 0 18px 45px rgba(0,0,0,0.6);
       overflow: hidden;
-      backdrop-filter: blur(18px);
     }
 
-    header {
-      padding: 18px 20px 14px;
-      border-bottom: 1px solid rgba(51,65,85,0.9);
-    }
+    header { padding: 18px 20px 14px; border-bottom: 1px solid rgba(51,65,85,0.9); }
 
-    .top-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
+    .top-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
 
-    .title-block {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
+    .title-block { display: flex; align-items: center; gap: 10px; }
     .logo {
-      width: 30px;
-      height: 30px;
-      border-radius: 30%;
-      background:
-        radial-gradient(circle at 30% 20%, rgba(255,255,255,0.55), transparent 60%),
-        #1f2937;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 18px;
-      box-shadow: 0 0 0 2px rgba(255,255,255,0.18);
+      width: 30px; height: 30px; border-radius: 30%;
+      background: #1f2937;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 18px;
     }
 
-    .title-text {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .title-text h1 {
-      font-size: 20px;
-      letter-spacing: 1px;
-    }
-
-    .title-text span {
-      font-size: 12px;
-      color: rgba(209,213,219,0.9);
-    }
-
-    nav {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 8px;
-    }
-
+    nav { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
     nav a {
       padding: 5px 12px;
       border-radius: 999px;
@@ -208,63 +110,11 @@
       text-decoration: none;
       color: #e5e7eb;
       background: rgba(15,23,42,0.85);
-      backdrop-filter: blur(10px);
-      transition: 0.18s ease;
     }
+    nav a.active { border-color: #38bdf8; }
 
-    nav a:hover {
-      border-color: #38bdf8;
-      box-shadow: 0 0 16px rgba(56,189,248,0.55);
-      transform: translateY(-1px);
-    }
-
-    nav a.active {
-      border-color: #38bdf8;
-      background: radial-gradient(circle at 0 0, rgba(56,189,248,0.3), transparent 60%);
-      color: #f9fafb;
-    }
-
-    main {
-      padding: 16px 18px 20px;
-    }
-
-    .section-title {
-      font-size: 14px;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: rgba(229,231,235,0.95);
-    }
-
-    .section-title::before {
-      content: "";
-      width: 16px;
-      height: 2px;
-      border-radius: 999px;
-      background: linear-gradient(90deg,#38bdf8,#facc15);
-    }
-
-    .intro {
-      font-size: 13px;
-      color: rgba(209,213,219,0.9);
-      line-height: 1.7;
-      margin-bottom: 14px;
-    }
-
-    .group-title {
-      font-size: 13px;
-      margin: 14px 0 8px;
-      color: rgba(243,244,246,0.96);
-    }
-
-    .group-title span {
-      font-size: 11px;
-      color: rgba(156,163,175,0.9);
-      margin-left: 6px;
-    }
+    main { padding: 16px 18px 20px; }
+    .group-title { font-size: 13px; margin: 14px 0 8px; }
 
     .grid {
       display: grid;
@@ -273,68 +123,15 @@
     }
 
     .card {
-      position: relative;
-      padding: 11px 12px 11px;
+      padding: 11px 12px;
       border-radius: 16px;
-      background:
-        radial-gradient(circle at 0 0, rgba(56,189,248,0.22), transparent 55%),
-        rgba(15,23,42,0.96);
+      background: rgba(15,23,42,0.96);
       border: 1px solid rgba(148,163,184,0.9);
-      box-shadow: 0 12px 30px rgba(15,23,42,0.9);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
       font-size: 12px;
     }
 
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .card-main {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      min-width: 0;
-    }
-
-    .card-icon {
-      width: 26px;
-      height: 26px;
-      border-radius: 10px;
-      background: rgba(15,23,42,0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      flex-shrink: 0;
-    }
-
-    .card-text {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      min-width: 0;
-    }
-
-    .card-title {
-      font-size: 13px;
-      font-weight: 500;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .card-desc {
-      font-size: 11px;
-      color: rgba(209,213,219,0.9);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    .card-header { display: flex; justify-content: space-between; align-items: center; }
+    .card-main { display: flex; align-items: center; gap: 8px; }
 
     .card-btn {
       padding: 5px 10px;
@@ -344,30 +141,9 @@
       color: #e5e7eb;
       font-size: 11px;
       cursor: pointer;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      transition: 0.16s ease;
     }
 
-    .card-btn span { font-size: 13px; }
-
-    .card-btn:hover {
-      border-color: #facc15;
-      background: linear-gradient(135deg,#38bdf8,#facc15);
-      color: #020617;
-      box-shadow: 0 10px 25px rgba(56,189,248,0.55);
-      transform: translateY(-1px);
-    }
-
-    .card-url {
-      margin-top: 2px;
-      font-size: 11px;
-      color: rgba(156,163,175,0.95);
-      word-break: break-all;
-    }
+    .card-url { margin-top: 2px; font-size: 11px; color: rgba(156,163,175,0.95); }
 
     footer {
       padding: 10px 18px 14px;
@@ -376,40 +152,32 @@
       color: rgba(148,163,184,0.9);
       text-align: right;
     }
-
-    @media (max-width: 640px) {
-      .page { margin: 18px 10px; }
-      header { padding: 16px 14px 12px; }
-      main { padding: 14px; }
-    }
   </style>
 </head>
 <body>
 
-<!-- 密码锁 -->
 <div id="lock-screen">
   <div class="lock-box">
     <div class="lock-title">输入通关暗号</div>
-    <div class="lock-sub">常用链接清单 · 只给自己用的工具面板。</div>
+    <div class="lock-sub">常用链接清单 · 私人工作台</div>
     <input id="password-input" class="lock-input" placeholder="请输入密码" />
     <button class="lock-btn" onclick="checkPassword()">进入</button>
     <div id="lock-error"></div>
   </div>
 </div>
 
-<!-- 主内容 -->
 <div class="page">
   <header>
     <div class="top-row">
       <div class="title-block">
         <div class="logo">J</div>
-        <div class="title-text">
+        <div>
           <h1>常用链接清单</h1>
-          <span>小东勇闯东南亚 · 工作与生活工具索引</span>
+          <span>小东勇闯东南亚</span>
         </div>
       </div>
       <nav>
-        <a href="index.html">首页 / 命盘</a>
+        <a href="index.html">首页</a>
         <a href="yunshi.html">每日运势</a>
         <a href="links.html" class="active">常用链接</a>
       </nav>
@@ -417,589 +185,63 @@
   </header>
 
   <main>
-    <div class="section-title">OVERVIEW</div>
-    <p class="intro">
-      本页将常用站点按用途分类整理，当作「索引页」使用：清晰、可长期复用，需要时一眼就能找到出口。
-    </p>
 
-    <!-- 一、图库与素材 -->
-    <div class="group-title">一、图库与素材 <span>找图、找灵感用</span></div>
+    <!-- 数字资产 -->
+    <div class="group-title">数字资产</div>
     <div class="grid">
       <div class="card">
         <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">🖼️</div>
-            <div class="card-text">
-              <div class="card-title">Pinterest · 图库</div>
-              <div class="card-desc">封面、头像、风格参考的灵感来源。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://ru.pinterest.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
+          <div class="card-main">🟢 欧易 OKX</div>
+          <button class="card-btn" onclick="window.open('https://www.okx.com/', '_blank')">打开</button>
         </div>
-        <div class="card-url">https://ru.pinterest.com/</div>
+        <div class="card-url">https://www.okx.com/</div>
       </div>
 
       <div class="card">
         <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">🔍</div>
-            <div class="card-text">
-              <div class="card-title">Yandex · 图搜</div>
-              <div class="card-desc">以图搜图，追溯来源或找相似图。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://yandex.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://yandex.com/</div>
-      </div>
-    </div>
-
-    <!-- 二、网络与基础设施 -->
-    <div class="group-title">二、网络与基础设施 <span>IP、域名、二步验证</span></div>
-    <div class="grid">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">🌐</div>
-            <div class="card-text">
-              <div class="card-title">Thordata · IP 控制台</div>
-              <div class="card-desc">多地区 IP 的购买与管理后台。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://dashboard.thordata.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://dashboard.thordata.com/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">🔑</div>
-            <div class="card-text">
-              <div class="card-title">Porkbun · 域名管理</div>
-              <div class="card-desc">bixia 相关域名及解析记录的管理入口。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://porkbun.com/account/domainsSpeedy', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://porkbun.com/account/domainsSpeedy</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">📦</div>
-            <div class="card-text">
-              <div class="card-title">GitHub · woaibixia 仓库</div>
-              <div class="card-desc">本站源代码、版本记录和未来改版入口。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://github.com/dh6598726-stack/woaibixia', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://github.com/dh6598726-stack/woaibixia</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">🛡️</div>
-            <div class="card-text">
-              <div class="card-title">2FA · 动态令牌</div>
-              <div class="card-desc">二步验证使用的动态验证码链接。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq</div>
-      </div>
-    </div>
-
-    <!-- 三、内容与 AI 工具 -->
-    <div class="group-title">三、内容与 AI 工具 <span>看片、推演、写东西</span></div>
-    <div class="grid">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">🎬</div>
-            <div class="card-text">
-              <div class="card-title">银河录像局 · nf.video</div>
-              <div class="card-desc">电影与视频内容入口，偏氛围向。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://nf.video/银河录像局', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://nf.video/银河录像局</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">🤖</div>
-            <div class="card-text">
-              <div class="card-title">Grok · AI</div>
-              <div class="card-desc">另一套风格的对话式 AI，可交叉验证思路。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://grok.com', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://grok.com</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">🧠</div>
-            <div class="card-text">
-              <div class="card-title">ChatGPT · 主力智囊</div>
-              <div class="card-desc">当前使用的模型入口，用于写作、推演、查资料。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://chatgpt.com', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://chatgpt.com</div>
-      </div>
-    </div>
-
-    <!-- 四、数字资产与安全 -->
-    <div class="group-title">四、数字资产与安全 <span>加密通讯、交易与钱包</span></div>
-    <div class="grid">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">📨</div>
-            <div class="card-text">
-              <div class="card-title">Signal · 加密通讯</div>
-              <div class="card-desc">端到端加密的安全聊天工具，隐私级别极高。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://signal.org/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://signal.org/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">💰</div>
-            <div class="card-text">
-              <div class="card-title">币安 · Binance</div>
-              <div class="card-desc">主流数字货币交易平台，现货、合约、理财全支持。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://www.binance.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://www.binance.com/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">🦊</div>
-            <div class="card-text">
-              <div class="card-title">狐狸钱包 · MetaMask</div>
-              <div class="card-desc">主流以太坊去中心化钱包，支持 Web3、NFT、DeFi。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://metamask.io/', '_blank')">
-            打开 <span>↗</span>
-          </button>
+          <div class="card-main">🦊 MetaMask</div>
+          <button class="card-btn" onclick="window.open('https://metamask.io/', '_blank')">打开</button>
         </div>
         <div class="card-url">https://metamask.io</div>
       </div>
     </div>
 
-    <!-- 五、社交与社区 -->
-    <div class="group-title">五、社交与社区 <span>TG、X、朋友圈阵地</span></div>
+    <!-- 搜索工具 -->
+    <div class="group-title">搜索工具</div>
     <div class="grid">
       <div class="card">
         <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">✈️</div>
-            <div class="card-text">
-              <div class="card-title">Telegram · TG</div>
-              <div class="card-desc">加密聊天与频道订阅，跨平台通讯工具。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://telegram.org/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://telegram.org/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">𝕏</div>
-            <div class="card-text">
-              <div class="card-title">X · 推特</div>
-              <div class="card-desc">世界级信息流和舆论场，一手资讯集中地。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://x.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://x.com/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">📘</div>
-            <div class="card-text">
-              <div class="card-title">Facebook</div>
-              <div class="card-desc">社交网络传统大本营，个人主页与社群。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://www.facebook.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://www.facebook.com/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">📸</div>
-            <div class="card-text">
-              <div class="card-title">Instagram · ins</div>
-              <div class="card-desc">图片与短视频为主的社交平台。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://www.instagram.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://www.instagram.com/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">💬</div>
-            <div class="card-text">
-              <div class="card-title">WhatsApp Web</div>
-              <div class="card-desc">WhatsApp 的网页版入口，配合手机使用。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://web.whatsapp.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://web.whatsapp.com/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">👾</div>
-            <div class="card-text">
-              <div class="card-title">Discord</div>
-              <div class="card-desc">社群、语音频道与游戏圈常用聊天工具。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://discord.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://discord.com/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">👥</div>
-            <div class="card-text">
-              <div class="card-title">Reddit</div>
-              <div class="card-desc">全球论坛社区，信息杂但一手内容很多。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://www.reddit.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://www.reddit.com/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">💼</div>
-            <div class="card-text">
-              <div class="card-title">LinkedIn · 领英</div>
-              <div class="card-desc">职业社交平台，看履历、找人、看职位。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://www.linkedin.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://www.linkedin.com/</div>
-      </div>
-    </div>
-
-    <!-- 六、视频与音乐流媒体 -->
-    <div class="group-title">六、视频与音乐流媒体 <span>主流消遣阵地</span></div>
-    <div class="grid">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">▶️</div>
-            <div class="card-text">
-              <div class="card-title">YouTube</div>
-              <div class="card-desc">全球最大视频平台，教程、vlog、音乐全都有。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://www.youtube.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://www.youtube.com/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">🎞️</div>
-            <div class="card-text">
-              <div class="card-title">Netflix</div>
-              <div class="card-desc">剧集与电影流媒体平台，全球片源。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://www.netflix.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://www.netflix.com/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">🎵</div>
-            <div class="card-text">
-              <div class="card-title">Spotify</div>
-              <div class="card-desc">主流音乐流媒体，用歌单维持氛围感。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://open.spotify.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://open.spotify.com/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">📱</div>
-            <div class="card-text">
-              <div class="card-title">TikTok</div>
-              <div class="card-desc">短视频平台，节奏快、信息量大。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://www.tiktok.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://www.tiktok.com/</div>
-      </div>
-    </div>
-
-    <!-- 七、搜索与工具 -->
-    <div class="group-title">七、搜索与工具 <span>查资料、买东西</span></div>
-    <div class="grid">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">🔎</div>
-            <div class="card-text">
-              <div class="card-title">Google 搜索</div>
-              <div class="card-desc">主力英文搜索引擎，查资料用。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://www.google.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
+          <div class="card-main">🔎 Google 搜索</div>
+          <button class="card-btn" onclick="window.open('https://www.google.com/', '_blank')">打开</button>
         </div>
         <div class="card-url">https://www.google.com/</div>
       </div>
 
       <div class="card">
         <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">✉️</div>
-            <div class="card-text">
-              <div class="card-title">Gmail</div>
-              <div class="card-desc">Google 邮箱入口。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://mail.google.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
+          <div class="card-main">🖼️ Google 谷歌搜图</div>
+          <button class="card-btn" onclick="window.open('https://images.google.com/', '_blank')">打开</button>
         </div>
-        <div class="card-url">https://mail.google.com/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">☁️</div>
-            <div class="card-text">
-              <div class="card-title">Google Drive</div>
-              <div class="card-desc">云端硬盘，存文件用。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://drive.google.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://drive.google.com/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">🗺️</div>
-            <div class="card-text">
-              <div class="card-title">Google Maps</div>
-              <div class="card-desc">看地图、看街景、查路线。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://maps.google.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://maps.google.com/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">📚</div>
-            <div class="card-text">
-              <div class="card-title">Wikipedia · 维基百科</div>
-              <div class="card-desc">全世界共用的百科，查背景信息用。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://www.wikipedia.org/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://www.wikipedia.org/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">🛒</div>
-            <div class="card-text">
-              <div class="card-title">Amazon</div>
-              <div class="card-desc">全球电商平台，买日常用品电子设备。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://www.amazon.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://www.amazon.com/</div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-main">
-            <div class="card-icon">🛍️</div>
-            <div class="card-text">
-              <div class="card-title">eBay</div>
-              <div class="card-desc">传统拍卖 & 二手交易平台。</div>
-            </div>
-          </div>
-          <button class="card-btn" onclick="window.open('https://www.ebay.com/', '_blank')">
-            打开 <span>↗</span>
-          </button>
-        </div>
-        <div class="card-url">https://www.ebay.com/</div>
+        <div class="card-url">https://images.google.com/</div>
       </div>
     </div>
 
   </main>
 
-  <footer>
-    本页仅作个人导航使用，链接内容以各站点实际页面为准。
-  </footer>
+  <footer>仅供个人使用</footer>
 </div>
 
 <script>
   const PASSWORD = "180999";
-  const UNLOCK_KEY = "xd_console_unlocked";
-
-  function unlockPage() {
-    const lock = document.getElementById("lock-screen");
-    if (lock) lock.style.display = "none";
-    document.querySelectorAll(".page").forEach(p => {
-      p.style.display = "block";
-    });
-  }
-
   function checkPassword() {
-    const input = document.getElementById("password-input");
-    const err = document.getElementById("lock-error");
-    const v = (input?.value || "").trim();
+    const v = document.getElementById("password-input").value.trim();
     if (v === PASSWORD) {
-      try { localStorage.setItem(UNLOCK_KEY, "1"); } catch (e) {}
-      if (err) err.textContent = "";
-      if (input) input.value = "";
-      unlockPage();
+      document.getElementById("lock-screen").style.display = "none";
+      document.querySelector(".page").style.display = "block";
     } else {
-      if (err) err.textContent = "密码不对，再试一次。";
+      document.getElementById("lock-error").textContent = "密码错误";
     }
   }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const input = document.getElementById("password-input");
-    if (input) {
-      input.addEventListener("keydown", function (e) {
-        if (e.key === "Enter") checkPassword();
-      });
-    }
-
-    try {
-      const flag = localStorage.getItem(UNLOCK_KEY);
-      if (flag === "1") {
-        unlockPage();
-      } else {
-        const lock = document.getElementById("lock-screen");
-        if (lock) lock.style.display = "flex";
-      }
-    } catch (e) {
-      const lock = document.getElementById("lock-screen");
-      if (lock) lock.style.display = "flex";
-    }
-  });
 </script>
 
 </body>
