@@ -3,14 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Long live freedom! · 控制台首页</title>
-
-  <!-- 浏览器标签小图标（J.png） -->
   <link rel="icon" href="J.png" type="image/png">
-  <link rel="shortcut icon" href="J.png" type="image/png">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- 全站样式：蓝天白云 iOS 风格 -->
+  
   <style>
     * {
       margin: 0;
@@ -19,295 +14,373 @@
     }
 
     :root {
-      --bg-main: #e0f2fe;
-      --bg-panel: rgba(255,255,255,0.92);
-      --glass-light: rgba(255,255,255,0.7);
-      --glass-strong: rgba(255,255,255,0.9);
-      --accent: #0ea5e9;
-      --accent-2: #38bdf8;
-      --text-main: #0f172a;
-      --text-sub: rgba(15,23,42,0.65);
-      --radius-lg: 24px;
-      --radius-md: 18px;
+      --bg-gradient-1: #e0f2fe;
+      --bg-gradient-2: #f0f9ff;
+      --bg-gradient-3: #ffffff;
+      --glass-bg: rgba(255,255,255,0.85);
+      --glass-border: rgba(191,219,254,0.6);
+      --accent-blue: #0ea5e9;
+      --accent-sky: #38bdf8;
+      --accent-light: #7dd3fc;
+      --text-primary: #0f172a;
+      --text-secondary: rgba(15,23,42,0.65);
+      --shadow-sm: 0 2px 8px rgba(148,163,184,0.15);
+      --shadow-md: 0 8px 24px rgba(148,163,184,0.25);
+      --shadow-lg: 0 20px 48px rgba(148,163,184,0.35);
       --radius-sm: 12px;
-      --shadow-strong: 0 24px 60px rgba(15,23,42,0.18);
-      --shadow-soft: 0 14px 32px rgba(148,163,184,0.35);
+      --radius-md: 18px;
+      --radius-lg: 24px;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -1000px 0; }
+      100% { background-position: 1000px 0; }
     }
 
     body {
-      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: linear-gradient(
-        180deg,
-        #e0f2fe 0%,
-        #f0f9ff 45%,
-        #ffffff 100%
-      );
-      color: var(--text-main);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(180deg, var(--bg-gradient-1) 0%, var(--bg-gradient-2) 50%, var(--bg-gradient-3) 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 20s ease infinite;
+      color: var(--text-primary);
       min-height: 100vh;
       display: flex;
       justify-content: center;
+      position: relative;
+      overflow-x: hidden;
     }
 
-    /* 蓝天云雾背景 + 粒子画布 */
+    /* 增强的背景效果 */
     #star-bg {
       position: fixed;
       inset: 0;
       z-index: -1;
-      background:
-        radial-gradient(circle at 25% 12%, rgba(186,230,253,0.95), transparent 50%),
-        radial-gradient(circle at 80% 75%, rgba(224,242,254,0.95), transparent 55%),
-        linear-gradient(180deg, #e0f2fe, #ffffff);
+      opacity: 0.6;
     }
 
-    /* 锁屏：白色玻璃卡片风 */
+    body::before {
+      content: "";
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(186,230,253,0.4), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(224,242,254,0.3), transparent 40%),
+        radial-gradient(circle at 40% 80%, rgba(191,219,254,0.2), transparent 30%);
+      animation: float 15s ease-in-out infinite;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* 优化的锁屏 */
     #lock-screen {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at 20% 0%, rgba(191,219,254,0.7), transparent 55%),
-                  radial-gradient(circle at 80% 100%, rgba(224,242,254,0.9), transparent 55%),
-                  rgba(148,163,184,0.25);
-      backdrop-filter: blur(22px);
+      background: 
+        radial-gradient(circle at 30% 20%, rgba(191,219,254,0.6), transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(224,242,254,0.5), transparent 50%),
+        rgba(148,163,184,0.2);
+      backdrop-filter: blur(24px) saturate(180%);
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 99;
+      animation: fadeInUp 0.5s ease;
     }
 
     .lock-box {
-      width: 320px;
-      padding: 26px 24px 22px;
-      background: var(--glass-strong);
-      border: 1px solid rgba(148,163,184,0.6);
-      border-radius: 22px;
+      width: 360px;
+      padding: 32px 28px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
       text-align: center;
-      box-shadow: var(--shadow-strong);
+      box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,0.5) inset;
       position: relative;
       overflow: hidden;
+      backdrop-filter: blur(20px);
+      animation: fadeInUp 0.6s ease 0.1s backwards;
     }
 
     .lock-box::before {
       content: "";
       position: absolute;
-      inset: -40%;
-      opacity: 0.55;
-      background:
-        radial-gradient(circle at 0% 0%, rgba(191,219,254,0.75), transparent 52%),
-        radial-gradient(circle at 100% 100%, rgba(125,211,252,0.7), transparent 55%);
-      mix-blend-mode: screen;
-      pointer-events: none;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 3s infinite;
     }
 
     .lock-title {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 700;
-      margin-bottom: 10px;
-      position: relative;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-sky));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       letter-spacing: 1px;
-      color: var(--text-main);
     }
 
     .lock-sub {
-      font-size: 13px;
-      color: var(--text-sub);
-      margin-bottom: 12px;
-      position: relative;
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      line-height: 1.6;
     }
 
     .lock-input {
       width: 100%;
-      margin-top: 12px;
-      padding: 11px 12px;
+      padding: 14px 18px;
       border-radius: 999px;
       background: rgba(248,250,252,0.95);
-      border: 1px solid rgba(148,163,184,0.9);
+      border: 2px solid transparent;
       text-align: center;
-      color: var(--text-main);
-      font-size: 15px;
+      color: var(--text-primary);
+      font-size: 16px;
       outline: none;
-      position: relative;
-      box-shadow: 0 0 0 1px rgba(203,213,225,0.6);
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-sm);
     }
 
-    .lock-input::placeholder {
-      color: rgba(148,163,184,0.9);
+    .lock-input:focus {
+      border-color: var(--accent-sky);
+      box-shadow: 0 0 0 4px rgba(56,189,248,0.1), var(--shadow-md);
+      transform: translateY(-2px);
     }
 
     .lock-btn {
-      margin-top: 12px;
+      margin-top: 16px;
       width: 100%;
-      padding: 9px 0;
+      padding: 14px 0;
       border: none;
       border-radius: 999px;
-      background: linear-gradient(135deg,#7dd3fc,#38bdf8);
+      background: linear-gradient(135deg, var(--accent-light), var(--accent-sky));
       color: #ffffff;
       font-weight: 600;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 15px;
       letter-spacing: 1px;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(56,189,248,0.4);
       position: relative;
-      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
-      box-shadow: 0 10px 26px rgba(56,189,248,0.55);
+      overflow: hidden;
+    }
+
+    .lock-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
     }
 
     .lock-btn:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.03);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(56,189,248,0.5);
+    }
+
+    .lock-btn:hover::before {
+      left: 100%;
     }
 
     .lock-btn:active {
       transform: translateY(0);
-      box-shadow: 0 6px 18px rgba(56,189,248,0.45);
     }
 
-    /* 主内容容器：iOS 玻璃卡片 */
+    /* 优化的主容器 */
     .page {
       display: none;
       width: 100%;
-      max-width: 980px;
-      margin: 26px 18px;
-      background:
-        radial-gradient(circle at 0% 0%, rgba(191,219,254,0.35), transparent 60%),
-        radial-gradient(circle at 100% 100%, rgba(224,242,254,0.35), transparent 60%),
-        var(--bg-panel);
+      max-width: 1000px;
+      margin: 32px 20px;
+      background: var(--glass-bg);
       border-radius: var(--radius-lg);
-      border: 1px solid rgba(191,219,254,0.95);
-      box-shadow: var(--shadow-strong);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,0.5) inset;
       overflow: hidden;
-      backdrop-filter: blur(24px);
+      backdrop-filter: blur(20px) saturate(180%);
+      animation: fadeInUp 0.6s ease;
     }
 
     header {
-      padding: 22px 24px 12px;
-      border-bottom: 1px solid rgba(226,232,240,0.9);
+      padding: 28px 32px 20px;
+      border-bottom: 1px solid rgba(226,232,240,0.6);
+      background: linear-gradient(180deg, rgba(255,255,255,0.5), transparent);
       position: relative;
-    }
-
-    header::after {
-      content: "";
-      position: absolute;
-      inset-inline: 24px;
-      bottom: 0;
-      border-radius: 999px;
-      border-bottom: 1px solid rgba(203,213,225,0.9);
-      opacity: 0.6;
     }
 
     .top-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
-      margin-bottom: 10px;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
     }
 
     .title-block {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
     .title-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 30%;
-      background:
-        radial-gradient(circle at 30% 20%, rgba(255,255,255,0.8), transparent 60%),
-        #38bdf8;
+      width: 48px;
+      height: 48px;
+      border-radius: 35%;
+      background: linear-gradient(135deg, var(--accent-sky), var(--accent-blue));
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
-      font-size: 18px;
-      color: #fff;
-      box-shadow: 0 0 0 2px rgba(255,255,255,0.8);
-      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(56,189,248,0.4), 0 0 0 3px rgba(255,255,255,0.8);
+      transition: all 0.3s ease;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .title-logo:hover {
+      transform: scale(1.05) rotate(5deg);
     }
 
     .title-logo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 30%;
+      border-radius: 35%;
     }
 
     .main-title {
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 800;
       letter-spacing: 2px;
-      color: var(--text-main);
-      text-shadow: 0 0 10px rgba(191,219,254,0.9);
-      white-space: nowrap;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-sky));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 20px rgba(56,189,248,0.3);
     }
 
     .title-tag {
-      font-size: 12px;
-      padding: 4px 10px;
+      font-size: 13px;
+      padding: 6px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(191,219,254,0.9);
-      color: var(--text-sub);
-      backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      color: var(--text-secondary);
       background: rgba(248,250,252,0.9);
-      white-space: nowrap;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
     }
 
-    /* 顶部导航：iOS 胶囊按钮 */
+    .title-tag:hover {
+      border-color: var(--accent-sky);
+      color: var(--accent-blue);
+      transform: translateY(-2px);
+    }
+
+    /* 优化的导航 */
     .nav-row {
-      margin-top: 6px;
       display: flex;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
+      margin-bottom: 16px;
     }
 
     .nav-link {
-      padding: 6px 14px;
+      padding: 8px 18px;
       border-radius: 999px;
-      border: 1px solid rgba(125,211,252,0.9);
-      font-size: 12px;
-      color: #0369a1;
+      border: 1px solid rgba(125,211,252,0.4);
+      font-size: 13px;
+      color: var(--accent-blue);
       text-decoration: none;
-      background: rgba(224,242,254,0.96);
+      background: rgba(224,242,254,0.5);
       backdrop-filter: blur(10px);
-      transition: 0.16s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-link::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.5s;
+    }
+
+    .nav-link:hover::before {
+      left: 100%;
     }
 
     .nav-link:hover {
-      background: linear-gradient(135deg,#7dd3fc,#38bdf8);
+      background: linear-gradient(135deg, var(--accent-light), var(--accent-sky));
       color: #ffffff;
-      box-shadow: 0 10px 24px rgba(56,189,248,0.5);
+      box-shadow: 0 8px 20px rgba(56,189,248,0.4);
       border-color: transparent;
+      transform: translateY(-2px);
     }
 
     .nav-active {
-      background: linear-gradient(135deg,#38bdf8,#0ea5e9);
+      background: linear-gradient(135deg, var(--accent-sky), var(--accent-blue));
       color: #ffffff;
       border-color: transparent;
-      box-shadow: 0 10px 24px rgba(56,189,248,0.55);
+      box-shadow: 0 8px 20px rgba(56,189,248,0.5);
     }
 
-    /* 顶部流动文案条：淡蓝胶囊 */
+    /* 流动文案条 */
     .flow-row {
       overflow: hidden;
       border-radius: 999px;
-      background:
-        radial-gradient(circle at 0% 50%, rgba(191,219,254,0.8), transparent 65%),
-        rgba(248,250,252,0.95);
-      border: 1px solid rgba(191,219,254,0.95);
-      height: 34px;
-      margin-top: 10px;
-      margin-bottom: 12px;
+      background: linear-gradient(90deg, rgba(224,242,254,0.6), rgba(191,219,254,0.8), rgba(224,242,254,0.6));
+      background-size: 200% 100%;
+      animation: gradientShift 5s linear infinite;
+      border: 1px solid var(--glass-border);
+      height: 40px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
     }
 
     .flow-track {
       padding-left: 100%;
       white-space: nowrap;
-      line-height: 34px;
-      font-size: 13px;
-      opacity: 0.8;
-      color: #0369a1;
-      animation: move 14s linear infinite;
+      line-height: 40px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--accent-blue);
+      animation: move 20s linear infinite;
     }
 
     @keyframes move {
@@ -315,283 +388,295 @@
       to { transform: translateX(-100%); }
     }
 
-    /* 小诗卡片：白底淡蓝边框 */
+    /* 诗卡片 */
     .poem-card {
-      margin-top: 4px;
-      padding: 10px 12px 11px;
+      padding: 16px 20px;
       border-radius: var(--radius-md);
       background: rgba(248,250,252,0.98);
-      border: 1px dashed rgba(191,219,254,0.95);
-      font-size: 14px;
-      line-height: 1.7;
-      position: relative;
-      overflow: hidden;
-      color: var(--text-main);
+      border: 1px dashed var(--glass-border);
+      font-size: 15px;
+      line-height: 2;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
     }
 
-    .poem-card::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      opacity: 0.4;
-      background:
-        radial-gradient(circle at 0% 0%, rgba(224,242,254,0.9), transparent 60%),
-        radial-gradient(circle at 100% 100%, rgba(191,219,254,0.85), transparent 60%);
-      mix-blend-mode: soft-light;
-      pointer-events: none;
-    }
-
-    .poem-inner {
-      position: relative;
+    .poem-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
     }
 
     .poem-title {
-      opacity: 0.8;
-      margin-bottom: 3px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
       font-size: 13px;
       letter-spacing: 1px;
-      color: var(--text-sub);
     }
 
     main {
-      padding: 18px 22px 22px;
+      padding: 24px 32px 32px;
     }
 
     .section-title {
-      font-size: 15px;
-      margin-bottom: 10px;
+      font-size: 16px;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       letter-spacing: 1px;
       text-transform: uppercase;
-      opacity: 0.95;
-      color: #0f172a;
+      font-weight: 700;
+      color: var(--text-primary);
     }
 
     .section-title::before {
       content: "";
-      width: 18px;
-      height: 2px;
+      width: 4px;
+      height: 20px;
       border-radius: 999px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      background: linear-gradient(180deg, var(--accent-sky), var(--accent-blue));
+      box-shadow: 0 2px 8px rgba(56,189,248,0.4);
     }
 
-    /* 访问数据条：浅蓝渐变卡片 */
+    /* 统计条 */
     .stats-bar {
-      margin: 16px 0 14px;
-      padding: 10px 14px;
+      margin: 20px 0;
+      padding: 20px 24px;
       border-radius: var(--radius-md);
-      background: linear-gradient(135deg, #e0f2fe, #bfdbfe);
-      border: 1px solid rgba(191,219,254,0.95);
+      background: linear-gradient(135deg, rgba(224,242,254,0.6), rgba(191,219,254,0.8));
+      border: 1px solid var(--glass-border);
       display: flex;
-      gap: 18px;
+      gap: 32px;
       flex-wrap: wrap;
-      box-shadow: var(--shadow-soft);
+      box-shadow: var(--shadow-md);
+      transition: all 0.3s ease;
     }
 
-    .stats-item { min-width: 0; }
+    .stats-bar:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .stats-item {
+      min-width: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .stats-item:hover {
+      transform: scale(1.05);
+    }
 
     .stats-label {
       font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: .08em;
-      color: rgba(30,64,175,0.85);
-      margin-bottom: 2px;
+      letter-spacing: 1px;
+      color: rgba(30,64,175,0.8);
+      margin-bottom: 4px;
+      font-weight: 600;
     }
 
     .stats-value {
-      font-size: 15px;
-      font-weight: 600;
-      color: #1e293b;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
     }
 
     .stats-value-accent {
       color: #eab308;
+      text-shadow: 0 2px 8px rgba(234,179,8,0.3);
     }
 
-    /* 紫微斗数运势卡片：白底淡蓝边 */
+    /* 运势卡片 */
     .fortune-section {
-      margin-top: 6px;
-      margin-bottom: 18px;
+      margin: 24px 0;
+      animation: fadeInUp 0.6s ease 0.2s backwards;
     }
 
     .fortune-card {
       border-radius: var(--radius-md);
-      background:
-        radial-gradient(circle at 0% 0%, rgba(219,234,254,0.95), transparent 60%),
-        radial-gradient(circle at 100% 100%, rgba(224,242,254,0.9), transparent 60%),
-        #ffffff;
-      border: 1px solid rgba(191,219,254,0.95);
-      padding: 12px 14px 12px;
-      box-shadow: var(--shadow-soft);
-      position: relative;
-      overflow: hidden;
+      background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(224,242,254,0.5));
+      border: 1px solid var(--glass-border);
+      padding: 20px 24px;
+      box-shadow: var(--shadow-md);
+      transition: all 0.3s ease;
     }
 
-    .fortune-card::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background:
-        radial-gradient(circle at 20% 0%, rgba(255,255,255,0.8), transparent 55%),
-        radial-gradient(circle at 90% 100%, rgba(191,219,254,0.85), transparent 55%);
-      opacity: 0.7;
-      mix-blend-mode: soft-light;
-      pointer-events: none;
+    .fortune-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
     }
-
-    .fortune-inner { position: relative; }
 
     .fortune-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
-      gap: 12px;
+      margin-bottom: 16px;
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
     .fortune-star {
-      padding: 4px 10px;
+      padding: 8px 16px;
       border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.9);
-      font-size: 12px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
+      border: 1px solid var(--glass-border);
+      font-size: 13px;
+      letter-spacing: 1px;
       background: rgba(248,250,252,0.9);
-      color: #1f2933;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .fortune-star:hover {
+      background: linear-gradient(135deg, var(--accent-light), var(--accent-sky));
+      color: white;
+      transform: scale(1.05);
     }
 
     .fortune-score {
       display: flex;
       align-items: baseline;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--text-sub);
+      gap: 8px;
     }
 
     .fortune-score-label {
-      color: rgba(71,85,105,0.9);
+      font-size: 13px;
+      color: var(--text-secondary);
     }
 
     .fortune-score-value {
-      font-size: 18px;
-      font-weight: 700;
+      font-size: 32px;
+      font-weight: 800;
       color: #eab308;
-      text-shadow: 0 0 10px rgba(250,204,21,0.7);
+      text-shadow: 0 4px 12px rgba(234,179,8,0.4);
+      animation: float 2s ease-in-out infinite;
     }
 
     .fortune-body {
       display: grid;
-      gap: 5px;
-      margin-top: 4px;
+      gap: 12px;
     }
 
     .fortune-row {
       display: grid;
-      grid-template-columns: 52px minmax(0,1fr);
-      gap: 8px;
+      grid-template-columns: 70px minmax(0,1fr);
+      gap: 12px;
       align-items: flex-start;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      background: rgba(248,250,252,0.5);
+      transition: all 0.3s ease;
+    }
+
+    .fortune-row:hover {
+      background: rgba(224,242,254,0.6);
+      transform: translateX(4px);
     }
 
     .fortune-tag {
-      font-size: 12px;
-      padding: 2px 6px;
+      font-size: 13px;
+      padding: 4px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(191,219,254,0.95);
+      border: 1px solid var(--glass-border);
       text-align: center;
-      white-space: nowrap;
       background: rgba(239,246,255,0.96);
-      color: #1f2937;
+      font-weight: 600;
     }
 
     .fortune-text {
-      font-size: 12px;
-      line-height: 1.7;
-      color: rgba(31,41,55,0.96);
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--text-primary);
     }
 
     .fortune-foot {
-      margin-top: 8px;
-      font-size: 12px;
-      color: rgba(100,116,139,0.98);
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--glass-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       flex-wrap: wrap;
     }
 
     .fortune-level {
-      padding: 2px 8px;
+      padding: 6px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(250,204,21,0.8);
-      font-size: 11px;
-      background: radial-gradient(circle at 0 0, rgba(250,250,210,0.8), transparent 60%);
+      border: 1px solid rgba(250,204,21,0.6);
+      font-size: 12px;
+      background: linear-gradient(135deg, rgba(250,250,210,0.8), rgba(254,249,195,0.6));
       color: #854d0e;
+      font-weight: 600;
     }
 
-    .fortune-note {
-      font-size: 11px;
-      color: rgba(100,116,139,0.95);
-    }
-
-    /* 八字展示块：白底淡蓝边 */
+    /* 八字块 */
     .bazi-block {
-      margin: 4px 0 18px;
-      padding: 10px 12px 9px;
+      margin: 24px 0;
+      padding: 20px 24px;
       border-radius: var(--radius-md);
-      background:
-        radial-gradient(circle at 0% 0%, rgba(219,234,254,0.9), transparent 60%),
-        #ffffff;
-      border: 1px solid rgba(191,219,254,0.95);
-      box-shadow: var(--shadow-soft);
+      background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(219,234,254,0.5));
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-md);
+      transition: all 0.3s ease;
+      animation: fadeInUp 0.6s ease 0.3s backwards;
+    }
+
+    .bazi-block:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
     }
 
     .bazi-title {
-      font-size: 12px;
-      letter-spacing: .18em;
+      font-size: 13px;
+      letter-spacing: 1px;
       text-transform: uppercase;
-      margin-bottom: 4px;
-      color: rgba(71,85,105,0.95);
+      margin-bottom: 12px;
+      color: var(--text-secondary);
+      font-weight: 600;
     }
 
     .bazi-content {
-      font-size: 13px;
-      color: rgba(30,41,59,0.98);
-      line-height: 1.8;
-      white-space: pre-line;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 2;
+      letter-spacing: 3px;
+      text-align: center;
     }
 
     .bazi-tagline {
-      margin-top: 4px;
-      font-size: 11px;
-      color: rgba(100,116,139,0.95);
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-align: center;
     }
 
-    /* 本周运势时间线：白底蓝柱状 */
+    /* 周运势 */
     .week-section {
-      margin-bottom: 20px;
+      margin: 32px 0;
+      animation: fadeInUp 0.6s ease 0.4s backwards;
     }
 
     .week-wrap {
       border-radius: var(--radius-md);
-      background:
-        radial-gradient(circle at 0% 0%, rgba(224,242,254,0.98), transparent 60%),
-        radial-gradient(circle at 100% 100%, rgba(219,234,254,0.95), transparent 60%),
-        #ffffff;
-      border: 1px solid rgba(191,219,254,0.95);
-      padding: 10px 12px 8px;
-      box-shadow: var(--shadow-soft);
+      background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(224,242,254,0.5));
+      border: 1px solid var(--glass-border);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+      transition: all 0.3s ease;
+    }
+
+    .week-wrap:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
     }
 
     .week-row {
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      gap: 10px;
-      height: 78px;
-      margin-bottom: 6px;
+      gap: 12px;
+      height: 120px;
+      margin-bottom: 16px;
     }
 
     .week-col {
@@ -600,852 +685,191 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
-      gap: 4px;
-      min-width: 0;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .week-col:hover {
+      transform: translateY(-4px);
     }
 
     .week-bar-line {
-      width: 8px;
+      width: 16px;
       border-radius: 999px;
-      background: linear-gradient(180deg, #38bdf8, #0ea5e9);
-      box-shadow: 0 0 0 1px rgba(148,163,184,0.7);
-      min-height: 10px;
-      transition: transform .25s ease, box-shadow .25s ease;
+      background: linear-gradient(180deg, var(--accent-light), var(--accent-blue));
+      box-shadow: 0 4px 12px rgba(56,189,248,0.4);
+      min-height: 20px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .week-col:hover .week-bar-line {
+      box-shadow: 0 8px 20px rgba(56,189,248,0.6);
     }
 
     .week-label {
-      font-size: 11px;
-      color: rgba(51,65,85,0.95);
+      font-size: 12px;
+      color: var(--text-primary);
+      font-weight: 600;
     }
 
     .week-score-small {
       font-size: 11px;
-      color: rgba(148,163,184,0.95);
+      color: var(--text-secondary);
     }
 
     .week-today .week-bar-line {
-      box-shadow:
-        0 0 0 1px rgba(250,250,250,0.9),
-        0 0 20px rgba(250,204,21,0.9);
-      transform: translateY(-2px);
-      background: linear-gradient(180deg,#facc15,#f97316);
+      background: linear-gradient(180deg, #facc15, #f97316);
+      box-shadow: 0 8px 24px rgba(250,204,21,0.6);
+      transform: translateY(-4px);
     }
 
     .week-today .week-label {
       color: #f59e0b;
-      font-weight: 600;
     }
 
     .week-today .week-score-small {
-      color: rgba(234,179,8,0.98);
-      font-weight: 500;
+      color: #eab308;
+      font-weight: 600;
     }
 
     .week-foot {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      font-size: 11px;
-      color: rgba(100,116,139,0.98);
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-secondary);
       flex-wrap: wrap;
+      padding-top: 16px;
+      border-top: 1px dashed var(--glass-border);
     }
 
-    .week-foot-sub {
-      opacity: 0.9;
-    }
-
-    /* 术数术语卡片 */
+    /* 术语卡片 */
     .terms-section {
-      margin-bottom: 20px;
+      margin: 32px 0;
+      animation: fadeInUp 0.6s ease 0.5s backwards;
     }
 
     .terms-card {
       border-radius: var(--radius-md);
-      background:
-        radial-gradient(circle at 0% 0%, rgba(224,242,254,0.98), transparent 60%),
-        #ffffff;
-      border: 1px dashed rgba(191,219,254,0.95);
-      padding: 10px 12px 8px;
-      box-shadow: var(--shadow-soft);
+      background: rgba(248,250,252,0.8);
+      border: 1px dashed var(--glass-border);
+      padding: 20px 24px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+    }
+
+    .terms-card:hover {
+      box-shadow: var(--shadow-md);
     }
 
     .terms-list {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px 10px;
+      gap: 10px;
     }
 
     .term-pill {
-      font-size: 11px;
-      padding: 3px 8px;
+      font-size: 12px;
+      padding: 6px 12px;
       border-radius: 999px;
-      border: 1px dashed rgba(148,163,184,0.85);
+      border: 1px solid var(--glass-border);
       background: rgba(239,246,255,0.96);
-      color: rgba(30,64,175,0.95);
-      white-space: nowrap;
+      color: var(--accent-blue);
+      transition: all 0.3s ease;
+      cursor: default;
     }
 
-    /* 常用网站卡片：白底蓝边 iOS 风 */
+    .term-pill:hover {
+      background: linear-gradient(135deg, var(--accent-light), var(--accent-sky));
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(56,189,248,0.3);
+    }
+
+    /* 链接卡片 */
     .link-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 12px;
-      margin-bottom: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin: 24px 0;
+      animation: fadeInUp 0.6s ease 0.6s backwards;
     }
 
     .link-card {
-      position: relative;
-      padding: 11px 12px 11px;
+      padding: 20px 24px;
       border-radius: var(--radius-md);
       background: rgba(255,255,255,0.98);
-      border: 1px solid rgba(191,219,254,0.95);
-      box-shadow: 0 12px 30px rgba(148,163,184,0.35);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-md);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      overflow: hidden;
+      gap: 16px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: default;
-      transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease;
-    }
-
-    .link-card::after {
-      content: "";
-      position: absolute;
-      inset-inline: -40%;
-      bottom: -45%;
-      height: 60%;
-      background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.7), transparent 60%);
-      opacity: 0;
-      transition: opacity 0.18s ease;
     }
 
     .link-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 40px rgba(148,163,184,0.5);
-      border-color: rgba(56,189,248,0.9);
-    }
-
-    .link-card:hover::after {
-      opacity: 1;
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--accent-sky);
     }
 
     .link-main {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 14px;
       min-width: 0;
     }
 
     .link-icon {
-      width: 30px;
-      height: 30px;
-      border-radius: 12px;
-      background: rgba(224,242,254,0.98);
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(224,242,254,0.8), rgba(191,219,254,0.6));
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 17px;
+      font-size: 20px;
       flex-shrink: 0;
-      box-shadow: 0 0 0 1px rgba(191,219,254,0.95);
-      color: #0369a1;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+    }
+
+    .link-card:hover .link-icon {
+      transform: scale(1.1) rotate(5deg);
     }
 
     .link-text {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 4px;
       min-width: 0;
     }
 
     .link-title {
-      font-size: 14px;
-      font-weight: 500;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      color: #0f172a;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
     }
 
     .link-sub {
-      font-size: 11px;
-      color: var(--text-sub);
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
+      font-size: 12px;
+      color: var(--text-secondary);
     }
 
     .link-open {
-      padding: 6px 12px;
+      padding: 10px 20px;
       border-radius: 999px;
-      background: linear-gradient(135deg,#7dd3fc,#38bdf8);
+      background: linear-gradient(135deg, var(--accent-light), var(--accent-sky));
       border: none;
       cursor: pointer;
       color: #ffffff;
-      font-size: 11px;
+      font-size: 12px;
+      font-weight: 600;
       letter-spacing: 0.5px;
-      text-transform: uppercase;
-      white-space: nowrap;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      box-shadow: 0 8px 22px rgba(56,189,248,0.5);
-      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
-    }
-
-    .link-open span {
-      font-size: 13px;
-    }
-
-    .link-open:hover {
-      filter: brightness(1.04);
-      transform: translateY(-1px);
-    }
-
-    .link-open:active {
-      transform: translateY(0);
-      box-shadow: 0 5px 16px rgba(56,189,248,0.45);
-    }
-
-    footer {
-      padding: 14px 22px 16px;
-      text-align: right;
-      opacity: 0.85;
-      font-size: 12px;
-      border-top: 1px solid rgba(226,232,240,0.9);
-      color: rgba(100,116,139,0.98);
-      background: rgba(248,250,252,0.96);
-    }
-
-    /* 悬浮圆球：蓝白云球 · 回到顶部 */
-    .floating-orb {
-      position: fixed;
-      right: 22px;
-      bottom: 22px;
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      overflow: hidden;
-      cursor: pointer;
-      z-index: 50;
-      box-shadow: 0 0 26px rgba(148,163,184,0.9);
-      background:
-        radial-gradient(circle at 30% 20%, rgba(255,255,255,0.95), transparent 60%),
-        radial-gradient(circle at 70% 80%, rgba(129,212,250,0.7), transparent 60%),
-        #38bdf8;
-      border: 1px solid rgba(191,219,254,0.95);
-      backdrop-filter: blur(10px);
-      animation: orbFloat 3.2s ease-in-out infinite;
-    }
-
-    .floating-orb img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-
-    @keyframes orbFloat {
-      0%   { transform: translateY(0); }
-      50%  { transform: translateY(-7px); }
-      100% { transform: translateY(0); }
-    }
-
-    @media (max-width: 600px) {
-      .page {
-        margin: 18px 12px;
-      }
-
-      header {
-        padding: 18px 16px 14px;
-      }
-
-      main {
-        padding: 16px;
-      }
-
-      .top-row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .main-title {
-        font-size: 22px;
-      }
-
-      .floating-orb {
-        width: 54px;
-        height: 54px;
-        right: 16px;
-        bottom: 16px;
-      }
-
-      .stats-bar {
-        gap: 10px;
-        padding-inline: 10px;
-      }
-
-      .fortune-row {
-        grid-template-columns: 48px minmax(0,1fr);
-      }
-
-      .week-row {
-        height: 70px;
-      }
-    }
-  </style>
-</head>
-<body>
-
-<!-- 粒子背景 -->
-<canvas id="star-bg"></canvas>
-
-<script>
-const canvas = document.getElementById("star-bg");
-const ctx = canvas.getContext("2d");
-
-function resize(){
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-}
-resize();
-onresize = resize;
-
-let stars = [...Array(130)].map(() => ({
-  x: Math.random() * canvas.width,
-  y: Math.random() * canvas.height,
-  r: Math.random() * 1.4 + 0.2,
-  dx: (Math.random() - 0.5) * 0.3,
-  dy: (Math.random() - 0.5) * 0.3
-}));
-
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  stars.forEach(s => {
-    ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(255,255,255," + (0.4 + Math.random() * 0.4) + ")";
-    ctx.fill();
-    s.x += s.dx;
-    s.y += s.dy;
-    if (s.x < 0 || s.x > canvas.width) s.dx *= -1;
-    if (s.y < 0 || s.y > canvas.height) s.dy *= -1;
-  });
-  requestAnimationFrame(draw);
-}
-draw();
-</script>
-
-<!-- 密码锁（带本机记忆） -->
-<div id="lock-screen">
-  <div class="lock-box">
-    <div class="lock-title">输入通关暗号</div>
-    <div class="lock-sub">本页为个人控制台入口，仅供本人及受邀者使用。</div>
-    <input id="password-input" class="lock-input" placeholder="请输入密码" />
-    <button class="lock-btn" onclick="checkPassword()">进入</button>
-    <div id="lock-error" style="margin-top:6px;color:#b91c1c;position:relative;"></div>
-  </div>
-</div>
-
-<script>
-const PASSWORD = "180999";
-const UNLOCK_KEY = "xd_console_unlocked";
-
-// 关锁屏 + 显示所有 .page
-function unlockPage() {
-  const lock = document.getElementById("lock-screen");
-  if (lock) lock.style.display = "none";
-  document.querySelectorAll(".page").forEach(p => {
-    p.style.display = "block";
-  });
-}
-
-// 点击“进入”按钮时调用
-function checkPassword(){
-  const input = document.getElementById("password-input");
-  const v = (input?.value || "").trim();
-  if (v === PASSWORD){
-    try {
-      localStorage.setItem(UNLOCK_KEY, "1");
-    } catch (e) {}
-    unlockPage();
-  } else {
-    const err = document.getElementById("lock-error");
-    if (err) err.innerText = "密码不匹配，请确认后再试。";
-  }
-}
-
-// 等整个页面元素都加载好，再去绑定事件 & 自动解锁
-document.addEventListener("DOMContentLoaded", function () {
-  const input = document.getElementById("password-input");
-  if (input) {
-    input.addEventListener("keydown", function (e) {
-      if (e.key === "Enter") checkPassword();
-    });
-  }
-
-  // 页面加载时检查是否已解锁
-  try {
-    const flag = localStorage.getItem(UNLOCK_KEY);
-    if (flag === "1") {
-      // 之前输过正确密码，直接解锁
-      unlockPage();
-    } else {
-      // 没解锁就显示锁屏
-      const lock = document.getElementById("lock-screen");
-      if (lock) lock.style.display = "flex";
-    }
-  } catch (e) {
-    const lock = document.getElementById("lock-screen");
-    if (lock) lock.style.display = "flex";
-  }
-});
-</script>
-
-<!-- 主内容 -->
-<div class="page">
-
-  <header>
-    <div class="top-row">
-      <div class="title-block">
-        <div class="title-logo">
-          <img src="J.png" alt="J">
-        </div>
-        <div class="main-title">Long live freedom!</div>
-      </div>
-      <div class="title-tag">日常控制台 · 命盘与时间线</div>
-    </div>
-
-    <!-- 顶部导航 -->
-    <nav class="nav-row">
-      <a href="index.html" class="nav-link nav-active">首页 / 命盘</a>
-      <a href="yunshi.html" class="nav-link">每日运势</a>
-      <a href="links.html" class="nav-link">常用链接</a>
-      <!-- 互动留言已删除，避免 404 -->
-    </nav>
-
-    <div class="flow-row">
-      <div class="flow-track">
-        Long live freedom! · Long live freedom! · Long live freedom! · Long live freedom! · Long live freedom! · Long live freedom! ·
-      </div>
-    </div>
-
-    <div class="poem-card">
-      <div class="poem-inner">
-        <div class="poem-title">底色两句：</div>
-        <div>一种相思，两处闲愁。</div>
-        <div>此情无计可消除，才下眉头，却上心头。</div>
-      </div>
-    </div>
-  </header>
-
-  <main>
-
-    <!-- 访问数据 -->
-    <div class="stats-bar">
-      <div class="stats-item">
-        <div class="stats-label">TODAY</div>
-        <div class="stats-value" id="visit-date">----</div>
-      </div>
-      <div class="stats-item">
-        <div class="stats-label">今日访问</div>
-        <div class="stats-value stats-value-accent" id="visit-today">0</div>
-      </div>
-      <div class="stats-item">
-        <div class="stats-label">累计访问（本机）</div>
-        <div class="stats-value" id="visit-total">0</div>
-      </div>
-    </div>
-
-    <!-- 今日紫微斗数流日 -->
-    <div class="fortune-section">
-      <div class="section-title">今日紫微斗数 · 流日盘面</div>
-      <div class="fortune-card">
-        <div class="fortune-inner">
-          <div class="fortune-header">
-            <div class="fortune-star" id="fortune-main-star">紫微坐命 · 三方四正</div>
-            <div class="fortune-score">
-              <span class="fortune-score-label">流日综合指数</span>
-              <span class="fortune-score-value" id="fortune-score">80</span>
-            </div>
-          </div>
-          <div class="fortune-body">
-            <div class="fortune-row">
-              <div class="fortune-tag">命宫</div>
-              <div class="fortune-text" id="fortune-overall">
-                运行加载中……
-              </div>
-            </div>
-            <div class="fortune-row">
-              <div class="fortune-tag">财帛宫</div>
-              <div class="fortune-text" id="fortune-money">
-                运行加载中……
-              </div>
-            </div>
-            <div class="fortune-row">
-              <div class="fortune-tag">夫妻宫</div>
-              <div class="fortune-text" id="fortune-love">
-                运行加载中……
-              </div>
-            </div>
-            <div class="fortune-row">
-              <div class="fortune-tag">官禄宫</div>
-              <div class="fortune-text" id="fortune-action">
-                运行加载中……
-              </div>
-            </div>
-          </div>
-          <div class="fortune-foot">
-            <div class="fortune-level" id="fortune-luck-level">今日格局：平盘</div>
-            <div class="fortune-note">※ 术数格局层观察，不作绝对吉凶。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 八字固定底盘 -->
-    <div class="bazi-block">
-      <div class="bazi-title">命盘底色 · 四柱八字</div>
-      <div class="bazi-content" id="bazi-text">
-        正在加载……
-      </div>
-      <div class="bazi-tagline">
-        四柱为固定底盘，用作流日与时间线推演的基底。
-      </div>
-    </div>
-
-    <!-- 本周运势时间线 -->
-    <div class="week-section">
-      <div class="section-title">本周运势 · 时间线视图</div>
-      <div class="week-wrap">
-        <div class="week-row" id="week-bar"></div>
-        <div class="week-foot">
-          <span class="week-foot-main">柱体高度对应当日可动用的气场强度。</span>
-          <span class="week-foot-sub">黄色高亮标记为今天。</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- 术数术语 · 当日摘记 -->
-    <div class="terms-section">
-      <div class="section-title">术数术语 · 当日摘记</div>
-      <div class="terms-card">
-        <div class="terms-list" id="term-list"></div>
-      </div>
-    </div>
-
-    <!-- 常用网站（首页只展示几项，完整在 links.html） -->
-    <div class="section-title">常用网站 · 关键入口（更多见“神秘链接”页）</div>
-
-    <div class="link-grid">
-
-      <div class="link-card">
-        <div class="link-main">
-          <div class="link-icon">🖼️</div>
-          <div class="link-text">
-            <div class="link-title">Pinterest 图库</div>
-            <div class="link-sub">灵感图墙 · ru.pinterest.com</div>
-          </div>
-        </div>
-        <button class="link-open" onclick="window.open('https://ru.pinterest.com/')">
-          打开 <span>↗</span>
-        </button>
-      </div>
-
-      <div class="link-card">
-        <div class="link-main">
-          <div class="link-icon">📦</div>
-          <div class="link-text">
-            <div class="link-title">GitHub 仓库</div>
-            <div class="link-sub">woaibixia · 代码与版本</div>
-          </div>
-        </div>
-        <button class="link-open" onclick="window.open('https://github.com/dh6598726-stack/woaibixia')">
-          打开 <span>↗</span>
-        </button>
-      </div>
-
-      <div class="link-card">
-        <div class="link-main">
-          <div class="link-icon">🧠</div>
-          <div class="link-text">
-            <div class="link-title">ChatGPT · chatgpt.com</div>
-            <div class="link-sub">主力智囊 · chatgpt.com</div>
-          </div>
-        </div>
-        <button class="link-open" onclick="window.open('https://chatgpt.com')">
-          打开 <span>↗</span>
-        </button>
-      </div>
-
-    </div>
-
-  </main>
-
-  <footer>
-    本页为个人使用的命盘与时间线控制台，所有内容仅作自我决策参考。
-  </footer>
-
-</div>
-
-<!-- 悬浮圆球：回到顶部 -->
-<div class="floating-orb" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
-  <img src="J.png" alt="回到顶部">
-</div>
-
-<!-- 访问统计 & 紫微斗数 & 八字时间线脚本 -->
-<script>
-  // 访问统计（本设备）
-  (function(){
-    try {
-      const todayStr = new Date().toISOString().slice(0,10);
-      const totalKey = "xd_total_visits";
-      const todayKey = "xd_visits_" + todayStr;
-
-      let total = parseInt(localStorage.getItem(totalKey) || "0", 10) + 1;
-      localStorage.setItem(totalKey, total);
-
-      let today = parseInt(localStorage.getItem(todayKey) || "0", 10) + 1;
-      localStorage.setItem(todayKey, today);
-
-      const dateSpan = document.getElementById("visit-date");
-      const todaySpan = document.getElementById("visit-today");
-      const totalSpan = document.getElementById("visit-total");
-
-      if (dateSpan) dateSpan.textContent = todayStr;
-      if (todaySpan) todaySpan.textContent = today;
-      if (totalSpan) totalSpan.textContent = total;
-    } catch (e) {
-      // 部分浏览器无 localStorage 权限时静默失败
-    }
-  })();
-
-  // 简单种子与随机
-  function createSeed(str){
-    let h = 0;
-    for (let i = 0; i < str.length; i++){
-      h = (h * 31 + str.charCodeAt(i)) >>> 0;
-    }
-    return h >>> 0;
-  }
-
-  function nextRand(seedObj){
-    seedObj.value = (seedObj.value * 1664525 + 1013904223) >>> 0;
-    return seedObj.value;
-  }
-
-  function pick(list, seedObj){
-    const r = nextRand(seedObj);
-    const idx = r % list.length;
-    return list[idx];
-  }
-
-  // 术数术语池（你给的专业术语）
-  const TERM_POOL = [
-    "截空亡而贵格成",
-    "真从格彻弃日主",
-    "假从格根苗未尽",
-    "身旺无依大凶",
-    "身弱无根必夭",
-    "胎元犯祖上血光煞",
-    "将星华盖三奇加会",
-    "天罗地网锁命",
-    "魁罡镇局四柱独贵",
-    "六秀三元月德叠逢",
-    "马星入墓突发横祸",
-    "伤官入墓子息刑伤",
-    "空亡切换人生剧变",
-    "斗君羊陀火铃夹命",
-    "三奇驾虎奇门至贵",
-    "伏吟天芮入墓大凶",
-    "六阴朝阳桩桩桃花",
-    "六阴乱局女命孤贫",
-    "倒冲禄马暴富暴败",
-    "井栏叉一生挫折",
-    "九丑大败刑妻害子",
-    "官印相生透干会局无破",
-    "伤官配印富贵双全",
-    "枭印制伤生财亿万",
-    "金神入火乡而发",
-    "曲直格纯青不杂",
-    "炎上格一燎千里",
-    "稼穑格厚重如山",
-    "杂气印绶藏而不透",
-    "拱禄拱贵暗中成格",
-    "专旺格势如破竹",
-    "时上偏官坐空亡子息刑",
-    "命宫身宫同躔凶煞祖坟灾",
-    "禄马同位交冲突起",
-    "劫财羊刃架凶杀重",
-    "七杀制伏太过反成贵",
-    "食神制杀福厚寿高",
-    "建禄月劫时逢七杀主大权",
-    "阴阳差错日孤独刑克",
-    "魁罡贵人带刀不断",
-    "天乙贵人三合会照主逢凶化吉",
-    "太极贵人压百邪",
-    "亡神劫煞并临牢狱之灾",
-    "流年冲起墓库开棺破祖",
-    "大运并临伤官见官官非牢狱",
-    "胎宫遇劫祖业飘零",
-    "身宫坐空一生奔波",
-    "紫微天府同宫帝王之相",
-    "左辅右弼夹命庙堂之器",
-    "武曲化忌入财帛帷幄之富"
-  ];
-
-  // 今日紫微斗数（术语化）
-  (function(){
-    const today = new Date();
-    const dStr = today.toISOString().slice(0,10); // YYYY-MM-DD
-    const seedObj = { value: createSeed("ziwei-" + dStr) };
-
-    const stars = [
-      "紫微坐命 · 三方四正会吉煞",
-      "天府临财 · 宫干带禄权",
-      "武曲拱命 · 刚星主事",
-      "天同守福 · 福德宫得气",
-      "廉贞同度 · 刑忌并临",
-      "贪狼动象 · 桃火并行",
-      "天相会照 · 资源宫得护",
-      "天机旺动 · 思路多变"
-    ];
-
-    const luckLevels = [
-      { label: "今日格局：禄权并见" },
-      { label: "今日格局：吉中带煞" },
-      { label: "今日格局：平盘运行" },
-      { label: "今日格局：劳心劳力" }
-    ];
-
-    function comboTerms(seedObj, count){
-      const used = new Set();
-      const parts = [];
-      while (parts.length < count && used.size < TERM_POOL.length) {
-        const t = pick(TERM_POOL, seedObj);
-        if (!used.has(t)) {
-          used.add(t);
-          parts.push(t);
-        }
-      }
-      return parts.join("；");
-    }
-
-    const scoreBase = 70;
-    const scoreFloat = (nextRand(seedObj) % 21) - 10; // -10 ~ +10
-    let score = scoreBase + scoreFloat;
-    if (score < 55) score = 55;
-    if (score > 95) score = 95;
-
-    const star = pick(stars, seedObj);
-    const overall = comboTerms(seedObj, 3);
-    const money = comboTerms(seedObj, 2);
-    const love = comboTerms(seedObj, 2);
-    const action = comboTerms(seedObj, 2);
-    const level = pick(luckLevels, seedObj);
-
-    const starEl = document.getElementById("fortune-main-star");
-    const scoreEl = document.getElementById("fortune-score");
-    const oEl = document.getElementById("fortune-overall");
-    const mEl = document.getElementById("fortune-money");
-    const lEl = document.getElementById("fortune-love");
-    const aEl = document.getElementById("fortune-action");
-    const levelEl = document.getElementById("fortune-luck-level");
-    const noteEl = document.querySelector(".fortune-note");
-
-    if (starEl) starEl.textContent = star;
-    if (scoreEl) scoreEl.textContent = score;
-    if (oEl) oEl.textContent = overall;
-    if (mEl) mEl.textContent = money;
-    if (lEl) lEl.textContent = love;
-    if (aEl) aEl.textContent = action;
-    if (levelEl) levelEl.textContent = level.label;
-    if (noteEl) {
-      noteEl.textContent = "※ 术数格局层观察，不作绝对吉凶。";
-    }
-  })();
-
-  // 八字 & 本周运势时间线（四柱作为种子）
-  (function(){
-    // ★ 只显示你给的四柱 ★
-    const BAZI_TEXT = "辛巳　壬午　戊子　己申";
-
-    const baziEl = document.getElementById("bazi-text");
-    if (baziEl) {
-      baziEl.textContent = BAZI_TEXT;
-    }
-
-    const weekContainer = document.getElementById("week-bar");
-    if (!weekContainer) return;
-
-    const today = new Date();
-    const weekdays = ["一","二","三","四","五","六","日"];
-
-    const year = today.getFullYear();
-    const weekSeedStr = year + "-w-" + BAZI_TEXT;
-    const baseSeedVal = createSeed(weekSeedStr);
-
-    let todayIdx = today.getDay(); // 0=周日
-    todayIdx = (todayIdx + 6) % 7; // 转成 0=周一
-
-    for (let i = 0; i < 7; i++){
-      const localSeed = { value: (baseSeedVal + i * 97) >>> 0 };
-      let score = 60 + ((nextRand(localSeed) % 41) - 20);
-      if (score < 40) score = 40;
-      if (score > 98) score = 98;
-
-      const col = document.createElement("div");
-      col.className = "week-col" + (i === todayIdx ? " week-today" : "");
-
-      const bar = document.createElement("div");
-      bar.className = "week-bar-line";
-      bar.style.height = (30 + (score - 40) * 0.7) + "px";
-
-      const label = document.createElement("div");
-      label.className = "week-label";
-      label.textContent = "周" + weekdays[i];
-
-      const scoreEl = document.createElement("div");
-      scoreEl.className = "week-score-small";
-      scoreEl.textContent = score;
-
-      col.appendChild(bar);
-      col.appendChild(label);
-      col.appendChild(scoreEl);
-      weekContainer.appendChild(col);
-    }
-  })();
-
-  // 术数术语摘记：每日随机抽取若干条
-  (function(){
-    const container = document.getElementById("term-list");
-    if (!container) return;
-
-    const dStr = new Date().toISOString().slice(0,10);
-    const seedObj = { value: createSeed("terms-" + dStr) };
-
-    const used = new Set();
-    const count = Math.min(14, TERM_POOL.length);
-
-    for (let i = 0; i < count; i++) {
-      let t;
-      let tries = 0;
-      do {
-        t = pick(TERM_POOL, seedObj);
-        tries++;
-      } while (used.has(t) && tries < 20);
-      used.add(t);
-
-      const pill = document.createElement("div");
-      pill.className = "term-pill";
-      const index = TERM_POOL.indexOf(t) + 1;
-      pill.textContent = index + ". " + t;
-      container.appendChild(pill);
-    }
-  })();
-</script>
-
-</body>
-</html>
+      gap: 6px;
+      box-shadow: 0 8px 20px rgba(56,189,248
