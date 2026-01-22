@@ -15,24 +15,23 @@
 
   <style>
     /* =========================================
-       1. 设计系统：极简黑白灰 + 国际奇连蓝
+       1. 极简档案库设计系统
        ========================================= */
     :root {
-      --bg-app: #f5f5f7;        /* APP 背景 */
-      --bg-sidebar: #ffffff;    /* 侧边栏背景 */
-      --bg-card: #ffffff;       /* 卡片背景 */
+      --bg-app: #f2f2f7;        /* 更有质感的浅灰 */
+      --bg-sidebar: #ffffff;
+      --bg-card: #ffffff;
       
-      --border: #e1e1e3;        /* 极细边框 */
-      --border-hover: #000000;  /* 悬停边框 */
+      --border: #e5e5ea;
+      --border-hover: #1c1c1e;  /* 悬停变黑 */
       
-      --text-main: #1d1d1f;
-      --text-sub: #86868b;
+      --text-main: #1c1c1e;
+      --text-sub: #8e8e93;
       
-      --accent: #2997ff;        /* 高级蓝 */
-      --danger: #ff3b30;        /* 警示红 */
+      --accent: #007aff;        /* 克莱因蓝 */
       
-      --shadow: 0 4px 12px rgba(0,0,0,0.03);
-      --radius: 12px;
+      --shadow: 0 4px 12px rgba(0,0,0,0.04);
+      --radius: 14px;
     }
 
     body.dark-mode {
@@ -40,14 +39,14 @@
       --bg-sidebar: #1c1c1e;
       --bg-card: #1c1c1e;
       
-      --border: #333333;
-      --border-hover: #ffffff;
+      --border: #2c2c2e;
+      --border-hover: #ffffff;  /* 悬停变白 */
       
-      --text-main: #f5f5f7;
-      --text-sub: #86868b;
+      --text-main: #f2f2f7;
+      --text-sub: #98989d;
       
       --accent: #0a84ff;
-      --shadow: 0 4px 20px rgba(0,0,0,0.4);
+      --shadow: 0 8px 24px rgba(0,0,0,0.5);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -57,16 +56,13 @@
       background-color: var(--bg-app);
       color: var(--text-main);
       height: 100vh;
-      overflow: hidden; /* 禁用body滚动，交给内部容器 */
-      transition: background 0.3s;
+      overflow: hidden;
+      transition: background 0.4s ease;
     }
 
-    /* =========================================
-       2. 布局结构：Sidebar + Main
-       ========================================= */
     #app {
       display: grid;
-      grid-template-columns: 260px 1fr; /* 左侧固定，右侧自适应 */
+      grid-template-columns: 260px 1fr;
       height: 100%;
     }
 
@@ -76,150 +72,142 @@
       border-right: 1px solid var(--border);
       padding: 30px 20px;
       display: flex; flex-direction: column;
-      height: 100%;
-      overflow-y: auto;
       z-index: 10;
     }
     
-    /* 侧边栏头部 */
     .brand {
       display: flex; align-items: center; gap: 12px;
-      margin-bottom: 30px; padding-left: 8px;
-      cursor: pointer;
+      margin-bottom: 30px; padding-left: 8px; cursor: pointer;
     }
     .brand-logo {
-      width: 32px; height: 32px; background: var(--text-main); color: var(--bg-app);
-      border-radius: 8px; display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 16px;
+      width: 36px; height: 36px; background: var(--text-main); color: var(--bg-app);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 18px;
     }
     .brand-text h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
     .brand-text span { font-size: 10px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; }
 
-    /* 搜索框 */
-    .search-box {
-      position: relative; margin-bottom: 24px;
-    }
+    .search-box { position: relative; margin-bottom: 20px; }
     .search-input {
       width: 100%; padding: 10px 12px 10px 36px;
       background: var(--bg-app); border: 1px solid transparent;
-      border-radius: 8px; color: var(--text-main); font-size: 13px;
+      border-radius: 10px; color: var(--text-main); font-size: 13px;
       transition: all 0.2s;
     }
-    .search-input:focus { background: var(--bg-card); border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(41,151,255,0.1); }
+    .search-input:focus { background: var(--bg-card); border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(0,122,255,0.1); }
     .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--text-sub); }
 
-    /* 导航链接 (由JS生成) */
-    .nav-list { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+    /* 导航列表 */
+    .nav-scroll { flex: 1; overflow-y: auto; padding-right: 5px; }
+    .nav-scroll::-webkit-scrollbar { width: 4px; }
+    .nav-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    
     .nav-item {
       padding: 10px 12px;
       border-radius: 8px;
       font-size: 13px; font-weight: 500; color: var(--text-sub);
       text-decoration: none; display: flex; align-items: center; gap: 10px;
-      transition: all 0.2s; cursor: pointer;
+      transition: all 0.2s; cursor: pointer; margin-bottom: 2px;
     }
     .nav-item:hover { background: var(--bg-app); color: var(--text-main); }
     .nav-item.active { background: var(--text-main); color: var(--bg-app); }
-    .nav-icon { font-size: 16px; }
+    .nav-icon { font-size: 16px; opacity: 0.8; }
 
-    /* 侧边栏底部 */
-    .aside-footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); }
+    .aside-footer { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
     .time-badge {
       font-family: "SF Mono", monospace; font-size: 11px; color: var(--text-sub);
-      background: var(--bg-app); padding: 6px 10px; border-radius: 6px; text-align: center;
-      cursor: pointer; user-select: none;
+      background: var(--bg-app); padding: 4px 8px; border-radius: 6px; cursor: pointer;
     }
-    .time-badge:hover { color: var(--accent); }
 
-    /* 内容区域 */
+    /* 主区域 */
     main {
-      padding: 40px 60px;
-      overflow-y: auto; /* 独立滚动 */
+      padding: 40px 80px;
+      overflow-y: auto;
       scroll-behavior: smooth;
     }
 
-    /* 顶部引言卡片 */
+    /* 顶部引言 */
     .hero-quote {
       margin-bottom: 60px;
       padding: 40px;
-      border-left: 2px solid var(--accent);
-      background: linear-gradient(90deg, var(--bg-sidebar), transparent);
+      background: var(--bg-card);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      position: relative; overflow: hidden;
+    }
+    .hero-quote::after {
+        content:""; position: absolute; top:0; right:0; width: 100px; height: 100px;
+        background: radial-gradient(circle at top right, var(--accent), transparent 70%); opacity: 0.1;
     }
     .quote-text {
       font-family: "Zhi Mang Xing", cursive;
-      font-size: 32px; line-height: 1.5; color: var(--text-main);
+      font-size: 28px; line-height: 1.6; color: var(--text-main);
       margin-bottom: 12px;
     }
-    .quote-sub { font-size: 13px; color: var(--text-sub); font-family: -apple-system, sans-serif; letter-spacing: 1px; }
+    .quote-sub { font-size: 12px; color: var(--text-sub); letter-spacing: 2px; text-transform: uppercase; }
 
-    /* 分区样式 */
-    .section-block { margin-bottom: 60px; scroll-margin-top: 40px; }
+    /* 分区 */
+    .section-block { margin-bottom: 50px; scroll-margin-top: 20px; }
     .section-header {
       display: flex; align-items: baseline; justify-content: space-between;
-      margin-bottom: 24px; padding-bottom: 12px;
+      margin-bottom: 20px; padding-bottom: 8px;
       border-bottom: 1px solid var(--border);
     }
-    .section-title { font-size: 18px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
-    .section-count { font-size: 11px; color: var(--text-sub); font-weight: 400; }
+    .section-title { font-size: 16px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; }
+    .section-count { font-size: 11px; color: var(--text-sub); font-family: "SF Mono", monospace; text-transform: uppercase; }
 
-    /* 网格 */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 16px;
     }
 
-    /* 极简卡片 */
+    /* 卡片设计 */
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 16px;
       cursor: pointer;
-      position: relative;
-      transition: all 0.2s ease;
-      display: flex; flex-direction: column; gap: 12px;
+      display: flex; flex-direction: column; gap: 10px;
+      transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     .card:hover {
       border-color: var(--border-hover);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
     }
     .card-head { display: flex; justify-content: space-between; align-items: flex-start; }
     .icon-box {
       width: 32px; height: 32px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 8px; background: var(--bg-app);
       display: flex; align-items: center; justify-content: center;
       font-size: 16px; color: var(--text-main);
     }
-    .link-arrow { font-size: 14px; color: var(--border); transition: color 0.2s; }
-    .card:hover .link-arrow { color: var(--text-main); }
+    .link-arrow { font-size: 12px; color: var(--border); transition: 0.2s; }
+    .card:hover .link-arrow { color: var(--accent); transform: translate(2px, -2px); }
     
-    .card-body { display: flex; flex-direction: column; gap: 4px; }
-    .card-title { font-size: 14px; font-weight: 600; color: var(--text-main); }
-    .card-desc { font-size: 12px; color: var(--text-sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-body { display: flex; flex-direction: column; gap: 2px; }
+    .card-title { font-size: 13px; font-weight: 600; color: var(--text-main); }
+    .card-desc { font-size: 11px; color: var(--text-sub); opacity: 0.8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    /* 敏感内容模糊模式 */
+    /* 敏感内容模糊 */
     .sensitive-zone { position: relative; }
-    .sensitive-blur {
-      filter: blur(12px) grayscale(100%);
-      opacity: 0.6;
-      transition: all 0.4s ease;
-    }
+    .sensitive-blur { filter: blur(10px); opacity: 0.4; transition: 0.4s; }
     .sensitive-mask {
       position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
       z-index: 5; pointer-events: none;
     }
     .mask-badge {
-      background: var(--text-main); color: var(--bg-app);
-      padding: 8px 16px; border-radius: 99px;
-      font-size: 12px; font-weight: 600; letter-spacing: 1px;
-      text-transform: uppercase;
-      opacity: 0.8; transition: opacity 0.3s;
+      background: rgba(0,0,0,0.8); color: #fff; backdrop-filter: blur(4px);
+      padding: 6px 14px; border-radius: 6px;
+      font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+      opacity: 1; transition: 0.3s;
     }
-    .sensitive-zone:hover .sensitive-blur { filter: blur(0) grayscale(0); opacity: 1; }
-    .sensitive-zone:hover .mask-badge { opacity: 0; }
+    .sensitive-zone:hover .sensitive-blur { filter: blur(0); opacity: 1; }
+    .sensitive-zone:hover .mask-badge { opacity: 0; transform: scale(0.9); }
 
     /* 开屏 */
     #splash {
@@ -229,44 +217,42 @@
       transition: opacity 0.6s ease;
     }
     .splash-quote { 
-        font-family: "Zhi Mang Xing", cursive; font-size: 28px; 
-        text-align: center; max-width: 600px; line-height: 1.6; margin-bottom: 40px; padding: 0 20px;
+        font-family: "Zhi Mang Xing", cursive; font-size: 32px; 
+        text-align: center; max-width: 600px; line-height: 1.6; margin-bottom: 40px; 
     }
     .enter-btn {
-      padding: 12px 30px; border: 1px solid var(--border);
+      padding: 10px 24px; border: 1px solid var(--border);
       background: transparent; color: var(--text-main);
       border-radius: 99px; cursor: pointer; transition: all 0.3s;
-      font-size: 13px; letter-spacing: 2px; text-transform: uppercase;
+      font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
     }
-    .enter-btn:hover { background: var(--text-main); color: var(--bg-app); }
+    .enter-btn:hover { border-color: var(--text-main); }
     .hidden { opacity: 0; pointer-events: none; }
 
     /* Ghost Memo */
     #ghost-memo {
       position: fixed; bottom: 30px; right: 30px;
-      width: 300px; height: 400px;
-      background: var(--text-main); color: var(--bg-app);
+      width: 320px; height: 380px;
+      background: var(--bg-card); color: var(--text-main);
+      border: 1px solid var(--border);
       border-radius: 16px; padding: 20px;
       display: flex; flex-direction: column;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-      transform: translateY(20px) scale(0.9); opacity: 0; pointer-events: none;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      z-index: 100;
+      box-shadow: var(--shadow);
+      transform: translateY(20px) scale(0.95); opacity: 0; pointer-events: none;
+      transition: all 0.3s; z-index: 100;
     }
     #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
     #memo-content {
-      flex: 1; background: transparent; border: none; outline: none;
-      color: var(--bg-app); font-family: monospace; font-size: 13px; line-height: 1.6; resize: none; margin-top: 10px;
+      flex: 1; background: var(--bg-app); border: none; outline: none; border-radius: 8px; padding: 10px;
+      color: var(--text-main); font-family: monospace; font-size: 12px; line-height: 1.6; resize: none; margin-top: 10px;
     }
-    
-    /* 响应式：移动端变为单栏，侧边栏隐藏 */
+
     @media (max-width: 768px) {
       #app { grid-template-columns: 1fr; }
-      aside { display: none; } /* 移动端暂时隐藏侧边栏，太占地 */
+      aside { display: none; }
       main { padding: 20px; }
       .hero-quote { padding: 20px; }
-      .quote-text { font-size: 24px; }
-      /* 移动端添加一个顶部导航条逻辑略微复杂，这里保持“流式浏览” */
+      .quote-text { font-size: 22px; }
     }
   </style>
 </head>
@@ -281,24 +267,25 @@
 
   <div id="app">
     <aside>
-      <div class="brand" id="theme-toggle">
+      <div class="brand" id="theme-toggle" title="Toggle Theme">
         <div class="brand-logo">J</div>
         <div class="brand-text">
           <h1>BBR</h1>
-          <span>Archive v2.0</span>
+          <span>ARCHIVE</span>
         </div>
       </div>
       
       <div class="search-box">
-        <i class="ri-search-line search-icon"></i>
-        <input type="text" class="search-input" id="search-input" placeholder="Search (Ctrl+K)...">
+        <i class="ri-search-2-line search-icon"></i>
+        <input type="text" class="search-input" id="search-input" placeholder="Search...">
       </div>
 
-      <nav class="nav-list" id="nav-container">
-        </nav>
+      <div class="nav-scroll" id="nav-container">
+        </div>
 
       <div class="aside-footer">
-        <div class="time-badge" id="time-pill">00:00:00</div>
+        <div class="time-badge" id="time-pill">00:00</div>
+        <i class="ri-cloud-line" style="font-size:12px; color:var(--text-sub); opacity:0.5;"></i>
       </div>
     </aside>
 
@@ -308,13 +295,13 @@
         <div class="quote-text">
           天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗凌云之志。
         </div>
-        <div class="quote-sub">Long live freedom</div>
+        <div class="quote-sub">Long live freedom / The Visual Archive</div>
       </div>
 
-      <div class="section-block" id="sec-images" data-icon="ri-image-line">
+      <div class="section-block" id="sec-images" data-icon="ri-palette-line">
         <div class="section-header">
-          <div class="section-title">图库与素材</div>
-          <span class="section-count">Inspiration</span>
+          <div class="section-title">视觉光谱</div>
+          <span class="section-count">Visual Spectrum</span>
         </div>
         <div class="grid">
           <div class="card" onclick="openLink('https://ru.pinterest.com/')">
@@ -345,7 +332,7 @@
       </div>
 
       <div class="section-block" id="sec-virtual" data-icon="ri-earth-line">
-        <div class="section-header"><div class="section-title">虚拟视界</div><span class="section-count">World</span></div>
+        <div class="section-header"><div class="section-title">平行视界</div><span class="section-count">Parallel View</span></div>
         <div class="grid">
           <div class="card" onclick="openLink('https://www.mapcrunch.com')">
             <div class="card-head"><div class="icon-box">🧭</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -383,7 +370,7 @@
       </div>
 
       <div class="section-block" id="sec-network" data-icon="ri-server-line">
-        <div class="section-header"><div class="section-title">网络基建</div><span class="section-count">Infrastructure</span></div>
+        <div class="section-header"><div class="section-title">数字基石</div><span class="section-count">Foundation</span></div>
         <div class="grid">
            <div class="card" onclick="openLink('https://dashboard.thordata.com/')">
               <div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -409,9 +396,9 @@
       </div>
 
       <div class="section-block sensitive-zone" id="sec-dark6" data-icon="ri-eye-off-line">
-        <div class="sensitive-mask"><div class="mask-badge">Sensitive Content</div></div>
+        <div class="sensitive-mask"><div class="mask-badge">Abyss Echo</div></div>
         <div class="sensitive-blur">
-          <div class="section-header"><div class="section-title">暗黑六巨头</div><span class="section-count">Resources</span></div>
+          <div class="section-header"><div class="section-title">深渊回响</div><span class="section-count">Classified</span></div>
           <div class="grid">
              <div class="card" onclick="openLink('https://www.suijidaquan.com/')">
                <div class="card-head"><div class="icon-box">🎲</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -461,10 +448,10 @@
         </div>
       </div>
 
-      <div class="section-block sensitive-zone" id="sec-backup" data-icon="ri-gas-station-line">
-        <div class="sensitive-mask"><div class="mask-badge">Backup</div></div>
+      <div class="section-block sensitive-zone" id="sec-backup" data-icon="ri-contrast-drop-2-line">
+        <div class="sensitive-mask"><div class="mask-badge">Quadrant II</div></div>
         <div class="sensitive-blur">
-          <div class="section-header"><div class="section-title">备用油箱</div><span class="section-count">Alt</span></div>
+          <div class="section-header"><div class="section-title">第二象限</div><span class="section-count">Plan B</span></div>
           <div class="grid">
             <div class="card" onclick="openLink('https://netflav.com/')">
               <div class="card-head"><div class="icon-box">N</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -482,10 +469,10 @@
         </div>
       </div>
 
-       <div class="section-block sensitive-zone" id="sec-magnet" data-icon="ri-link-m">
-        <div class="sensitive-mask"><div class="mask-badge">Magnet</div></div>
+       <div class="section-block sensitive-zone" id="sec-magnet" data-icon="ri-magnet-line">
+        <div class="sensitive-mask"><div class="mask-badge">Magnetic Field</div></div>
         <div class="sensitive-blur">
-          <div class="section-header"><div class="section-title">磁力搜索</div><span class="section-count">P2P</span></div>
+          <div class="section-header"><div class="section-title">磁场引力</div><span class="section-count">P2P Source</span></div>
           <div class="grid">
             <div class="card" onclick="openLink('https://sukebei.nyaa.si/')">
               <div class="card-head"><div class="icon-box">S</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -503,8 +490,8 @@
         </div>
       </div>
 
-      <div class="section-block" id="sec-ai" data-icon="ri-robot-line">
-        <div class="section-header"><div class="section-title">AI & 内容</div><span class="section-count">Tools</span></div>
+      <div class="section-block" id="sec-ai" data-icon="ri-cpu-line">
+        <div class="section-header"><div class="section-title">硅基进化</div><span class="section-count">Silicon Evo</span></div>
         <div class="grid">
           <div class="card" onclick="openLink('https://nf.video/银河录像局')">
                <div class="card-head"><div class="icon-box">🎬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -522,7 +509,7 @@
                <div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Gemini</div><div class="card-desc">Google</div></div>
             </div>
-            <div class="card" onclick="openLink('https://www.nvidia.com/en-us/research/ai-playground')">
+             <div class="card" onclick="openLink('https://www.nvidia.com/en-us/research/ai-playground')">
                <div class="card-head"><div class="icon-box">🟢</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">NVIDIA</div><div class="card-desc">Lab</div></div>
              </div>
@@ -549,8 +536,8 @@
         </div>
       </div>
 
-      <div class="section-block" id="sec-tj" data-icon="ri-star-line">
-        <div class="section-header"><div class="section-title">TJ 精选</div><span class="section-count">Featured</span></div>
+      <div class="section-block" id="sec-tj" data-icon="ri-eye-2-line">
+        <div class="section-header"><div class="section-title">高维观测</div><span class="section-count">High-Dim View</span></div>
         <div class="grid">
             <div class="card" onclick="openLink('https://radar.cloudflare.com/')">
                <div class="card-head"><div class="icon-box">🧭</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -599,8 +586,8 @@
         </div>
       </div>
 
-      <div class="section-block" id="sec-geek" data-icon="ri-flask-line">
-        <div class="section-header"><div class="section-title">黑科技</div><span class="section-count">Geek</span></div>
+      <div class="section-block" id="sec-geek" data-icon="ri-terminal-box-line">
+        <div class="section-header"><div class="section-title">极客前沿</div><span class="section-count">Geek Frontier</span></div>
         <div class="grid">
            <div class="card" onclick="openLink('https://www.topgear.com/car-news')">
                <div class="card-head"><div class="icon-box">🚗</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -654,7 +641,7 @@
       </div>
 
       <div class="section-block" id="sec-crypto" data-icon="ri-bit-coin-line">
-        <div class="section-header"><div class="section-title">数字资产</div><span class="section-count">Crypto</span></div>
+        <div class="section-header"><div class="section-title">链上资产</div><span class="section-count">On-Chain</span></div>
         <div class="grid">
            <div class="card" onclick="openLink('https://www.cryptopanic.com')">
                <div class="card-head"><div class="icon-box">📉</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -680,7 +667,7 @@
       </div>
 
       <div class="section-block" id="sec-social" data-icon="ri-discuss-line">
-        <div class="section-header"><div class="section-title">社交社区</div><span class="section-count">Social</span></div>
+        <div class="section-header"><div class="section-title">信号交换</div><span class="section-count">Signal Exchange</span></div>
         <div class="grid">
            <div class="card" onclick="openLink('https://telegram.org/')">
                <div class="card-head"><div class="icon-box">✈️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -706,7 +693,7 @@
       </div>
 
       <div class="section-block" id="sec-media" data-icon="ri-movie-line">
-        <div class="section-header"><div class="section-title">视频音乐</div><span class="section-count">Media</span></div>
+        <div class="section-header"><div class="section-title">视听幻境</div><span class="section-count">A/V Illusion</span></div>
         <div class="grid">
            <div class="card" onclick="openLink('https://everynoise.com')">
                <div class="card-head"><div class="icon-box">🎵</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -732,7 +719,7 @@
       </div>
 
       <div class="section-block" id="sec-tools" data-icon="ri-tools-line">
-        <div class="section-header"><div class="section-title">基础工具</div><span class="section-count">Basics</span></div>
+        <div class="section-header"><div class="section-title">通用协议</div><span class="section-count">Protocol</span></div>
         <div class="grid">
             <div class="card" onclick="openLink('https://www.google.com/')">
                <div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -758,7 +745,7 @@
       </div>
 
        <div class="section-block" id="sec-design" data-icon="ri-palette-line">
-        <div class="section-header"><div class="section-title">设计数据</div><span class="section-count">Design</span></div>
+        <div class="section-header"><div class="section-title">美学构建</div><span class="section-count">Aesthetic Build</span></div>
         <div class="grid">
             <div class="card" onclick="openLink('https://www.behance.net')">
                <div class="card-head"><div class="icon-box">🎨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -784,7 +771,7 @@
       </div>
 
       <div class="section-block" id="sec-file" data-icon="ri-file-line">
-        <div class="section-header"><div class="section-title">图片文件</div><span class="section-count">Files</span></div>
+        <div class="section-header"><div class="section-title">像素工坊</div><span class="section-count">Pixel Workshop</span></div>
         <div class="grid">
            <div class="card" onclick="openLink('https://www.remove.bg')">
                <div class="card-head"><div class="icon-box">✂️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -806,7 +793,7 @@
       </div>
 
       <div class="section-block" id="sec-dev" data-icon="ri-code-line">
-        <div class="section-header"><div class="section-title">开发代码</div><span class="section-count">Dev</span></div>
+        <div class="section-header"><div class="section-title">代码诗学</div><span class="section-count">Code Poetics</span></div>
         <div class="grid">
            <div class="card" onclick="openLink('https://stackoverflow.com')">
                <div class="card-head"><div class="icon-box">💬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -832,7 +819,7 @@
       </div>
 
        <div class="section-block" id="sec-misc" data-icon="ri-more-line">
-        <div class="section-header"><div class="section-title">更多工具</div><span class="section-count">Misc</span></div>
+        <div class="section-header"><div class="section-title">碎片拾遗</div><span class="section-count">Fragments</span></div>
         <div class="grid">
            <div class="card" onclick="openLink('https://www.wikihow.com')">
                <div class="card-head"><div class="icon-box">📘</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -849,12 +836,12 @@
              <div class="card" onclick="openLink('https://gumroad.com')">
                <div class="card-head"><div class="icon-box">💸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Gumroad</div><div class="card-desc">Sell</div></div>
-             </div>
+            </div>
         </div>
       </div>
 
       <div class="section-block" id="sec-travel" data-icon="ri-plane-line">
-        <div class="section-header"><div class="section-title">旅行航线</div><span class="section-count">Travel</span></div>
+        <div class="section-header"><div class="section-title">行星轨迹</div><span class="section-count">Trajectory</span></div>
         <div class="grid">
            <div class="card" onclick="openLink('https://earth.google.com')">
                <div class="card-head"><div class="icon-box">🌎</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -876,7 +863,7 @@
       </div>
 
        <div class="section-block" id="sec-security" data-icon="ri-shield-check-line">
-        <div class="section-header"><div class="section-title">安全攻防</div><span class="section-count">Sec</span></div>
+        <div class="section-header"><div class="section-title">攻防演义</div><span class="section-count">Offense & Defense</span></div>
         <div class="grid">
            <div class="card" onclick="openLink('https://www.hackerone.com')">
                <div class="card-head"><div class="icon-box">🛡️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -918,22 +905,17 @@
 
   <div id="ghost-memo" class="hidden">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <span style="font-size:12px; font-weight:700;">CLOUD MEMO</span>
+      <span style="font-size:12px; font-weight:700; letter-spacing:1px;">MEMO LINK</span>
       <div style="display:flex; gap:10px;">
         <span id="cloud-status" style="font-size:10px; opacity:0.5;">READY</span>
         <span id="cloud-sync-btn" style="cursor:pointer;">↺</span>
         <span onclick="toggleMemo()" style="cursor:pointer;">×</span>
       </div>
     </div>
-    <textarea id="memo-content" placeholder="Type..."></textarea>
+    <textarea id="memo-content" placeholder="Data stream..."></textarea>
   </div>
 
   <script>
-    // ==========================================
-    // 自动生成侧边栏导航 & 核心逻辑
-    // ==========================================
-    
-    // 1. 初始化导航
     document.addEventListener('DOMContentLoaded', () => {
       const navContainer = document.getElementById('nav-container');
       const sections = document.querySelectorAll('.section-block');
@@ -951,7 +933,6 @@
         link.addEventListener('click', (e) => {
           e.preventDefault();
           document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-          // 更新激活状态
           document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
           link.classList.add('active');
         });
@@ -960,10 +941,8 @@
       });
     });
 
-    // 2. 跳转链接
     function openLink(url) { window.open(url, '_blank'); }
 
-    // 3. 开屏
     function closeSplash() {
       const splash = document.getElementById('splash');
       splash.classList.add('hidden');
@@ -973,13 +952,11 @@
       document.getElementById('splash').style.display = 'none';
     }
 
-    // 4. 时间
     function updateTime() {
       document.getElementById('time-pill').textContent = new Date().toLocaleTimeString('zh-CN', {hour12:false});
     }
     setInterval(updateTime, 1000); updateTime();
 
-    // 5. 搜索逻辑
     const searchInput = document.getElementById('search-input');
     searchInput.addEventListener('input', (e) => {
       const term = e.target.value.toLowerCase();
@@ -987,19 +964,16 @@
         const text = card.textContent.toLowerCase();
         card.style.display = text.includes(term) ? 'flex' : 'none';
       });
-      // 隐藏空分区
       document.querySelectorAll('.section-block').forEach(sec => {
         const visibleCards = sec.querySelectorAll('.card[style="display: flex;"]');
         sec.style.display = (visibleCards.length === 0 && term !== '') ? 'none' : 'block';
       });
     });
 
-    // 6. 快捷键
     document.addEventListener('keydown', (e) => {
       if((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); searchInput.focus(); }
     });
 
-    // 7. 明暗模式
     document.getElementById('theme-toggle').addEventListener('click', () => {
       document.body.classList.toggle('dark-mode');
     });
@@ -1007,7 +981,6 @@
       document.body.classList.add('dark-mode');
     }
 
-    // 8. Cloud Memo Logic (Same as before)
     const BIN_ID  = '6971fa00ae596e708fed3908';
     const API_KEY = '$2a$10$1NEYPXNO1k1GdD2h4JTjCuhT5DHTBsQ6J/yVon6iOoRL5Yk/5sfvS'; 
     const ghostMemo = document.getElementById('ghost-memo');
