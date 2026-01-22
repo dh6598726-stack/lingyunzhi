@@ -258,8 +258,6 @@
           <span>天下英雄如过江之鲫，人中龙凤尚且举步维艰。我等鱼目，一生命运多舛，颠沛流离，却从未失那颗赤子之心、凌云之志。</span>
         </div>
       </div>
-
-      <main>
         
        <div class="section-block">
           <div class="section-cover">
@@ -1675,8 +1673,49 @@
         });
       }
     </script>
+  <script>
+  // 1. 【核心修复】定义 openLink 功能
+  // 这就是为什么您之前点按钮没反应的原因
+  function openLink(url) {
+    window.open(url, '_blank');
+  }
+
+  // 2. 【体验优化】让整个卡片都能点击
+  // 现在不仅点那个小箭头，点卡片任何地方都能跳转
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      // 如果点的是那个小按钮，就让按钮自己处理，防止打开两次
+      if (e.target.closest('.card-btn')) return;
+
+      // 找到卡片里按钮上的链接，并打开它
+      const btn = this.querySelector('button[onclick]');
+      if (btn) {
+        const match = btn.getAttribute('onclick').match(/'([^']+)'/);
+        if (match && match[1]) {
+          window.open(match[1], '_blank');
+        }
+      }
+    });
+  });
+
+  // 3. 【顺手修复】让右上角时间动起来
+  function updateTime() {
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('zh-CN', { hour12: false });
+    // 简单的日期格式
+    const dateStr = now.toLocaleDateString('zh-CN');
+    
+    const pill = document.getElementById('time-pill');
+    if(pill) pill.innerText = `${dateStr} ${timeStr}`;
+  }
+  setInterval(updateTime, 1000); // 每秒刷新
+  updateTime(); // 立即运行一次
+</script>
+</body>
+</html>
   </div> </body>
 </html>
+
 
 
 
