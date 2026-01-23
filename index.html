@@ -15,38 +15,59 @@
 
   <style>
     /* =========================================
-       1. 设计系统
+       0. 视频背景核心样式 (新增)
+       ========================================= */
+    #bg-video {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: -999; /* 置于最底层 */
+        object-fit: cover; /* 保持比例铺满 */
+    }
+
+    /* =========================================
+       1. 设计系统 (已调整为半透明玻璃风)
        ========================================= */
     :root {
-      --bg-app: #f2f2f7;
-      --bg-sidebar: #ffffff;
-      --bg-card: #ffffff;
-      --border: #e5e5ea;
+      /* 这里的背景色改为半透明，为了让视频透出来 */
+      --bg-app: transparent; 
+      /* 侧边栏：白色，85%不透明度 */
+      --bg-sidebar: rgba(255, 255, 255, 0.85); 
+      /* 卡片：白色，85%不透明度 */
+      --bg-card: rgba(255, 255, 255, 0.85); 
+      --border: rgba(229, 229, 234, 0.6);
       --border-hover: #1c1c1e;
       --text-main: #1c1c1e;
-      --text-sub: #8e8e93;
+      --text-sub: #555555; /* 加深一点字色防止背景干扰 */
       --accent: #007aff;
-      --shadow: 0 4px 12px rgba(0,0,0,0.04);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* 玻璃质感阴影 */
       --radius: 14px;
+      --blur-val: 20px; /* 毛玻璃模糊度 */
     }
 
     body.dark-mode {
-      --bg-app: #000000;
-      --bg-sidebar: #1c1c1e;
-      --bg-card: #1c1c1e;
-      --border: #2c2c2e;
+      --bg-app: transparent;
+      /* 暗黑模式侧边栏：深灰，85%不透明度 */
+      --bg-sidebar: rgba(28, 28, 30, 0.85);
+      /* 暗黑模式卡片 */
+      --bg-card: rgba(28, 28, 30, 0.85);
+      --border: rgba(44, 44, 46, 0.6);
       --border-hover: #ffffff;
       --text-main: #f2f2f7;
       --text-sub: #98989d;
       --accent: #0a84ff;
-      --shadow: 0 8px 24px rgba(0,0,0,0.5);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
-      background-color: var(--bg-app);
+      background-color: var(--bg-app); /* 此时是透明的 */
       color: var(--text-main);
       height: 100vh;
       overflow: hidden;
@@ -59,9 +80,11 @@
       height: 100%;
     }
 
-    /* 侧边栏 */
+    /* 侧边栏 - 增加毛玻璃效果 */
     aside {
       background: var(--bg-sidebar);
+      backdrop-filter: blur(var(--blur-val)); /* 关键：模糊背景 */
+      -webkit-backdrop-filter: blur(var(--blur-val));
       border-right: 1px solid var(--border);
       padding: 30px 20px;
       display: flex; flex-direction: column;
@@ -96,7 +119,8 @@
     .search-box { position: relative; margin-bottom: 20px; }
     .search-input {
       width: 100%; padding: 10px 12px 10px 36px;
-      background: var(--bg-app); border: 1px solid transparent;
+      background: rgba(128,128,128, 0.1); /* 搜索框微调 */
+      border: 1px solid transparent;
       border-radius: 10px; color: var(--text-main); font-size: 13px;
       transition: all 0.2s;
     }
@@ -114,14 +138,14 @@
       text-decoration: none; display: flex; align-items: center; gap: 10px;
       transition: all 0.2s; cursor: pointer; margin-bottom: 2px;
     }
-    .nav-item:hover { background: var(--bg-app); color: var(--text-main); }
-    .nav-item.active { background: var(--text-main); color: var(--bg-app); }
+    .nav-item:hover { background: rgba(128,128,128, 0.1); color: var(--text-main); }
+    .nav-item.active { background: var(--text-main); color: var(--bg-sidebar); } /* 文字颜色反转适配 */
     .nav-icon { font-size: 16px; opacity: 0.8; }
 
     .aside-footer { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
     .time-badge {
       font-family: "SF Mono", monospace; font-size: 11px; color: var(--text-sub);
-      background: var(--bg-app); padding: 4px 8px; border-radius: 6px; cursor: default;
+      background: rgba(128,128,128, 0.1); padding: 4px 8px; border-radius: 6px; cursor: default;
     }
 
     /* 主区域 */
@@ -135,6 +159,8 @@
       margin-bottom: 60px;
       padding: 40px;
       background: var(--bg-card);
+      backdrop-filter: blur(var(--blur-val)); /* 毛玻璃 */
+      -webkit-backdrop-filter: blur(var(--blur-val));
       border-radius: 20px;
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
@@ -156,6 +182,7 @@
       display: flex; align-items: baseline; justify-content: space-between;
       margin-bottom: 20px; padding-bottom: 8px;
       border-bottom: 1px solid var(--border);
+      /* 为了让标题在视频上清楚，可以加一点背景或者阴影，这里保持简约 */
     }
     .section-title { font-size: 16px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; }
     .section-count { font-size: 11px; color: var(--text-sub); font-family: "SF Mono", monospace; text-transform: uppercase; }
@@ -166,9 +193,11 @@
       gap: 16px;
     }
 
-    /* 卡片 */
+    /* 卡片 - 增加毛玻璃 */
     .card {
       background: var(--bg-card);
+      backdrop-filter: blur(var(--blur-val)); /* 毛玻璃 */
+      -webkit-backdrop-filter: blur(var(--blur-val));
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 16px;
@@ -179,12 +208,17 @@
     .card:hover {
       border-color: var(--border-hover);
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      background: rgba(255,255,255, 0.95); /* Hover时稍微变实一点 */
     }
+    body.dark-mode .card:hover {
+        background: rgba(40,40,40, 0.95);
+    }
+
     .card-head { display: flex; justify-content: space-between; align-items: flex-start; }
     .icon-box {
       width: 32px; height: 32px;
-      border-radius: 8px; background: var(--bg-app);
+      border-radius: 8px; background: rgba(128,128,128, 0.1);
       display: flex; align-items: center; justify-content: center;
       font-size: 16px; color: var(--text-main);
     }
@@ -215,25 +249,27 @@
     /* 开屏 */
     #splash {
       position: fixed; inset: 0; z-index: 9999;
-      background: var(--bg-app);
+      background: #f2f2f7; /* ⚠️这里强制实色背景，否则开屏会透视 */
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       transition: opacity 0.6s ease;
-      /* 确保禁止选择，防止用户通过全选文字发现暗门 */
       user-select: none; 
     }
+    body.dark-mode #splash { background: #000000; } /* 暗黑模式开屏背景 */
+
     .splash-quote { 
         font-family: "Zhi Mang Xing", cursive; font-size: 32px; 
         text-align: center; max-width: 600px; line-height: 1.6; margin-bottom: 40px; padding: 0 20px;
+        color: #1c1c1e; /* 强制颜色 */
     }
-    /* 移除了 .enter-btn 的样式 */
-    
+    body.dark-mode .splash-quote { color: #f2f2f7; }
+
     .hidden { opacity: 0; pointer-events: none; }
 
     /* 备忘录按钮 */
     #fab-memo {
       position: fixed; bottom: 30px; right: 30px;
       width: 50px; height: 50px;
-      background: var(--text-main); color: var(--bg-app);
+      background: var(--text-main); color: var(--bg-sidebar); /* 颜色适配 */
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-size: 24px; cursor: pointer;
@@ -248,6 +284,8 @@
       position: fixed; bottom: 90px; right: 30px; 
       width: 320px; height: 400px;
       background: var(--bg-card); color: var(--text-main);
+      backdrop-filter: blur(var(--blur-val)); /* 毛玻璃 */
+      -webkit-backdrop-filter: blur(var(--blur-val));
       border: 1px solid var(--border);
       border-radius: 16px; padding: 20px;
       display: flex; flex-direction: column;
@@ -258,7 +296,7 @@
     }
     #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
     #memo-content {
-      flex: 1; background: var(--bg-app); border: none; outline: none; border-radius: 8px; padding: 12px;
+      flex: 1; background: rgba(128,128,128, 0.05); border: none; outline: none; border-radius: 8px; padding: 12px;
       color: var(--text-main); font-family: monospace; font-size: 13px; line-height: 1.6; resize: none; margin-top: 10px;
     }
 
@@ -273,6 +311,10 @@
   </style>
 </head>
 <body>
+
+<video autoplay muted loop playsinline id="bg-video" poster="J.png">
+    <source src="windy-grass.mp4" type="video/mp4">
+</video>
 
 <div id="splash">
   <div class="splash-quote">
