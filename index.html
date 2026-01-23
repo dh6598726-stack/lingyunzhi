@@ -7,7 +7,7 @@
 
   <link rel="icon" href="J.png" type="image/png" />
   <link rel="shortcut icon" href="J.png" type="image/png" />
-   
+    
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
@@ -277,22 +277,24 @@
 </head>
 <body>
 
-<div class="splash-quote">
-  <p style="font-size: 24px; text-align: left; line-height: 1.8;">
-    人生的意义是什么？那我告诉你，人生没有意义。<br>
-    99%的人三代以后，时间会抹平你存在的一切痕迹。<br>
-    所以，人生的意义，就是你活着的这短短几十年体验。<br>
-    <br>
-    明天和意外，也不知道哪个先来。<br>
-    世事无常，我们所能做的就是欣赏每一次花开，观赏每一处风景。<br>
-    现在想想，那些难以接受的事情，也在自愿或者被迫中慢慢接受了。<br>
-    <br>
-    回头看，轻舟已过万重山；<br>
-    向前看，长路漫漫亦灿烂。
-  </p>
+<div id="splash">
+  <div class="splash-quote">
+    <p style="font-size: 24px; text-align: left; line-height: 1.8;">
+      人生的意义是什么？那我告诉你，人生没有意义。<br>
+      99%的人三代以后，时间会抹平你存在的一切痕迹。<br>
+      所以，人生的意义，就是你活着的这短短几十年体验。<br>
+      <br>
+      明天和意外，也不知道哪个先来。<br>
+      世事无常，我们所能做的就是欣赏每一次花开，观赏每一处风景。<br>
+      现在想想，那些难以接受的事情，也在自愿或者被迫中慢慢接受了。<br>
+      <br>
+      回头看，轻舟已过万重山；<br>
+      向前看，长路漫漫亦灿烂。
+    </p>
+  </div>
+  <button class="enter-btn" onclick="closeSplash()">Enter Archive</button>
 </div>
-
-  <div id="fab-memo" title="Open Cloud Memo">
+<div id="fab-memo" title="Open Cloud Memo">
     <i class="ri-cloud-line"></i>
   </div>
 
@@ -305,7 +307,7 @@
           <span>ARCHIVE</span>
         </div>
       </div>
-       
+        
       <div class="search-box">
         <i class="ri-search-2-line search-icon"></i>
         <input type="text" class="search-input" id="search-input" placeholder="Search...">
@@ -321,7 +323,7 @@
     </aside>
 
     <main id="main-scroll">
-       
+        
       <div class="hero-quote">
         <div class="quote-text">
           天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，凌云之志。
@@ -349,8 +351,8 @@
 
           <div class="card" onclick="openLink('https://sspai.com/')">
             <div class="card-head">
-                 <div class="icon-box"><i class="ri-smartphone-line"></i></div>
-                 <i class="ri-arrow-right-up-line link-arrow"></i>
+                  <div class="icon-box"><i class="ri-smartphone-line"></i></div>
+                  <i class="ri-arrow-right-up-line link-arrow"></i>
               </div>
               <div class="card-body">
                 <div class="card-title">SSPAI</div>
@@ -495,7 +497,7 @@
           </div>
         </div>
       </div>
-    
+      
       <div class="section-block" id="sec-virtual" data-icon="ri-earth-line">
         <div class="section-header"><div class="section-title">平行视界</div><span class="section-count">Parallel View</span></div>
         <div class="grid">
@@ -533,7 +535,7 @@
           </div>
         </div>
       </div>
-    
+      
       <div class="section-block" id="sec-network" data-icon="ri-server-line">
         <div class="section-header"><div class="section-title">数字基石</div><span class="section-count">Foundation</span></div>
         <div class="grid">
@@ -559,7 +561,7 @@
             </div>
         </div>
       </div>
-    
+      
       <div class="section-block sensitive-zone" id="sec-dark6" data-icon="ri-eye-off-line">
     <div class="sensitive-mask"><div class="mask-badge">Abyss Echo</div></div>
     <div class="sensitive-blur">
@@ -618,7 +620,7 @@
             <div class="card-head"><div class="icon-box">🟧</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
             <div class="card-body"><div class="card-title">Pornhub</div><div class="card-desc">标杆</div></div>
         </div>
-    
+   
       <div class="section-block sensitive-zone" id="sec-backup" data-icon="ri-contrast-drop-2-line">
         <div class="sensitive-mask"><div class="mask-badge">Quadrant II</div></div>
         <div class="sensitive-blur">
@@ -639,7 +641,7 @@
           </div>
         </div>
       </div>
-    
+      
        <div class="section-block sensitive-zone" id="sec-magnet" data-icon="ri-magnet-line">
         <div class="sensitive-mask"><div class="mask-badge">Magnetic Field</div></div>
         <div class="sensitive-blur">
@@ -660,7 +662,7 @@
           </div>
         </div>
       </div>
-    
+      
       <div class="section-block" id="sec-ai" data-icon="ri-cpu-line">
         <div class="section-header"><div class="section-title">硅基进化</div><span class="section-count">Silicon Evo</span></div>
         <div class="grid">
@@ -706,7 +708,7 @@
              </div>
         </div>
       </div>
-    
+      
       <div class="section-block" id="sec-tj" data-icon="ri-eye-2-line">
         <div class="section-header"><div class="section-title">高维观测</div><span class="section-count">High-Dim View</span></div>
         <div class="grid">
@@ -756,7 +758,7 @@
             </div>
         </div>
       </div>
-    
+      
       <div class="section-block" id="sec-geek" data-icon="ri-terminal-box-line">
         <div class="section-header"><div class="section-title">极客前沿</div><span class="section-count">Geek Frontier</span></div>
         <div class="grid">
@@ -810,7 +812,7 @@
             </div>
         </div>
       </div>
-    
+      
       <div class="section-block" id="sec-crypto" data-icon="ri-bit-coin-line">
         <div class="section-header"><div class="section-title">链上资产</div><span class="section-count">On-Chain</span></div>
         <div class="grid">
@@ -836,7 +838,7 @@
             </div>
         </div>
       </div>
-    
+      
       <div class="section-block" id="sec-social" data-icon="ri-discuss-line">
         <div class="section-header"><div class="section-title">信号交换</div><span class="section-count">Signal Exchange</span></div>
         <div class="grid">
@@ -862,7 +864,7 @@
             </div>
         </div>
       </div>
-    
+      
       <div class="section-block" id="sec-media" data-icon="ri-movie-line">
         <div class="section-header"><div class="section-title">视听幻境</div><span class="section-count">A/V Illusion</span></div>
         <div class="grid">
@@ -888,7 +890,7 @@
             </div>
         </div>
       </div>
-    
+      
       <div class="section-block" id="sec-tools" data-icon="ri-tools-line">
         <div class="section-header"><div class="section-title">通用协议</div><span class="section-count">Protocol</span></div>
         <div class="grid">
@@ -914,7 +916,7 @@
             </div>
         </div>
       </div>
-    
+      
        <div class="section-block" id="sec-design" data-icon="ri-palette-line">
         <div class="section-header"><div class="section-title">美学构建</div><span class="section-count">Aesthetic Build</span></div>
         <div class="grid">
@@ -940,7 +942,7 @@
             </div>
         </div>
       </div>
-    
+      
       <div class="section-block" id="sec-file" data-icon="ri-file-line">
         <div class="section-header"><div class="section-title">像素工坊</div><span class="section-count">Pixel Workshop</span></div>
         <div class="grid">
@@ -962,7 +964,7 @@
             </div>
         </div>
       </div>
-    
+      
       <div class="section-block" id="sec-dev" data-icon="ri-code-line">
         <div class="section-header"><div class="section-title">代码诗学</div><span class="section-count">Code Poetics</span></div>
         <div class="grid">
@@ -988,7 +990,7 @@
             </div>
         </div>
       </div>
-    
+      
        <div class="section-block" id="sec-misc" data-icon="ri-more-line">
         <div class="section-header"><div class="section-title">碎片拾遗</div><span class="section-count">Fragments</span></div>
         <div class="grid">
@@ -1010,7 +1012,7 @@
             </div>
         </div>
       </div>
-    
+      
       <div class="section-block" id="sec-travel" data-icon="ri-plane-line">
         <div class="section-header"><div class="section-title">行星轨迹</div><span class="section-count">Trajectory</span></div>
         <div class="grid">
@@ -1032,7 +1034,7 @@
             </div>
         </div>
       </div>
-    
+      
        <div class="section-block" id="sec-security" data-icon="ri-shield-check-line">
         <div class="section-header"><div class="section-title">攻防演义</div><span class="section-count">Offense & Defense</span></div>
         <div class="grid">
@@ -1070,7 +1072,7 @@
             </div>
         </div>
       </div>
-    
+      
     </main>
   </div>
 
@@ -1166,7 +1168,7 @@
 
     // FAB 触发
     document.getElementById('fab-memo').addEventListener('click', toggleMemo);
-     
+      
     function toggleMemo() {
       ghostMemo.classList.toggle('active');
       if(ghostMemo.classList.contains('active')) loadFromCloud();
@@ -1189,7 +1191,3 @@
   </script>
 </body>
 </html>
-
-
-
-
