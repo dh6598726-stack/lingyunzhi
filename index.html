@@ -15,21 +15,17 @@
 
   <style>
     /* =========================================
-       1. 极简档案库设计系统
+       1. 设计系统
        ========================================= */
     :root {
-      --bg-app: #f2f2f7;        /* 更有质感的浅灰 */
+      --bg-app: #f2f2f7;
       --bg-sidebar: #ffffff;
       --bg-card: #ffffff;
-      
       --border: #e5e5ea;
-      --border-hover: #1c1c1e;  /* 悬停变黑 */
-      
+      --border-hover: #1c1c1e;
       --text-main: #1c1c1e;
       --text-sub: #8e8e93;
-      
-      --accent: #007aff;        /* 克莱因蓝 */
-      
+      --accent: #007aff;
       --shadow: 0 4px 12px rgba(0,0,0,0.04);
       --radius: 14px;
     }
@@ -38,13 +34,10 @@
       --bg-app: #000000;
       --bg-sidebar: #1c1c1e;
       --bg-card: #1c1c1e;
-      
       --border: #2c2c2e;
-      --border-hover: #ffffff;  /* 悬停变白 */
-      
+      --border-hover: #ffffff;
       --text-main: #f2f2f7;
       --text-sub: #98989d;
-      
       --accent: #0a84ff;
       --shadow: 0 8px 24px rgba(0,0,0,0.5);
     }
@@ -97,7 +90,6 @@
     .search-input:focus { background: var(--bg-card); border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(0,122,255,0.1); }
     .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--text-sub); }
 
-    /* 导航列表 */
     .nav-scroll { flex: 1; overflow-y: auto; padding-right: 5px; }
     .nav-scroll::-webkit-scrollbar { width: 4px; }
     .nav-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
@@ -116,7 +108,7 @@
     .aside-footer { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
     .time-badge {
       font-family: "SF Mono", monospace; font-size: 11px; color: var(--text-sub);
-      background: var(--bg-app); padding: 4px 8px; border-radius: 6px; cursor: pointer;
+      background: var(--bg-app); padding: 4px 8px; border-radius: 6px; cursor: default;
     }
 
     /* 主区域 */
@@ -126,7 +118,6 @@
       scroll-behavior: smooth;
     }
 
-    /* 顶部引言 */
     .hero-quote {
       margin-bottom: 60px;
       padding: 40px;
@@ -147,7 +138,6 @@
     }
     .quote-sub { font-size: 12px; color: var(--text-sub); letter-spacing: 2px; text-transform: uppercase; }
 
-    /* 分区 */
     .section-block { margin-bottom: 50px; scroll-margin-top: 20px; }
     .section-header {
       display: flex; align-items: baseline; justify-content: space-between;
@@ -163,7 +153,7 @@
       gap: 16px;
     }
 
-    /* 卡片设计 */
+    /* 卡片 */
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -192,7 +182,7 @@
     .card-title { font-size: 13px; font-weight: 600; color: var(--text-main); }
     .card-desc { font-size: 11px; color: var(--text-sub); opacity: 0.8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    /* 敏感内容模糊 */
+    /* 敏感内容 */
     .sensitive-zone { position: relative; }
     .sensitive-blur { filter: blur(10px); opacity: 0.4; transition: 0.4s; }
     .sensitive-mask {
@@ -218,7 +208,7 @@
     }
     .splash-quote { 
         font-family: "Zhi Mang Xing", cursive; font-size: 32px; 
-        text-align: center; max-width: 600px; line-height: 1.6; margin-bottom: 40px; 
+        text-align: center; max-width: 600px; line-height: 1.6; margin-bottom: 40px; padding: 0 20px;
     }
     .enter-btn {
       padding: 10px 24px; border: 1px solid var(--border);
@@ -229,30 +219,54 @@
     .enter-btn:hover { border-color: var(--text-main); }
     .hidden { opacity: 0; pointer-events: none; }
 
-    /* Ghost Memo */
-    #ghost-memo {
+    /* =========================================
+       ★ 修复：备忘录与悬浮按钮
+       ========================================= */
+    #fab-memo {
       position: fixed; bottom: 30px; right: 30px;
-      width: 320px; height: 380px;
+      width: 50px; height: 50px;
+      background: var(--text-main); color: var(--bg-app);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transition: transform 0.2s, background 0.3s;
+      z-index: 101; /* 必须高于 ghost-memo */
+    }
+    #fab-memo:hover { transform: scale(1.1); }
+    #fab-memo:active { transform: scale(0.9); }
+
+    #ghost-memo {
+      position: fixed; bottom: 90px; right: 30px; /* 在按钮上方 */
+      width: 320px; height: 400px;
       background: var(--bg-card); color: var(--text-main);
       border: 1px solid var(--border);
       border-radius: 16px; padding: 20px;
       display: flex; flex-direction: column;
       box-shadow: var(--shadow);
-      transform: translateY(20px) scale(0.95); opacity: 0; pointer-events: none;
-      transition: all 0.3s; z-index: 100;
+      transform: translateY(20px) scale(0.9); opacity: 0; pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 100;
     }
     #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
     #memo-content {
-      flex: 1; background: var(--bg-app); border: none; outline: none; border-radius: 8px; padding: 10px;
-      color: var(--text-main); font-family: monospace; font-size: 12px; line-height: 1.6; resize: none; margin-top: 10px;
+      flex: 1; background: var(--bg-app); border: none; outline: none; border-radius: 8px; padding: 12px;
+      color: var(--text-main); font-family: monospace; font-size: 13px; line-height: 1.6; resize: none; margin-top: 10px;
     }
 
+    /* 移动端适配 */
     @media (max-width: 768px) {
       #app { grid-template-columns: 1fr; }
       aside { display: none; }
       main { padding: 20px; }
       .hero-quote { padding: 20px; }
       .quote-text { font-size: 22px; }
+      
+      /* 手机端备忘录全屏 */
+      #ghost-memo {
+        width: 90%; left: 5%; right: 5%; bottom: 100px;
+        height: 60vh;
+      }
     }
   </style>
 </head>
@@ -263,6 +277,10 @@
       <p>向前看，长路漫漫亦灿烂。<br>去做你想做的事情，哪怕是站在夜色中看星星。</p>
     </div>
     <button class="enter-btn" onclick="closeSplash()">Enter Archive</button>
+  </div>
+
+  <div id="fab-memo" title="Open Cloud Memo">
+    <i class="ri-cloud-line"></i>
   </div>
 
   <div id="app">
@@ -285,7 +303,7 @@
 
       <div class="aside-footer">
         <div class="time-badge" id="time-pill">00:00</div>
-        <i class="ri-cloud-line" style="font-size:12px; color:var(--text-sub); opacity:0.5;"></i>
+        <i class="ri-equalizer-line" style="font-size:12px; color:var(--text-sub); opacity:0.5;"></i>
       </div>
     </aside>
 
@@ -916,6 +934,7 @@
   </div>
 
   <script>
+    // 侧边栏生成
     document.addEventListener('DOMContentLoaded', () => {
       const navContainer = document.getElementById('nav-container');
       const sections = document.querySelectorAll('.section-block');
@@ -943,6 +962,7 @@
 
     function openLink(url) { window.open(url, '_blank'); }
 
+    // 开屏
     function closeSplash() {
       const splash = document.getElementById('splash');
       splash.classList.add('hidden');
@@ -952,11 +972,13 @@
       document.getElementById('splash').style.display = 'none';
     }
 
+    // 时间
     function updateTime() {
       document.getElementById('time-pill').textContent = new Date().toLocaleTimeString('zh-CN', {hour12:false});
     }
     setInterval(updateTime, 1000); updateTime();
 
+    // 搜索
     const searchInput = document.getElementById('search-input');
     searchInput.addEventListener('input', (e) => {
       const term = e.target.value.toLowerCase();
@@ -974,6 +996,7 @@
       if((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); searchInput.focus(); }
     });
 
+    // 主题
     document.getElementById('theme-toggle').addEventListener('click', () => {
       document.body.classList.toggle('dark-mode');
     });
@@ -981,13 +1004,16 @@
       document.body.classList.add('dark-mode');
     }
 
+    // 云备忘录
     const BIN_ID  = '6971fa00ae596e708fed3908';
     const API_KEY = '$2a$10$1NEYPXNO1k1GdD2h4JTjCuhT5DHTBsQ6J/yVon6iOoRL5Yk/5sfvS'; 
     const ghostMemo = document.getElementById('ghost-memo');
     const memoContent = document.getElementById('memo-content');
     const statusText = document.getElementById('cloud-status');
 
-    document.getElementById('time-pill').addEventListener('dblclick', toggleMemo);
+    // FAB 触发
+    document.getElementById('fab-memo').addEventListener('click', toggleMemo);
+    
     function toggleMemo() {
       ghostMemo.classList.toggle('active');
       if(ghostMemo.classList.contains('active')) loadFromCloud();
