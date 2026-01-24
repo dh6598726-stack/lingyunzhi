@@ -5,312 +5,333 @@
   <title>JIN Tong｜Archive</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='red' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/><path stroke='white' stroke-width='2' stroke-linecap='round' d='M2 2l20 20M2 7V2h5M17 22h5v-5'/></svg>">
-    
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23005eb8' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z'/></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
 
   <style>
-    /* 全局背景 */
-    body {
-        background-image: url('laopo.png');
-        background-size: cover;
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-color: #f2f2f7; 
-        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
-        color: var(--text-main);
-        height: 100vh;
-        overflow: hidden;
-        margin: 0;
-        transition: background 0.3s ease;
-    }
+    /* STYLE REFACTOR: HK ENGAGE / PROFESSIONAL PORTAL STYLE
+       保持简洁、高对比度、网格化、无衬线字体为主
+    */
 
-    /* 设计系统 */
     :root {
-      --bg-app: transparent; 
-      --bg-sidebar: rgba(255, 255, 255, 0.85); 
-      --bg-card: rgba(255, 255, 255, 0.80); 
-      --border: rgba(255, 255, 255, 0.5);
-      --border-hover: #1c1c1e;
-      --text-main: #1c1c1e;
-      --text-sub: #444444; 
-      --accent: #007aff;
-      --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-      --radius: 14px;
-      --blur-val: 30px; 
+      /* 配色系统：参考政府/企业门户 */
+      --c-bg-body: #f0f2f5;          /* 页面背景：浅灰 */
+      --c-bg-sidebar: #ffffff;       /* 侧边栏：纯白 */
+      --c-bg-card: #ffffff;          /* 卡片：纯白 */
+      
+      --c-text-primary: #2c3e50;     /* 主文字：深蓝灰 */
+      --c-text-secondary: #606f7b;   /* 次要文字：中灰 */
+      --c-accent: #0066cc;           /* 强调色：专业蓝 */
+      
+      --c-border: #e2e8f0;           /* 边框颜色 */
+      
+      /* 阴影与圆角 */
+      --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+      --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+      --radius-std: 8px;
     }
 
+    /* 深色模式适配 */
     body.dark-mode {
-      --bg-app: transparent;
-      --bg-sidebar: rgba(20, 20, 22, 0.85);
-      --bg-card: rgba(30, 30, 32, 0.80);
-      --border: rgba(255, 255, 255, 0.1);
-      --border-hover: #ffffff;
-      --text-main: #f2f2f7;
-      --text-sub: #a1a1a6;
-      --accent: #0a84ff;
-      --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      --c-bg-body: #1a202c;
+      --c-bg-sidebar: #2d3748;
+      --c-bg-card: #2d3748;
+      --c-text-primary: #f7fafc;
+      --c-text-secondary: #a0aec0;
+      --c-accent: #63b3ed;
+      --c-border: #4a5568;
+      --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
     }
 
+    /* 基础重置 */
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    
-    #app {
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      height: 100%;
+
+    body {
+      background-color: var(--c-bg-body);
+      color: var(--c-text-primary);
+      font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: background-color 0.3s;
     }
 
-    /* 侧边栏 */
-    aside {
-      background: var(--bg-sidebar);
-      backdrop-filter: blur(var(--blur-val));
-      -webkit-backdrop-filter: blur(var(--blur-val));
-      border-right: 1px solid var(--border);
-      padding: 30px 20px;
-      display: flex; flex-direction: column;
-      z-index: 10;
+    /* 布局容器 */
+    #app {
+      display: flex;
+      flex: 1;
+      height: 100%;
+      overflow: hidden;
     }
-    
+
+    /* --- 侧边栏 (Sidebar) --- */
+    aside {
+      width: 260px;
+      background: var(--c-bg-sidebar);
+      border-right: 1px solid var(--c-border);
+      display: flex;
+      flex-direction: column;
+      padding: 24px 16px;
+      z-index: 50;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
     .brand {
       display: flex; align-items: center; gap: 12px;
-      margin-bottom: 30px; padding-left: 8px; cursor: pointer;
+      margin-bottom: 24px; padding: 0 8px; cursor: pointer;
     }
-    
     .brand-logo {
-      width: 36px; height: 36px; background: var(--text-main); color: var(--bg-app);
-      border-radius: 10px; display: flex; align-items: center; justify-content: center;
-      font-family: "Zhi Mang Xing", cursive;
-      font-weight: 400; 
-      font-size: 22px;
+      width: 38px; height: 38px; 
+      background: var(--c-accent); color: #fff;
+      border-radius: 6px; 
+      display: flex; align-items: center; justify-content: center;
+      font-family: "Zhi Mang Xing", cursive; font-size: 22px;
     }
-    
-    .brand-text h1 { 
-      font-family: "Zhi Mang Xing", cursive;
-      font-size: 24px;
-      font-weight: 400; 
-      line-height: 1;
-      letter-spacing: 0.5px; 
-    }
-    
-    .brand-text span { font-size: 10px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 2px;}
+    .brand-text h1 { font-size: 18px; font-weight: 700; color: var(--c-text-primary); line-height: 1.2; }
+    .brand-text span { font-size: 10px; color: var(--c-text-secondary); letter-spacing: 1px; text-transform: uppercase; }
 
     .search-box { position: relative; margin-bottom: 20px; }
     .search-input {
-      width: 100%; padding: 10px 12px 10px 36px;
-      background: rgba(128,128,128, 0.1);
-      border: 1px solid transparent;
-      border-radius: 10px; color: var(--text-main); font-size: 13px;
+      width: 100%; padding: 10px 12px 10px 34px;
+      background: var(--c-bg-body);
+      border: 1px solid var(--c-border);
+      border-radius: 6px; color: var(--c-text-primary); font-size: 14px;
       transition: all 0.2s;
     }
-    .search-input:focus { background: var(--bg-card); border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(0,122,255,0.1); }
-    .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--text-sub); }
+    .search-input:focus { border-color: var(--c-accent); outline: none; background: var(--c-bg-card); }
+    .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--c-text-secondary); font-size: 14px; }
 
-    .nav-scroll { flex: 1; overflow-y: auto; padding-right: 5px; }
+    .nav-scroll { flex: 1; overflow-y: auto; padding-right: 4px; }
     .nav-scroll::-webkit-scrollbar { width: 4px; }
-    .nav-scroll::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.3); border-radius: 4px; }
-    
+    .nav-scroll::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 2px; }
+
     .nav-item {
-      padding: 10px 12px;
-      border-radius: 8px;
-      font-size: 13px; font-weight: 500; color: var(--text-sub);
-      text-decoration: none; display: flex; align-items: center; gap: 10px;
-      transition: all 0.2s; cursor: pointer; margin-bottom: 2px;
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; margin-bottom: 4px;
+      border-radius: 6px;
+      color: var(--c-text-secondary); text-decoration: none;
+      font-size: 14px; font-weight: 500;
+      transition: all 0.2s;
     }
-    .nav-item:hover { background: rgba(128,128,128, 0.1); color: var(--text-main); }
-    .nav-item.active { background: var(--text-main); color: var(--bg-sidebar); }
-    .nav-icon { font-size: 16px; opacity: 0.8; }
+    .nav-item:hover { background: var(--c-bg-body); color: var(--c-text-primary); }
+    .nav-item.active { 
+      background: rgba(0, 102, 204, 0.1); 
+      color: var(--c-accent); 
+      font-weight: 700;
+    }
+    .nav-icon { font-size: 16px; }
 
-    .aside-footer { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .aside-footer {
+      margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--c-border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
     .time-badge {
-      font-family: "SF Mono", monospace; font-size: 11px; color: var(--text-sub);
-      background: rgba(128,128,128, 0.1); padding: 4px 8px; border-radius: 6px; cursor: default;
+      font-family: monospace; font-size: 12px; color: var(--c-text-secondary);
+      background: var(--c-bg-body); padding: 4px 8px; border-radius: 4px;
     }
 
-    /* 主区域 */
+    /* --- 顶部移动端导航 (仅手机显示) --- */
+    .mobile-header {
+      display: none;
+      height: 60px;
+      background: var(--c-bg-sidebar);
+      border-bottom: 1px solid var(--c-border);
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 60;
+    }
+    .menu-btn { font-size: 24px; color: var(--c-text-primary); cursor: pointer; }
+
+    /* --- 主内容区 (Main) --- */
     main {
-      padding: 40px 80px;
+      flex: 1;
+      padding: 32px 48px;
       overflow-y: auto;
       scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch; /* iOS 惯性滚动 */
     }
 
+    /* Hero Quote 区域 (保留文字，改为专业风格) */
     .hero-quote {
-      margin-bottom: 60px;
-      padding: 40px;
-      background: var(--bg-card);
-      backdrop-filter: blur(var(--blur-val));
-      -webkit-backdrop-filter: blur(var(--blur-val));
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
+      margin-bottom: 40px;
+      padding: 32px;
+      background: linear-gradient(135deg, var(--c-accent), #004080);
+      border-radius: var(--radius-std);
+      color: #fff;
+      box-shadow: var(--shadow-card);
       position: relative; overflow: hidden;
-      transform: translateZ(0);
-    }
-    .hero-quote::after {
-        content:""; position: absolute; top:0; right:0; width: 100px; height: 100px;
-        background: radial-gradient(circle at top right, var(--accent), transparent 70%); opacity: 0.1;
     }
     .quote-text {
-      font-family: "Zhi Mang Xing", cursive;
-      font-size: 28px; line-height: 1.6; color: var(--text-main);
-      margin-bottom: 12px;
+      font-family: "Zhi Mang Xing", cursive; font-size: 28px; line-height: 1.5;
+      margin-bottom: 12px; position: relative; z-index: 2;
     }
-    .quote-sub { font-size: 12px; color: var(--text-sub); letter-spacing: 2px; text-transform: uppercase; }
+    .quote-sub { 
+      font-size: 12px; letter-spacing: 1px; text-transform: uppercase; opacity: 0.8; 
+      position: relative; z-index: 2;
+    }
+    /* 装饰圆圈 */
+    .hero-quote::after {
+      content:""; position: absolute; right: -30px; bottom: -50px;
+      width: 150px; height: 150px; background: rgba(255,255,255,0.1); border-radius: 50%;
+    }
 
-    .section-block { margin-bottom: 50px; scroll-margin-top: 20px; }
+    /* 区块样式 */
+    .section-block { margin-bottom: 48px; scroll-margin-top: 20px; }
+    
     .section-header {
       display: flex; align-items: baseline; justify-content: space-between;
-      margin-bottom: 20px; padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px; padding-bottom: 8px;
+      border-bottom: 2px solid var(--c-border);
     }
-    .section-title { font-size: 16px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; }
-    .section-count { font-size: 11px; color: var(--text-sub); font-family: "SF Mono", monospace; text-transform: uppercase; }
+    .section-title { 
+      font-size: 18px; font-weight: 700; color: var(--c-text-primary); 
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-title::before {
+      content: ''; display: block; width: 4px; height: 18px; 
+      background: var(--c-accent); border-radius: 2px;
+    }
+    .section-count { 
+      font-size: 11px; color: var(--c-text-secondary); font-family: monospace; 
+      text-transform: uppercase; background: var(--c-bg-sidebar);
+      padding: 2px 6px; border-radius: 4px; border: 1px solid var(--c-border);
+    }
 
+    /* 网格布局 */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 16px;
     }
 
-    /* 卡片样式优化 */
+    /* 卡片样式 (核心风格改动) */
     .card {
-      background: var(--bg-card);
-      backdrop-filter: blur(var(--blur-val));
-      -webkit-backdrop-filter: blur(var(--blur-val));
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
+      background: var(--c-bg-card);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-std);
       padding: 16px;
       cursor: pointer;
-      display: flex; flex-direction: column; gap: 10px;
-      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-      will-change: transform; 
+      display: flex; flex-direction: column; gap: 12px;
+      transition: all 0.25s ease;
+      position: relative;
     }
+    
     .card:hover {
-      border-color: var(--border-hover);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-      background: rgba(255,255,255, 0.95);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--c-accent);
     }
-    body.dark-mode .card:hover {
-        background: rgba(40,40,40, 0.95);
-    }
-
+    
     .card-head { display: flex; justify-content: space-between; align-items: flex-start; }
     .icon-box {
-      width: 32px; height: 32px;
-      border-radius: 8px; background: rgba(128,128,128, 0.1);
+      width: 36px; height: 36px;
+      border-radius: 6px; 
+      background: var(--c-bg-body);
+      color: var(--c-text-primary);
       display: flex; align-items: center; justify-content: center;
-      font-size: 16px; color: var(--text-main);
+      font-size: 18px;
+      transition: background 0.2s;
     }
-    .link-arrow { font-size: 12px; color: var(--border); transition: 0.2s; }
-    .card:hover .link-arrow { color: var(--accent); transform: translate(2px, -2px); }
+    .card:hover .icon-box { background: rgba(0, 102, 204, 0.1); color: var(--c-accent); }
     
-    .card-body { display: flex; flex-direction: column; gap: 2px; }
-    .card-title { font-size: 13px; font-weight: 600; color: var(--text-main); }
-    .card-desc { font-size: 11px; color: var(--text-sub); opacity: 0.8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .link-arrow { font-size: 14px; color: var(--c-text-secondary); opacity: 0.5; transition: 0.2s; }
+    .card:hover .link-arrow { opacity: 1; color: var(--c-accent); transform: translate(2px, -2px); }
+    
+    .card-body { display: flex; flex-direction: column; gap: 4px; }
+    .card-title { font-size: 14px; font-weight: 700; color: var(--c-text-primary); }
+    .card-desc { font-size: 12px; color: var(--c-text-secondary); line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    /* 敏感内容 */
+    /* 敏感区域处理 (保留原有逻辑，但在新风格下适配) */
     .sensitive-zone { position: relative; }
-    .sensitive-blur { filter: blur(10px); opacity: 0.4; transition: 0.4s; }
+    .sensitive-blur { filter: blur(8px); opacity: 0.5; transition: 0.4s; }
     .sensitive-mask {
       position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
       z-index: 5; pointer-events: none;
     }
     .mask-badge {
-      background: rgba(0,0,0,0.8); color: #fff; backdrop-filter: blur(4px);
-      padding: 6px 14px; border-radius: 6px;
-      font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+      background: rgba(0,0,0,0.7); color: #fff;
+      padding: 8px 16px; border-radius: 30px;
+      font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
       opacity: 1; transition: 0.3s;
     }
+    /* 鼠标悬停时显示 */
     .sensitive-zone:hover .sensitive-blur { filter: blur(0); opacity: 1; }
     .sensitive-zone:hover .mask-badge { opacity: 0; transform: scale(0.9); }
 
-    /* 开屏 */
+    /* 开屏动画 (保留) */
     #splash {
       position: fixed; inset: 0; z-index: 9999;
-      background: #f2f2f7; 
+      background: var(--c-bg-sidebar);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       transition: opacity 0.6s ease;
-      user-select: none; 
     }
-    body.dark-mode #splash { background: #000000; }
-
     .splash-quote { 
-        font-family: "Zhi Mang Xing", cursive; font-size: 32px; 
-        text-align: center; max-width: 600px; line-height: 1.6; margin-bottom: 40px; padding: 0 20px;
-        color: #1c1c1e;
+      font-family: "Zhi Mang Xing", cursive; font-size: 28px; 
+      text-align: left; max-width: 600px; line-height: 1.8; color: var(--c-text-primary);
+      padding: 20px;
     }
-    body.dark-mode .splash-quote { color: #f2f2f7; }
-
     .hidden { opacity: 0; pointer-events: none; }
 
-    /* 备忘录按钮 */
+    /* 悬浮按钮 & 备忘录 */
     #fab-memo {
       position: fixed; bottom: 30px; right: 30px;
       width: 50px; height: 50px;
-      background: var(--text-main); color: var(--bg-sidebar);
+      background: var(--c-accent); color: #fff;
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-size: 24px; cursor: pointer;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      transition: transform 0.2s, background 0.3s;
-      z-index: 101; 
-      opacity: 0.9;
+      box-shadow: 0 4px 10px rgba(0,102,204, 0.4);
+      transition: transform 0.2s; z-index: 101;
     }
-    #fab-memo:hover { transform: scale(1.1); opacity: 1; }
-    #fab-memo:active { transform: scale(0.9); }
+    #fab-memo:hover { transform: scale(1.1); }
 
     #ghost-memo {
       position: fixed; bottom: 90px; right: 30px; 
       width: 320px; height: 400px;
-      background: var(--bg-card); color: var(--text-main);
-      backdrop-filter: blur(var(--blur-val));
-      -webkit-backdrop-filter: blur(var(--blur-val));
-      border: 1px solid var(--border);
-      border-radius: 16px; padding: 20px;
+      background: var(--c-bg-sidebar); 
+      border: 1px solid var(--c-border);
+      border-radius: 12px; padding: 20px;
       display: flex; flex-direction: column;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-hover);
       transform: translateY(20px) scale(0.9); opacity: 0; pointer-events: none;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 100;
     }
     #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
     #memo-content {
-      flex: 1; background: rgba(128,128,128, 0.05); border: none; outline: none; border-radius: 8px; padding: 12px;
-      color: var(--text-main); font-family: monospace; font-size: 13px; line-height: 1.6; resize: none; margin-top: 10px;
+      flex: 1; background: var(--c-bg-body); border: 1px solid var(--c-border);
+      border-radius: 6px; padding: 12px; outline: none; resize: none;
+      color: var(--c-text-primary); font-family: monospace; font-size: 13px; margin-top: 10px;
     }
 
-    /* 移动端专属优化 */
+    /* --- 响应式适配 --- */
     @media (max-width: 768px) {
-      body {
-        background-image: url('laopo.png'); 
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-      }
-
-      #app { grid-template-columns: 1fr; }
-      aside { display: none; }
+      /* 手机端显示顶部 Header */
+      .mobile-header { display: flex; }
       
-      .hero-quote, .card, #ghost-memo, .mask-badge {
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-        background: rgba(255, 255, 255, 0.92);
+      /* 侧边栏变为抽屉式 */
+      aside {
+        position: fixed; top: 60px; left: 0; bottom: 0;
+        transform: translateX(-100%);
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
       }
-      body.dark-mode .hero-quote, 
-      body.dark-mode .card {
-         background: rgba(20, 20, 22, 0.92);
-      }
+      aside.open { transform: translateX(0); }
 
-      main { padding: 16px 16px 80px 16px; }
+      /* 主内容区调整 */
+      main { padding: 20px 16px; margin-top: 0; }
+      
       .hero-quote { padding: 24px; margin-bottom: 30px; }
       .quote-text { font-size: 22px; }
       
+      .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+      
+      /* 备忘录全屏 */
       #ghost-memo { width: auto; left: 16px; right: 16px; bottom: 90px; height: 50vh; }
     }
   </style>
@@ -319,7 +340,7 @@
 
 <div id="splash">
   <div class="splash-quote">
-    <p style="font-size: 24px; text-align: left; line-height: 1.8;">
+    <p>
       人生的意义是什么？那我告诉你，人生没有意义。<br>
       99%的人三代以后，时间会抹平你存在的一切痕迹。<br>
       所以，人生的意义，就是你活着的这短短几十年体验。<br>
@@ -328,916 +349,951 @@
       世事无常，我们所能做的就是欣赏每一次花开，观赏每一处风景。<br>
       现在想想，那些难以接受的事情，也在自愿或者被迫中慢慢接受了。<br>
       <br>
-      回头看，<span onclick="closeSplash()">轻舟</span>已过万重山；<br>
+      回头看，<span onclick="closeSplash()" style="cursor:pointer; border-bottom:1px solid currentColor;">轻舟</span>已过万重山；<br>
       向前看，长路漫漫亦灿烂。
     </p>
   </div>
-  </div>
-<div id="fab-memo" title="Open Cloud Memo">
-    <i class="ri-cloud-line"></i>
-  </div>
+</div>
 
-  <div id="app">
-    <aside>
-      <div class="brand" id="theme-toggle" title="Toggle Theme">
-        <div class="brand-logo">靳</div>
-        <div class="brand-text">
-          <h1>JIN Tong</h1>
-          <span>ARCHIVE</span>
-        </div>
-      </div>
-        
-      <div class="search-box">
-        <i class="ri-search-2-line search-icon"></i>
-        <input type="text" class="search-input" id="search-input" placeholder="Search...">
-      </div>
+<div class="mobile-header">
+  <div class="brand-logo" style="width:32px; height:32px; font-size:18px;">靳</div>
+  <i class="ri-menu-line menu-btn" id="mobile-menu-btn"></i>
+</div>
 
-      <div class="nav-scroll" id="nav-container">
-        </div>
-
-      <div class="aside-footer">
-        <div class="time-badge" id="time-pill">00:00</div>
-        <i class="ri-equalizer-line" style="font-size:12px; color:var(--text-sub); opacity:0.5;"></i>
-      </div>
-    </aside>
-
-    <main id="main-scroll">
-        
-      <div class="hero-quote">
-        <div class="quote-text">
-          天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，凌云之志。
-        </div>
-        <div class="quote-sub">Long live freedom / The Visual Archive</div>
-      </div>
-      
-<div class="section-block" id="sec-latest" data-icon="ri-flashlight-line">
-        <div class="section-header">
-          <div class="section-title">每日关注</div>
-          <div class="section-count">Daily Focus</div>
-        </div>
-        
-        <div class="grid">
-          <div class="card" onclick="openLink('https://36kr.com/')">
-            <div class="card-head">
-              <div class="icon-box"><i class="ri-newspaper-line"></i></div>
-              <i class="ri-arrow-right-up-line link-arrow"></i>
-            </div>
-            <div class="card-body">
-              <div class="card-title">36Kr</div>
-              <div class="card-desc">科技前沿资讯</div>
-            </div>
-          </div>
-
-          <div class="card" onclick="openLink('https://sspai.com/')">
-            <div class="card-head">
-                  <div class="icon-box"><i class="ri-smartphone-line"></i></div>
-                  <i class="ri-arrow-right-up-line link-arrow"></i>
-              </div>
-              <div class="card-body">
-                <div class="card-title">SSPAI</div>
-                <div class="card-desc">少数派 Matrix</div>
-              </div>
-          </div>
-
-          <div class="card" onclick="openLink('https://apod.nasa.gov/apod/astropix.html')">
-            <div class="card-head">
-              <div class="icon-box"><i class="ri-space-ship-line"></i></div>
-              <i class="ri-arrow-right-up-line link-arrow"></i>
-            </div>
-            <div class="card-body">
-              <div class="card-title">NASA APOD</div>
-              <div class="card-desc">宇宙每日一图</div>
-            </div>
-          </div>
-
-           <div class="card" onclick="openLink('https://www.v2ex.com/')">
-            <div class="card-head">
-              <div class="icon-box"><i class="ri-terminal-line"></i></div>
-              <i class="ri-arrow-right-up-line link-arrow"></i>
-            </div>
-            <div class="card-body">
-              <div class="card-title">V2EX</div>
-              <div class="card-desc">创意工作者</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-<div class="section-block" id="sec-reading" data-icon="ri-book-2-line">
-        <div class="section-header">
-           <div class="section-title">经典典藏</div>
-           <div class="section-count">Full Text</div>
-        </div>
-         <div class="grid">
-            <div class="card" onclick="openLink('https://so.gushiwen.cn/guwen/book_46653FD803893E4F.aspx')">
-              <div class="card-head">
-                  <div class="icon-box">🔴</div>
-                  <i class="ri-arrow-right-up-line link-arrow"></i>
-              </div>
-              <div class="card-body">
-                  <div class="card-title">红楼梦</div>
-                  <div class="card-desc">满纸荒唐言 (全文)</div>
-              </div>
-            </div>
-             <div class="card" onclick="openLink('https://so.gushiwen.cn/guwen/book_53265F6032231268.aspx')">
-              <div class="card-head">
-                  <div class="icon-box">⚔️</div>
-                  <i class="ri-arrow-right-up-line link-arrow"></i>
-              </div>
-              <div class="card-body">
-                  <div class="card-title">三国演义</div>
-                  <div class="card-desc">滚滚长江东逝水 (全文)</div>
-              </div>
-            </div>
-            <div class="card" onclick="openLink('https://so.gushiwen.cn/guwen/book_67026743C5C39793.aspx')">
-              <div class="card-head">
-                  <div class="icon-box">🐒</div>
-                  <i class="ri-arrow-right-up-line link-arrow"></i>
-              </div>
-              <div class="card-body">
-                  <div class="card-title">西游记</div>
-                  <div class="card-desc">敢问路在何方 (全文)</div>
-              </div>
-            </div>
-            <div class="card" onclick="openLink('https://so.gushiwen.cn/guwen/book_3319B4C02574A6A8.aspx')">
-              <div class="card-head">
-                  <div class="icon-box">🌊</div>
-                  <i class="ri-arrow-right-up-line link-arrow"></i>
-              </div>
-              <div class="card-body">
-                  <div class="card-title">水浒传</div>
-                  <div class="card-desc">替天行道 (全文)</div>
-              </div>
-            </div>
-            <div class="card" onclick="openLink('https://so.gushiwen.cn/guwen/book_2CF11330303D8152.aspx')">
-              <div class="card-head">
-                  <div class="icon-box">📜</div>
-                  <i class="ri-arrow-right-up-line link-arrow"></i>
-              </div>
-              <div class="card-body">
-                  <div class="card-title">孙子兵法</div>
-                  <div class="card-desc">兵者国之大事 (全文)</div>
-              </div>
-            </div>
-            <div class="card" onclick="openLink('https://so.gushiwen.cn/guwen/book_1170A575F108C735.aspx')">
-              <div class="card-head">
-                  <div class="icon-box">☯️</div>
-                  <i class="ri-arrow-right-up-line link-arrow"></i>
-              </div>
-              <div class="card-body">
-                  <div class="card-title">道德经</div>
-                  <div class="card-desc">玄之又玄 (全文)</div>
-              </div>
-            </div>
-         </div>
-      </div>
-      
-<div class="section-block" id="sec-images" data-icon="ri-palette-line">
-        <div class="section-header">
-          <div class="section-title">视觉光谱</div>
-          <span class="section-count">Visual Spectrum</span>
-        </div>
-        <div class="grid">
-          <div class="card" onclick="openLink('https://www.pinterest.com/')">
-            <div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Pinterest</div><div class="card-desc">审美参考</div></div>
-          </div>
-          
-          <div class="card" onclick="openLink('https://pindown.io/en1')">
-            <div class="card-head"><div class="icon-box">📌</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Pindown</div><div class="card-desc">图片下载</div></div>
-          </div>
-
-          <div class="card" onclick="openLink('https://yandex.com/')">
-            <div class="card-head"><div class="icon-box">🔍</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Yandex</div><div class="card-desc">以图搜图</div></div>
-          </div>
-          <div class="card" onclick="openLink('https://images.google.com/')">
-            <div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Google Images</div><div class="card-desc">图像检索</div></div>
-          </div>
-          <div class="card" onclick="openLink('https://coolbackgrounds.io/')">
-            <div class="card-head"><div class="icon-box">🟦</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Cool BG</div><div class="card-desc">生成背景</div></div>
-          </div>
-          <div class="card" onclick="openLink('https://pixabay.com/')">
-            <div class="card-head"><div class="icon-box">📷</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Pixabay</div><div class="card-desc">免费正版</div></div>
-          </div>
-          <div class="card" onclick="openLink('https://www.pexels.com/')">
-            <div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Pexels</div><div class="card-desc">免费摄影</div></div>
-          </div>
-          <div class="card" onclick="openLink('https://wallhaven.cc/')">
-            <div class="card-head"><div class="icon-box">🎨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Wallhaven</div><div class="card-desc">顶级图库</div></div>
-          </div>
-          <div class="card" onclick="openLink('https://wallpaperswide.com/')">
-            <div class="card-head"><div class="icon-box">🖥️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">WallpapersWide</div><div class="card-desc">4K/8K超清</div></div>
-          </div>
-          <div class="card" onclick="openLink('https://huaban.com/')">
-            <div class="card-head"><div class="icon-box">🌸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">花瓣网</div><div class="card-desc">灵感采集</div></div>
-          </div>
-          <div class="card" onclick="openLink('https://pic.netbian.com/')">
-            <div class="card-head"><div class="icon-box">🌉</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">彼岸图网</div><div class="card-desc">4K壁纸</div></div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="section-block" id="sec-virtual" data-icon="ri-earth-line">
-        <div class="section-header"><div class="section-title">平行视界</div><span class="section-count">Parallel View</span></div>
-        <div class="grid">
-          <div class="card" onclick="openLink('https://www.mapcrunch.com')">
-            <div class="card-head"><div class="icon-box">🧭</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">MapCrunch</div><div class="card-desc">全球随机</div></div>
-          </div>
-          <div class="card" onclick="openLink('http://www.window-swap.com/')">
-            <div class="card-head"><div class="icon-box">🪟</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">WindowSwap</div><div class="card-desc">别人的窗外</div></div>
-          </div>
-          <div class="card" onclick="openLink('http://www.window-swap-japan.com/')">
-            <div class="card-head"><div class="icon-box">🗾</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Window Japan</div><div class="card-desc">日本窗景</div></div>
-          </div>
-          <div class="card" onclick="openLink('https://www.thesecretdoor.com/')">
-            <div class="card-head"><div class="icon-box">🚪</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Secret Door</div><div class="card-desc">任意门</div></div>
-          </div>
-          <div class="card" onclick="openLink('https://www.webcams.travel/')">
-            <div class="card-head"><div class="icon-box">📹</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Webcams</div><div class="card-desc">全球镜头</div></div>
-          </div>
-          <div class="card" onclick="openLink('https://explore.org/')">
-            <div class="card-head"><div class="icon-box">🐼</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Explore.org</div><div class="card-desc">自然直播</div></div>
-          </div>
-          <div class="card" onclick="openLink('https://www.earthcam.com/')">
-            <div class="card-head"><div class="icon-box">🌍</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">EarthCam</div><div class="card-desc">城市实况</div></div>
-          </div>
-          <div class="card" onclick="openLink('http://www.virtualwindow.com/')">
-            <div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Virtual Window</div><div class="card-desc">虚拟视窗</div></div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="section-block" id="sec-network" data-icon="ri-server-line">
-        <div class="section-header"><div class="section-title">数字基石</div><span class="section-count">Foundation</span></div>
-        <div class="grid">
-           <div class="card" onclick="openLink('https://dashboard.thordata.com/')">
-              <div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-              <div class="card-body"><div class="card-title">Thordata</div><div class="card-desc">代理控制台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://porkbun.com/account/domainsSpeedy')">
-              <div class="card-head"><div class="icon-box">🔑</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-              <div class="card-body"><div class="card-title">Porkbun</div><div class="card-desc">域名管理</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://github.com/dh6598726-stack/woaibixia')">
-              <div class="card-head"><div class="icon-box">📦</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-              <div class="card-body"><div class="card-title">GitHub</div><div class="card-desc">woaibixia</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq')">
-              <div class="card-head"><div class="icon-box">🛡️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-              <div class="card-body"><div class="card-title">2FA Live</div><div class="card-desc">TOTP</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://app.ipfoxy.net/login?_bt=2')">
-              <div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-              <div class="card-body"><div class="card-title">IPFoxy</div><div class="card-desc">IP 代理</div></div>
-            </div>
-        </div>
-      </div>
-      
-      <div class="section-block sensitive-zone" id="sec-dark6" data-icon="ri-eye-off-line">
-    <div class="sensitive-mask"><div class="mask-badge">Abyss Echo</div></div>
-    <div class="sensitive-blur">
-      <div class="section-header"><div class="section-title">深渊回响</div><span class="section-count">Classified</span></div>
-      <div class="grid">
-          <div class="card" onclick="openLink('https://fanqianglu.com')">
-            <div class="card-head"><div class="icon-box">🪜</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Fanqianglu</div><div class="card-desc">梯子导航</div></div>
-          </div>
-          <div class="card" onclick="openLink('https://baichunlink.com')">
-            <div class="card-head"><div class="icon-box">🔗</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Baichunlink</div><div class="card-desc">综合索引</div></div>
-          </div>
-          
-          <div class="card" onclick="openLink('https://www.suijidaquan.com/')">
-            <div class="card-head"><div class="icon-box">🎲</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">随机大全</div><div class="card-desc">生成工具</div></div>
-        </div>
-        <div class="card" onclick="openLink('https://www.reddit.com/')">
-            <div class="card-head"><div class="icon-box">🍊</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Reddit</div><div class="card-desc">社区</div></div>
-        </div>
-        <div class="card" onclick="openLink('https://onlyfans.com/')">
-            <div class="card-head"><div class="icon-box">🔵</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">OnlyFans</div><div class="card-desc">订阅</div></div>
-        </div>
-        <div class="card" onclick="openLink('https://xhamster.com/')">
-            <div class="card-head"><div class="icon-box">🐹</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">xHamster</div><div class="card-desc">视频</div></div>
-        </div>
-        <div class="card" onclick="openLink('https://www.xvideos.com/')">
-            <div class="card-head"><div class="icon-box">❌</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Xvideos</div><div class="card-desc">索引</div></div>
-        </div>
-        <div class="card" onclick="openLink('https://stripchat.com/')">
-            <div class="card-head"><div class="icon-box">📹</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Stripchat</div><div class="card-desc">直播</div></div>
-        </div>
-        <div class="card" onclick="openLink('https://www.eporner.com/')">
-            <div class="card-head"><div class="icon-box">📺</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Eporner</div><div class="card-desc">4K</div></div>
-        </div>
-        <div class="card" onclick="openLink('https://www.erome.com/')">
-            <div class="card-head"><div class="icon-box">📂</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Erome</div><div class="card-desc">档案</div></div>
-        </div>
-        <div class="card" onclick="openLink('https://www.tblop.com/')">
-            <div class="card-head"><div class="icon-box">📜</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">TBLOP</div><div class="card-desc">目录</div></div>
-        </div>
-        <div class="card" onclick="openLink('https://theporndude.com/')">
-            <div class="card-head"><div class="icon-box">🤠</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">TPD</div><div class="card-desc">索引</div></div>
-        </div>
-        <div class="card" onclick="openLink('https://pornhub.com')">
-            <div class="card-head"><div class="icon-box">🟧</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-            <div class="card-body"><div class="card-title">Pornhub</div><div class="card-desc">标杆</div></div>
-        </div>
-   
-      <div class="section-block sensitive-zone" id="sec-backup" data-icon="ri-contrast-drop-2-line">
-        <div class="sensitive-mask"><div class="mask-badge">Quadrant II</div></div>
-        <div class="sensitive-blur">
-          <div class="section-header"><div class="section-title">第二象限</div><span class="section-count">Plan B</span></div>
-          <div class="grid">
-            <div class="card" onclick="openLink('https://netflav.com/')">
-              <div class="card-head"><div class="icon-box">N</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-              <div class="card-body"><div class="card-title">Netflav</div><div class="card-desc">奈飞体验</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://hanime1.me/')">
-              <div class="card-head"><div class="icon-box">🌸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-              <div class="card-body"><div class="card-title">Hanime1</div><div class="card-desc">二次元</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://supjav.com/')">
-              <div class="card-head"><div class="icon-box">S</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-              <div class="card-body"><div class="card-title">SupJAV</div><div class="card-desc">备用库</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-       <div class="section-block sensitive-zone" id="sec-magnet" data-icon="ri-magnet-line">
-        <div class="sensitive-mask"><div class="mask-badge">Magnetic Field</div></div>
-        <div class="sensitive-blur">
-          <div class="section-header"><div class="section-title">磁场引力</div><span class="section-count">P2P Source</span></div>
-          <div class="grid">
-            <div class="card" onclick="openLink('https://sukebei.nyaa.si/')">
-              <div class="card-head"><div class="icon-box">S</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-              <div class="card-body"><div class="card-title">Sukebei</div><div class="card-desc">源头</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://nyaa.si/')">
-              <div class="card-head"><div class="icon-box">N</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-              <div class="card-body"><div class="card-title">Nyaa</div><div class="card-desc">动漫</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://btsow.motorcycles/')">
-              <div class="card-head"><div class="icon-box">🧲</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-              <div class="card-body"><div class="card-title">BTSOW</div><div class="card-desc">中文磁力</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="section-block" id="sec-ai" data-icon="ri-cpu-line">
-        <div class="section-header"><div class="section-title">硅基进化</div><span class="section-count">Silicon Evo</span></div>
-        <div class="grid">
-          <div class="card" onclick="openLink('https://nf.video/银河录像局')">
-                <div class="card-head"><div class="icon-box">🎬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">银河录像局</div><div class="card-desc">会员</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://grok.com')">
-                <div class="card-head"><div class="icon-box">✖️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Grok</div><div class="card-desc">XAI</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://chatgpt.com')">
-                <div class="card-head"><div class="icon-box">🧠</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">ChatGPT</div><div class="card-desc">OpenAI</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://gemini.google.com/')">
-                <div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Gemini</div><div class="card-desc">Google</div></div>
-            </div>
-             <div class="card" onclick="openLink('https://www.nvidia.com/en-us/research/ai-playground')">
-                <div class="card-head"><div class="icon-box">🟢</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">NVIDIA</div><div class="card-desc">Lab</div></div>
-             </div>
-             <div class="card" onclick="openLink('https://runwayml.com')">
-                <div class="card-head"><div class="icon-box">🎥</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Runway</div><div class="card-desc">Video</div></div>
-             </div>
-             <div class="card" onclick="openLink('https://www.midjourney.com')">
-                <div class="card-head"><div class="icon-box">🖌️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Midjourney</div><div class="card-desc">Image</div></div>
-             </div>
-             <div class="card" onclick="openLink('https://www.suno.ai')">
-                <div class="card-head"><div class="icon-box">🎧</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Suno</div><div class="card-desc">Music</div></div>
-             </div>
-             <div class="card" onclick="openLink('https://www.perplexity.ai')">
-                <div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Perplexity</div><div class="card-desc">Search</div></div>
-             </div>
-             <div class="card" onclick="openLink('https://futurepedia.io')">
-                <div class="card-head"><div class="icon-box">🧭</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Futurepedia</div><div class="card-desc">Nav</div></div>
-             </div>
-        </div>
-      </div>
-      
-      <div class="section-block" id="sec-tj" data-icon="ri-eye-2-line">
-        <div class="section-header"><div class="section-title">高维观测</div><span class="section-count">High-Dim View</span></div>
-        <div class="grid">
-            <div class="card" onclick="openLink('https://radar.cloudflare.com/')">
-                <div class="card-head"><div class="icon-box">🧭</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">CF Radar</div><div class="card-desc">流量</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.submarinecablemap.com/')">
-                <div class="card-head"><div class="icon-box">🌊</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Submarine</div><div class="card-desc">光缆</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.flightradar24.com/')">
-                <div class="card-head"><div class="icon-box">🛫</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Flightradar</div><div class="card-desc">航班</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.marinetraffic.com/')">
-                <div class="card-head"><div class="icon-box">🚢</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">MarineTraffic</div><div class="card-desc">船舶</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.virustotal.com/gui/home/upload')">
-                <div class="card-head"><div class="icon-box">🧫</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">VirusTotal</div><div class="card-desc">查毒</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.shodan.io/')">
-                <div class="card-head"><div class="icon-box">🛰️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Shodan</div><div class="card-desc">资产</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://stat.ripe.net/')">
-                <div class="card-head"><div class="icon-box">🧷</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">RIPEstat</div><div class="card-desc">BGP</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://ourworldindata.org/')">
-                <div class="card-head"><div class="icon-box">🌎</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">OurWorld</div><div class="card-desc">数据</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://earthquake.usgs.gov/earthquakes/map/')">
-                <div class="card-head"><div class="icon-box">🌋</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">USGS</div><div class="card-desc">地震</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://firms.modaps.eosdis.nasa.gov/map/')">
-                <div class="card-head"><div class="icon-box">🔥</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">NASA Firms</div><div class="card-desc">火灾</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.swpc.noaa.gov/products/aurora-30-minute-forecast')">
-                <div class="card-head"><div class="icon-box">🌌</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Aurora</div><div class="card-desc">极光</div></div>
-            </div>
-        </div>
-      </div>
-      
-      <div class="section-block" id="sec-geek" data-icon="ri-terminal-box-line">
-        <div class="section-header"><div class="section-title">极客前沿</div><span class="section-count">Geek Frontier</span></div>
-        <div class="grid">
-           <div class="card" onclick="openLink('https://www.topgear.com/car-news')">
-                <div class="card-head"><div class="icon-box">🚗</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">TopGear</div><div class="card-desc">Car</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.producthunt.com/')">
-                <div class="card-head"><div class="icon-box">🚀</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">ProductHunt</div><div class="card-desc">新品</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://thegadgetflow.com/')">
-                <div class="card-head"><div class="icon-box">🧰</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">GadgetFlow</div><div class="card-desc">Gadget</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.dudeiwantthat.com/')">
-                <div class="card-head"><div class="icon-box">🛒</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">DudeIWant</div><div class="card-desc">好物</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://lusion.co/')">
-                <div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Lusion</div><div class="card-desc">WebGL</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://geektyper.com/')">
-                <div class="card-head"><div class="icon-box">⌨️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">GeekTyper</div><div class="card-desc">Hacker</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://cybermap.kaspersky.com/')">
-                <div class="card-head"><div class="icon-box">🛰️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Kaspersky</div><div class="card-desc">CyberMap</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://pointerpointer.com/')">
-                <div class="card-head"><div class="icon-box">👉</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Pointer</div><div class="card-desc">趣站</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://ping.pe')">
-                <div class="card-head"><div class="icon-box">📡</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Ping.pe</div><div class="card-desc">多点</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://trace.moe')">
-                <div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Trace.moe</div><div class="card-desc">搜番</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://gamma.app')">
-                <div class="card-head"><div class="icon-box">📊</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Gamma</div><div class="card-desc">PPT</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://elevenlabs.io')">
-                <div class="card-head"><div class="icon-box">🎙️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">ElevenLabs</div><div class="card-desc">Voice</div></div>
-            </div>
-        </div>
-      </div>
-      
-      <div class="section-block" id="sec-crypto" data-icon="ri-bit-coin-line">
-        <div class="section-header"><div class="section-title">链上资产</div><span class="section-count">On-Chain</span></div>
-        <div class="grid">
-           <div class="card" onclick="openLink('https://www.cryptopanic.com')">
-                <div class="card-head"><div class="icon-box">📉</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">CryptoPanic</div><div class="card-desc">News</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://signal.org/')">
-                <div class="card-head"><div class="icon-box">📨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Signal</div><div class="card-desc">Chat</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.binance.com/')">
-                <div class="card-head"><div class="icon-box">💰</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Binance</div><div class="card-desc">Exchange</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.okx.com/')">
-                <div class="card-head"><div class="icon-box">🟢</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">OKX</div><div class="card-desc">Exchange</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://metamask.io/')">
-                <div class="card-head"><div class="icon-box">🦊</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">MetaMask</div><div class="card-desc">Wallet</div></div>
-            </div>
-        </div>
-      </div>
-      
-      <div class="section-block" id="sec-social" data-icon="ri-discuss-line">
-        <div class="section-header"><div class="section-title">信号交换</div><span class="section-count">Signal Exchange</span></div>
-        <div class="grid">
-           <div class="card" onclick="openLink('https://telegram.org/')">
-                <div class="card-head"><div class="icon-box">✈️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Telegram</div><div class="card-desc">IM</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://x.com/')">
-                <div class="card-head"><div class="icon-box">𝕏</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">X</div><div class="card-desc">News</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.facebook.com/')">
-                <div class="card-head"><div class="icon-box">📘</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Facebook</div><div class="card-desc">Social</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.instagram.com/')">
-                <div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Instagram</div><div class="card-desc">Photo</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.reddit.com/')">
-                <div class="card-head"><div class="icon-box">👾</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Reddit</div><div class="card-desc">Forum</div></div>
-            </div>
-        </div>
-      </div>
-      
-      <div class="section-block" id="sec-media" data-icon="ri-movie-line">
-        <div class="section-header"><div class="section-title">视听幻境</div><span class="section-count">A/V Illusion</span></div>
-        <div class="grid">
-           <div class="card" onclick="openLink('https://everynoise.com')">
-                <div class="card-head"><div class="icon-box">🎵</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">EveryNoise</div><div class="card-desc">Genre</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.youtube.com/')">
-                <div class="card-head"><div class="icon-box">▶️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">YouTube</div><div class="card-desc">Video</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.netflix.com/')">
-                <div class="card-head"><div class="icon-box">🎞️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Netflix</div><div class="card-desc">Movie</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://open.spotify.com/')">
-                <div class="card-head"><div class="icon-box">🎵</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Spotify</div><div class="card-desc">Music</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.tiktok.com/')">
-                <div class="card-head"><div class="icon-box">📱</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">TikTok</div><div class="card-desc">Short</div></div>
-            </div>
-        </div>
-      </div>
-      
-      <div class="section-block" id="sec-tools" data-icon="ri-tools-line">
-        <div class="section-header"><div class="section-title">通用协议</div><span class="section-count">Protocol</span></div>
-        <div class="grid">
-            <div class="card" onclick="openLink('https://www.google.com/')">
-                <div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Google</div><div class="card-desc">Search</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://mail.google.com/')">
-                <div class="card-head"><div class="icon-box">✉️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Gmail</div><div class="card-desc">Mail</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://drive.google.com/')">
-                <div class="card-head"><div class="icon-box">☁️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Drive</div><div class="card-desc">Cloud</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://maps.google.com/')">
-                <div class="card-head"><div class="icon-box">🗺️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Maps</div><div class="card-desc">Nav</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.wikipedia.org/')">
-                <div class="card-head"><div class="icon-box">📚</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Wikipedia</div><div class="card-desc">Wiki</div></div>
-            </div>
-        </div>
-      </div>
-      
-       <div class="section-block" id="sec-design" data-icon="ri-palette-line">
-        <div class="section-header"><div class="section-title">美学构建</div><span class="section-count">Aesthetic Build</span></div>
-        <div class="grid">
-            <div class="card" onclick="openLink('https://www.behance.net')">
-                <div class="card-head"><div class="icon-box">🎨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Behance</div><div class="card-desc">Art</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://unsplash.com')">
-                <div class="card-head"><div class="icon-box">📷</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Unsplash</div><div class="card-desc">Photo</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.canva.com')">
-                <div class="card-head"><div class="icon-box">🧩</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Canva</div><div class="card-desc">Design</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://informationisbeautiful.net')">
-                <div class="card-head"><div class="icon-box">📈</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">IIB</div><div class="card-desc">Infographic</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://ourworldindata.org')">
-                <div class="card-head"><div class="icon-box">🌍</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">OurWorld</div><div class="card-desc">Data</div></div>
-            </div>
-        </div>
-      </div>
-      
-      <div class="section-block" id="sec-file" data-icon="ri-file-line">
-        <div class="section-header"><div class="section-title">像素工坊</div><span class="section-count">Pixel Workshop</span></div>
-        <div class="grid">
-           <div class="card" onclick="openLink('https://www.remove.bg')">
-                <div class="card-head"><div class="icon-box">✂️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Remove.bg</div><div class="card-desc">Cut</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://tinywow.com')">
-                <div class="card-head"><div class="icon-box">🧰</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">TinyWow</div><div class="card-desc">Tools</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.photopea.com')">
-                <div class="card-head"><div class="icon-box">🖊️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Photopea</div><div class="card-desc">PS</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.ilovepdf.com')">
-                <div class="card-head"><div class="icon-box">📄</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">iLovePDF</div><div class="card-desc">PDF</div></div>
-            </div>
-        </div>
-      </div>
-      
-      <div class="section-block" id="sec-dev" data-icon="ri-code-line">
-        <div class="section-header"><div class="section-title">代码诗学</div><span class="section-count">Code Poetics</span></div>
-        <div class="grid">
-           <div class="card" onclick="openLink('https://stackoverflow.com')">
-                <div class="card-head"><div class="icon-box">💬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">StackOv</div><div class="card-desc">Q&A</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://replit.com')">
-                <div class="card-head"><div class="icon-box">💻</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Replit</div><div class="card-desc">IDE</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://vercel.com')">
-                <div class="card-head"><div class="icon-box">🚀</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Vercel</div><div class="card-desc">Deploy</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://codepen.io')">
-                <div class="card-head"><div class="icon-box">🧪</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">CodePen</div><div class="card-desc">Sandbox</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://cusdis.com/')">
-                <div class="card-head"><div class="icon-box">💬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Cusdis</div><div class="card-desc">Comment</div></div>
-            </div>
-        </div>
-      </div>
-      
-       <div class="section-block" id="sec-misc" data-icon="ri-more-line">
-        <div class="section-header"><div class="section-title">碎片拾遗</div><span class="section-count">Fragments</span></div>
-        <div class="grid">
-           <div class="card" onclick="openLink('https://www.wikihow.com')">
-                <div class="card-head"><div class="icon-box">📘</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">WikiHow</div><div class="card-desc">HowTo</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.10minutemail.com')">
-                <div class="card-head"><div class="icon-box">⌛</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">10MinMail</div><div class="card-desc">Temp</div></div>
-            </div>
-             <div class="card" onclick="openLink('https://www.speedtest.net')">
-                <div class="card-head"><div class="icon-box">📡</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Speedtest</div><div class="card-desc">Speed</div></div>
-             </div>
-             <div class="card" onclick="openLink('https://gumroad.com')">
-                <div class="card-head"><div class="icon-box">💸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Gumroad</div><div class="card-desc">Sell</div></div>
-            </div>
-        </div>
-      </div>
-      
-      <div class="section-block" id="sec-travel" data-icon="ri-plane-line">
-        <div class="section-header"><div class="section-title">行星轨迹</div><span class="section-count">Trajectory</span></div>
-        <div class="grid">
-           <div class="card" onclick="openLink('https://earth.google.com')">
-                <div class="card-head"><div class="icon-box">🌎</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">GoogleEarth</div><div class="card-desc">3D</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.flightconnections.com')">
-                <div class="card-head"><div class="icon-box">🛫</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Connections</div><div class="card-desc">Route</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.skyscanner.com')">
-                <div class="card-head"><div class="icon-box">🎫</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Skyscanner</div><div class="card-desc">Flight</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.atlasobscura.com')">
-                <div class="card-head"><div class="icon-box">🗺️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Atlas</div><div class="card-desc">Landmark</div></div>
-            </div>
-        </div>
-      </div>
-      
-       <div class="section-block" id="sec-security" data-icon="ri-shield-check-line">
-        <div class="section-header"><div class="section-title">攻防演义</div><span class="section-count">Offense & Defense</span></div>
-        <div class="grid">
-           <div class="card" onclick="openLink('https://www.hackerone.com')">
-                <div class="card-head"><div class="icon-box">🛡️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">HackerOne</div><div class="card-desc">Bounty</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.bugcrowd.com')">
-                <div class="card-head"><div class="icon-box">🏢</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Bugcrowd</div><div class="card-desc">Crowd</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://tryhackme.com')">
-                <div class="card-head"><div class="icon-box">🎓</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">TryHackMe</div><div class="card-desc">Learn</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.hackthebox.com')">
-                <div class="card-head"><div class="icon-box">🧨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">HackTheBox</div><div class="card-desc">Pro</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.exploit-db.com')">
-                <div class="card-head"><div class="icon-box">📂</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Exploit-DB</div><div class="card-desc">Code</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://owasp.org')">
-                <div class="card-head"><div class="icon-box">📜</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">OWASP</div><div class="card-desc">Standard</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.kali.org')">
-                <div class="card-head"><div class="icon-box">🐉</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Kali</div><div class="card-desc">OS</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.reddit.com/r/netsec/')">
-                <div class="card-head"><div class="icon-box">🧬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Netsec</div><div class="card-desc">Intel</div></div>
-            </div>
-        </div>
-      </div>
-      
-    </main>
-  </div>
-
-  <div id="ghost-memo" class="hidden">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <span style="font-size:12px; font-weight:700; letter-spacing:1px;">MEMO LINK</span>
-      <div style="display:flex; gap:10px;">
-        <span id="cloud-status" style="font-size:10px; opacity:0.5;">READY</span>
-        <span id="cloud-sync-btn" style="cursor:pointer;">↺</span>
-        <span onclick="toggleMemo()" style="cursor:pointer;">×</span>
+<div id="app">
+  <aside id="sidebar">
+    <div class="brand" id="theme-toggle" title="Toggle Theme">
+      <div class="brand-logo">靳</div>
+      <div class="brand-text">
+        <h1>JIN Tong</h1>
+        <span>ARCHIVE</span>
       </div>
     </div>
-    <textarea id="memo-content" placeholder="Data stream..."></textarea>
+      
+    <div class="search-box">
+      <i class="ri-search-2-line search-icon"></i>
+      <input type="text" class="search-input" id="search-input" placeholder="Search...">
+    </div>
+
+    <div class="nav-scroll" id="nav-container">
+      </div>
+
+    <div class="aside-footer">
+      <div class="time-badge" id="time-pill">00:00</div>
+      <i class="ri-equalizer-line" style="font-size:14px; color:var(--c-text-secondary); opacity:0.5;"></i>
+    </div>
+  </aside>
+
+  <main id="main-scroll">
+      
+    <div class="hero-quote">
+      <div class="quote-text">
+        天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，凌云之志。
+      </div>
+      <div class="quote-sub">Long live freedom / The Visual Archive</div>
+    </div>
+      
+    <div class="section-block" id="sec-latest" data-icon="ri-flashlight-line">
+      <div class="section-header">
+        <div class="section-title">每日关注</div>
+        <div class="section-count">Daily Focus</div>
+      </div>
+      
+      <div class="grid">
+        <div class="card" onclick="openLink('https://36kr.com/')">
+          <div class="card-head">
+            <div class="icon-box"><i class="ri-newspaper-line"></i></div>
+            <i class="ri-arrow-right-up-line link-arrow"></i>
+          </div>
+          <div class="card-body">
+            <div class="card-title">36Kr</div>
+            <div class="card-desc">科技前沿资讯</div>
+          </div>
+        </div>
+
+        <div class="card" onclick="openLink('https://sspai.com/')">
+          <div class="card-head">
+                <div class="icon-box"><i class="ri-smartphone-line"></i></div>
+                <i class="ri-arrow-right-up-line link-arrow"></i>
+            </div>
+            <div class="card-body">
+              <div class="card-title">SSPAI</div>
+              <div class="card-desc">少数派 Matrix</div>
+            </div>
+        </div>
+
+        <div class="card" onclick="openLink('https://apod.nasa.gov/apod/astropix.html')">
+          <div class="card-head">
+            <div class="icon-box"><i class="ri-space-ship-line"></i></div>
+            <i class="ri-arrow-right-up-line link-arrow"></i>
+          </div>
+          <div class="card-body">
+            <div class="card-title">NASA APOD</div>
+            <div class="card-desc">宇宙每日一图</div>
+          </div>
+        </div>
+
+          <div class="card" onclick="openLink('https://www.v2ex.com/')">
+          <div class="card-head">
+            <div class="icon-box"><i class="ri-terminal-line"></i></div>
+            <i class="ri-arrow-right-up-line link-arrow"></i>
+          </div>
+          <div class="card-body">
+            <div class="card-title">V2EX</div>
+            <div class="card-desc">创意工作者</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block" id="sec-reading" data-icon="ri-book-2-line">
+      <div class="section-header">
+          <div class="section-title">经典典藏</div>
+          <div class="section-count">Full Text</div>
+      </div>
+        <div class="grid">
+          <div class="card" onclick="openLink('https://so.gushiwen.cn/guwen/book_46653FD803893E4F.aspx')">
+            <div class="card-head">
+                <div class="icon-box">🔴</div>
+                <i class="ri-arrow-right-up-line link-arrow"></i>
+            </div>
+            <div class="card-body">
+                <div class="card-title">红楼梦</div>
+                <div class="card-desc">满纸荒唐言 (全文)</div>
+            </div>
+          </div>
+            <div class="card" onclick="openLink('https://so.gushiwen.cn/guwen/book_53265F6032231268.aspx')">
+            <div class="card-head">
+                <div class="icon-box">⚔️</div>
+                <i class="ri-arrow-right-up-line link-arrow"></i>
+            </div>
+            <div class="card-body">
+                <div class="card-title">三国演义</div>
+                <div class="card-desc">滚滚长江东逝水 (全文)</div>
+            </div>
+          </div>
+          <div class="card" onclick="openLink('https://so.gushiwen.cn/guwen/book_67026743C5C39793.aspx')">
+            <div class="card-head">
+                <div class="icon-box">🐒</div>
+                <i class="ri-arrow-right-up-line link-arrow"></i>
+            </div>
+            <div class="card-body">
+                <div class="card-title">西游记</div>
+                <div class="card-desc">敢问路在何方 (全文)</div>
+            </div>
+          </div>
+          <div class="card" onclick="openLink('https://so.gushiwen.cn/guwen/book_3319B4C02574A6A8.aspx')">
+            <div class="card-head">
+                <div class="icon-box">🌊</div>
+                <i class="ri-arrow-right-up-line link-arrow"></i>
+            </div>
+            <div class="card-body">
+                <div class="card-title">水浒传</div>
+                <div class="card-desc">替天行道 (全文)</div>
+            </div>
+          </div>
+          <div class="card" onclick="openLink('https://so.gushiwen.cn/guwen/book_2CF11330303D8152.aspx')">
+            <div class="card-head">
+                <div class="icon-box">📜</div>
+                <i class="ri-arrow-right-up-line link-arrow"></i>
+            </div>
+            <div class="card-body">
+                <div class="card-title">孙子兵法</div>
+                <div class="card-desc">兵者国之大事 (全文)</div>
+            </div>
+          </div>
+          <div class="card" onclick="openLink('https://so.gushiwen.cn/guwen/book_1170A575F108C735.aspx')">
+            <div class="card-head">
+                <div class="icon-box">☯️</div>
+                <i class="ri-arrow-right-up-line link-arrow"></i>
+            </div>
+            <div class="card-body">
+                <div class="card-title">道德经</div>
+                <div class="card-desc">玄之又玄 (全文)</div>
+            </div>
+          </div>
+        </div>
+    </div>
+      
+    <div class="section-block" id="sec-images" data-icon="ri-palette-line">
+      <div class="section-header">
+        <div class="section-title">视觉光谱</div>
+        <span class="section-count">Visual Spectrum</span>
+      </div>
+      <div class="grid">
+        <div class="card" onclick="openLink('https://www.pinterest.com/')">
+          <div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">Pinterest</div><div class="card-desc">审美参考</div></div>
+        </div>
+        
+        <div class="card" onclick="openLink('https://pindown.io/en1')">
+          <div class="card-head"><div class="icon-box">📌</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">Pindown</div><div class="card-desc">图片下载</div></div>
+        </div>
+
+        <div class="card" onclick="openLink('https://yandex.com/')">
+          <div class="card-head"><div class="icon-box">🔍</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">Yandex</div><div class="card-desc">以图搜图</div></div>
+        </div>
+        <div class="card" onclick="openLink('https://images.google.com/')">
+          <div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">Google Images</div><div class="card-desc">图像检索</div></div>
+        </div>
+        <div class="card" onclick="openLink('https://coolbackgrounds.io/')">
+          <div class="card-head"><div class="icon-box">🟦</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">Cool BG</div><div class="card-desc">生成背景</div></div>
+        </div>
+        <div class="card" onclick="openLink('https://pixabay.com/')">
+          <div class="card-head"><div class="icon-box">📷</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">Pixabay</div><div class="card-desc">免费正版</div></div>
+        </div>
+        <div class="card" onclick="openLink('https://www.pexels.com/')">
+          <div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">Pexels</div><div class="card-desc">免费摄影</div></div>
+        </div>
+        <div class="card" onclick="openLink('https://wallhaven.cc/')">
+          <div class="card-head"><div class="icon-box">🎨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">Wallhaven</div><div class="card-desc">顶级图库</div></div>
+        </div>
+        <div class="card" onclick="openLink('https://wallpaperswide.com/')">
+          <div class="card-head"><div class="icon-box">🖥️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">WallpapersWide</div><div class="card-desc">4K/8K超清</div></div>
+        </div>
+        <div class="card" onclick="openLink('https://huaban.com/')">
+          <div class="card-head"><div class="icon-box">🌸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">花瓣网</div><div class="card-desc">灵感采集</div></div>
+        </div>
+        <div class="card" onclick="openLink('https://pic.netbian.com/')">
+          <div class="card-head"><div class="icon-box">🌉</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">彼岸图网</div><div class="card-desc">4K壁纸</div></div>
+        </div>
+      </div>
+    </div>
+      
+    <div class="section-block" id="sec-virtual" data-icon="ri-earth-line">
+      <div class="section-header"><div class="section-title">平行视界</div><span class="section-count">Parallel View</span></div>
+      <div class="grid">
+        <div class="card" onclick="openLink('https://www.mapcrunch.com')">
+          <div class="card-head"><div class="icon-box">🧭</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">MapCrunch</div><div class="card-desc">全球随机</div></div>
+        </div>
+        <div class="card" onclick="openLink('http://www.window-swap.com/')">
+          <div class="card-head"><div class="icon-box">🪟</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">WindowSwap</div><div class="card-desc">别人的窗外</div></div>
+        </div>
+        <div class="card" onclick="openLink('http://www.window-swap-japan.com/')">
+          <div class="card-head"><div class="icon-box">🗾</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">Window Japan</div><div class="card-desc">日本窗景</div></div>
+        </div>
+        <div class="card" onclick="openLink('https://www.thesecretdoor.com/')">
+          <div class="card-head"><div class="icon-box">🚪</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">Secret Door</div><div class="card-desc">任意门</div></div>
+        </div>
+        <div class="card" onclick="openLink('https://www.webcams.travel/')">
+          <div class="card-head"><div class="icon-box">📹</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">Webcams</div><div class="card-desc">全球镜头</div></div>
+        </div>
+        <div class="card" onclick="openLink('https://explore.org/')">
+          <div class="card-head"><div class="icon-box">🐼</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">Explore.org</div><div class="card-desc">自然直播</div></div>
+        </div>
+        <div class="card" onclick="openLink('https://www.earthcam.com/')">
+          <div class="card-head"><div class="icon-box">🌍</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">EarthCam</div><div class="card-desc">城市实况</div></div>
+        </div>
+        <div class="card" onclick="openLink('http://www.virtualwindow.com/')">
+          <div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+          <div class="card-body"><div class="card-title">Virtual Window</div><div class="card-desc">虚拟视窗</div></div>
+        </div>
+      </div>
+    </div>
+      
+    <div class="section-block" id="sec-network" data-icon="ri-server-line">
+      <div class="section-header"><div class="section-title">数字基石</div><span class="section-count">Foundation</span></div>
+      <div class="grid">
+          <div class="card" onclick="openLink('https://dashboard.thordata.com/')">
+            <div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+            <div class="card-body"><div class="card-title">Thordata</div><div class="card-desc">代理控制台</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://porkbun.com/account/domainsSpeedy')">
+            <div class="card-head"><div class="icon-box">🔑</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+            <div class="card-body"><div class="card-title">Porkbun</div><div class="card-desc">域名管理</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://github.com/dh6598726-stack/woaibixia')">
+            <div class="card-head"><div class="icon-box">📦</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+            <div class="card-body"><div class="card-title">GitHub</div><div class="card-desc">woaibixia</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq')">
+            <div class="card-head"><div class="icon-box">🛡️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+            <div class="card-body"><div class="card-title">2FA Live</div><div class="card-desc">TOTP</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://app.ipfoxy.net/login?_bt=2')">
+            <div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+            <div class="card-body"><div class="card-title">IPFoxy</div><div class="card-desc">IP 代理</div></div>
+          </div>
+      </div>
+    </div>
+      
+    <div class="section-block sensitive-zone" id="sec-dark6" data-icon="ri-eye-off-line">
+      <div class="sensitive-mask"><div class="mask-badge">Abyss Echo</div></div>
+      <div class="sensitive-blur">
+        <div class="section-header"><div class="section-title">深渊回响</div><span class="section-count">Classified</span></div>
+        <div class="grid">
+            <div class="card" onclick="openLink('https://fanqianglu.com')">
+              <div class="card-head"><div class="icon-box">🪜</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Fanqianglu</div><div class="card-desc">梯子导航</div></div>
+            </div>
+            <div class="card" onclick="openLink('https://baichunlink.com')">
+              <div class="card-head"><div class="icon-box">🔗</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Baichunlink</div><div class="card-desc">综合索引</div></div>
+            </div>
+            
+            <div class="card" onclick="openLink('https://www.suijidaquan.com/')">
+              <div class="card-head"><div class="icon-box">🎲</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">随机大全</div><div class="card-desc">生成工具</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.reddit.com/')">
+              <div class="card-head"><div class="icon-box">🍊</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Reddit</div><div class="card-desc">社区</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://onlyfans.com/')">
+              <div class="card-head"><div class="icon-box">🔵</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">OnlyFans</div><div class="card-desc">订阅</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://xhamster.com/')">
+              <div class="card-head"><div class="icon-box">🐹</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">xHamster</div><div class="card-desc">视频</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.xvideos.com/')">
+              <div class="card-head"><div class="icon-box">❌</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Xvideos</div><div class="card-desc">索引</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://stripchat.com/')">
+              <div class="card-head"><div class="icon-box">📹</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Stripchat</div><div class="card-desc">直播</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.eporner.com/')">
+              <div class="card-head"><div class="icon-box">📺</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Eporner</div><div class="card-desc">4K</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.erome.com/')">
+              <div class="card-head"><div class="icon-box">📂</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Erome</div><div class="card-desc">档案</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.tblop.com/')">
+              <div class="card-head"><div class="icon-box">📜</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">TBLOP</div><div class="card-desc">目录</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://theporndude.com/')">
+              <div class="card-head"><div class="icon-box">🤠</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">TPD</div><div class="card-desc">索引</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://pornhub.com')">
+              <div class="card-head"><div class="icon-box">🟧</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Pornhub</div><div class="card-desc">标杆</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="section-block sensitive-zone" id="sec-backup" data-icon="ri-contrast-drop-2-line">
+      <div class="sensitive-mask"><div class="mask-badge">Quadrant II</div></div>
+      <div class="sensitive-blur">
+        <div class="section-header"><div class="section-title">第二象限</div><span class="section-count">Plan B</span></div>
+        <div class="grid">
+          <div class="card" onclick="openLink('https://netflav.com/')">
+            <div class="card-head"><div class="icon-box">N</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+            <div class="card-body"><div class="card-title">Netflav</div><div class="card-desc">奈飞体验</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://hanime1.me/')">
+            <div class="card-head"><div class="icon-box">🌸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+            <div class="card-body"><div class="card-title">Hanime1</div><div class="card-desc">二次元</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://supjav.com/')">
+            <div class="card-head"><div class="icon-box">S</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+            <div class="card-body"><div class="card-title">SupJAV</div><div class="card-desc">备用库</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="section-block sensitive-zone" id="sec-magnet" data-icon="ri-magnet-line">
+      <div class="sensitive-mask"><div class="mask-badge">Magnetic Field</div></div>
+      <div class="sensitive-blur">
+        <div class="section-header"><div class="section-title">磁场引力</div><span class="section-count">P2P Source</span></div>
+        <div class="grid">
+          <div class="card" onclick="openLink('https://sukebei.nyaa.si/')">
+            <div class="card-head"><div class="icon-box">S</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+            <div class="card-body"><div class="card-title">Sukebei</div><div class="card-desc">源头</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://nyaa.si/')">
+            <div class="card-head"><div class="icon-box">N</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+            <div class="card-body"><div class="card-title">Nyaa</div><div class="card-desc">动漫</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://btsow.motorcycles/')">
+            <div class="card-head"><div class="icon-box">🧲</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+            <div class="card-body"><div class="card-title">BTSOW</div><div class="card-desc">中文磁力</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section-block" id="sec-ai" data-icon="ri-cpu-line">
+      <div class="section-header"><div class="section-title">硅基进化</div><span class="section-count">Silicon Evo</span></div>
+      <div class="grid">
+        <div class="card" onclick="openLink('https://nf.video/银河录像局')">
+              <div class="card-head"><div class="icon-box">🎬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">银河录像局</div><div class="card-desc">会员</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://grok.com')">
+              <div class="card-head"><div class="icon-box">✖️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Grok</div><div class="card-desc">XAI</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://chatgpt.com')">
+              <div class="card-head"><div class="icon-box">🧠</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">ChatGPT</div><div class="card-desc">OpenAI</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://gemini.google.com/')">
+              <div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Gemini</div><div class="card-desc">Google</div></div>
+          </div>
+            <div class="card" onclick="openLink('https://www.nvidia.com/en-us/research/ai-playground')">
+              <div class="card-head"><div class="icon-box">🟢</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">NVIDIA</div><div class="card-desc">Lab</div></div>
+            </div>
+            <div class="card" onclick="openLink('https://runwayml.com')">
+              <div class="card-head"><div class="icon-box">🎥</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Runway</div><div class="card-desc">Video</div></div>
+            </div>
+            <div class="card" onclick="openLink('https://www.midjourney.com')">
+              <div class="card-head"><div class="icon-box">🖌️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Midjourney</div><div class="card-desc">Image</div></div>
+            </div>
+            <div class="card" onclick="openLink('https://www.suno.ai')">
+              <div class="card-head"><div class="icon-box">🎧</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Suno</div><div class="card-desc">Music</div></div>
+            </div>
+            <div class="card" onclick="openLink('https://www.perplexity.ai')">
+              <div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Perplexity</div><div class="card-desc">Search</div></div>
+            </div>
+            <div class="card" onclick="openLink('https://futurepedia.io')">
+              <div class="card-head"><div class="icon-box">🧭</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Futurepedia</div><div class="card-desc">Nav</div></div>
+            </div>
+      </div>
+    </div>
+      
+    <div class="section-block" id="sec-tj" data-icon="ri-eye-2-line">
+      <div class="section-header"><div class="section-title">高维观测</div><span class="section-count">High-Dim View</span></div>
+      <div class="grid">
+          <div class="card" onclick="openLink('https://radar.cloudflare.com/')">
+              <div class="card-head"><div class="icon-box">🧭</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">CF Radar</div><div class="card-desc">流量</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.submarinecablemap.com/')">
+              <div class="card-head"><div class="icon-box">🌊</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Submarine</div><div class="card-desc">光缆</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.flightradar24.com/')">
+              <div class="card-head"><div class="icon-box">🛫</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Flightradar</div><div class="card-desc">航班</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.marinetraffic.com/')">
+              <div class="card-head"><div class="icon-box">🚢</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">MarineTraffic</div><div class="card-desc">船舶</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.virustotal.com/gui/home/upload')">
+              <div class="card-head"><div class="icon-box">🧫</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">VirusTotal</div><div class="card-desc">查毒</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.shodan.io/')">
+              <div class="card-head"><div class="icon-box">🛰️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Shodan</div><div class="card-desc">资产</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://stat.ripe.net/')">
+              <div class="card-head"><div class="icon-box">🧷</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">RIPEstat</div><div class="card-desc">BGP</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://ourworldindata.org/')">
+              <div class="card-head"><div class="icon-box">🌎</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">OurWorld</div><div class="card-desc">数据</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://earthquake.usgs.gov/earthquakes/map/')">
+              <div class="card-head"><div class="icon-box">🌋</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">USGS</div><div class="card-desc">地震</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://firms.modaps.eosdis.nasa.gov/map/')">
+              <div class="card-head"><div class="icon-box">🔥</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">NASA Firms</div><div class="card-desc">火灾</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.swpc.noaa.gov/products/aurora-30-minute-forecast')">
+              <div class="card-head"><div class="icon-box">🌌</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Aurora</div><div class="card-desc">极光</div></div>
+          </div>
+      </div>
+    </div>
+      
+    <div class="section-block" id="sec-geek" data-icon="ri-terminal-box-line">
+      <div class="section-header"><div class="section-title">极客前沿</div><span class="section-count">Geek Frontier</span></div>
+      <div class="grid">
+          <div class="card" onclick="openLink('https://www.topgear.com/car-news')">
+              <div class="card-head"><div class="icon-box">🚗</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">TopGear</div><div class="card-desc">Car</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.producthunt.com/')">
+              <div class="card-head"><div class="icon-box">🚀</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">ProductHunt</div><div class="card-desc">新品</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://thegadgetflow.com/')">
+              <div class="card-head"><div class="icon-box">🧰</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">GadgetFlow</div><div class="card-desc">Gadget</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.dudeiwantthat.com/')">
+              <div class="card-head"><div class="icon-box">🛒</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">DudeIWant</div><div class="card-desc">好物</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://lusion.co/')">
+              <div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Lusion</div><div class="card-desc">WebGL</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://geektyper.com/')">
+              <div class="card-head"><div class="icon-box">⌨️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">GeekTyper</div><div class="card-desc">Hacker</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://cybermap.kaspersky.com/')">
+              <div class="card-head"><div class="icon-box">🛰️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Kaspersky</div><div class="card-desc">CyberMap</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://pointerpointer.com/')">
+              <div class="card-head"><div class="icon-box">👉</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Pointer</div><div class="card-desc">趣站</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://ping.pe')">
+              <div class="card-head"><div class="icon-box">📡</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Ping.pe</div><div class="card-desc">多点</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://trace.moe')">
+              <div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Trace.moe</div><div class="card-desc">搜番</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://gamma.app')">
+              <div class="card-head"><div class="icon-box">📊</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Gamma</div><div class="card-desc">PPT</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://elevenlabs.io')">
+              <div class="card-head"><div class="icon-box">🎙️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">ElevenLabs</div><div class="card-desc">Voice</div></div>
+          </div>
+      </div>
+    </div>
+      
+    <div class="section-block" id="sec-crypto" data-icon="ri-bit-coin-line">
+      <div class="section-header"><div class="section-title">链上资产</div><span class="section-count">On-Chain</span></div>
+      <div class="grid">
+          <div class="card" onclick="openLink('https://www.cryptopanic.com')">
+              <div class="card-head"><div class="icon-box">📉</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">CryptoPanic</div><div class="card-desc">News</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://signal.org/')">
+              <div class="card-head"><div class="icon-box">📨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Signal</div><div class="card-desc">Chat</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.binance.com/')">
+              <div class="card-head"><div class="icon-box">💰</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Binance</div><div class="card-desc">Exchange</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.okx.com/')">
+              <div class="card-head"><div class="icon-box">🟢</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">OKX</div><div class="card-desc">Exchange</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://metamask.io/')">
+              <div class="card-head"><div class="icon-box">🦊</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">MetaMask</div><div class="card-desc">Wallet</div></div>
+          </div>
+      </div>
+    </div>
+      
+    <div class="section-block" id="sec-social" data-icon="ri-discuss-line">
+      <div class="section-header"><div class="section-title">信号交换</div><span class="section-count">Signal Exchange</span></div>
+      <div class="grid">
+          <div class="card" onclick="openLink('https://telegram.org/')">
+              <div class="card-head"><div class="icon-box">✈️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Telegram</div><div class="card-desc">IM</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://x.com/')">
+              <div class="card-head"><div class="icon-box">𝕏</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">X</div><div class="card-desc">News</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.facebook.com/')">
+              <div class="card-head"><div class="icon-box">📘</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Facebook</div><div class="card-desc">Social</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.instagram.com/')">
+              <div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Instagram</div><div class="card-desc">Photo</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.reddit.com/')">
+              <div class="card-head"><div class="icon-box">👾</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Reddit</div><div class="card-desc">Forum</div></div>
+          </div>
+      </div>
+    </div>
+      
+    <div class="section-block" id="sec-media" data-icon="ri-movie-line">
+      <div class="section-header"><div class="section-title">视听幻境</div><span class="section-count">A/V Illusion</span></div>
+      <div class="grid">
+          <div class="card" onclick="openLink('https://everynoise.com')">
+              <div class="card-head"><div class="icon-box">🎵</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">EveryNoise</div><div class="card-desc">Genre</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.youtube.com/')">
+              <div class="card-head"><div class="icon-box">▶️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">YouTube</div><div class="card-desc">Video</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.netflix.com/')">
+              <div class="card-head"><div class="icon-box">🎞️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Netflix</div><div class="card-desc">Movie</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://open.spotify.com/')">
+              <div class="card-head"><div class="icon-box">🎵</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Spotify</div><div class="card-desc">Music</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.tiktok.com/')">
+              <div class="card-head"><div class="icon-box">📱</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">TikTok</div><div class="card-desc">Short</div></div>
+          </div>
+      </div>
+    </div>
+      
+    <div class="section-block" id="sec-tools" data-icon="ri-tools-line">
+      <div class="section-header"><div class="section-title">通用协议</div><span class="section-count">Protocol</span></div>
+      <div class="grid">
+          <div class="card" onclick="openLink('https://www.google.com/')">
+              <div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Google</div><div class="card-desc">Search</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://mail.google.com/')">
+              <div class="card-head"><div class="icon-box">✉️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Gmail</div><div class="card-desc">Mail</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://drive.google.com/')">
+              <div class="card-head"><div class="icon-box">☁️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Drive</div><div class="card-desc">Cloud</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://maps.google.com/')">
+              <div class="card-head"><div class="icon-box">🗺️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Maps</div><div class="card-desc">Nav</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.wikipedia.org/')">
+              <div class="card-head"><div class="icon-box">📚</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Wikipedia</div><div class="card-desc">Wiki</div></div>
+          </div>
+      </div>
+    </div>
+      
+      <div class="section-block" id="sec-design" data-icon="ri-palette-line">
+      <div class="section-header"><div class="section-title">美学构建</div><span class="section-count">Aesthetic Build</span></div>
+      <div class="grid">
+          <div class="card" onclick="openLink('https://www.behance.net')">
+              <div class="card-head"><div class="icon-box">🎨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Behance</div><div class="card-desc">Art</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://unsplash.com')">
+              <div class="card-head"><div class="icon-box">📷</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Unsplash</div><div class="card-desc">Photo</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.canva.com')">
+              <div class="card-head"><div class="icon-box">🧩</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Canva</div><div class="card-desc">Design</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://informationisbeautiful.net')">
+              <div class="card-head"><div class="icon-box">📈</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">IIB</div><div class="card-desc">Infographic</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://ourworldindata.org')">
+              <div class="card-head"><div class="icon-box">🌍</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">OurWorld</div><div class="card-desc">Data</div></div>
+          </div>
+      </div>
+    </div>
+      
+    <div class="section-block" id="sec-file" data-icon="ri-file-line">
+      <div class="section-header"><div class="section-title">像素工坊</div><span class="section-count">Pixel Workshop</span></div>
+      <div class="grid">
+          <div class="card" onclick="openLink('https://www.remove.bg')">
+              <div class="card-head"><div class="icon-box">✂️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Remove.bg</div><div class="card-desc">Cut</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://tinywow.com')">
+              <div class="card-head"><div class="icon-box">🧰</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">TinyWow</div><div class="card-desc">Tools</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.photopea.com')">
+              <div class="card-head"><div class="icon-box">🖊️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Photopea</div><div class="card-desc">PS</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.ilovepdf.com')">
+              <div class="card-head"><div class="icon-box">📄</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">iLovePDF</div><div class="card-desc">PDF</div></div>
+          </div>
+      </div>
+    </div>
+      
+    <div class="section-block" id="sec-dev" data-icon="ri-code-line">
+      <div class="section-header"><div class="section-title">代码诗学</div><span class="section-count">Code Poetics</span></div>
+      <div class="grid">
+          <div class="card" onclick="openLink('https://stackoverflow.com')">
+              <div class="card-head"><div class="icon-box">💬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">StackOv</div><div class="card-desc">Q&A</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://replit.com')">
+              <div class="card-head"><div class="icon-box">💻</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Replit</div><div class="card-desc">IDE</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://vercel.com')">
+              <div class="card-head"><div class="icon-box">🚀</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Vercel</div><div class="card-desc">Deploy</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://codepen.io')">
+              <div class="card-head"><div class="icon-box">🧪</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">CodePen</div><div class="card-desc">Sandbox</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://cusdis.com/')">
+              <div class="card-head"><div class="icon-box">💬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Cusdis</div><div class="card-desc">Comment</div></div>
+          </div>
+      </div>
+    </div>
+      
+      <div class="section-block" id="sec-misc" data-icon="ri-more-line">
+      <div class="section-header"><div class="section-title">碎片拾遗</div><span class="section-count">Fragments</span></div>
+      <div class="grid">
+          <div class="card" onclick="openLink('https://www.wikihow.com')">
+              <div class="card-head"><div class="icon-box">📘</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">WikiHow</div><div class="card-desc">HowTo</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.10minutemail.com')">
+              <div class="card-head"><div class="icon-box">⌛</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">10MinMail</div><div class="card-desc">Temp</div></div>
+          </div>
+            <div class="card" onclick="openLink('https://www.speedtest.net')">
+              <div class="card-head"><div class="icon-box">📡</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Speedtest</div><div class="card-desc">Speed</div></div>
+            </div>
+            <div class="card" onclick="openLink('https://gumroad.com')">
+              <div class="card-head"><div class="icon-box">💸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Gumroad</div><div class="card-desc">Sell</div></div>
+          </div>
+      </div>
+    </div>
+      
+    <div class="section-block" id="sec-travel" data-icon="ri-plane-line">
+      <div class="section-header"><div class="section-title">行星轨迹</div><span class="section-count">Trajectory</span></div>
+      <div class="grid">
+          <div class="card" onclick="openLink('https://earth.google.com')">
+              <div class="card-head"><div class="icon-box">🌎</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">GoogleEarth</div><div class="card-desc">3D</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.flightconnections.com')">
+              <div class="card-head"><div class="icon-box">🛫</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Connections</div><div class="card-desc">Route</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.skyscanner.com')">
+              <div class="card-head"><div class="icon-box">🎫</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Skyscanner</div><div class="card-desc">Flight</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.atlasobscura.com')">
+              <div class="card-head"><div class="icon-box">🗺️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Atlas</div><div class="card-desc">Landmark</div></div>
+          </div>
+      </div>
+    </div>
+      
+      <div class="section-block" id="sec-security" data-icon="ri-shield-check-line">
+      <div class="section-header"><div class="section-title">攻防演义</div><span class="section-count">Offense & Defense</span></div>
+      <div class="grid">
+          <div class="card" onclick="openLink('https://www.hackerone.com')">
+              <div class="card-head"><div class="icon-box">🛡️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">HackerOne</div><div class="card-desc">Bounty</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.bugcrowd.com')">
+              <div class="card-head"><div class="icon-box">🏢</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Bugcrowd</div><div class="card-desc">Crowd</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://tryhackme.com')">
+              <div class="card-head"><div class="icon-box">🎓</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">TryHackMe</div><div class="card-desc">Learn</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.hackthebox.com')">
+              <div class="card-head"><div class="icon-box">🧨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">HackTheBox</div><div class="card-desc">Pro</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.exploit-db.com')">
+              <div class="card-head"><div class="icon-box">📂</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Exploit-DB</div><div class="card-desc">Code</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://owasp.org')">
+              <div class="card-head"><div class="icon-box">📜</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">OWASP</div><div class="card-desc">Standard</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.kali.org')">
+              <div class="card-head"><div class="icon-box">🐉</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Kali</div><div class="card-desc">OS</div></div>
+          </div>
+          <div class="card" onclick="openLink('https://www.reddit.com/r/netsec/')">
+              <div class="card-head"><div class="icon-box">🧬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Netsec</div><div class="card-desc">Intel</div></div>
+          </div>
+      </div>
+    </div>
+    
+  </main>
+</div>
+
+<div id="fab-memo" title="Open Cloud Memo"><i class="ri-cloud-line"></i></div>
+<div id="ghost-memo" class="hidden">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+    <span style="font-size:12px; font-weight:700; letter-spacing:1px; color:var(--c-text-primary);">MEMO LINK</span>
+    <div style="display:flex; gap:10px;">
+      <span id="cloud-status" style="font-size:10px; opacity:0.5; color:var(--c-text-secondary);">READY</span>
+      <span id="cloud-sync-btn" style="cursor:pointer; color:var(--c-text-primary);">↺</span>
+      <span onclick="toggleMemo()" style="cursor:pointer; color:var(--c-text-primary);">×</span>
+    </div>
   </div>
+  <textarea id="memo-content" placeholder="Data stream..."></textarea>
+</div>
 
-  <script>
-    // 侧边栏生成
-    document.addEventListener('DOMContentLoaded', () => {
-      const navContainer = document.getElementById('nav-container');
-      const sections = document.querySelectorAll('.section-block');
+<script>
+  // --- 导航栏生成逻辑 ---
+  document.addEventListener('DOMContentLoaded', () => {
+    const navContainer = document.getElementById('nav-container');
+    const sections = document.querySelectorAll('.section-block');
+    
+    sections.forEach(sec => {
+      const id = sec.id;
+      // 从 HTML data-icon 获取图标，若无则默认
+      const iconClass = sec.dataset.icon || 'ri-links-line';
+      const title = sec.querySelector('.section-title').textContent.trim();
       
-      sections.forEach(sec => {
-        const id = sec.id;
-        const iconClass = sec.dataset.icon || 'ri-links-line';
-        const title = sec.querySelector('.section-title').textContent.trim();
-        
-        const link = document.createElement('a');
-        link.className = 'nav-item';
-        link.href = '#' + id;
-        link.innerHTML = `<i class="${iconClass} nav-icon"></i> ${title}`;
-        
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-          document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-          link.classList.add('active');
-        });
-        
-        navContainer.appendChild(link);
-      });
-    });
-
-    function openLink(url) { window.open(url, '_blank'); }
-
-    // 开屏
-    function closeSplash() {
-      const splash = document.getElementById('splash');
-      splash.classList.add('hidden');
-      sessionStorage.setItem('archiveSplashSeen', 'true');
-    }
-    if (sessionStorage.getItem('archiveSplashSeen')) {
-      document.getElementById('splash').style.display = 'none';
-    }
-
-    // 时间
-    function updateTime() {
-      document.getElementById('time-pill').textContent = new Date().toLocaleTimeString('zh-CN', {hour12:false});
-    }
-    setInterval(updateTime, 1000); updateTime();
-
-    // 搜索
-    const searchInput = document.getElementById('search-input');
-    searchInput.addEventListener('input', (e) => {
-      const term = e.target.value.toLowerCase();
-      document.querySelectorAll('.card').forEach(card => {
-        const text = card.textContent.toLowerCase();
-        card.style.display = text.includes(term) ? 'flex' : 'none';
-      });
-      document.querySelectorAll('.section-block').forEach(sec => {
-        const visibleCards = sec.querySelectorAll('.card[style="display: flex;"]');
-        sec.style.display = (visibleCards.length === 0 && term !== '') ? 'none' : 'block';
-      });
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); searchInput.focus(); }
-    });
-
-    // 主题
-    document.getElementById('theme-toggle').addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-    });
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.body.classList.add('dark-mode');
-    }
-
-    // 云备忘录
-    const BIN_ID  = '6971fa00ae596e708fed3908';
-    const API_KEY = '$2a$10$1NEYPXNO1k1GdD2h4JTjCuhT5DHTBsQ6J/yVon6iOoRL5Yk/5sfvS'; 
-    const ghostMemo = document.getElementById('ghost-memo');
-    const memoContent = document.getElementById('memo-content');
-    const statusText = document.getElementById('cloud-status');
-
-    // FAB 触发
-    document.getElementById('fab-memo').addEventListener('click', toggleMemo);
+      const link = document.createElement('a');
+      link.className = 'nav-item';
+      link.href = '#' + id;
+      link.innerHTML = `<i class="${iconClass} nav-icon"></i> ${title}`;
       
-    function toggleMemo() {
-      ghostMemo.classList.toggle('active');
-      if(ghostMemo.classList.contains('active')) loadFromCloud();
-    }
-    function loadFromCloud() {
-      statusText.textContent = "SYNC...";
-      fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers: { 'X-Master-Key': API_KEY } })
-      .then(r=>r.json()).then(d=>{
-        if(d.record) { memoContent.value = d.record.text; statusText.textContent = "OK"; }
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        // 移动端点击后自动收起侧边栏
+        if(window.innerWidth <= 768) {
+             document.getElementById('sidebar').classList.remove('open');
+        }
+        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        
+        // 更新激活状态
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        link.classList.add('active');
       });
-    }
-    document.getElementById('cloud-sync-btn').addEventListener('click', () => {
-      statusText.textContent = "SAVING...";
-      fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
-        body: JSON.stringify({ text: memoContent.value })
-      }).then(()=>{ statusText.textContent = "SAVED"; setTimeout(()=>statusText.textContent="READY",2000); });
+      
+      navContainer.appendChild(link);
     });
-  </script>
+  });
+
+  // --- 移动端菜单控制 ---
+  const mobileBtn = document.getElementById('mobile-menu-btn');
+  const sidebar = document.getElementById('sidebar');
+  
+  mobileBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+  });
+  
+  // 点击遮罩层(主区域)关闭侧边栏
+  document.getElementById('main-scroll').addEventListener('click', () => {
+      if(window.innerWidth <= 768 && sidebar.classList.contains('open')) {
+          sidebar.classList.remove('open');
+      }
+  });
+
+  function openLink(url) { window.open(url, '_blank'); }
+
+  // --- 开屏逻辑 ---
+  function closeSplash() {
+    const splash = document.getElementById('splash');
+    splash.style.opacity = '0';
+    setTimeout(() => { splash.style.display = 'none'; }, 600);
+    sessionStorage.setItem('archiveSplashSeen', 'true');
+  }
+  if (sessionStorage.getItem('archiveSplashSeen')) {
+    document.getElementById('splash').style.display = 'none';
+  }
+
+  // --- 时间逻辑 ---
+  function updateTime() {
+    document.getElementById('time-pill').textContent = new Date().toLocaleTimeString('zh-CN', {hour12:false});
+  }
+  setInterval(updateTime, 1000); updateTime();
+
+  // --- 搜索逻辑 ---
+  const searchInput = document.getElementById('search-input');
+  searchInput.addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase();
+    document.querySelectorAll('.card').forEach(card => {
+      const text = card.textContent.toLowerCase();
+      card.style.display = text.includes(term) ? 'flex' : 'none';
+    });
+    
+    // 隐藏空区块
+    document.querySelectorAll('.section-block').forEach(sec => {
+      const visibleCards = sec.querySelectorAll('.card[style="display: flex;"]');
+      // 如果没有搜索词，显示所有；如果有搜索词但该区无结果，隐藏
+      if (term === '') {
+          sec.style.display = 'block';
+      } else {
+          sec.style.display = visibleCards.length > 0 ? 'block' : 'none';
+      }
+    });
+  });
+
+  // 快捷键 Ctrl/Meta + K
+  document.addEventListener('keydown', (e) => {
+    if((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); searchInput.focus(); }
+  });
+
+  // --- 主题切换 ---
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+  });
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.body.classList.add('dark-mode');
+  }
+
+  // --- 云备忘录逻辑 (保持原 API) ---
+  const BIN_ID  = '6971fa00ae596e708fed3908';
+  const API_KEY = '$2a$10$1NEYPXNO1k1GdD2h4JTjCuhT5DHTBsQ6J/yVon6iOoRL5Yk/5sfvS'; 
+  const ghostMemo = document.getElementById('ghost-memo');
+  const memoContent = document.getElementById('memo-content');
+  const statusText = document.getElementById('cloud-status');
+
+  document.getElementById('fab-memo').addEventListener('click', toggleMemo);
+    
+  function toggleMemo() {
+    ghostMemo.classList.toggle('active');
+    if(ghostMemo.classList.contains('active')) loadFromCloud();
+  }
+  function loadFromCloud() {
+    statusText.textContent = "SYNC...";
+    fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers: { 'X-Master-Key': API_KEY } })
+    .then(r=>r.json()).then(d=>{
+      if(d.record) { memoContent.value = d.record.text; statusText.textContent = "OK"; }
+    });
+  }
+  document.getElementById('cloud-sync-btn').addEventListener('click', () => {
+    statusText.textContent = "SAVING...";
+    fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
+      body: JSON.stringify({ text: memoContent.value })
+    }).then(()=>{ statusText.textContent = "SAVED"; setTimeout(()=>statusText.textContent="READY",2000); });
+  });
+</script>
 </body>
 </html>
-
