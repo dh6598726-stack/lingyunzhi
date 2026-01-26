@@ -80,12 +80,24 @@
       margin-bottom: 30px; padding-left: 8px; cursor: pointer;
     }
     
+    /* 心跳动画 */
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      14% { transform: scale(1.3); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.3); }
+      70% { transform: scale(1); }
+    }
+
+    /* Logo 样式修改：去除黑框，改为红色爱心 */
     .brand-logo {
-      width: 36px; height: 36px; background: var(--text-main); color: var(--bg-app);
-      border-radius: 10px; display: flex; align-items: center; justify-content: center;
-      font-family: "Zhi Mang Xing", cursive;
-      font-weight: 400; 
-      font-size: 22px;
+      width: 36px; height: 36px; 
+      background: transparent; /* 去掉背景色 */
+      color: #ff3b30; /* 红色 */
+      border-radius: 10px; 
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      animation: heartbeat 1.3s infinite ease-in-out; /* 添加心跳动画 */
     }
     
     .brand-text h1 { 
@@ -180,6 +192,18 @@
     }
     .quote-sub { font-size: 12px; color: rgba(255,255,255,0.8); letter-spacing: 2px; text-transform: uppercase; }
 
+    /* 神秘触发器样式 */
+    .secret-trigger {
+        cursor: pointer;
+        border-bottom: 1px dashed rgba(255,255,255,0.4);
+        transition: all 0.2s;
+    }
+    .secret-trigger:hover {
+        color: #fff;
+        border-bottom-color: #fff;
+        text-shadow: 0 0 10px rgba(255,255,255,0.8);
+    }
+
     .section-block { margin-bottom: 50px; scroll-margin-top: 20px; }
     .section-header {
       display: flex; align-items: baseline; justify-content: space-between;
@@ -268,21 +292,10 @@
 
     .hidden { opacity: 0; pointer-events: none; }
 
-    /* 备忘录按钮 */
+    /* 备忘录按钮 - 已隐藏 */
     #fab-memo {
-      position: fixed; bottom: 30px; right: 30px;
-      width: 50px; height: 50px;
-      background: var(--text-main); color: var(--bg-sidebar);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 24px; cursor: pointer;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      transition: transform 0.2s, background 0.3s;
-      z-index: 101; 
-      opacity: 0.9;
+      display: none; /* 隐藏按钮 */
     }
-    #fab-memo:hover { transform: scale(1.1); opacity: 1; }
-    #fab-memo:active { transform: scale(0.9); }
 
     #ghost-memo {
       position: fixed; bottom: 90px; right: 30px; 
@@ -364,7 +377,7 @@
   <div id="app">
     <aside>
       <div class="brand" id="theme-toggle" title="Toggle Theme">
-        <div class="brand-logo">靳</div>
+        <div class="brand-logo"><i class="ri-heart-3-fill"></i></div>
         <div class="brand-text">
           <h1>JIN Tong</h1>
           <span>ARCHIVE</span>
@@ -389,7 +402,7 @@
         
       <div class="hero-quote">
         <div class="quote-text">
-          天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，凌云之志。
+          天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo()">凌云</span>之志。
         </div>
         <div class="quote-sub">Long live freedom / The Visual Archive</div>
       </div>
@@ -1147,9 +1160,7 @@
     const memoContent = document.getElementById('memo-content');
     const statusText = document.getElementById('cloud-status');
 
-    // FAB 触发
-    document.getElementById('fab-memo').addEventListener('click', toggleMemo);
-      
+    // 以前是 FAB 触发，现在被“凌云”文字触发，这里保留函数供调用
     function toggleMemo() {
       ghostMemo.classList.toggle('active');
       if(ghostMemo.classList.contains('active')) loadFromCloud();
@@ -1172,4 +1183,3 @@
   </script>
 </body>
 </html>
-
