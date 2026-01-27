@@ -990,6 +990,34 @@
          </div>
       </div>
 
+<div class="section-block sensitive-zone locked" id="sec-gallery" data-icon="ri-image-2-line">
+         <div class="sensitive-mask"><div class="mask-badge">Private Gallery</div></div>
+         <div class="sensitive-blur">
+             <div class="section-header">
+                <div class="section-title">养眼图库</div>
+                <div class="section-count">Gallery</div>
+             </div>
+             <div class="grid">
+                <div class="card" onclick="openLink('https://www.pornpics.com/')">
+                   <div class="card-head"><div class="icon-box">👱‍♀️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+                   <div class="card-body"><div class="card-title">欧美图库</div><div class="card-desc">海量套图</div></div>
+                </div>
+                <div class="card" onclick="openLink('https://www.junmeitu.com/')">
+                   <div class="card-head"><div class="icon-box">💃</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+                   <div class="card-body"><div class="card-title">俊美图</div><div class="card-desc">精选美女</div></div>
+                </div>
+                <div class="card" onclick="openLink('https://www.91tulu.com/')">
+                   <div class="card-head"><div class="icon-box">🚗</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+                   <div class="card-body"><div class="card-title">91图鲁</div><div class="card-desc">每日更新</div></div>
+                </div>
+                <div class="card" onclick="openLink('https://www.v2ph.com/')">
+                   <div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+                   <div class="card-body"><div class="card-title">微图</div><div class="card-desc">超清写真</div></div>
+                </div>
+             </div>
+         </div>
+      </div>
+      
       <div class="section-block sensitive-zone locked" id="sec-abyss" data-icon="ri-eye-off-line">
         <div class="sensitive-mask"><div class="mask-badge">Confidential</div></div>
         <div class="sensitive-blur">
@@ -1175,11 +1203,24 @@
       // 只保留最后4个字符
       if (secretCode.length > 4) secretCode = secretCode.slice(-4);
       
+  // 3. 隐形资源区解锁逻辑 (输入 'open')
+      // 如果正在输入框打字，不触发
+      if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      
+      secretCode += e.key.toLowerCase();
+      // 只保留最后4个字符
+      if (secretCode.length > 4) secretCode = secretCode.slice(-4);
+      
       if (secretCode === 'open') {
-        const abyss = document.getElementById('sec-abyss');
-        abyss.classList.toggle('locked');
-        if (!abyss.classList.contains('locked')) {
-            abyss.scrollIntoView({ behavior: 'smooth' });
+        // 修改：获取所有带有 sensitive-zone 类的元素，全部解锁/上锁
+        const secretZones = document.querySelectorAll('.sensitive-zone');
+        secretZones.forEach(zone => {
+             zone.classList.toggle('locked');
+        });
+
+        // 如果解锁了，自动滚动到第一个加密区
+        if (!secretZones[0].classList.contains('locked')) {
+             secretZones[0].scrollIntoView({ behavior: 'smooth' });
         }
         secretCode = ''; // 重置
       }
@@ -1222,6 +1263,7 @@
   </script>
 </body>
 </html>
+
 
 
 
