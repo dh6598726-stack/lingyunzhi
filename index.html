@@ -148,7 +148,7 @@
     }
 
     .hero-quote {
-      margin-bottom: 30px; /* 稍微缩小这个间距，因为下面加了Archive */
+      margin-bottom: 30px; 
       padding: 50px;
       background-image: url('laopo.png'); 
       background-size: cover;
@@ -184,11 +184,10 @@
     }
     .quote-sub { font-size: 12px; color: rgba(255,255,255,0.8); letter-spacing: 2px; text-transform: uppercase; }
 
-    /* === Internet Archive 特别样式 (新增) === */
+    /* === Internet Archive 特别样式 === */
     .time-capsule {
-        margin-bottom: 50px; /* 与下方 Grid 拉开距离 */
+        margin-bottom: 50px; 
         padding: 20px 24px;
-        /* 深色渐变背景，营造神秘感，不受主题影响，保持独立 */
         background: linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
         border-radius: var(--radius);
         cursor: pointer;
@@ -204,7 +203,6 @@
         box-shadow: 0 15px 35px rgba(0,0,0,0.35);
         border-color: rgba(255,255,255,0.4);
     }
-    /* 扫光动效 */
     .time-capsule::before {
         content: ''; position: absolute;
         top: 0; left: -100%; width: 50%; height: 100%;
@@ -234,7 +232,6 @@
         transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 2;
     }
     .time-capsule:hover .capsule-arrow { opacity: 1; transform: translateX(0); }
-    /* === 结束 === */
 
     .secret-trigger {
         cursor: pointer;
@@ -471,6 +468,7 @@
         </div>
         <div class="capsule-arrow"><i class="ri-arrow-right-line"></i></div>
       </div>
+
       <div class="section-block" id="sec-daily" data-icon="ri-newspaper-line">
         <div class="section-header">
           <div class="section-title">日常必看</div>
@@ -573,7 +571,43 @@
         </div>
       </div>
 
-   <div class="section-block" id="sec-infra" data-icon="ri-tools-fill">
+    <div class="section-block" id="sec-webmaster" data-icon="ri-server-line">
+        <div class="section-header">
+           <div class="section-title">建站运维</div>
+           <div class="section-count">Webmaster</div>
+        </div>
+        <div class="grid">
+           <div class="card" onclick="openLink('https://github.com/dh6598726-stack/woaibixia')">
+             <div class="card-head"><div class="icon-box">📦</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+             <div class="card-body"><div class="card-title">GitHub</div><div class="card-desc">本站代码</div></div>
+           </div>
+           <div class="card" onclick="openLink('https://porkbun.com/account/domainsSpeedy')">
+             <div class="card-head"><div class="icon-box">🐷</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+             <div class="card-body"><div class="card-title">Porkbun</div><div class="card-desc">域名管理</div></div>
+           </div>
+           <div class="card" onclick="openLink('https://dashboard.thordata.com/')">
+             <div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+             <div class="card-body"><div class="card-title">Thordata</div><div class="card-desc">流量中转</div></div>
+           </div>
+           <div class="card" onclick="openLink('https://app.ipfoxy.net/login?_bt=2')">
+             <div class="card-head"><div class="icon-box">🦊</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+             <div class="card-body"><div class="card-title">IPFoxy</div><div class="card-desc">纯净 IP</div></div>
+           </div>
+           <div class="card" onclick="openLink('https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq')">
+             <div class="card-head"><div class="icon-box">🛡️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+             <div class="card-body"><div class="card-title">2FA 验证</div><div class="card-desc">安全认证</div></div>
+           </div>
+           <div class="card" onclick="openLink('https://vercel.com')">
+              <div class="card-head"><div class="icon-box">🚀</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Vercel</div><div class="card-desc">极速部署</div></div>
+           </div>
+           <div class="card" onclick="openLink('https://cusdis.com/')">
+               <div class="card-head"><div class="icon-box">💬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+               <div class="card-body"><div class="card-title">Cusdis</div><div class="card-desc">评论系统</div></div>
+           </div>
+        </div>
+     </div>
+     <div class="section-block" id="sec-infra" data-icon="ri-tools-fill">
         <div class="section-header">
            <div class="section-title">常用服务</div>
            <div class="section-count">Services</div>
@@ -598,22 +632,6 @@
            <div class="card" onclick="openLink('https://www.wikipedia.org/')">
              <div class="card-head"><div class="icon-box">📚</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">维基百科</div><div class="card-desc">Wikipedia</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://dashboard.thordata.com/')">
-             <div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-             <div class="card-body"><div class="card-title">流量中转</div><div class="card-desc">Thordata</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://porkbun.com/account/domainsSpeedy')">
-             <div class="card-head"><div class="icon-box">🐷</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-             <div class="card-body"><div class="card-title">买域名</div><div class="card-desc">Porkbun</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq')">
-             <div class="card-head"><div class="icon-box">🛡️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-             <div class="card-body"><div class="card-title">2FA 验证</div><div class="card-desc">TOTP</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://app.ipfoxy.net/login?_bt=2')">
-             <div class="card-head"><div class="icon-box">🦊</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-             <div class="card-body"><div class="card-title">纯净 IP</div><div class="card-desc">IPFoxy</div></div>
            </div>
            <div class="card" onclick="openLink('https://www.coinepay.net')">
              <div class="card-head"><div class="icon-box">💳</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -644,10 +662,6 @@
             <div class="section-count">Dev & Sec</div>
          </div>
          <div class="grid">
-            <div class="card" onclick="openLink('https://github.com/dh6598726-stack/woaibixia')">
-              <div class="card-head"><div class="icon-box">📦</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-              <div class="card-body"><div class="card-title">GitHub</div><div class="card-desc">代码托管</div></div>
-            </div>
             <div class="card" onclick="openLink('https://stackoverflow.com')">
                <div class="card-head"><div class="icon-box">💬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">StackOv</div><div class="card-desc">问答社区</div></div>
@@ -656,17 +670,9 @@
                <div class="card-head"><div class="icon-box">💻</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">在线编程</div><div class="card-desc">Replit</div></div>
             </div>
-            <div class="card" onclick="openLink('https://vercel.com')">
-               <div class="card-head"><div class="icon-box">🚀</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-               <div class="card-body"><div class="card-title">Vercel</div><div class="card-desc">极速部署</div></div>
-            </div>
             <div class="card" onclick="openLink('https://codepen.io')">
                <div class="card-head"><div class="icon-box">🧪</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">代码沙盒</div><div class="card-desc">CodePen</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://cusdis.com/')">
-                <div class="card-head"><div class="icon-box">💬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">评论系统</div><div class="card-desc">Cusdis</div></div>
             </div>
             <div class="card" onclick="openLink('https://lusion.co/')">
                 <div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -1189,6 +1195,8 @@
       
       sections.forEach(sec => {
         const id = sec.id;
+        // 如果 section 有 data-icon 属性就用，没有就用默认图标
+        // 这里只是个简单的 fallback
         const iconClass = sec.dataset.icon || 'ri-links-line';
         const title = sec.querySelector('.section-title').textContent.trim();
         
