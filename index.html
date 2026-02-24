@@ -16,13 +16,13 @@
   <style>
     /* 全局背景 */
     body {
-        background-color: #f2f2f7; 
-        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
-        color: var(--text-main);
-        height: 100vh;
-        overflow: hidden;
-        margin: 0;
-        transition: background 0.3s ease;
+      background-color: #f2f2f7; 
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      margin: 0;
+      transition: background 0.3s ease;
     }
 
     /* 设计系统 */
@@ -50,10 +50,7 @@
       --text-sub: #a1a1a6;
       --accent: #0a84ff;
       --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-    }
-    
-    body.dark-mode {
-        background-color: #000000;
+      background-color: #000000;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -298,8 +295,6 @@
 
     /* 敏感内容 - 默认隐藏 (The Vault) */
     .sensitive-zone { position: relative; }
-    
-    /* 增加一个 locked 类，用于完全隐藏 */
     .locked { display: none !important; }
 
     .sensitive-blur { filter: blur(10px); opacity: 0.4; transition: 0.4s; }
@@ -396,31 +391,32 @@
 </head>
 <body>
 
-<div id="panic-overlay">
-  <div>
-    <h1 style="font-size: 80px; margin: 0; color: #333;">404</h1>
-    <p style="font-size: 24px; color: #666; font-family: sans-serif;">Not Found</p>
-    <div style="margin-top: 20px; font-family: monospace; color: #999;">nginx/1.18.0 (Ubuntu)</div>
+  <div id="panic-overlay">
+    <div>
+      <h1 style="font-size: 80px; margin: 0; color: #333;">404</h1>
+      <p style="font-size: 24px; color: #666; font-family: sans-serif;">Not Found</p>
+      <div style="margin-top: 20px; font-family: monospace; color: #999;">nginx/1.18.0 (Ubuntu)</div>
+    </div>
   </div>
-</div>
 
-<div id="splash">
-  <div class="splash-quote">
-    <p style="font-size: 24px; text-align: left; line-height: 1.8;">
-      人生的意义是什么？那我告诉你，人生没有意义。<br>
-      99%的人三代以后，时间会抹平你存在的一切痕迹。<br>
-      所以，人生的意义，就是你活着的这短短几十年体验。<br>
-      <br>
-      明天和意外，也不知道哪个先来。<br>
-      世事无常，我们所能做的就是欣赏每一次花开，观赏每一处风景。<br>
-      现在想想，那些难以接受的事情，也在自愿或者被迫中慢慢接受了。<br>
-      <br>
-      回头看，<span onclick="closeSplash()">轻舟</span>已过万重山；<br>
-      向前看，长路漫漫亦灿烂。
-    </p>
+  <div id="splash">
+    <div class="splash-quote">
+      <p style="font-size: 24px; text-align: left; line-height: 1.8;">
+        人生的意义是什么？那我告诉你，人生没有意义。<br>
+        99%的人三代以后，时间会抹平你存在的一切痕迹。<br>
+        所以，人生的意义，就是你活着的这短短几十年体验。<br>
+        <br>
+        明天和意外，也不知道哪个先来。<br>
+        世事无常，我们所能做的就是欣赏每一次花开，观赏每一处风景。<br>
+        现在想想，那些难以接受的事情，也在自愿或者被迫中慢慢接受了。<br>
+        <br>
+        回头看，<span onclick="closeSplash()">轻舟</span>已过万重山；<br>
+        向前看，长路漫漫亦灿烂。
+      </p>
+    </div>
   </div>
-  </div>
-<div id="fab-memo" title="Open Cloud Memo">
+
+  <div id="fab-memo" title="Open Cloud Memo">
     <i class="ri-cloud-line"></i>
   </div>
 
@@ -511,7 +507,7 @@
         </div>
       </div>
 
-    <div class="section-block" id="sec-ai" data-icon="ri-brain-line">
+      <div class="section-block" id="sec-ai" data-icon="ri-brain-line">
         <div class="section-header">
            <div class="section-title">AI 工具</div>
            <div class="section-count">AI Tools</div>
@@ -565,29 +561,27 @@
               <div class="card-head"><div class="icon-box">🎬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
               <div class="card-body"><div class="card-title">账号合租</div><div class="card-desc">银河录像局</div></div>
            </div>
-           <div class="card" onclick="openLink('https://www.torproject.org/zh-CN/download/')">
-              <div class="card-head"><div class="icon-box">🧅</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-              <div class="card-body"><div class="card-title">Tor 浏览器</div><div class="card-desc">隐私保护</div></div>
-           </div>
         </div>
       </div>
 
-<div class="section-block" id="sec-webmaster" data-icon="ri-server-line">
+      <div class="section-block" id="sec-webmaster" data-icon="ri-server-line">
         <div class="section-header">
            <div class="section-title">建站运维</div>
            <div class="section-count">Webmaster</div>
         </div>
         <div class="grid">
+           <div class="card" onclick="openLink('https://dashboard.decodo.com')">
+             <div class="card-head"><div class="icon-box">🎛️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+             <div class="card-body"><div class="card-title">Decodo</div><div class="card-desc">仪表盘控制面板</div></div>
+           </div>
            <div class="card" onclick="openLink('https://github.com/dh6598726-stack/woaibixia')">
              <div class="card-head"><div class="icon-box">📦</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">GitHub</div><div class="card-desc">本站代码</div></div>
            </div>
-           
            <div class="card" onclick="openLink('https://porkbun.com/account/domainsSpeedy')">
              <div class="card-head"><div class="icon-box">🐷</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">Porkbun</div><div class="card-desc">域名管理</div></div>
            </div>
-
            <div class="card" onclick="openLink('https://dash.cloudflare.com/')">
              <div class="card-head"><div class="icon-box">☁️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">Cloudflare</div><div class="card-desc">CDN 防御</div></div>
@@ -613,9 +607,9 @@
                <div class="card-body"><div class="card-title">Cusdis</div><div class="card-desc">评论系统</div></div>
            </div>
         </div>
-     </div>
+      </div>
       
-     <div class="section-block" id="sec-infra" data-icon="ri-tools-fill">
+      <div class="section-block" id="sec-infra" data-icon="ri-tools-fill">
         <div class="section-header">
            <div class="section-title">常用服务</div>
            <div class="section-count">Services</div>
@@ -660,6 +654,10 @@
            <div class="card" onclick="openLink('https://fuun.fun/')">
               <div class="card-head"><div class="icon-box">🎡</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
               <div class="card-body"><div class="card-title">趣味导航</div><div class="card-desc">Fuun.fun</div></div>
+           </div>
+           <div class="card" onclick="openLink('https://www.torproject.org/zh-CN/download/')">
+              <div class="card-head"><div class="icon-box">🧅</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
+              <div class="card-body"><div class="card-title">Tor 浏览器</div><div class="card-desc">隐私保护</div></div>
            </div>
         </div>
       </div>
@@ -1121,7 +1119,6 @@
                <div class="card-head"><div class="icon-box">🎲</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">随机大全</div><div class="card-desc">随机生成</div></div>
            </div>
-
             <div class="card" onclick="openLink('https://pornhub.com')">
                 <div class="card-head"><div class="icon-box">🟧</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">Pornhub</div><div class="card-desc">业界楷模</div></div>
@@ -1146,7 +1143,6 @@
                 <div class="card-head"><div class="icon-box">🔵</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">OnlyFans</div><div class="card-desc">私密订阅</div></div>
             </div>
-
             <div class="card" onclick="openLink('https://netflav.com/')">
                <div class="card-head"><div class="icon-box">N</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Netflav</div><div class="card-desc">奈飞体验</div></div>
@@ -1159,7 +1155,6 @@
                <div class="card-head"><div class="icon-box">S</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">JAV下载</div><div class="card-desc">SupJAV</div></div>
              </div>
-
              <div class="card" onclick="openLink('https://sukebei.nyaa.si/')">
                <div class="card-head"><div class="icon-box">🧲</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">绅士磁力</div><div class="card-desc">Sukebei</div></div>
@@ -1203,8 +1198,6 @@
       
       sections.forEach(sec => {
         const id = sec.id;
-        // 如果 section 有 data-icon 属性就用，没有就用默认图标
-        // 这里只是个简单的 fallback
         const iconClass = sec.dataset.icon || 'ri-links-line';
         const title = sec.querySelector('.section-title').textContent.trim();
         
@@ -1276,21 +1269,17 @@
       if((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); searchInput.focus(); }
 
       // 3. 隐形资源区解锁逻辑 (输入 'open')
-      // 如果正在输入框打字，不触发
       if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
       
       secretCode += e.key.toLowerCase();
-      // 只保留最后4个字符
       if (secretCode.length > 4) secretCode = secretCode.slice(-4);
       
       if (secretCode === 'open') {
-        // 修改：获取所有带有 sensitive-zone 类的元素，全部解锁/上锁
         const secretZones = document.querySelectorAll('.sensitive-zone');
         secretZones.forEach(zone => {
              zone.classList.toggle('locked');
         });
 
-        // 如果解锁了，自动滚动到第一个加密区
         if (secretZones.length > 0 && !secretZones[0].classList.contains('locked')) {
              secretZones[0].scrollIntoView({ behavior: 'smooth' });
         }
