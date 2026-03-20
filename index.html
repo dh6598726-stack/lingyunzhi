@@ -362,32 +362,33 @@
     #panic-overlay.active { opacity: 1; pointer-events: auto; }
 
     /* 移动端专属优化 */
-    @media (max-width: 768px) {
-      body { background-color: #f2f2f7; }
-      body.dark-mode { background-color: #000000; }
-      #app { grid-template-columns: 1fr; }
-      aside { display: none; }
-      
-      .hero-quote, .card, #ghost-memo, .mask-badge {
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-        background: rgba(255, 255, 255, 0.92);
-      }
-      body.dark-mode .hero-quote, 
-      body.dark-mode .card {
-          background: rgba(20, 20, 22, 0.92);
-      }
-      .hero-quote {
-          background-image: url('laopo.png');
-          background-size: cover;
-          color: white;
-      }
-      main { padding: 16px 16px 80px 16px; }
-      .hero-quote { padding: 24px; margin-bottom: 20px; }
-      .quote-text { font-size: 22px; }
-      #ghost-memo { width: auto; left: 16px; right: 16px; bottom: 90px; height: 50vh; }
-    }
-  </style>
+    @media (max-width: 768px) {
+      body { background-color: #f2f2f7; }
+      body.dark-mode { background-color: #000000; }
+      #app { grid-template-columns: 1fr; }
+      aside { display: none; }
+      
+      .hero-quote, .card, #ghost-memo, .mask-badge {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: rgba(255, 255, 255, 0.92);
+      }
+      body.dark-mode .hero-quote, 
+      body.dark-mode .card,
+      body.dark-mode #ghost-memo {
+          background: rgba(20, 20, 22, 0.92);
+      }
+      .hero-quote {
+          background-image: url('laopo.png');
+          background-size: cover;
+          color: white;
+      }
+      main { padding: 16px 16px 80px 16px; }
+      .hero-quote { padding: 24px; margin-bottom: 20px; }
+      .quote-text { font-size: 22px; }
+      #ghost-memo { width: auto; left: 16px; right: 16px; bottom: 90px; height: 50vh; }
+    }
+  </style>
 </head>
 <body>
 
