@@ -361,37 +361,57 @@
     }
     #panic-overlay.active { opacity: 1; pointer-events: auto; }
 
-    /* 移动端专属优化 */
-    @media (max-width: 768px) {
-      body { background-color: #f2f2f7; }
-      body.dark-mode { background-color: #000000; }
-      #app { grid-template-columns: 1fr; }
-      aside { display: none; }
-      
-      .hero-quote, .card, #ghost-memo, .mask-badge {
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-        background: rgba(255, 255, 255, 0.92);
-      }
-      body.dark-mode .hero-quote, 
-      body.dark-mode .card,
-      body.dark-mode #ghost-memo {
-          background: rgba(20, 20, 22, 0.92);
-      }
-      .hero-quote {
-          background-image: url('laopo.png');
-          background-size: cover;
-          color: white;
-      }
-      main { padding: 16px 16px 80px 16px; }
-      .hero-quote { padding: 24px; margin-bottom: 20px; }
-      .quote-text { font-size: 22px; }
-      #ghost-memo { width: auto; left: 16px; right: 16px; bottom: 90px; height: 50vh; }
-    }
-  </style>
-</head>
-<body>
+/* 移动端专属优化 */
+    @media (max-width: 768px) {
+      body { 
+        background-color: #f2f2f7; 
+        /* 引入最新规范动态视口，彻底解决底部被浏览器地址栏遮挡/截断的问题 */
+        height: 100dvh; 
+      }
+      body.dark-mode { background-color: #000000; }
+      
+      #app { grid-template-columns: 1fr; }
+      aside { display: none; } /* 侧边栏隐藏 */
+      
+      /* 优化 1：缩小网格最小宽度，确保各种手机屏幕下都能完美双排，告别“半块”拥挤 */
+      .grid {
+        grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+        gap: 12px;
+      }
 
+      /* 优化 2：严谨适配深浅模式的纯色降级（取消高斯模糊以提升移动端渲染帧率） */
+      .hero-quote, .card, #ghost-memo, .mask-badge {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: rgba(255, 255, 255, 0.92);
+      }
+      body.dark-mode .hero-quote, 
+      body.dark-mode .card,
+      body.dark-mode #ghost-memo {
+          background: rgba(20, 20, 22, 0.92);
+      }
+
+      .hero-quote {
+          background-image: url('laopo.png');
+          background-size: cover;
+          color: white;
+      }
+
+      /* 优化 3：引入系统级安全区域 env(safe-area-inset)，防刘海和底部小黑条遮挡 */
+      main { 
+        padding: 16px 16px calc(80px + env(safe-area-inset-bottom)) 16px; 
+      }
+      .hero-quote { padding: 24px; margin-bottom: 20px; }
+      .quote-text { font-size: 22px; }
+      
+      #ghost-memo { 
+        width: auto; left: 16px; right: 16px; 
+        /* 云备忘录动态避让底部安全区 */
+        bottom: calc(90px + env(safe-area-inset-bottom)); 
+        height: 50vh; 
+      }
+    }
+    
   <div id="panic-overlay">
     <div>
       <h1 style="font-size: 80px; margin: 0; color: #333;">404</h1>
