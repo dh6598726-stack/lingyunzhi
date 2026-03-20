@@ -61,6 +61,9 @@
       height: 100%;
     }
 
+    /* 移动端专属占位隐藏 */
+    .mobile-header, .mobile-overlay { display: none; }
+
     /* 侧边栏 */
     aside {
       background: var(--bg-sidebar);
@@ -69,7 +72,7 @@
       border-right: 1px solid var(--border);
       padding: 30px 20px;
       display: flex; flex-direction: column;
-      z-index: 10;
+      z-index: 1000;
     }
     
     .brand {
@@ -361,18 +364,53 @@
     }
     #panic-overlay.active { opacity: 1; pointer-events: auto; }
 
-/* 移动端专属优化 */
+    /* ==============================
+       移动端专属全局深度优化
+       ============================== */
     @media (max-width: 768px) {
       body { 
         background-color: #f2f2f7; 
-        /* 引入最新规范动态视口，彻底解决底部被浏览器地址栏遮挡/截断的问题 */
-        height: 100dvh; 
+        height: 100vh;
+        height: 100dvh; /* 引入最新规范动态视口，彻底解决底部被浏览器地址栏遮挡/截断的问题 */
       }
       body.dark-mode { background-color: #000000; }
       
-      #app { grid-template-columns: 1fr; }
-      aside { display: none; } /* 侧边栏隐藏 */
+      #app { display: flex; flex-direction: column; }
       
+      /* 将左侧边栏改造为丝滑的滑动抽屉，保留所有原有功能 */
+      aside { 
+        position: fixed; top: 0; left: -100%; bottom: 0;
+        width: 260px; height: 100vh; height: 100dvh;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 5px 0 25px rgba(0,0,0,0.5);
+      }
+      aside.open { left: 0; }
+      
+      /* 新增：移动端防误触遮罩层 */
+      .mobile-overlay {
+        display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 990;
+        opacity: 0; pointer-events: none; transition: opacity 0.3s;
+      }
+      .mobile-overlay.open { opacity: 1; pointer-events: auto; }
+
+      /* 新增：移动端专属状态导航栏 */
+      .mobile-header {
+        display: flex; align-items: center; justify-content: space-between; gap: 12px;
+        padding: 12px 16px; background: var(--bg-sidebar);
+        backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
+        border-bottom: 1px solid var(--border);
+        position: sticky; top: 0; z-index: 900;
+      }
+      .mh-left { display: flex; align-items: center; gap: 12px; flex: 1; }
+      .mh-logo { color: #ff3b30; font-size: 24px; animation: heartbeat 1.3s infinite ease-in-out; cursor: pointer; }
+      .mh-search-box { flex: 1; position: relative; }
+      .mh-search-box input {
+        width: 100%; padding: 8px 12px 8px 32px; border-radius: 8px; font-size: 13px;
+        background: rgba(128,128,128, 0.1); border: 1px solid transparent; color: var(--text-main);
+      }
+      .mh-search-box i { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--text-sub); }
+      .mh-menu-btn { font-size: 24px; color: var(--text-main); cursor: pointer; }
+
       /* 优化 1：缩小网格最小宽度，确保各种手机屏幕下都能完美双排，告别“半块”拥挤 */
       .grid {
         grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
@@ -411,7 +449,12 @@
         height: 50vh; 
       }
     }
-    
+  </style>
+</head>
+<body>
+
+  <div class="mobile-overlay" id="mobile-overlay"></div>
+
   <div id="panic-overlay">
     <div>
       <h1 style="font-size: 80px; margin: 0; color: #333;">404</h1>
@@ -442,7 +485,18 @@
   </div>
 
   <div id="app">
-    <aside>
+    <div class="mobile-header" id="mobile-header">
+      <div class="mh-left">
+        <div class="mh-logo" onclick="document.body.classList.toggle('dark-mode')"><i class="ri-heart-3-fill"></i></div>
+        <div class="mh-search-box">
+          <i class="ri-search-2-line"></i>
+          <input type="text" class="search-input" placeholder="搜点什么...">
+        </div>
+      </div>
+      <div class="mh-menu-btn" id="mobile-menu-btn"><i class="ri-menu-4-line"></i></div>
+    </div>
+
+    <aside id="sidebar">
       <div class="brand" id="theme-toggle" title="Toggle Theme">
         <div class="brand-logo"><i class="ri-heart-3-fill"></i></div>
         <div class="brand-text">
@@ -1172,6 +1226,22 @@
   </div>
 
   <script>
+    // 侧滑菜单与遮罩控制（移动端）
+    const sidebar = document.getElementById('sidebar');
+    const mobileOverlay = document.getElementById('mobile-overlay');
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    
+    function toggleMobileMenu() {
+        if(window.innerWidth <= 768) {
+            sidebar.classList.toggle('open');
+            mobileOverlay.classList.toggle('open');
+        }
+    }
+    if (mobileMenuBtn && mobileOverlay) {
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+        mobileOverlay.addEventListener('click', toggleMobileMenu);
+    }
+
     // 侧边栏导航生成逻辑
     document.addEventListener('DOMContentLoaded', () => {
       const navContainer = document.getElementById('nav-container');
@@ -1192,6 +1262,9 @@
           document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
           document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
           link.classList.add('active');
+          
+          // 移动端点击导航项后自动收起侧滑菜单
+          if(window.innerWidth <= 768) { toggleMobileMenu(); }
         });
         
         navContainer.appendChild(link);
@@ -1216,17 +1289,23 @@
     }
     setInterval(updateTime, 1000); updateTime();
 
-    // 实时搜索逻辑
-    const searchInput = document.getElementById('search-input');
-    searchInput.addEventListener('input', (e) => {
-      const term = e.target.value.toLowerCase();
-      document.querySelectorAll('.card').forEach(card => {
-        const text = card.textContent.toLowerCase();
-        card.style.display = text.includes(term) ? 'flex' : 'none';
-      });
-      document.querySelectorAll('.section-block').forEach(sec => {
-        const visibleCards = sec.querySelectorAll('.card[style="display: flex;"]');
-        sec.style.display = (visibleCards.length === 0 && term !== '') ? 'none' : 'block';
+    // 实时搜索逻辑（兼容移动端顶栏与侧栏的搜索框）
+    const searchInputs = document.querySelectorAll('.search-input');
+    searchInputs.forEach(input => {
+      input.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        
+        // 同步另外一个搜索框的内容
+        searchInputs.forEach(inp => { if(inp !== e.target) inp.value = term; });
+
+        document.querySelectorAll('.card').forEach(card => {
+          const text = card.textContent.toLowerCase();
+          card.style.display = text.includes(term) ? 'flex' : 'none';
+        });
+        document.querySelectorAll('.section-block').forEach(sec => {
+          const visibleCards = sec.querySelectorAll('.card[style="display: flex;"]');
+          sec.style.display = (visibleCards.length === 0 && term !== '') ? 'none' : 'block';
+        });
       });
     });
 
@@ -1247,7 +1326,12 @@
       }
 
       // 2. 快捷键聚焦搜索: Ctrl/Cmd + K
-      if((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); searchInput.focus(); }
+      if((e.metaKey || e.ctrlKey) && e.key === 'k') { 
+          e.preventDefault(); 
+          // 聚焦可见的搜索框
+          const visibleSearch = Array.from(searchInputs).find(i => i.offsetParent !== null);
+          if (visibleSearch) visibleSearch.focus(); 
+      }
 
       // 3. 解锁逻辑: 依次输入 'open'
       if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
@@ -1305,4 +1389,3 @@
   </script>
 </body>
 </html>
-
