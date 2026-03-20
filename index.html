@@ -474,7 +474,7 @@
         世事无常，我们所能做的就是欣赏每一次花开，观赏每一处风景。<br>
         现在想想，那些难以接受的事情，也在自愿或者被迫中慢慢接受了。<br>
         <br>
-        回头看，<span onclick="closeSplash()">轻舟</span>已过万重山；<br>
+        回头看，<span onclick="closeSplash()" style="cursor: pointer; touch-action: manipulation; padding: 10px 5px; margin: -10px -5px; position: relative; z-index: 10;">轻舟</span>已过万重山；<br>
         向前看，长路漫漫亦灿烂。
       </p>
     </div>
@@ -1256,64 +1256,47 @@
     }
     setInterval(updateTime, 1000); updateTime();
 
-    // 实时搜索逻辑（兼容移动端顶栏与侧栏的搜索框）
+    // 实时搜索逻辑（兼容移动端顶栏与侧栏的搜索框，集成口令拦截）
     const searchInputs = document.querySelectorAll('.search-input');
     searchInputs.forEach(input => {
       input.addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase().trim(); // 使用 trim 避免误敲空格
+        const term = e.target.value.toLowerCase().trim();
         
-        // --- 新增：彩蛋口令拦截逻辑 (移动端/搜索框专属) ---
+        // --- 彩蛋口令拦截逻辑 (移动端/搜索框专属) ---
         if (term === 'open') {
           const secretZones = document.querySelectorAll('.sensitive-zone');
           let isUnlocking = false;
 
           secretZones.forEach(zone => {
-            // 切换解锁/锁定状态 (与键盘快捷键保持一致)
             zone.classList.toggle('locked');
             if (!zone.classList.contains('locked')) {
               isUnlocking = true;
             }
           });
 
-          // 执行完口令后，必须重置搜索栏和页面元素状态
+          // 执行完口令后，重置搜索栏和页面元素状态
           searchInputs.forEach(inp => { inp.value = ''; });
           document.querySelectorAll('.card').forEach(card => { card.style.display = 'flex'; });
           document.querySelectorAll('.section-block').forEach(sec => { sec.style.display = 'block'; });
 
-          // 如果是解锁状态，滚动到对应区域
+          // 滚动到对应区域并收起移动端侧边栏
           if (isUnlocking && secretZones.length > 0) {
-             // 如果在移动端，收起侧边栏 (防止遮挡视线)
              if (window.innerWidth <= 768) {
                  document.getElementById('sidebar').classList.remove('open');
                  document.getElementById('mobile-overlay').classList.remove('open');
              }
-             // 微小延时确保 DOM 渲染完成
              setTimeout(() => {
                  secretZones[0].scrollIntoView({ behavior: 'smooth' });
              }, 50);
           }
-          return; // 命中彩蛋，终止后续的正常搜索逻辑
+          return;
         }
-        // ------------------------------------------------
+        // ---------------------------------------------
 
         // 同步另外一个搜索框的内容
         searchInputs.forEach(inp => { if(inp !== e.target) inp.value = term; });
 
         // 正常的搜索过滤逻辑
-        document.querySelectorAll('.card').forEach(card => {
-          const text = card.textContent.toLowerCase();
-          card.style.display = text.includes(term) ? 'flex' : 'none';
-        });
-        document.querySelectorAll('.section-block').forEach(sec => {
-          const visibleCards = sec.querySelectorAll('.card[style="display: flex;"]');
-          sec.style.display = (visibleCards.length === 0 && term !== '') ? 'none' : 'block';
-        });
-      });
-    });
-        
-        // 同步另外一个搜索框的内容
-        searchInputs.forEach(inp => { if(inp !== e.target) inp.value = term; });
-
         document.querySelectorAll('.card').forEach(card => {
           const text = card.textContent.toLowerCase();
           card.style.display = text.includes(term) ? 'flex' : 'none';
