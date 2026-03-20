@@ -50,7 +50,7 @@
     
     body {
       background-color: var(--bg-body); 
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
       color: var(--text-main);
       height: 100vh;
       overflow: hidden;
@@ -95,10 +95,11 @@
     .brand-text h1 { 
       font-family: "Zhi Mang Xing", cursive;
       font-size: 26px; font-weight: 400; line-height: 1;
+      letter-spacing: 0.5px;
     }
     .brand-text span { 
       font-size: 11px; color: var(--text-sub); text-transform: uppercase; 
-      letter-spacing: 1.5px; display: block; margin-top: 4px;
+      letter-spacing: 1px; display: block; margin-top: 4px;
     }
 
     .search-box { position: relative; margin-bottom: 24px; }
@@ -139,7 +140,7 @@
       display: flex; justify-content: space-between; align-items: center; 
     }
     .time-badge {
-      font-family: "SF Mono", ui-monospace, monospace; font-size: 12px; color: var(--text-sub);
+      font-family: "SF Mono", monospace; font-size: 12px; color: var(--text-sub);
       background: rgba(128,128,128, 0.08); padding: 6px 10px; border-radius: 6px; cursor: default;
     }
 
@@ -171,9 +172,18 @@
     .quote-text, .quote-sub { position: relative; z-index: 2; }
     .quote-text {
       font-family: "Zhi Mang Xing", cursive;
-      font-size: 32px; line-height: 1.5; color: #ffffff; margin-bottom: 12px;
+      font-size: 32px; line-height: 1.6; color: #ffffff; margin-bottom: 12px;
     }
     .quote-sub { font-size: 13px; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; }
+
+    .secret-trigger {
+        cursor: pointer;
+        border-bottom: 1px dashed rgba(255,255,255,0.4);
+        transition: all 0.2s;
+    }
+    .secret-trigger:hover {
+        color: #fff; border-bottom-color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.8);
+    }
 
     /* 网格与卡片 */
     .section-block { margin-bottom: 56px; scroll-margin-top: 32px; }
@@ -182,7 +192,7 @@
       margin-bottom: 24px; padding-bottom: 10px;
       border-bottom: 1px solid var(--border-color);
     }
-    .section-title { font-size: 18px; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+    .section-title { font-size: 18px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px;}
     .section-count { font-size: 12px; color: var(--text-sub); font-family: "SF Mono", monospace; text-transform: uppercase; }
 
     .grid {
@@ -215,7 +225,7 @@
       width: 36px; height: 36px;
       border-radius: 10px; background: rgba(128,128,128, 0.08);
       display: flex; align-items: center; justify-content: center;
-      font-size: 18px; 
+      font-size: 18px; color: var(--text-main);
     }
     .link-arrow { font-size: 14px; color: var(--border-color); transition: var(--transition-fast); }
     .card:hover .link-arrow { color: var(--accent); transform: translate(3px, -3px); }
@@ -230,28 +240,36 @@
     /* 特殊区块：时光机 */
     .time-capsule {
         margin-bottom: 56px; padding: 24px 32px;
-        background: linear-gradient(135deg, #1d1d1f 0%, #000000 100%);
+        background: linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
         border-radius: var(--radius-lg); cursor: pointer;
         display: flex; align-items: center; justify-content: space-between;
-        box-shadow: var(--shadow-hover); border: 1px solid rgba(255,255,255,0.1);
+        box-shadow: var(--shadow-hover); border: 1px solid rgba(255,255,255,0.15);
         position: relative; overflow: hidden; color: #fff;
         transition: transform var(--transition-fast);
     }
-    .time-capsule:hover { transform: scale(1.01) translateY(-2px); border-color: rgba(255,255,255,0.3); }
+    .time-capsule:hover { transform: scale(1.01) translateY(-2px); border-color: rgba(255,255,255,0.4); }
+    .time-capsule::before {
+        content: ''; position: absolute;
+        top: 0; left: -100%; width: 50%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        transform: skewX(-20deg); transition: 0s;
+    }
+    .time-capsule:hover::before { left: 200%; transition: 0.8s ease-in-out; }
+
     .capsule-left { display: flex; align-items: center; gap: 20px; z-index: 2; }
     .capsule-icon-box {
-        width: 48px; height: 48px; background: rgba(255,255,255,0.15);
+        width: 48px; height: 48px; background: rgba(255,255,255,0.15); backdrop-filter: blur(5px);
         border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px;
     }
     .capsule-info { display: flex; flex-direction: column; }
-    .capsule-title { font-size: 16px; font-weight: 600; letter-spacing: 0.5px; }
-    .capsule-desc { color: rgba(255,255,255,0.7); font-size: 12px; margin-top: 4px; }
+    .capsule-title { font-size: 16px; font-weight: 700; letter-spacing: 0.5px; }
+    .capsule-desc { color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 4px; }
     .capsule-arrow {
         width: 36px; height: 36px; border-radius: 50%; background: #fff; color: #000;
         display: flex; align-items: center; justify-content: center;
-        font-size: 18px; opacity: 0.5; transition: all var(--transition-fast);
+        font-size: 18px; opacity: 0; transform: translateX(-15px); transition: all var(--transition-fast);
     }
-    .time-capsule:hover .capsule-arrow { opacity: 1; transform: translateX(5px); }
+    .time-capsule:hover .capsule-arrow { opacity: 1; transform: translateX(0); }
 
     /* 敏感内容区域 */
     .sensitive-zone { position: relative; }
@@ -262,16 +280,59 @@
       z-index: 5; pointer-events: none;
     }
     .mask-badge {
-      background: rgba(0,0,0,0.85); color: #fff; backdrop-filter: blur(8px);
+      background: rgba(0,0,0,0.8); color: #fff; backdrop-filter: blur(4px);
       padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
       transition: var(--transition-fast);
     }
     .sensitive-zone:hover .sensitive-blur { filter: blur(0); opacity: 1; }
     .sensitive-zone:hover .mask-badge { opacity: 0; transform: scale(0.9); }
 
-    /* 移动端与交互组件隐藏配置 */
+    /* 开屏界面 */
+    #splash {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--bg-body); 
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 0.6s ease;
+      user-select: none; 
+    }
+    .splash-quote { 
+        font-family: "Zhi Mang Xing", cursive; font-size: 32px; 
+        text-align: center; max-width: 600px; line-height: 1.6; margin-bottom: 40px; padding: 0 20px;
+        color: var(--text-main);
+    }
+
+    /* 备忘录 */
+    #fab-memo { display: none; }
+    #ghost-memo {
+      position: fixed; bottom: 90px; right: 30px; 
+      width: 320px; height: 400px;
+      background: var(--bg-card); color: var(--text-main);
+      backdrop-filter: blur(var(--blur-val));
+      -webkit-backdrop-filter: blur(var(--blur-val));
+      border: 1px solid var(--border-color);
+      border-radius: 16px; padding: 20px;
+      display: flex; flex-direction: column;
+      box-shadow: var(--shadow-hover);
+      transform: translateY(20px) scale(0.9); opacity: 0; pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 100;
+    }
+    #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
+    #memo-content {
+      flex: 1; background: rgba(128,128,128, 0.05); border: none; outline: none; border-radius: 8px; padding: 12px;
+      color: var(--text-main); font-family: monospace; font-size: 13px; line-height: 1.6; resize: none; margin-top: 10px;
+    }
+
+    /* 老板键 */
+    #panic-overlay {
+      position: fixed; inset: 0; background: #ffffff; z-index: 99999;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; opacity: 0; pointer-events: none; transition: 0.1s;
+    }
+    #panic-overlay.active { opacity: 1; pointer-events: auto; }
+
+    .hidden { opacity: 0; pointer-events: none; }
     .mobile-header, .mobile-overlay { display: none; }
-    .secret-trigger { cursor: pointer; border-bottom: 1px dashed rgba(255,255,255,0.5); }
 
     /* 移动端响应式深度优化 */
     @media (max-width: 768px) {
@@ -314,29 +375,46 @@
       
       .hero-quote { padding: 32px 24px; margin-bottom: 24px; }
       .quote-text { font-size: 24px; }
+
+      #ghost-memo { 
+        width: auto; left: 16px; right: 16px; 
+        bottom: calc(90px + env(safe-area-inset-bottom)); 
+        height: 50vh; 
+      }
     }
-    
-    .hidden { opacity: 0; pointer-events: none; transition: 0.5s; }
   </style>
 </head>
 <body>
 
   <div class="mobile-overlay" id="mobile-overlay"></div>
-  <div id="panic-overlay" class="hidden" style="position:fixed; inset:0; background:#fff; z-index:9999; display:flex; align-items:center; justify-content:center; text-align:center;">
+
+  <div id="panic-overlay">
     <div>
-      <h1 style="font-size:80px; margin:0; color:#333;">404</h1>
-      <p style="font-size:24px; color:#666;">Not Found</p>
+      <h1 style="font-size: 80px; margin: 0; color: #333;">404</h1>
+      <p style="font-size: 24px; color: #666; font-family: sans-serif;">Not Found</p>
+      <div style="margin-top: 20px; font-family: monospace; color: #999;">nginx/1.18.0 (Ubuntu)</div>
     </div>
   </div>
 
-  <div id="splash" style="position:fixed; inset:0; background:var(--bg-body); z-index:9999; display:flex; align-items:center; justify-content:center;">
-    <div class="quote-text" style="color:var(--text-main); text-align:center; max-width:600px; padding:20px;">
-        <p style="font-size:22px; line-height:1.8;">
-          客观与严谨，是记录世界的最好方式。<br>
-          数据流转，信息更迭，留存真正有价值的枢纽。<br>
-          <span onclick="document.getElementById('splash').style.display='none'" style="cursor:pointer; color:var(--accent); border-bottom:1px solid;">点击进入系统</span>
-        </p>
+  <div id="splash">
+    <div class="splash-quote">
+      <p style="font-size: 24px; text-align: left; line-height: 1.8;">
+        人生的意义是什么？那我告诉你，人生没有意义。<br>
+        99%的人三代以后，时间会抹平你存在的一切痕迹。<br>
+        所以，人生的意义，就是你活着的这短短几十年体验。<br>
+        <br>
+        明天和意外，也不知道哪个先来。<br>
+        世事无常，我们所能做的就是欣赏每一次花开，观赏每一处风景。<br>
+        现在想想，那些难以接受的事情，也在自愿或者被迫中慢慢接受了。<br>
+        <br>
+        回头看，<span onclick="closeSplash()" style="cursor: pointer; touch-action: manipulation; padding: 10px 5px; margin: -10px -5px; position: relative; z-index: 10;">轻舟</span>已过万重山；<br>
+        向前看，长路漫漫亦灿烂。
+      </p>
     </div>
+  </div>
+
+  <div id="fab-memo" title="Open Cloud Memo">
+    <i class="ri-cloud-line"></i>
   </div>
 
   <div id="app">
@@ -345,57 +423,57 @@
         <div class="mh-logo" onclick="document.body.classList.toggle('dark-mode')"><i class="ri-heart-3-fill"></i></div>
         <div class="mh-search-box">
           <i class="ri-search-2-line"></i>
-          <input type="text" class="search-input" placeholder="全局检索...">
+          <input type="text" class="search-input" placeholder="搜点什么...">
         </div>
       </div>
       <div class="mh-menu-btn" id="mobile-menu-btn"><i class="ri-menu-4-line"></i></div>
     </div>
 
     <aside id="sidebar">
-      <div class="brand" id="theme-toggle" title="切换深浅模式">
+      <div class="brand" id="theme-toggle" title="Toggle Theme">
         <div class="brand-logo"><i class="ri-heart-3-fill"></i></div>
         <div class="brand-text">
           <h1>JIN Tong</h1>
-          <span>Navigation System</span>
+          <span>ARCHIVE</span>
         </div>
       </div>
         
       <div class="search-box">
         <i class="ri-search-2-line search-icon"></i>
-        <input type="text" class="search-input" id="search-input" placeholder="搜索网站或用途...">
+        <input type="text" class="search-input" id="search-input" placeholder="搜点什么...">
       </div>
 
       <div class="nav-scroll" id="nav-container"></div>
 
       <div class="aside-footer">
         <div class="time-badge" id="time-pill">00:00</div>
-        <i class="ri-settings-4-line" style="font-size:16px; color:var(--text-sub); opacity:0.6; cursor:pointer;"></i>
+        <i class="ri-equalizer-line" style="font-size:12px; color:var(--text-sub); opacity:0.5;"></i>
       </div>
     </aside>
 
     <main id="main-scroll">
       <div class="hero-quote">
         <div class="quote-text">
-          信息的海洋浩瀚无垠，建立秩序方能掌控全局。<br>此处汇集各领域核心数字基建与应用入口。
+          天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo()">凌云</span>之志。
         </div>
-        <div class="quote-sub">Professional & Rigorous / The Archive</div>
+        <div class="quote-sub">Long live freedom / The Visual Archive</div>
       </div>
 
       <div class="time-capsule" onclick="openLink('https://archive.org/')">
         <div class="capsule-left">
-            <div class="capsule-icon-box"><i class="ri-database-2-line"></i></div>
+            <div class="capsule-icon-box"><i class="ri-bank-line"></i></div>
             <div class="capsule-info">
-                <span class="capsule-title">Internet Archive (网页档案馆)</span>
+                <span class="capsule-title">互联网档案馆</span>
                 <span class="capsule-desc">查询全球互联网历史页面的免费数据库</span>
             </div>
         </div>
         <div class="capsule-arrow"><i class="ri-arrow-right-line"></i></div>
       </div>
 
-      <div class="section-block" id="sec-daily" data-icon="ri-article-line">
+      <div class="section-block" id="sec-daily" data-icon="ri-newspaper-line">
         <div class="section-header">
           <div class="section-title">资讯与前沿</div>
-          <div class="section-count">News & Tech</div>
+          <div class="section-count">Tech & Startup Feed</div>
         </div>
         <div class="grid">
           <div class="card" onclick="openLink('https://36kr.com/')">
@@ -433,7 +511,7 @@
         </div>
       </div>
 
-      <div class="section-block" id="sec-ai" data-icon="ri-robot-2-line">
+      <div class="section-block" id="sec-ai" data-icon="ri-brain-line">
         <div class="section-header">
            <div class="section-title">AI 与大模型</div>
            <div class="section-count">Artificial Intelligence</div>
@@ -489,18 +567,18 @@
       <div class="section-block" id="sec-webmaster" data-icon="ri-server-line">
         <div class="section-header">
            <div class="section-title">站长与基建</div>
-           <div class="section-count">Web Infrastructure</div>
+           <div class="section-count">Webmaster & Infrastructure</div>
         </div>
         <div class="grid">
            <div class="card" onclick="openLink('https://dashboard.decodo.com')">
              <div class="card-head"><div class="icon-box">🎛️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">Decodo</div><div class="card-desc">提供高匿名性和高防安全保护的网络代理服务</div></div>
            </div>
-           <div class="card" onclick="openLink('https://github.com')">
+           <div class="card" onclick="openLink('https://github.com/dh6598726-stack/woaibixia')">
              <div class="card-head"><div class="icon-box">📦</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">GitHub</div><div class="card-desc">全球程序员用来托管代码和开源软件的网站</div></div>
            </div>
-           <div class="card" onclick="openLink('https://porkbun.com')">
+           <div class="card" onclick="openLink('https://porkbun.com/account/domainsSpeedy')">
              <div class="card-head"><div class="icon-box">🐷</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">Porkbun</div><div class="card-desc">价格便宜且界面好用的国外网站域名购买平台</div></div>
            </div>
@@ -516,7 +594,7 @@
              <div class="card-head"><div class="icon-box">🦊</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">IPFoxy</div><div class="card-desc">提供干净无污染的独享IP代理服务</div></div>
            </div>
-           <div class="card" onclick="openLink('https://2fa.live')">
+           <div class="card" onclick="openLink('https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq')">
              <div class="card-head"><div class="icon-box">🛡️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">2FA 在线</div><div class="card-desc">在线生成账号登录所需的动态双重验证码</div></div>
            </div>
@@ -531,10 +609,10 @@
         </div>
       </div>
 
-      <div class="section-block" id="sec-geek" data-icon="ri-terminal-box-line">
+      <div class="section-block" id="sec-geek" data-icon="ri-shield-keyhole-line">
          <div class="section-header">
             <div class="section-title">代码与攻防</div>
-            <div class="section-count">Dev & Cybersecurity</div>
+            <div class="section-count">Development & Cybersecurity</div>
          </div>
          <div class="grid">
             <div class="card" onclick="openLink('https://stackoverflow.com')">
@@ -593,7 +671,7 @@
                <div class="card-head"><div class="icon-box">🧬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Netsec</div><div class="card-desc">讨论最新网络安全漏洞与行业情报的活跃社区</div></div>
             </div>
-            <div class="card" onclick="openLink('https://www.virustotal.com')">
+            <div class="card" onclick="openLink('https://www.virustotal.com/gui/home/upload')">
                <div class="card-head"><div class="icon-box">🧫</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">VirusTotal</div><div class="card-desc">上传可疑文件或网址，集合几十家杀毒引擎免费查毒</div></div>
             </div>
@@ -611,7 +689,7 @@
       <div class="section-block" id="sec-design" data-icon="ri-palette-line">
          <div class="section-header">
             <div class="section-title">设计与视觉</div>
-            <div class="section-count">Design Assets</div>
+            <div class="section-count">Design & Assets</div>
          </div>
          <div class="grid">
             <div class="card" onclick="openLink('https://www.pinterest.com/')">
@@ -676,7 +754,7 @@
       <div class="section-block" id="sec-explore" data-icon="ri-earth-line">
          <div class="section-header">
             <div class="section-title">探索与天眼</div>
-            <div class="section-count">Global Monitor</div>
+            <div class="section-count">Explore & Global Monitor</div>
          </div>
          <div class="grid">
             <div class="card" onclick="openLink('https://earth.google.com')">
@@ -777,7 +855,7 @@
       <div class="section-block" id="sec-utils" data-icon="ri-hammer-line">
          <div class="section-header">
             <div class="section-title">工具与资产</div>
-            <div class="section-count">Tools & Crypto</div>
+            <div class="section-count">Tools, Search & Crypto</div>
          </div>
          <div class="grid">
             <div class="card" onclick="openLink('https://www.google.com/')">
@@ -834,7 +912,7 @@
              </div>
              <div class="card" onclick="openLink('https://gumroad.com')">
                 <div class="card-head"><div class="icon-box">💸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">Gumroad</div><div class="card-desc">面向独立创作者的数字产品（教程、代码等）销售与交易平台</div></div>
+                <div class="card-body"><div class="card-title">Gumroad</div><div class="card-desc">面向独立创作者的数字产品销售与交易平台</div></div>
              </div>
              <div class="card" onclick="openLink('https://www.suijidaquan.com/')">
                 <div class="card-head"><div class="icon-box">🎲</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -850,7 +928,7 @@
             </div>
             <div class="card" onclick="openLink('https://www.10minutemail.com')">
                <div class="card-head"><div class="icon-box">⌛</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-               <div class="card-body"><div class="card-title">10分钟邮箱</div><div class="card-desc">提供临时、即用即毁的匿名电子邮箱地址，防止垃圾邮件骚扰</div></div>
+               <div class="card-body"><div class="card-title">10分钟邮箱</div><div class="card-desc">提供临时匿名电子邮箱地址，防止垃圾邮件骚扰</div></div>
             </div>
             <div class="card" onclick="openLink('https://mjjfaka.net/')">
                <div class="card-head"><div class="icon-box">🏪</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -858,7 +936,7 @@
             </div>
              <div class="card" onclick="openLink('https://www.binance.com/')">
                <div class="card-head"><div class="icon-box">💰</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-               <div class="card-body"><div class="card-title">币安 (Binance)</div><div class="card-desc">全球交易量最大、用户最多的综合性加密货币交易所</div></div>
+               <div class="card-body"><div class="card-title">币安</div><div class="card-desc">全球交易量最大、用户最多的综合性加密货币交易所</div></div>
             </div>
             <div class="card" onclick="openLink('https://www.okx.com/')">
                <div class="card-head"><div class="icon-box">🟢</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -911,7 +989,7 @@
             </div>
             <div class="card" onclick="openLink('https://open.spotify.com/')">
                <div class="card-head"><div class="icon-box">🎵</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-               <div class="card-body"><div class="card-title">Spotify</div><div class="card-desc">提供海量曲库与个性化推荐的全球主流正版流媒体音乐服务</div></div>
+               <div class="card-body"><div class="card-title">Spotify</div><div class="card-desc">提供海量曲库与个性化推荐的全球主流流媒体音乐服务</div></div>
             </div>
              <div class="card" onclick="openLink('https://everynoise.com')">
                <div class="card-head"><div class="icon-box">🎶</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -929,9 +1007,9 @@
       </div>
 
       <div class="section-block sensitive-zone locked" id="sec-abyss" data-icon="ri-eye-off-line">
-        <div class="sensitive-mask"><div class="mask-badge">RESTRICTED ZONE</div></div>
+        <div class="sensitive-mask"><div class="mask-badge">Confidential / NSFW</div></div>
         <div class="sensitive-blur">
-          <div class="section-header"><div class="section-title">高隐私服务</div><span class="section-count">Private Access</span></div>
+          <div class="section-header"><div class="section-title">深海与私藏</div><span class="section-count">Abyss & Gentleman</span></div>
           <div class="grid">
              <div class="card" onclick="openLink('https://www.torproject.org/zh-CN/download/')">
                <div class="card-head"><div class="icon-box">🧅</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -951,7 +1029,7 @@
             </div>
             <div class="card" onclick="openLink('https://www.pornpics.com/')">
                   <div class="card-head"><div class="icon-box">👱‍♀️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                  <div class="card-body"><div class="card-title">欧美图库 (Pornpics)</div><div class="card-desc">提供海量欧美风格成人摄影与大尺度套图的照片库</div></div>
+                  <div class="card-body"><div class="card-title">欧美图库</div><div class="card-desc">提供海量欧美风格成人摄影与大尺度套图的照片库</div></div>
             </div>
             <div class="card" onclick="openLink('https://www.junmeitu.com/')">
                   <div class="card-head"><div class="icon-box">💃</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -967,11 +1045,11 @@
             </div>
              <div class="card" onclick="openLink('https://www.tblop.com/')">
                 <div class="card-head"><div class="icon-box">📜</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">绅士列表 (TBLOP)</div><div class="card-desc">全球范围内收录最全的纯文本成人网站分类大全与目录导航</div></div>
+                <div class="card-body"><div class="card-title">绅士列表</div><div class="card-desc">全球范围内收录最全的纯文本成人网站分类大全与目录导航</div></div>
             </div>
             <div class="card" onclick="openLink('https://theporndude.com/')">
                 <div class="card-head"><div class="icon-box">🤠</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-                <div class="card-body"><div class="card-title">色情向导 (ThePornDude)</div><div class="card-desc">提供专业成人网站评测与筛选的优质色情资源导航平台</div></div>
+                <div class="card-body"><div class="card-title">色情向导</div><div class="card-desc">提供专业成人网站评测与筛选的优质色情资源导航平台</div></div>
             </div>
             <div class="card" onclick="openLink('https://pornhub.com')">
                 <div class="card-head"><div class="icon-box">🟧</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -1011,7 +1089,7 @@
              </div>
              <div class="card" onclick="openLink('https://sukebei.nyaa.si/')">
                <div class="card-head"><div class="icon-box">🧲</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
-               <div class="card-body"><div class="card-title">Sukebei</div><div class="card-desc">全球最大的二次元相关成人内容（本子、里番等）磁力种子聚合站</div></div>
+               <div class="card-body"><div class="card-title">Sukebei</div><div class="card-desc">全球最大的二次元相关成人内容磁力种子聚合站</div></div>
              </div>
              <div class="card" onclick="openLink('https://nyaa.si/')">
                <div class="card-head"><div class="icon-box">N</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
@@ -1032,7 +1110,20 @@
     </main>
   </div>
 
+  <div id="ghost-memo" class="hidden">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <span style="font-size:12px; font-weight:700; letter-spacing:1px;">云备忘录</span>
+      <div style="display:flex; gap:10px;">
+        <span id="cloud-status" style="font-size:10px; opacity:0.5;">READY</span>
+        <span id="cloud-sync-btn" style="cursor:pointer;">↺</span>
+        <span onclick="toggleMemo()" style="cursor:pointer;">×</span>
+      </div>
+    </div>
+    <textarea id="memo-content" placeholder="输入内容..."></textarea>
+  </div>
+
   <script>
+    // 侧滑菜单与遮罩控制（移动端）
     const sidebar = document.getElementById('sidebar');
     const mobileOverlay = document.getElementById('mobile-overlay');
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -1048,13 +1139,14 @@
         mobileOverlay.addEventListener('click', toggleMobileMenu);
     }
 
+    // 侧边栏导航生成逻辑
     document.addEventListener('DOMContentLoaded', () => {
       const navContainer = document.getElementById('nav-container');
       const sections = document.querySelectorAll('.section-block');
       
       sections.forEach(sec => {
         const id = sec.id;
-        const iconClass = sec.dataset.icon || 'ri-link-m';
+        const iconClass = sec.dataset.icon || 'ri-links-line';
         const title = sec.querySelector('.section-title').textContent.trim();
         
         const link = document.createElement('a');
@@ -1067,19 +1159,33 @@
           document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
           document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
           link.classList.add('active');
-          if(window.innerWidth <= 768) toggleMobileMenu();
+          
+          if(window.innerWidth <= 768) { toggleMobileMenu(); }
         });
+        
         navContainer.appendChild(link);
       });
     });
 
     function openLink(url) { window.open(url, '_blank'); }
 
+    // 开屏动画逻辑
+    function closeSplash() {
+      const splash = document.getElementById('splash');
+      splash.classList.add('hidden');
+      sessionStorage.setItem('archiveSplashSeen', 'true');
+    }
+    if (sessionStorage.getItem('archiveSplashSeen')) {
+      document.getElementById('splash').style.display = 'none';
+    }
+
+    // 更新系统时间
     function updateTime() {
       document.getElementById('time-pill').textContent = new Date().toLocaleTimeString('zh-CN', {hour12:false});
     }
     setInterval(updateTime, 1000); updateTime();
 
+    // 实时搜索与口令逻辑
     const searchInputs = document.querySelectorAll('.search-input');
     searchInputs.forEach(input => {
       input.addEventListener('input', (e) => {
@@ -1088,16 +1194,26 @@
         if (term === 'open') {
           const secretZones = document.querySelectorAll('.sensitive-zone');
           let isUnlocking = false;
+
           secretZones.forEach(zone => {
             zone.classList.toggle('locked');
-            if (!zone.classList.contains('locked')) isUnlocking = true;
+            if (!zone.classList.contains('locked')) {
+              isUnlocking = true;
+            }
           });
-          searchInputs.forEach(inp => inp.value = '');
-          document.querySelectorAll('.card').forEach(card => card.style.display = 'flex');
-          document.querySelectorAll('.section-block').forEach(sec => sec.style.display = 'block');
+
+          searchInputs.forEach(inp => { inp.value = ''; });
+          document.querySelectorAll('.card').forEach(card => { card.style.display = 'flex'; });
+          document.querySelectorAll('.section-block').forEach(sec => { sec.style.display = 'block'; });
+
           if (isUnlocking && secretZones.length > 0) {
-             if (window.innerWidth <= 768) { sidebar.classList.remove('open'); mobileOverlay.classList.remove('open'); }
-             setTimeout(() => secretZones[0].scrollIntoView({ behavior: 'smooth' }), 50);
+             if (window.innerWidth <= 768) {
+                 document.getElementById('sidebar').classList.remove('open');
+                 document.getElementById('mobile-overlay').classList.remove('open');
+             }
+             setTimeout(() => {
+                 secretZones[0].scrollIntoView({ behavior: 'smooth' });
+             }, 50);
           }
           return;
         }
@@ -1105,7 +1221,8 @@
         searchInputs.forEach(inp => { if(inp !== e.target) inp.value = term; });
 
         document.querySelectorAll('.card').forEach(card => {
-          card.style.display = card.textContent.toLowerCase().includes(term) ? 'flex' : 'none';
+          const text = card.textContent.toLowerCase();
+          card.style.display = text.includes(term) ? 'flex' : 'none';
         });
         document.querySelectorAll('.section-block').forEach(sec => {
           const visibleCards = sec.querySelectorAll('.card[style="display: flex;"]');
@@ -1114,24 +1231,38 @@
       });
     });
 
+    // 监听全局按键：老板键 (Esc) 和解锁码 (open)
     let secretCode = '';
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         const panicOverlay = document.getElementById('panic-overlay');
-        panicOverlay.classList.toggle('hidden');
+        const app = document.getElementById('app');
+        if (panicOverlay.classList.contains('active')) {
+          panicOverlay.classList.remove('active');
+          app.style.filter = 'none';
+        } else {
+          panicOverlay.classList.add('active');
+          app.style.filter = 'blur(10px)'; 
+        }
       }
+
       if((e.metaKey || e.ctrlKey) && e.key === 'k') { 
           e.preventDefault(); 
           const visibleSearch = Array.from(searchInputs).find(i => i.offsetParent !== null);
           if (visibleSearch) visibleSearch.focus(); 
       }
-      
+
       if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      
       secretCode += e.key.toLowerCase();
       if (secretCode.length > 4) secretCode = secretCode.slice(-4);
+      
       if (secretCode === 'open') {
         const secretZones = document.querySelectorAll('.sensitive-zone');
-        secretZones.forEach(zone => zone.classList.toggle('locked'));
+        secretZones.forEach(zone => {
+             zone.classList.toggle('locked');
+        });
+
         if (secretZones.length > 0 && !secretZones[0].classList.contains('locked')) {
              secretZones[0].scrollIntoView({ behavior: 'smooth' });
         }
@@ -1139,12 +1270,40 @@
       }
     });
 
+    // 主题切换
     document.getElementById('theme-toggle').addEventListener('click', () => {
       document.body.classList.toggle('dark-mode');
     });
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.body.classList.add('dark-mode');
     }
+
+    // 云端备忘录 API
+    const BIN_ID  = '6971fa00ae596e708fed3908';
+    const API_KEY = '$2a$10$1NEYPXNO1k1GdD2h4JTjCuhT5DHTBsQ6J/yVon6iOoRL5Yk/5sfvS'; 
+    const ghostMemo = document.getElementById('ghost-memo');
+    const memoContent = document.getElementById('memo-content');
+    const statusText = document.getElementById('cloud-status');
+
+    function toggleMemo() {
+      ghostMemo.classList.toggle('active');
+      if(ghostMemo.classList.contains('active')) loadFromCloud();
+    }
+    function loadFromCloud() {
+      statusText.textContent = "SYNC...";
+      fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers: { 'X-Master-Key': API_KEY } })
+      .then(r=>r.json()).then(d=>{
+        if(d.record) { memoContent.value = d.record.text; statusText.textContent = "OK"; }
+      });
+    }
+    document.getElementById('cloud-sync-btn').addEventListener('click', () => {
+      statusText.textContent = "SAVING...";
+      fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
+        body: JSON.stringify({ text: memoContent.value })
+      }).then(()=>{ statusText.textContent = "SAVED"; setTimeout(()=>statusText.textContent="READY",2000); });
+    });
   </script>
 </body>
 </html>
