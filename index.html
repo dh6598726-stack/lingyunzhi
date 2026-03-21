@@ -6,6 +6,11 @@
   <title>JIN Tong｜导航收藏</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="JIN Tong">
+
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='red' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/><path stroke='white' stroke-width='2' stroke-linecap='round' d='M2 2l20 20M2 7V2h5M17 22h5v-5'/></svg>">
     
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -155,6 +160,7 @@
     .hero-quote {
       margin-bottom: 40px; 
       padding: 56px;
+      background-color: #2c2c2e; /* 视觉兜底色 */
       background-image: url('laopo.png'); 
       background-size: cover;
       background-position: center;
@@ -1115,7 +1121,7 @@
       <span style="font-size:12px; font-weight:700; letter-spacing:1px;">云备忘录</span>
       <div style="display:flex; gap:10px;">
         <span id="cloud-status" style="font-size:10px; opacity:0.5;">READY</span>
-        <span id="cloud-sync-btn" style="cursor:pointer;">↺</span>
+        <span id="cloud-sync-btn" style="cursor:pointer;" title="强制从云端拉取">↺</span>
         <span onclick="toggleMemo()" style="cursor:pointer;">×</span>
       </div>
     </div>
@@ -1139,12 +1145,15 @@
         mobileOverlay.addEventListener('click', toggleMobileMenu);
     }
 
-    // 侧边栏导航生成逻辑
+    // 侧边栏导航生成逻辑 (已优化：过滤隐藏区域)
     document.addEventListener('DOMContentLoaded', () => {
       const navContainer = document.getElementById('nav-container');
       const sections = document.querySelectorAll('.section-block');
       
       sections.forEach(sec => {
+        // 【核心优化】判断是否为敏感区域，如果是则直接跳过，不生成导航按钮
+        if (sec.classList.contains('sensitive-zone')) return; 
+
         const id = sec.id;
         const iconClass = sec.dataset.icon || 'ri-links-line';
         const title = sec.querySelector('.section-title').textContent.trim();
@@ -1185,12 +1194,25 @@
     }
     setInterval(updateTime, 1000); updateTime();
 
-    // 实时搜索与口令逻辑
+    // 搜索卡片过滤逻辑提取 (为 View Transitions 准备)
+    function filterCards(term) {
+        document.querySelectorAll('.card').forEach(card => {
+          const text = card.textContent.toLowerCase();
+          card.style.display = text.includes(term) ? 'flex' : 'none';
+        });
+        document.querySelectorAll('.section-block').forEach(sec => {
+          const visibleCards = sec.querySelectorAll('.card[style="display: flex;"]');
+          sec.style.display = (visibleCards.length === 0 && term !== '') ? 'none' : 'block';
+        });
+    }
+
+    // 实时搜索与口令逻辑 (已优化：加入 View Transitions 动画)
     const searchInputs = document.querySelectorAll('.search-input');
     searchInputs.forEach(input => {
       input.addEventListener('input', (e) => {
         const term = e.target.value.toLowerCase().trim();
         
+        // 唤醒隐藏区域逻辑保持不变
         if (term === 'open') {
           const secretZones = document.querySelectorAll('.sensitive-zone');
           let isUnlocking = false;
@@ -1220,21 +1242,29 @@
 
         searchInputs.forEach(inp => { if(inp !== e.target) inp.value = term; });
 
-        document.querySelectorAll('.card').forEach(card => {
-          const text = card.textContent.toLowerCase();
-          card.style.display = text.includes(term) ? 'flex' : 'none';
-        });
-        document.querySelectorAll('.section-block').forEach(sec => {
-          const visibleCards = sec.querySelectorAll('.card[style="display: flex;"]');
-          sec.style.display = (visibleCards.length === 0 && term !== '') ? 'none' : 'block';
-        });
+        // 【核心优化】使用 View Transitions API 实现原生级丝滑过滤动画
+        if (document.startViewTransition) {
+            document.startViewTransition(() => filterCards(term));
+        } else {
+            filterCards(term);
+        }
       });
     });
 
-    // 监听全局按键：老板键 (Esc) 和解锁码 (open)
+    // 监听全局按键：老板键 (Esc) 和解锁码 (open) (已优化：输入框焦点保护)
     let secretCode = '';
     document.addEventListener('keydown', (e) => {
+      // 严谨判断当前是否在输入框内
+      const activeEl = document.activeElement;
+      const isInputActive = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA');
+
       if (e.key === 'Escape') {
+        // 如果在输入框内按 Esc，仅取消焦点，不触发整体隐藏
+        if (isInputActive) {
+            activeEl.blur();
+            return;
+        }
+
         const panicOverlay = document.getElementById('panic-overlay');
         const app = document.getElementById('app');
         if (panicOverlay.classList.contains('active')) {
@@ -1244,15 +1274,17 @@
           panicOverlay.classList.add('active');
           app.style.filter = 'blur(10px)'; 
         }
+        return; // 触发老板键后直接返回
       }
 
       if((e.metaKey || e.ctrlKey) && e.key === 'k') { 
           e.preventDefault(); 
           const visibleSearch = Array.from(searchInputs).find(i => i.offsetParent !== null);
           if (visibleSearch) visibleSearch.focus(); 
+          return;
       }
 
-      if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if(isInputActive) return;
       
       secretCode += e.key.toLowerCase();
       if (secretCode.length > 4) secretCode = secretCode.slice(-4);
@@ -1278,32 +1310,65 @@
       document.body.classList.add('dark-mode');
     }
 
-    // 云端备忘录 API
+    // 云端备忘录 API (已优化：LocalStorage 离线缓存 + 自动防抖保存)
     const BIN_ID  = '6971fa00ae596e708fed3908';
     const API_KEY = '$2a$10$1NEYPXNO1k1GdD2h4JTjCuhT5DHTBsQ6J/yVon6iOoRL5Yk/5sfvS'; 
     const ghostMemo = document.getElementById('ghost-memo');
     const memoContent = document.getElementById('memo-content');
     const statusText = document.getElementById('cloud-status');
 
+    // 页面加载时优先读取本地缓存，实现断网可用、瞬间渲染
+    const localMemo = localStorage.getItem('local_memo_cache');
+    if (localMemo) memoContent.value = localMemo;
+
     function toggleMemo() {
       ghostMemo.classList.toggle('active');
       if(ghostMemo.classList.contains('active')) loadFromCloud();
     }
+
     function loadFromCloud() {
       statusText.textContent = "SYNC...";
       fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers: { 'X-Master-Key': API_KEY } })
       .then(r=>r.json()).then(d=>{
-        if(d.record) { memoContent.value = d.record.text; statusText.textContent = "OK"; }
+        if(d.record) { 
+            memoContent.value = d.record.text; 
+            localStorage.setItem('local_memo_cache', d.record.text); // 同步更新本地缓存
+            statusText.textContent = "OK"; 
+        }
+      }).catch(() => {
+          // 网络失败时提示当前使用的是本地数据
+          statusText.textContent = "LOCAL MODE";
       });
     }
-    document.getElementById('cloud-sync-btn').addEventListener('click', () => {
-      statusText.textContent = "SAVING...";
-      fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
-        body: JSON.stringify({ text: memoContent.value })
-      }).then(()=>{ statusText.textContent = "SAVED"; setTimeout(()=>statusText.textContent="READY",2000); });
+
+    // 防抖变量
+    let saveTimeout;
+    
+    // 输入实时监听：本地实时存，云端防抖存
+    memoContent.addEventListener('input', () => {
+        statusText.textContent = "WAIT...";
+        // 1. 没有任何延迟，直接覆盖本地缓存，保证死机不断电不丢数据
+        localStorage.setItem('local_memo_cache', memoContent.value);
+        
+        // 2. 防抖向云端同步 (停止打字 1.2 秒后触发请求)
+        clearTimeout(saveTimeout);
+        saveTimeout = setTimeout(() => {
+            statusText.textContent = "SAVING...";
+            fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
+                body: JSON.stringify({ text: memoContent.value })
+            }).then(() => { 
+                statusText.textContent = "SAVED"; 
+                setTimeout(() => statusText.textContent="READY", 2000); 
+            }).catch(() => {
+                statusText.textContent = "SYNC FAIL"; // 提示同步失败，但本地数据仍在
+            });
+        }, 1200);
     });
+
+    // 强刷按钮改为只执行一次云端拉取覆盖
+    document.getElementById('cloud-sync-btn').addEventListener('click', loadFromCloud);
   </script>
 </body>
 </html>
