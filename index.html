@@ -14,12 +14,16 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='red' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/><path stroke='white' stroke-width='2' stroke-linecap='round' d='M2 2l20 20M2 7V2h5M17 22h5v-5'/></svg>">
     
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
 
   <style>
     /* 全局系统设定 */
     :root {
-      /* 核心优化：直接调用系统高颜值书法字体，0下载，0延迟 */
-      --font-main: "Xingkai SC", "STXingkai", "Huawen Xingkai", "FZShuTi", "KaiTi", cursive !important;
+      /* 核心优化：采用稳定的开源草书网络字体 */
+      --font-main: 'Zhi Mang Xing', cursive;
       
       --bg-body: #f5f5f7; 
       --bg-sidebar: rgba(255, 255, 255, 0.75); 
@@ -51,18 +55,23 @@
       --shadow-hover: 0 10px 24px rgba(0, 0, 0, 0.6);
     }
 
-    /* 强制全站所有元素继承主系统书法字体，清理冗余代码 */
+    /* 严谨修正：移除强行字体覆盖，避免损坏图标库 */
     * { 
         margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; 
-        font-family: var(--font-main);
     }
     
     body {
+      font-family: var(--font-main);
       background-color: var(--bg-body); 
       color: var(--text-main);
       height: 100vh;
       overflow: hidden;
       transition: background-color var(--transition-fast);
+    }
+
+    /* 严谨修正：输入框与备忘录文本域恢复常规系统字体，保障高频输入的可读性 */
+    input, textarea {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
     
     #app {
