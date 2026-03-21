@@ -14,12 +14,16 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='red' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/><path stroke='white' stroke-width='2' stroke-linecap='round' d='M2 2l20 20M2 7V2h5M17 22h5v-5'/></svg>">
     
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap" rel="stylesheet">
 
   <style>
     /* 全局系统设定 */
     :root {
-      /* 严谨修正：跨平台仿宋体调用堆栈 (Windows仿宋 -> 苹果华文仿宋 -> 旧版Windows仿宋 -> 默认衬线体) */
-      --font-main: "FangSong", "STFangsong", "FangSong_GB2312", "STFangSong", serif;
+      /* 核心优化：采用稳定的书法网络字库，增加后备机制 */
+      --font-main: 'Long Cang', "Xingkai SC", "STXingkai", cursive;
       
       --bg-body: #f5f5f7; 
       --bg-sidebar: rgba(255, 255, 255, 0.75); 
@@ -51,7 +55,7 @@
       --shadow-hover: 0 10px 24px rgba(0, 0, 0, 0.6);
     }
 
-    /* 严谨修正：移除强行字体覆盖，避免损坏图标库 */
+    /* 严谨修正：移除强行书法字体通配，避免损坏图标库 */
     * { 
         margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; 
     }
@@ -63,6 +67,9 @@
       height: 100vh;
       overflow: hidden;
       transition: background-color var(--transition-fast);
+      /* 提升书法字体的渲染平滑度 */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     /* 严谨修正：输入框与备忘录文本域恢复常规系统字体，保障高频输入的可读性 */
