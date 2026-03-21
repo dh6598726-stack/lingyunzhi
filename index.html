@@ -218,6 +218,8 @@
       display: flex; flex-direction: column; gap: 12px;
       transition: all var(--transition-fast);
       will-change: transform; 
+      text-decoration: none; /* 修改：去除超链接下划线 */
+      color: inherit;        /* 修改：继承文本颜色 */
     }
     .card:hover {
       border-color: var(--border-hover);
@@ -252,6 +254,7 @@
         box-shadow: var(--shadow-hover); border: 1px solid rgba(255,255,255,0.15);
         position: relative; overflow: hidden; color: #fff;
         transition: transform var(--transition-fast);
+        text-decoration: none; /* 修改：去除超链接下划线 */
     }
     .time-capsule:hover { transform: scale(1.01) translateY(-2px); border-color: rgba(255,255,255,0.4); }
     .time-capsule::before {
@@ -306,17 +309,13 @@
         text-align: center; max-width: 600px; line-height: 1.6; margin-bottom: 40px; padding: 0 20px;
         color: var(--text-main);
         
-        /* 新增：开启上下滑动能力 */
-        max-height: 75vh; /* 限制最大高度为视口高度的75%，避免贴边 */
-        overflow-y: auto; /* 核心：内容超出时显示滚动条 */
-        -webkit-overflow-scrolling: touch; /* 提升 iOS 移动端的滑动流畅度 */
-        
-        /* 隐藏滚动条以保持界面极简美观 */
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE 10+ */
+        /* 开启上下滑动能力 */
+        max-height: 75vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
     }
-    
-    /* 隐藏 Chrome/Safari/Edge 的滚动条 */
     .splash-quote::-webkit-scrollbar {
         display: none;
     }
@@ -479,7 +478,7 @@
         <div class="quote-sub">Long live freedom / The Visual Archive</div>
       </div>
 
-      <div class="time-capsule" onclick="openLink('https://archive.org/')">
+      <a class="time-capsule" href="https://archive.org/" target="_blank" rel="noopener noreferrer">
         <div class="capsule-left">
             <div class="capsule-icon-box"><i class="ri-bank-line"></i></div>
             <div class="capsule-info">
@@ -488,7 +487,7 @@
             </div>
         </div>
         <div class="capsule-arrow"><i class="ri-arrow-right-line"></i></div>
-      </div>
+      </a>
 
       <div class="section-block" id="sec-daily" data-icon="ri-newspaper-line">
         <div class="section-header">
@@ -496,38 +495,38 @@
           <div class="section-count">Tech & Startup Feed</div>
         </div>
         <div class="grid">
-          <div class="card" onclick="openLink('https://36kr.com/')">
+          <a class="card" href="https://36kr.com/" target="_blank" rel="noopener noreferrer">
             <div class="card-head"><div class="icon-box">📰</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
             <div class="card-body"><div class="card-title">36氪</div><div class="card-desc">国内前沿的科技与商业创投新闻</div></div>
-          </div>
-          <div class="card" onclick="openLink('https://sspai.com/')">
+          </a>
+          <a class="card" href="https://sspai.com/" target="_blank" rel="noopener noreferrer">
             <div class="card-head"><div class="icon-box">📱</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
             <div class="card-body"><div class="card-title">少数派</div><div class="card-desc">提升工作效率的数码产品和软件教程</div></div>
-          </div>
-          <div class="card" onclick="openLink('https://www.v2ex.com/')">
+          </a>
+          <a class="card" href="https://www.v2ex.com/" target="_blank" rel="noopener noreferrer">
             <div class="card-head"><div class="icon-box">💬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
             <div class="card-body"><div class="card-title">V2EX</div><div class="card-desc">程序员和技术爱好者的交流社区</div></div>
-          </div>
-           <div class="card" onclick="openLink('https://www.producthunt.com/')">
+          </a>
+           <a class="card" href="https://www.producthunt.com/" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">🚀</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">Product Hunt</div><div class="card-desc">每天发现并推荐全球最新发布的软件</div></div>
-          </div>
-          <div class="card" onclick="openLink('https://www.topgear.com/car-news')">
+          </a>
+          <a class="card" href="https://www.topgear.com/car-news" target="_blank" rel="noopener noreferrer">
               <div class="card-head"><div class="icon-box">🏎️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
               <div class="card-body"><div class="card-title">TopGear</div><div class="card-desc">全球顶尖的汽车资讯和专业评测</div></div>
-          </div>
-          <div class="card" onclick="openLink('https://thegadgetflow.com/')">
+          </a>
+          <a class="card" href="https://thegadgetflow.com/" target="_blank" rel="noopener noreferrer">
               <div class="card-head"><div class="icon-box">🧰</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
               <div class="card-body"><div class="card-title">Gadget Flow</div><div class="card-desc">浏览和购买全球各种新奇有趣的数码好物</div></div>
-          </div>
-           <div class="card" onclick="openLink('https://www.dudeiwantthat.com/')">
+          </a>
+           <a class="card" href="https://www.dudeiwantthat.com/" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">🛒</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">想买这个</div><div class="card-desc">专门推荐各种奇特、少见的创意商品</div></div>
-          </div>
-           <div class="card" onclick="openLink('https://www.cryptopanic.com')">
+          </a>
+           <a class="card" href="https://www.cryptopanic.com" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">📉</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">CryptoPanic</div><div class="card-desc">整合全网加密货币最新动态的新闻网站</div></div>
-          </div>
+          </a>
         </div>
       </div>
 
@@ -537,50 +536,50 @@
            <div class="section-count">Artificial Intelligence</div>
         </div>
         <div class="grid">
-           <div class="card" onclick="openLink('https://chatgpt.com')">
+           <a class="card" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">🧠</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">ChatGPT</div><div class="card-desc">全球最强大的AI人工智能文字对话助手</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://gemini.google.com/')">
+           </a>
+           <a class="card" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">Gemini</div><div class="card-desc">谷歌公司推出的官方智能AI模型助手</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://grok.com')">
+           </a>
+           <a class="card" href="https://grok.com" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">✖️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">Grok</div><div class="card-desc">马斯克团队开发的能够实时联网分析的AI</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://www.perplexity.ai')">
+           </a>
+           <a class="card" href="https://www.perplexity.ai" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">Perplexity</div><div class="card-desc">通过AI直接帮你总结答案的智能搜索引擎</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://www.midjourney.com')">
+           </a>
+           <a class="card" href="https://www.midjourney.com" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">🖌️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">Midjourney</div><div class="card-desc">输入文字描述就能自动生成高质量图片的AI</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://runwayml.com')">
+           </a>
+           <a class="card" href="https://runwayml.com" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">🎥</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">Runway</div><div class="card-desc">专业的AI视频生成与特效剪辑工具平台</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://www.suno.ai')">
+           </a>
+           <a class="card" href="https://www.suno.ai" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">🎧</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">Suno</div><div class="card-desc">输入歌词就能自动生成带人声和伴奏的歌曲</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://elevenlabs.io')">
+           </a>
+           <a class="card" href="https://elevenlabs.io" target="_blank" rel="noopener noreferrer">
               <div class="card-head"><div class="icon-box">🎙️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
               <div class="card-body"><div class="card-title">ElevenLabs</div><div class="card-desc">极其逼真的AI文字转语音与人声克隆技术</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://gamma.app')">
+           </a>
+           <a class="card" href="https://gamma.app" target="_blank" rel="noopener noreferrer">
               <div class="card-head"><div class="icon-box">📊</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
               <div class="card-body"><div class="card-title">Gamma</div><div class="card-desc">输入大纲或主题，AI一键自动生成排版精美的PPT</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://www.nvidia.com/en-us/research/ai-playground')">
+           </a>
+           <a class="card" href="https://www.nvidia.com/en-us/research/ai-playground" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">🟢</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">Nvidia AI</div><div class="card-desc">英伟达官方提供的前沿AI技术免费体验专区</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://futurepedia.io')">
+           </a>
+           <a class="card" href="https://futurepedia.io" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">🧭</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">Futurepedia</div><div class="card-desc">收录全球各种最新AI工具的分类导航网站</div></div>
-           </div>
+           </a>
         </div>
       </div>
 
@@ -590,42 +589,42 @@
            <div class="section-count">Webmaster & Infrastructure</div>
         </div>
         <div class="grid">
-           <div class="card" onclick="openLink('https://dashboard.decodo.com')">
+           <a class="card" href="https://dashboard.decodo.com" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">🎛️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">Decodo</div><div class="card-desc">提供高匿名性和高防安全保护的网络代理服务</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://github.com/dh6598726-stack/woaibixia')">
+           </a>
+           <a class="card" href="https://github.com/dh6598726-stack/woaibixia" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">📦</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">GitHub</div><div class="card-desc">全球程序员用来托管代码和开源软件的网站</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://porkbun.com/account/domainsSpeedy')">
+           </a>
+           <a class="card" href="https://porkbun.com/account/domainsSpeedy" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">🐷</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">Porkbun</div><div class="card-desc">价格便宜且界面好用的国外网站域名购买平台</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://dash.cloudflare.com/')">
+           </a>
+           <a class="card" href="https://dash.cloudflare.com/" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">☁️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">Cloudflare</div><div class="card-desc">为网站提供免费加速(CDN)和防黑客攻击的安全服务</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://dashboard.thordata.com/')">
+           </a>
+           <a class="card" href="https://dashboard.thordata.com/" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">Thordata</div><div class="card-desc">提供流量中转与网络加速的专业平台</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://app.ipfoxy.net/login?_bt=2')">
+           </a>
+           <a class="card" href="https://app.ipfoxy.net/login?_bt=2" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">🦊</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">IPFoxy</div><div class="card-desc">提供干净无污染的独享IP代理服务</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq')">
+           </a>
+           <a class="card" href="https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq" target="_blank" rel="noopener noreferrer">
              <div class="card-head"><div class="icon-box">🛡️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
              <div class="card-body"><div class="card-title">2FA 在线</div><div class="card-desc">在线生成账号登录所需的动态双重验证码</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://vercel.com')">
+           </a>
+           <a class="card" href="https://vercel.com" target="_blank" rel="noopener noreferrer">
               <div class="card-head"><div class="icon-box">🚀</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
               <div class="card-body"><div class="card-title">Vercel</div><div class="card-desc">前端开发者可免费将网页代码一键部署上线的平台</div></div>
-           </div>
-           <div class="card" onclick="openLink('https://cusdis.com/')">
+           </a>
+           <a class="card" href="https://cusdis.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">💬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Cusdis</div><div class="card-desc">一款注重隐私、极简轻量的开源网站留言评论系统</div></div>
-           </div>
+           </a>
         </div>
       </div>
 
@@ -635,74 +634,74 @@
             <div class="section-count">Development & Cybersecurity</div>
          </div>
          <div class="grid">
-            <div class="card" onclick="openLink('https://stackoverflow.com')">
+            <a class="card" href="https://stackoverflow.com" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">💡</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">StackOverflow</div><div class="card-desc">全球最大的程序员代码报错与技术问答社区</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://replit.com')">
+            </a>
+            <a class="card" href="https://replit.com" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">💻</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Replit</div><div class="card-desc">无需本地环境配置，打开网页就能直接写代码的平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://codepen.io')">
+            </a>
+            <a class="card" href="https://codepen.io" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🧪</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">CodePen</div><div class="card-desc">前端网页开发者的代码在线测试与作品展示库</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://lusion.co/')">
+            </a>
+            <a class="card" href="https://lusion.co/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Lusion</div><div class="card-desc">展示行业顶尖3D前端交互与视觉效果的网站</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://geektyper.com/')">
+            </a>
+            <a class="card" href="https://geektyper.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">⌨️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Geektyper</div><div class="card-desc">模拟影视剧中黑客敲击代码界面的娱乐工具</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://ping.pe')">
+            </a>
+            <a class="card" href="https://ping.pe" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">📡</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Ping.pe</div><div class="card-desc">测试你的网站在世界各地网络连通性的工具</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.hackerone.com')">
+            </a>
+            <a class="card" href="https://www.hackerone.com" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🛡️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">HackerOne</div><div class="card-desc">帮大型企业寻找系统安全漏洞并获取合法奖金的平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.bugcrowd.com')">
+            </a>
+            <a class="card" href="https://www.bugcrowd.com" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🏢</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Bugcrowd</div><div class="card-desc">网络安全专家的线上安全众测与漏洞赏金平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://tryhackme.com')">
+            </a>
+            <a class="card" href="https://tryhackme.com" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🎓</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">TryHackMe</div><div class="card-desc">适合初学者的网络安全渗透测试学习与实践网站</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.hackthebox.com')">
+            </a>
+            <a class="card" href="https://www.hackthebox.com" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🧨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">HackTheBox</div><div class="card-desc">专业黑客用来进行攻防实战模拟的虚拟训练场</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.exploit-db.com')">
+            </a>
+            <a class="card" href="https://www.exploit-db.com" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">📂</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Exploit-DB</div><div class="card-desc">收录最新公开系统漏洞与攻击测试代码的权威数据库</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://owasp.org')">
+            </a>
+            <a class="card" href="https://owasp.org" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">📜</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">OWASP</div><div class="card-desc">提供Web应用程序安全开发标准与规范的组织组织</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.kali.org')">
+            </a>
+            <a class="card" href="https://www.kali.org" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🐉</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Kali Linux</div><div class="card-desc">专用于渗透测试和安全审计的Linux操作系统官网</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.reddit.com/r/netsec/')">
+            </a>
+            <a class="card" href="https://www.reddit.com/r/netsec/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🧬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Netsec</div><div class="card-desc">讨论最新网络安全漏洞与行业情报的活跃社区</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.virustotal.com/gui/home/upload')">
+            </a>
+            <a class="card" href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🧫</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">VirusTotal</div><div class="card-desc">上传可疑文件或网址，集合几十家杀毒引擎免费查毒</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.shodan.io/')">
+            </a>
+            <a class="card" href="https://www.shodan.io/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🛰️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Shodan</div><div class="card-desc">专门用来检索全球联网智能设备(如摄像头)的搜索引擎</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://cybermap.kaspersky.com/')">
+            </a>
+            <a class="card" href="https://cybermap.kaspersky.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">☣️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">卡巴斯基图</div><div class="card-desc">在3D地球仪上实时动态展示全球发生的网络攻击情况</div></div>
-            </div>
+            </a>
          </div>
       </div>
 
@@ -712,62 +711,62 @@
             <div class="section-count">Design & Assets</div>
          </div>
          <div class="grid">
-            <div class="card" onclick="openLink('https://www.pinterest.com/')">
+            <a class="card" href="https://www.pinterest.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Pinterest</div><div class="card-desc">全球知名的瀑布流图片分享与设计灵感采集网站</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.behance.net')">
+            </a>
+            <a class="card" href="https://www.behance.net" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🎨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">Behance</div><div class="card-desc">Adobe旗下的全球顶尖设计师原创作品展示平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://huaban.com/')">
+            </a>
+            <a class="card" href="https://huaban.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🌸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">花瓣网</div><div class="card-desc">国内主流的设计师素材采集与灵感管理平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://unsplash.com')">
+            </a>
+            <a class="card" href="https://unsplash.com" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">📷</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">Unsplash</div><div class="card-desc">提供完全免费、且可自由商用的高质量摄影图片库</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.pexels.com/')">
+            </a>
+            <a class="card" href="https://www.pexels.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">Pexels</div><div class="card-desc">免费且支持高质量商业用途的图库与视频素材库</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://pixabay.com/')">
+            </a>
+            <a class="card" href="https://pixabay.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🌄</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">Pixabay</div><div class="card-desc">提供海量无版权限制的免费插画、矢量图与配图库</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://wallhaven.cc/')">
+            </a>
+            <a class="card" href="https://wallhaven.cc/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Wallhaven</div><div class="card-desc">公认质量最高的电脑高清桌面壁纸下载网站</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://wallpaperswide.com/')">
+            </a>
+            <a class="card" href="https://wallpaperswide.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🖥️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">高清壁纸</div><div class="card-desc">提供支持各种宽屏与高分辨率显示器的电脑壁纸</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://pic.netbian.com/')">
+            </a>
+            <a class="card" href="https://pic.netbian.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🌉</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">彼岸图网</div><div class="card-desc">国内提供原生4K极清画质电脑桌面壁纸的网站</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://coolbackgrounds.io/')">
+            </a>
+            <a class="card" href="https://coolbackgrounds.io/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🟦</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Cool BG</div><div class="card-desc">专门生成极简主义的纯色、渐变与几何图案背景</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.photopea.com')">
+            </a>
+            <a class="card" href="https://www.photopea.com" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🖊️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">Photopea</div><div class="card-desc">无需安装，界面和功能高度类似Photoshop的在线修图工具</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.remove.bg')">
+            </a>
+            <a class="card" href="https://www.remove.bg" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">✂️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Remove.bg</div><div class="card-desc">上传图片即可利用AI精准去除背景并生成透明底图</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.canva.com')">
+            </a>
+            <a class="card" href="https://www.canva.com" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🎨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">Canva</div><div class="card-desc">提供海量预设模板的在线平面设计与海报制作工具</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://informationisbeautiful.net')">
+            </a>
+            <a class="card" href="https://informationisbeautiful.net" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">📈</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">美丽数据</div><div class="card-desc">将枯燥的数据转化为直观、精美的数据可视化图表</div></div>
-            </div>
+            </a>
          </div>
       </div>
 
@@ -777,98 +776,98 @@
             <div class="section-count">Explore & Global Monitor</div>
          </div>
          <div class="grid">
-            <div class="card" onclick="openLink('https://earth.google.com')">
+            <a class="card" href="https://earth.google.com" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🌎</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">谷歌地球</div><div class="card-desc">提供全球高分辨率卫星图像的3D虚拟地球仪</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.skyscanner.com')">
+            </a>
+            <a class="card" href="https://www.skyscanner.com" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🎫</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">天巡</div><div class="card-desc">全球性的廉价航空与国际航班比价预订平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.flightconnections.com')">
+            </a>
+            <a class="card" href="https://www.flightconnections.com" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🛫</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">全球航线图</div><div class="card-desc">直观展示全球所有民航机场之间的直飞航线地图</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.atlasobscura.com')">
+            </a>
+            <a class="card" href="https://www.atlasobscura.com" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🗺️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">奇趣地图</div><div class="card-desc">收录全球罕见、猎奇、小众探险景点的旅行指南</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.earthcam.com/')">
+            </a>
+            <a class="card" href="https://www.earthcam.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">📹</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">EarthCam</div><div class="card-desc">汇集全球知名地标建筑与公共区域的实时直播摄像头</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.webcams.travel/')">
+            </a>
+            <a class="card" href="https://www.webcams.travel/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🔭</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">旅游镜头</div><div class="card-desc">提供全球各大风景区、沙滩及自然景观的实时快照</div></div>
-            </div>
-            <div class="card" onclick="openLink('http://www.window-swap.com/')">
+            </a>
+            <a class="card" href="http://www.window-swap.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🪟</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">WindowSwap</div><div class="card-desc">随机向你展示世界各地陌生人窗外的视频风景</div></div>
-            </div>
-            <div class="card" onclick="openLink('http://www.window-swap-japan.com/')">
+            </a>
+            <a class="card" href="http://www.window-swap-japan.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🗾</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">日本窗景</div><div class="card-desc">专门收集并展示日本各地家庭窗外的静谧风景</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.mapcrunch.com')">
+            </a>
+            <a class="card" href="https://www.mapcrunch.com" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🧭</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">MapCrunch</div><div class="card-desc">随机将你传送到全球某个角落的谷歌街景中</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.thesecretdoor.com/')">
+            </a>
+            <a class="card" href="https://www.thesecretdoor.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🚪</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">任意门</div><div class="card-desc">点击门把手，随机带你参观世界各地的奇异场景</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://explore.org/')">
+            </a>
+            <a class="card" href="https://explore.org/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🐼</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">自然生态</div><div class="card-desc">提供全球野生动物和自然保护区的高清实时直播</div></div>
-            </div>
-            <div class="card" onclick="openLink('http://www.virtualwindow.com/')">
+            </a>
+            <a class="card" href="http://www.virtualwindow.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">虚拟视窗</div><div class="card-desc">提供用于放松身心的循环自然风景视频画面</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://apod.nasa.gov/apod/astropix.html')">
+            </a>
+            <a class="card" href="https://apod.nasa.gov/apod/astropix.html" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🚀</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">NASA每日图</div><div class="card-desc">美国国家航空航天局每日更新的一张天文摄影图片</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://pointerpointer.com/')">
+            </a>
+            <a class="card" href="https://pointerpointer.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">👉</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">看手指</div><div class="card-desc">娱乐网站：鼠标停在哪里，就会显示一张指着该处的照片</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://radar.cloudflare.com/')">
+            </a>
+            <a class="card" href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">流量雷达</div><div class="card-desc">从宏观视角展示全球互联网流量趋势与网络拥堵情况</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.flightradar24.com/')">
+            </a>
+            <a class="card" href="https://www.flightradar24.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🛫</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">实时航班</div><div class="card-desc">在地图上实时追踪全球正在飞行的客机动态</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.marinetraffic.com/')">
+            </a>
+            <a class="card" href="https://www.marinetraffic.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🚢</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">实时货轮</div><div class="card-desc">实时监控全球海域商船与货轮的航行轨迹与位置</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.submarinecablemap.com/')">
+            </a>
+            <a class="card" href="https://www.submarinecablemap.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🌊</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">海底光缆图</div><div class="card-desc">展示连接全球互联网的物理海底电缆分布图</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://stat.ripe.net/')">
+            </a>
+            <a class="card" href="https://stat.ripe.net/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🧷</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">BGP 数据站</div><div class="card-desc">提供底层网络IP路由信息的专业数据查询平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://ourworldindata.org/')">
+            </a>
+            <a class="card" href="https://ourworldindata.org/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">📊</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">宏观数据</div><div class="card-desc">用严谨的图表展示人类社会在人口、经济等领域的宏观变化</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://earthquake.usgs.gov/earthquakes/map/')">
+            </a>
+            <a class="card" href="https://earthquake.usgs.gov/earthquakes/map/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🌋</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">实时地震</div><div class="card-desc">美国地质调查局提供的全球最新地震动态监测</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://firms.modaps.eosdis.nasa.gov/map/')">
+            </a>
+            <a class="card" href="https://firms.modaps.eosdis.nasa.gov/map/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🔥</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">全球火灾</div><div class="card-desc">利用NASA卫星数据实时标记全球发生火灾的区域</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.swpc.noaa.gov/products/aurora-30-minute-forecast')">
+            </a>
+            <a class="card" href="https://www.swpc.noaa.gov/products/aurora-30-minute-forecast" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🌌</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">极光预测</div><div class="card-desc">提供全球极光出现概率的预测图表与太空天气报告</div></div>
-            </div>
+            </a>
          </div>
       </div>
 
@@ -878,94 +877,94 @@
             <div class="section-count">Tools, Search & Crypto</div>
          </div>
          <div class="grid">
-            <div class="card" onclick="openLink('https://www.google.com/')">
+            <a class="card" href="https://www.google.com/" target="_blank" rel="noopener noreferrer">
               <div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
               <div class="card-body"><div class="card-title">谷歌搜索</div><div class="card-desc">全球使用人数最多、信息最全的搜索引擎</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://mail.google.com/')">
+            </a>
+            <a class="card" href="https://mail.google.com/" target="_blank" rel="noopener noreferrer">
               <div class="card-head"><div class="icon-box">✉️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
               <div class="card-body"><div class="card-title">Gmail</div><div class="card-desc">谷歌官方提供的安全电子邮箱服务</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://drive.google.com/')">
+            </a>
+            <a class="card" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer">
               <div class="card-head"><div class="icon-box">☁️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
               <div class="card-body"><div class="card-title">Google云盘</div><div class="card-desc">谷歌官方提供的高效在线文件存储与同步网盘</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://maps.google.com/')">
+            </a>
+            <a class="card" href="https://maps.google.com/" target="_blank" rel="noopener noreferrer">
               <div class="card-head"><div class="icon-box">🗺️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
               <div class="card-body"><div class="card-title">谷歌地图</div><div class="card-desc">提供详细路线规划与实景街景的全球地图导航服务</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.wikipedia.org/')">
+            </a>
+            <a class="card" href="https://www.wikipedia.org/" target="_blank" rel="noopener noreferrer">
               <div class="card-head"><div class="icon-box">📚</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
               <div class="card-body"><div class="card-title">维基百科</div><div class="card-desc">自由开放、内容详实的全球多语言在线百科全书</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://images.google.com/')">
+            </a>
+            <a class="card" href="https://images.google.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">谷歌识图</div><div class="card-desc">上传图片或网址即可查找图片来源的官方检索工具</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://yandex.com/images')">
+            </a>
+            <a class="card" href="https://yandex.com/images" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🔍</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Yandex搜图</div><div class="card-desc">俄罗斯Yandex搜索引擎提供的高精度反向图像查找引擎</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://pindown.io/en1')">
+            </a>
+            <a class="card" href="https://pindown.io/en1" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">📌</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Pin 下载器</div><div class="card-desc">无水印提取并下载Pinterest平台图片与视频的工具</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://trace.moe')">
+            </a>
+            <a class="card" href="https://trace.moe" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">Trace.moe</div><div class="card-desc">上传动漫截图即可精确检索该画面出自哪一部动画及集数</div></div>
-            </div>
-             <div class="card" onclick="openLink('https://www.wikihow.com')">
+            </a>
+             <a class="card" href="https://www.wikihow.com" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">📘</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">WikiHow</div><div class="card-desc">提供各类生活常识与实用技能操作步骤指南的百科网站</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.speedtest.net')">
+            </a>
+            <a class="card" href="https://www.speedtest.net" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">⚡</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Speedtest</div><div class="card-desc">测试当前网络连接速度及宽带延迟的在线工具</div></div>
-            </div>
-             <div class="card" onclick="openLink('https://tinywow.com')">
+            </a>
+             <a class="card" href="https://tinywow.com" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🧰</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">TinyWow</div><div class="card-desc">免费的在线多功能工具箱，支持各种文件与媒体格式转换</div></div>
-             </div>
-             <div class="card" onclick="openLink('https://www.ilovepdf.com')">
+             </a>
+             <a class="card" href="https://www.ilovepdf.com" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">📄</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">iLovePDF</div><div class="card-desc">提供PDF合并、拆分、压缩及格式互转的在线办公处理平台</div></div>
-             </div>
-             <div class="card" onclick="openLink('https://gumroad.com')">
+             </a>
+             <a class="card" href="https://gumroad.com" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">💸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">Gumroad</div><div class="card-desc">面向独立创作者的数字产品销售与交易平台</div></div>
-             </div>
-             <div class="card" onclick="openLink('https://www.suijidaquan.com/')">
+             </a>
+             <a class="card" href="https://www.suijidaquan.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🎲</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">随机信用卡</div><div class="card-desc">用于注册测试目的的随机身份信息与信用卡号生成工具</div></div>
-            </div>
-             <div class="card" onclick="openLink('https://www.coinepay.net')">
+            </a>
+             <a class="card" href="https://www.coinepay.net" target="_blank" rel="noopener noreferrer">
               <div class="card-head"><div class="icon-box">💳</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
               <div class="card-body"><div class="card-title">Coinepay</div><div class="card-desc">提供海外虚拟信用卡服务，方便订阅境外网络服务</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.buyaacc.com/')">
+            </a>
+            <a class="card" href="https://www.buyaacc.com/" target="_blank" rel="noopener noreferrer">
               <div class="card-head"><div class="icon-box">🛒</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
               <div class="card-body"><div class="card-title">BuyAcc</div><div class="card-desc">提供各类海外社交媒体及数字服务成品账号的购买平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.10minutemail.com')">
+            </a>
+            <a class="card" href="https://www.10minutemail.com" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">⌛</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">10分钟邮箱</div><div class="card-desc">提供临时匿名电子邮箱地址，防止垃圾邮件骚扰</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://mjjfaka.net/')">
+            </a>
+            <a class="card" href="https://mjjfaka.net/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🏪</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">MJJ发卡</div><div class="card-desc">支持24小时自动化处理订单的虚拟数字商品交易平台</div></div>
-            </div>
-             <div class="card" onclick="openLink('https://www.binance.com/')">
+            </a>
+             <a class="card" href="https://www.binance.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">💰</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">币安</div><div class="card-desc">全球交易量最大、用户最多的综合性加密货币交易所</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.okx.com/')">
+            </a>
+            <a class="card" href="https://www.okx.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🟢</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">欧易 (OKX)</div><div class="card-desc">全球主流的加密货币与Web3资产交易及衍生品服务平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://metamask.io/')">
+            </a>
+            <a class="card" href="https://metamask.io/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🦊</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">小狐狸钱包</div><div class="card-desc">基于浏览器扩展程序的去中心化加密数字资产管理钱包</div></div>
-            </div>
+            </a>
          </div>
       </div>
 
@@ -975,54 +974,54 @@
             <div class="section-count">Social & Media</div>
          </div>
          <div class="grid">
-            <div class="card" onclick="openLink('https://telegram.org/')">
+            <a class="card" href="https://telegram.org/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">✈️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">Telegram</div><div class="card-desc">主打高度隐私保护与端到端加密的即时通讯软件</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://x.com/')">
+            </a>
+            <a class="card" href="https://x.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🕇</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">X (Twitter)</div><div class="card-desc">全球性的短信息社交网络与实时热点新闻讨论平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.facebook.com/')">
+            </a>
+            <a class="card" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">📘</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">Facebook</div><div class="card-desc">全球注册用户数量最多的综合性社交媒体平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.instagram.com/')">
+            </a>
+            <a class="card" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">Instagram</div><div class="card-desc">以高质量照片与短视频分享为核心的视觉社交应用</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://signal.org/')">
+            </a>
+            <a class="card" href="https://signal.org/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">📨</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Signal</div><div class="card-desc">采用最高规格开源加密技术的跨平台安全通讯软件</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.reddit.com/')">
+            </a>
+            <a class="card" href="https://www.reddit.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🍊</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Reddit</div><div class="card-desc">涵盖各类细分话题讨论与新闻聚合的综合性网络论坛</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.youtube.com/')">
+            </a>
+            <a class="card" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">▶️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">YouTube</div><div class="card-desc">全球最大、内容最丰富的视频分享与在线观看平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.netflix.com/')">
+            </a>
+            <a class="card" href="https://www.netflix.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🎞️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Netflix</div><div class="card-desc">全球领先的提供高质量独家影视剧的正版流媒体播放平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://open.spotify.com/')">
+            </a>
+            <a class="card" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🎵</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Spotify</div><div class="card-desc">提供海量曲库与个性化推荐的全球主流流媒体音乐服务</div></div>
-            </div>
-             <div class="card" onclick="openLink('https://everynoise.com')">
+            </a>
+             <a class="card" href="https://everynoise.com" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🎶</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">音乐地图</div><div class="card-desc">呈现全球所有音乐流派分类与演变关系的可视化数据地图</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.tiktok.com/')">
+            </a>
+            <a class="card" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">📱</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">TikTok</div><div class="card-desc">面向国际市场的短视频分享与音乐创意社交应用平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://nf.video/银河录像局')">
+            </a>
+            <a class="card" href="https://nf.video/银河录像局" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🎬</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">银河录像局</div><div class="card-desc">提供Netflix等各大海外流媒体平台付费账号的合租共享服务</div></div>
-            </div>
+            </a>
          </div>
       </div>
 
@@ -1031,98 +1030,98 @@
         <div class="sensitive-blur">
           <div class="section-header"><div class="section-title">深海与私藏</div><span class="section-count">Abyss & Gentleman</span></div>
           <div class="grid">
-             <div class="card" onclick="openLink('https://www.torproject.org/zh-CN/download/')">
+             <a class="card" href="https://www.torproject.org/zh-CN/download/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🧅</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Tor 浏览器</div><div class="card-desc">实现高等级匿名访问与网络隐匿的洋葱路由浏览器</div></div>
-             </div>
-             <div class="card" onclick="openLink('https://fanqianglu.com')">
+             </a>
+             <a class="card" href="https://fanqianglu.com" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🪜</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">翻墙路</div><div class="card-desc">提供各类型虚拟专用网络（VPN）与代理加速器的导航指南</div></div>
-             </div>
-             <div class="card" onclick="openLink('https://baichunlink.com')">
+             </a>
+             <a class="card" href="https://baichunlink.com" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🔗</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">百醇导航</div><div class="card-desc">分类收录各类成人向媒体内容与综合资源的导航网站</div></div>
-             </div>
-              <div class="card" onclick="openLink('https://fuun.fun/')">
+             </a>
+              <a class="card" href="https://fuun.fun/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🎡</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Fuun.fun</div><div class="card-desc">探讨两性知识并提供相关成人向内容的综合在线社区</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.pornpics.com/')">
+            </a>
+            <a class="card" href="https://www.pornpics.com/" target="_blank" rel="noopener noreferrer">
                   <div class="card-head"><div class="icon-box">👱‍♀️</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                   <div class="card-body"><div class="card-title">欧美图库</div><div class="card-desc">提供海量欧美风格成人摄影与大尺度套图的照片库</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.junmeitu.com/')">
+            </a>
+            <a class="card" href="https://www.junmeitu.com/" target="_blank" rel="noopener noreferrer">
                   <div class="card-head"><div class="icon-box">💃</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                   <div class="card-body"><div class="card-title">俊美图</div><div class="card-desc">收录亚洲风格女性写真与大尺度摄影作品的图库网站</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.91tulu.com/')">
+            </a>
+            <a class="card" href="https://www.91tulu.com/" target="_blank" rel="noopener noreferrer">
                   <div class="card-head"><div class="icon-box">🚗</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                   <div class="card-body"><div class="card-title">91图鲁</div><div class="card-desc">每日更新的综合性成人图片与优质套图资源站</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.v2ph.com/')">
+            </a>
+            <a class="card" href="https://www.v2ph.com/" target="_blank" rel="noopener noreferrer">
                   <div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                   <div class="card-body"><div class="card-title">微图</div><div class="card-desc">提供高分辨率、无水印的高质量摄影与私房写真图库</div></div>
-            </div>
-             <div class="card" onclick="openLink('https://www.tblop.com/')">
+            </a>
+             <a class="card" href="https://www.tblop.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">📜</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">绅士列表</div><div class="card-desc">全球范围内收录最全的纯文本成人网站分类大全与目录导航</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://theporndude.com/')">
+            </a>
+            <a class="card" href="https://theporndude.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🤠</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">色情向导</div><div class="card-desc">提供专业成人网站评测与筛选的优质色情资源导航平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://pornhub.com')">
+            </a>
+            <a class="card" href="https://pornhub.com" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🟧</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">Pornhub</div><div class="card-desc">全球知名度最高、访问量最大的综合性成人视频流媒体平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.xvideos.com/')">
+            </a>
+            <a class="card" href="https://www.xvideos.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">❌</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">Xvideos</div><div class="card-desc">界面极简、资源储量极大的老牌免费成人视频共享网站</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://xhamster.com/')">
+            </a>
+            <a class="card" href="https://xhamster.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🐹</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">xHamster</div><div class="card-desc">拥有庞大用户基数的免费成人视频及成人社区互动平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://www.eporner.com/')">
+            </a>
+            <a class="card" href="https://www.eporner.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">📺</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">Eporner</div><div class="card-desc">专门提供极高画质（包括1080P及4K分辨率）的成人视频站</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://stripchat.com/')">
+            </a>
+            <a class="card" href="https://stripchat.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">👙</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">Stripchat</div><div class="card-desc">提供全球真人模特在线大尺度表演与互动的成人直播平台</div></div>
-            </div>
-             <div class="card" onclick="openLink('https://onlyfans.com/')">
+            </a>
+             <a class="card" href="https://onlyfans.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">🔵</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">OnlyFans</div><div class="card-desc">创作者通过向粉丝提供私密付费订阅内容来获利的社交平台</div></div>
-            </div>
-            <div class="card" onclick="openLink('https://netflav.com/')">
+            </a>
+            <a class="card" href="https://netflav.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">N</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Netflav</div><div class="card-desc">采用现代流媒体界面设计，提供综合成人视频的聚合播放站</div></div>
-             </div>
-             <div class="card" onclick="openLink('https://hanime1.me/')">
+             </a>
+             <a class="card" href="https://hanime1.me/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🌸</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Hanime1</div><div class="card-desc">专门收集并提供带有成人内容色彩的二次元动漫番剧资源站</div></div>
-             </div>
-             <div class="card" onclick="openLink('https://supjav.com/')">
+             </a>
+             <a class="card" href="https://supjav.com/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">S</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">SupJAV</div><div class="card-desc">提供日本成人影视剧（JAV）作品在线观看与下载服务的网站</div></div>
-             </div>
-             <div class="card" onclick="openLink('https://sukebei.nyaa.si/')">
+             </a>
+             <a class="card" href="https://sukebei.nyaa.si/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">🧲</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Sukebei</div><div class="card-desc">全球最大的二次元相关成人内容磁力种子聚合站</div></div>
-             </div>
-             <div class="card" onclick="openLink('https://nyaa.si/')">
+             </a>
+             <a class="card" href="https://nyaa.si/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">N</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">Nyaa</div><div class="card-desc">核心的综合性二次元动漫、漫画及衍生资源的磁力下载站</div></div>
-             </div>
-             <div class="card" onclick="openLink('https://btsow.motorcycles/')">
+             </a>
+             <a class="card" href="https://btsow.motorcycles/" target="_blank" rel="noopener noreferrer">
                <div class="card-head"><div class="icon-box">⚡</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                <div class="card-body"><div class="card-title">BTSOW</div><div class="card-desc">强大的综合性磁力链接搜索引擎，支持全网番号与关键字检索</div></div>
-             </div>
-             <div class="card" onclick="openLink('https://www.erome.com/')">
+             </a>
+             <a class="card" href="https://www.erome.com/" target="_blank" rel="noopener noreferrer">
                 <div class="card-head"><div class="icon-box">📂</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
                 <div class="card-body"><div class="card-title">Erome</div><div class="card-desc">用于分享和存档带有成人属性的短视频与私人图片的社区平台</div></div>
-            </div>
+            </a>
           </div>
         </div>
       </div>
@@ -1159,13 +1158,12 @@
         mobileOverlay.addEventListener('click', toggleMobileMenu);
     }
 
-    // 侧边栏导航生成逻辑 (已优化：过滤隐藏区域)
+    // 侧边栏导航生成逻辑 (过滤隐藏区域)
     document.addEventListener('DOMContentLoaded', () => {
       const navContainer = document.getElementById('nav-container');
       const sections = document.querySelectorAll('.section-block');
       
       sections.forEach(sec => {
-        // 【核心优化】判断是否为敏感区域，如果是则直接跳过，不生成导航按钮
         if (sec.classList.contains('sensitive-zone')) return; 
 
         const id = sec.id;
@@ -1190,8 +1188,6 @@
       });
     });
 
-    function openLink(url) { window.open(url, '_blank'); }
-
     // 开屏动画逻辑
     function closeSplash() {
       const splash = document.getElementById('splash');
@@ -1208,7 +1204,7 @@
     }
     setInterval(updateTime, 1000); updateTime();
 
-    // 搜索卡片过滤逻辑提取 (为 View Transitions 准备)
+    // 搜索卡片过滤逻辑提取
     function filterCards(term) {
         document.querySelectorAll('.card').forEach(card => {
           const text = card.textContent.toLowerCase();
@@ -1220,13 +1216,12 @@
         });
     }
 
-    // 实时搜索与口令逻辑 (已优化：加入 View Transitions 动画)
+    // 实时搜索与口令逻辑
     const searchInputs = document.querySelectorAll('.search-input');
     searchInputs.forEach(input => {
       input.addEventListener('input', (e) => {
         const term = e.target.value.toLowerCase().trim();
         
-        // 唤醒隐藏区域逻辑保持不变
         if (term === 'open') {
           const secretZones = document.querySelectorAll('.sensitive-zone');
           let isUnlocking = false;
@@ -1256,7 +1251,6 @@
 
         searchInputs.forEach(inp => { if(inp !== e.target) inp.value = term; });
 
-        // 【核心优化】使用 View Transitions API 实现原生级丝滑过滤动画
         if (document.startViewTransition) {
             document.startViewTransition(() => filterCards(term));
         } else {
@@ -1265,15 +1259,13 @@
       });
     });
 
-    // 监听全局按键：老板键 (Esc) 和解锁码 (open) (已优化：输入框焦点保护)
+    // 监听全局按键：老板键 (Esc) 和解锁码 (open)
     let secretCode = '';
     document.addEventListener('keydown', (e) => {
-      // 严谨判断当前是否在输入框内
       const activeEl = document.activeElement;
       const isInputActive = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA');
 
       if (e.key === 'Escape') {
-        // 如果在输入框内按 Esc，仅取消焦点，不触发整体隐藏
         if (isInputActive) {
             activeEl.blur();
             return;
@@ -1288,7 +1280,7 @@
           panicOverlay.classList.add('active');
           app.style.filter = 'blur(10px)'; 
         }
-        return; // 触发老板键后直接返回
+        return; 
       }
 
       if((e.metaKey || e.ctrlKey) && e.key === 'k') { 
@@ -1324,14 +1316,13 @@
       document.body.classList.add('dark-mode');
     }
 
-    // 云端备忘录 API (已优化：LocalStorage 离线缓存 + 自动防抖保存)
+    // 云端备忘录 API
     const BIN_ID  = '6971fa00ae596e708fed3908';
     const API_KEY = '$2a$10$1NEYPXNO1k1GdD2h4JTjCuhT5DHTBsQ6J/yVon6iOoRL5Yk/5sfvS'; 
     const ghostMemo = document.getElementById('ghost-memo');
     const memoContent = document.getElementById('memo-content');
     const statusText = document.getElementById('cloud-status');
 
-    // 页面加载时优先读取本地缓存，实现断网可用、瞬间渲染
     const localMemo = localStorage.getItem('local_memo_cache');
     if (localMemo) memoContent.value = localMemo;
 
@@ -1346,25 +1337,20 @@
       .then(r=>r.json()).then(d=>{
         if(d.record) { 
             memoContent.value = d.record.text; 
-            localStorage.setItem('local_memo_cache', d.record.text); // 同步更新本地缓存
+            localStorage.setItem('local_memo_cache', d.record.text); 
             statusText.textContent = "OK"; 
         }
       }).catch(() => {
-          // 网络失败时提示当前使用的是本地数据
           statusText.textContent = "LOCAL MODE";
       });
     }
 
-    // 防抖变量
     let saveTimeout;
     
-    // 输入实时监听：本地实时存，云端防抖存
     memoContent.addEventListener('input', () => {
         statusText.textContent = "WAIT...";
-        // 1. 没有任何延迟，直接覆盖本地缓存，保证死机不断电不丢数据
         localStorage.setItem('local_memo_cache', memoContent.value);
         
-        // 2. 防抖向云端同步 (停止打字 1.2 秒后触发请求)
         clearTimeout(saveTimeout);
         saveTimeout = setTimeout(() => {
             statusText.textContent = "SAVING...";
@@ -1376,12 +1362,11 @@
                 statusText.textContent = "SAVED"; 
                 setTimeout(() => statusText.textContent="READY", 2000); 
             }).catch(() => {
-                statusText.textContent = "SYNC FAIL"; // 提示同步失败，但本地数据仍在
+                statusText.textContent = "SYNC FAIL"; 
             });
         }, 1200);
     });
 
-    // 强刷按钮改为只执行一次云端拉取覆盖
     document.getElementById('cloud-sync-btn').addEventListener('click', loadFromCloud);
   </script>
 </body>
