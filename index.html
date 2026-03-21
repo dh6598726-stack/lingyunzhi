@@ -305,6 +305,20 @@
         font-family: "Zhi Mang Xing", cursive; font-size: 32px; 
         text-align: center; max-width: 600px; line-height: 1.6; margin-bottom: 40px; padding: 0 20px;
         color: var(--text-main);
+        
+        /* 新增：开启上下滑动能力 */
+        max-height: 75vh; /* 限制最大高度为视口高度的75%，避免贴边 */
+        overflow-y: auto; /* 核心：内容超出时显示滚动条 */
+        -webkit-overflow-scrolling: touch; /* 提升 iOS 移动端的滑动流畅度 */
+        
+        /* 隐藏滚动条以保持界面极简美观 */
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE 10+ */
+    }
+    
+    /* 隐藏 Chrome/Safari/Edge 的滚动条 */
+    .splash-quote::-webkit-scrollbar {
+        display: none;
     }
 
     /* 备忘录 */
