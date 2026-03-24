@@ -195,13 +195,13 @@
     }
     .quote-sub { font-size: 16px; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; }
 
+    /* 优化后的隐藏彩蛋 */
     .secret-trigger {
         cursor: pointer;
-        border-bottom: 1px dashed rgba(255,255,255,0.4);
         transition: all 0.2s;
     }
     .secret-trigger:hover {
-        color: #fff; border-bottom-color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.8);
+        color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.8);
     }
 
     /* 网格与卡片 */
@@ -337,7 +337,7 @@
     #fab-memo { display: none; }
     #ghost-memo {
       position: fixed; bottom: 90px; right: 30px; 
-      width: 320px; height: 400px;
+      width: 320px; height: 420px;
       background: var(--bg-card); color: var(--text-main);
       backdrop-filter: blur(var(--blur-val));
       -webkit-backdrop-filter: blur(var(--blur-val));
@@ -350,9 +350,18 @@
       z-index: 100;
     }
     #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
+    
+    /* 备忘录新增时间戳专属样式 */
     #memo-content {
       flex: 1; background: rgba(128,128,128, 0.05); border: none; outline: none; border-radius: 8px; padding: 12px;
-      color: var(--text-main); font-size: 16px; line-height: 1.6; resize: none; margin-top: 10px;
+      color: var(--text-main); font-size: 14px; line-height: 1.6; resize: none; margin-top: 10px; margin-bottom: 10px;
+    }
+    #memo-new-record {
+      width: 100%; background: rgba(128,128,128, 0.08); border: 1px solid transparent; outline: none; border-radius: 8px; padding: 12px;
+      color: var(--text-main); font-size: 14px; transition: all var(--transition-fast);
+    }
+    #memo-new-record:focus {
+      background: var(--bg-card); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
     }
 
     /* 老板键 */
@@ -411,7 +420,7 @@
       #ghost-memo { 
         width: auto; left: 16px; right: 16px; 
         bottom: calc(90px + env(safe-area-inset-bottom)); 
-        height: 50vh; 
+        height: 60vh; 
       }
     }
   </style>
@@ -1188,7 +1197,8 @@
         <span onclick="toggleMemo()" style="cursor:pointer;">×</span>
       </div>
     </div>
-    <textarea id="memo-content" placeholder="输入内容..."></textarea>
+    <textarea id="memo-content" placeholder="历史记录..."></textarea>
+    <input type="text" id="memo-new-record" placeholder="在此输入新记录并回车..." />
   </div>
 
   <script>
@@ -1371,6 +1381,7 @@
     const API_KEY = '$2a$10$1NEYPXNO1k1GdD2h4JTjCuhT5DHTBsQ6J/yVon6iOoRL5Yk/5sfvS'; 
     const ghostMemo = document.getElementById('ghost-memo');
     const memoContent = document.getElementById('memo-content');
+    const memoNewRecord = document.getElementById('memo-new-record');
     const statusText = document.getElementById('cloud-status');
 
     const localMemo = localStorage.getItem('local_memo_cache');
@@ -1389,6 +1400,7 @@
             memoContent.value = d.record.text; 
             localStorage.setItem('local_memo_cache', d.record.text); 
             statusText.textContent = "OK"; 
+            memoContent.scrollTop = memoContent.scrollHeight;
         }
       }).catch(() => {
           statusText.textContent = "LOCAL MODE";
@@ -1397,6 +1409,7 @@
 
     let saveTimeout;
     
+    // 原有的文本域直接修改依然能触发保存
     memoContent.addEventListener('input', () => {
         statusText.textContent = "WAIT...";
         localStorage.setItem('local_memo_cache', memoContent.value);
@@ -1415,6 +1428,37 @@
                 statusText.textContent = "SYNC FAIL"; 
             });
         }, 1200);
+    });
+
+    // 新增：自动附带时间戳的快速记录功能
+    memoNewRecord.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && this.value.trim() !== '') {
+            // 生成标准化时间戳
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const timestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+            // 拼接新记录
+            const newEntry = `[${timestamp}] ${this.value.trim()}`;
+
+            if (memoContent.value) {
+                memoContent.value += '\n\n' + newEntry;
+            } else {
+                memoContent.value = newEntry;
+            }
+
+            // 清空输入框并滚动到底部
+            this.value = '';
+            memoContent.scrollTop = memoContent.scrollHeight;
+
+            // 模拟 input 事件，触发自动同步云端保存
+            memoContent.dispatchEvent(new Event('input'));
+        }
     });
 
     document.getElementById('cloud-sync-btn').addEventListener('click', loadFromCloud);
