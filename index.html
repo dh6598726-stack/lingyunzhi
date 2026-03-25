@@ -1512,7 +1512,7 @@
           if (!container) return;
           try {
               // 1. 强制破坏 Vercel CDN 边缘缓存（加入动态时间戳）
-              const fetchUrl = '/api/get-news?t=' + new Date().getTime();
+             const fetchUrl = '/api/api/get-news?t=' + new Date().getTime();
               const res = await fetch(fetchUrl);
               
               // 2. 严谨检查 HTTP 状态码
