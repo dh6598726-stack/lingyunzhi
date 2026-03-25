@@ -1188,19 +1188,21 @@
     </main>
   </div>
 
-  <div id="ghost-memo" class="hidden">
+<div id="ghost-memo" class="hidden">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <span style="font-size:14px; font-weight:700; letter-spacing:1px;">云备忘录</span>
+      <span style="font-size:14px; font-weight:700; letter-spacing:1px;">实时云备忘录</span>
       <div style="display:flex; gap:10px;">
-        <span id="cloud-status" style="font-size:12px; opacity:0.5;">READY</span>
-        <span id="cloud-sync-btn" style="cursor:pointer;" title="强制从云端拉取">↺</span>
+        <span id="cloud-status" style="font-size:12px; opacity:0.5; font-weight:bold; color: var(--accent);">READY</span>
+        <span id="cloud-sync-btn" style="cursor:pointer;" title="手动刷新">↺</span>
         <span onclick="toggleMemo()" style="cursor:pointer;">×</span>
       </div>
     </div>
-    <textarea id="memo-content" placeholder="历史记录..."></textarea>
-    <input type="text" id="memo-new-record" placeholder="在此输入新记录并回车..." />
+    <textarea id="memo-content" readonly placeholder="正在连接加密通道..."></textarea>
+    <input type="text" id="memo-new-record" placeholder="输入新记录，回车发送至云端..." autocomplete="off" />
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
   <script>
     // 侧滑菜单与遮罩控制（移动端）
     const sidebar = document.getElementById('sidebar');
@@ -1376,91 +1378,113 @@
       document.body.classList.add('dark-mode');
     }
 
-    // 云端备忘录 API
-    const BIN_ID  = '6971fa00ae596e708fed3908';
-    const API_KEY = '$2a$10$1NEYPXNO1k1GdD2h4JTjCuhT5DHTBsQ6J/yVon6iOoRL5Yk/5sfvS'; 
+  // ==========================================
+    // 工业级云备忘录 (Supabase Realtime 架构)
+    // ==========================================
+    
+    const SUPABASE_URL = 'https://nwyjvswvgkilgsggnnid.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_wCF407WM8NaCF-WTKn_rlg_DBOhamPx';
+    
+    // 初始化 Supabase 客户端
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
     const ghostMemo = document.getElementById('ghost-memo');
     const memoContent = document.getElementById('memo-content');
     const memoNewRecord = document.getElementById('memo-new-record');
     const statusText = document.getElementById('cloud-status');
 
-    const localMemo = localStorage.getItem('local_memo_cache');
-    if (localMemo) memoContent.value = localMemo;
+    // 格式化时间的辅助函数 (严谨的本地化时间)
+    function formatTime(isoString) {
+      const date = new Date(isoString);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
 
+    // 唤起备忘录面板
     function toggleMemo() {
       ghostMemo.classList.toggle('active');
-      if(ghostMemo.classList.contains('active')) loadFromCloud();
+      if(ghostMemo.classList.contains('active')) {
+          loadFromCloud();
+          memoNewRecord.focus();
+      }
     }
 
-    function loadFromCloud() {
-      statusText.textContent = "SYNC...";
-      fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers: { 'X-Master-Key': API_KEY } })
-      .then(r=>r.json()).then(d=>{
-        if(d.record) { 
-            memoContent.value = d.record.text; 
-            localStorage.setItem('local_memo_cache', d.record.text); 
-            statusText.textContent = "OK"; 
-            memoContent.scrollTop = memoContent.scrollHeight;
+    // 核心读取逻辑：拉取全量日志并渲染
+    async function loadFromCloud() {
+      statusText.textContent = "SYNCING...";
+      try {
+        const { data, error } = await supabase
+          .from('memos')
+          .select('content, created_at')
+          .order('created_at', { ascending: true }); // 按时间正序排列
+
+        if (error) throw error;
+
+        // 拼接记录
+        if (data && data.length > 0) {
+            memoContent.value = data.map(row => `[${formatTime(row.created_at)}] ${row.content}`).join('\n\n');
+        } else {
+            memoContent.value = '暂无记录，开启你的数字记忆...';
         }
-      }).catch(() => {
-          statusText.textContent = "LOCAL MODE";
-      });
-    }
-
-    let saveTimeout;
-    
-    // 原有的文本域直接修改依然能触发保存
-    memoContent.addEventListener('input', () => {
-        statusText.textContent = "WAIT...";
-        localStorage.setItem('local_memo_cache', memoContent.value);
         
-        clearTimeout(saveTimeout);
-        saveTimeout = setTimeout(() => {
-            statusText.textContent = "SAVING...";
-            fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
-                body: JSON.stringify({ text: memoContent.value })
-            }).then(() => { 
-                statusText.textContent = "SAVED"; 
-                setTimeout(() => statusText.textContent="READY", 2000); 
-            }).catch(() => {
-                statusText.textContent = "SYNC FAIL"; 
-            });
-        }, 1200);
-    });
+        statusText.textContent = "CONNECTED";
+        memoContent.scrollTop = memoContent.scrollHeight; // 滚动到底部
+      } catch (err) {
+        console.error("加载数据失败:", err);
+        statusText.textContent = "SYNC FAIL";
+      }
+    }
 
-    // 新增：自动附带时间戳的快速记录功能
-    memoNewRecord.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && this.value.trim() !== '') {
-            // 生成标准化时间戳
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            const timestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    // 核心写入逻辑：增量插入 (彻底杜绝并发覆盖问题)
+    memoNewRecord.addEventListener('keydown', async function(e) {
+      if (e.key === 'Enter' && this.value.trim() !== '') {
+        const newText = this.value.trim();
+        this.value = ''; // 立即清空，保证丝滑体验
+        statusText.textContent = "SENDING...";
 
-            // 拼接新记录
-            const newEntry = `[${timestamp}] ${this.value.trim()}`;
+        try {
+          const { error } = await supabase
+            .from('memos')
+            .insert([{ content: newText }]); // 只做 Insert，不触发全量替换
 
-            if (memoContent.value) {
-                memoContent.value += '\n\n' + newEntry;
-            } else {
-                memoContent.value = newEntry;
-            }
-
-            // 清空输入框并滚动到底部
-            this.value = '';
-            memoContent.scrollTop = memoContent.scrollHeight;
-
-            // 模拟 input 事件，触发自动同步云端保存
-            memoContent.dispatchEvent(new Event('input'));
+          if (error) throw error;
+          statusText.textContent = "SAVED";
+          setTimeout(() => { if(statusText.textContent === "SAVED") statusText.textContent="CONNECTED"; }, 2000);
+        } catch (err) {
+          console.error("保存失败:", err);
+          statusText.textContent = "ERROR";
+          this.value = newText; // 失败补偿：恢复输入框文字
         }
+      }
     });
 
+    // 核心实时监听逻辑：WebSockets 双向通讯
+    // 当其他设备发送了新记录，当前屏幕瞬间自动上屏
+    supabase
+      .channel('public:memos')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'memos' }, payload => {
+        const newRow = payload.new;
+        const newEntry = `[${formatTime(newRow.created_at)}] ${newRow.content}`;
+        
+        if (memoContent.value === '暂无记录，开启你的数字记忆...') {
+            memoContent.value = newEntry;
+        } else {
+            memoContent.value += '\n\n' + newEntry;
+        }
+        memoContent.scrollTop = memoContent.scrollHeight;
+        
+        // 闪烁提示，增强实时感知
+        statusText.textContent = "NEW MSG!";
+        setTimeout(() => { statusText.textContent="CONNECTED"; }, 1500);
+      })
+      .subscribe();
+
+    // 手动同步按钮绑定
     document.getElementById('cloud-sync-btn').addEventListener('click', loadFromCloud);
   </script>
 </body>
