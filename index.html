@@ -22,9 +22,7 @@
   <style>
     /* 全局系统设定 */
     :root {
-      /* 核心优化：采用稳定的书法网络字库，增加后备机制 */
       --font-main: 'Long Cang', "Xingkai SC", "STXingkai", cursive;
-      
       --bg-body: #f5f5f7; 
       --bg-sidebar: rgba(255, 255, 255, 0.75); 
       --bg-card: rgba(255, 255, 255, 0.85); 
@@ -55,10 +53,7 @@
       --shadow-hover: 0 10px 24px rgba(0, 0, 0, 0.6);
     }
 
-    /* 严谨修正：移除强行书法字体通配，避免损坏图标库 */
-    * { 
-        margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; 
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     
     body {
       font-family: var(--font-main);
@@ -67,21 +62,21 @@
       height: 100vh;
       overflow: hidden;
       transition: background-color var(--transition-fast);
-      /* 提升书法字体的渲染平滑度 */
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* 严谨修正：输入框与备忘录文本域恢复常规系统字体，保障高频输入的可读性 */
+    /* 全局自定义精美滚动条 */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.2); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(128,128,128,0.4); }
+
     input, textarea {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
     
-    #app {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      height: 100%;
-    }
+    #app { display: grid; grid-template-columns: 280px 1fr; height: 100%; }
 
     /* 侧边栏样式 */
     aside {
@@ -94,10 +89,7 @@
       z-index: 1000;
     }
     
-    .brand {
-      display: flex; align-items: center; gap: 16px;
-      margin-bottom: 32px; cursor: pointer;
-    }
+    .brand { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; cursor: pointer; }
     
     @keyframes heartbeat {
       0%, 28%, 70% { transform: scale(1); }
@@ -105,148 +97,92 @@
     }
 
     .brand-logo {
-      width: 40px; height: 40px; 
-      color: #ff3b30; 
+      width: 40px; height: 40px; color: #ff3b30; 
       display: flex; align-items: center; justify-content: center;
-      font-size: 28px;
-      animation: heartbeat 1.5s infinite ease-in-out; 
+      font-size: 28px; animation: heartbeat 1.5s infinite ease-in-out; 
     }
     
-    .brand-text h1 { 
-      font-size: 26px; font-weight: 400; line-height: 1;
-      letter-spacing: 0.5px;
-    }
-    .brand-text span { 
-      font-size: 14px; color: var(--text-sub); text-transform: uppercase; 
-      letter-spacing: 1px; display: block; margin-top: 4px;
-    }
+    .brand-text h1 { font-size: 26px; font-weight: 400; line-height: 1; letter-spacing: 0.5px; }
+    .brand-text span { font-size: 14px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 4px; }
 
     .search-box { position: relative; margin-bottom: 24px; }
     .search-input {
-      width: 100%; padding: 12px 16px 12px 40px;
-      background: rgba(128,128,128, 0.08);
-      border: 1px solid transparent;
-      border-radius: var(--radius-sm); 
-      color: var(--text-main); font-size: 16px;
-      transition: all var(--transition-fast);
+      width: 100%; padding: 12px 16px 12px 40px; background: rgba(128,128,128, 0.08);
+      border: 1px solid transparent; border-radius: var(--radius-sm); 
+      color: var(--text-main); font-size: 16px; transition: all var(--transition-fast);
     }
     .search-input:focus { 
-      background: var(--bg-card); 
-      border-color: var(--accent); 
-      outline: none; 
-      box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); 
+      background: var(--bg-card); border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); 
     }
     .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-sub); }
 
     .nav-scroll { flex: 1; overflow-y: auto; padding-right: 8px; }
-    .nav-scroll::-webkit-scrollbar { width: 5px; }
-    .nav-scroll::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.2); border-radius: 5px; }
     
     .nav-item {
-      padding: 12px 14px;
-      border-radius: var(--radius-sm);
-      font-size: 16px; font-weight: 500; color: var(--text-sub);
-      text-decoration: none; display: flex; align-items: center; gap: 12px;
-      transition: all var(--transition-fast); cursor: pointer; margin-bottom: 4px;
+      padding: 12px 14px; border-radius: var(--radius-sm); font-size: 16px; font-weight: 500; color: var(--text-sub);
+      text-decoration: none; display: flex; align-items: center; gap: 12px; transition: all var(--transition-fast); cursor: pointer; margin-bottom: 4px;
     }
-    .nav-item:hover { background: rgba(128,128,128, 0.08); color: var(--text-main); }
+    .nav-item:hover { background: rgba(128,128,128, 0.08); color: var(--text-main); transform: translateX(4px); }
     .nav-item.active { background: var(--text-main); color: var(--bg-body); }
     .nav-icon { font-size: 18px; opacity: 0.9; }
 
     .aside-footer { 
-      margin-top: 20px; padding-top: 20px; 
-      border-top: 1px solid var(--border-color); 
+      margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color); 
       display: flex; justify-content: space-between; align-items: center; 
     }
     .time-badge {
-      font-size: 14px; color: var(--text-sub);
+      font-size: 14px; color: var(--text-sub); font-family: system-ui, sans-serif;
       background: rgba(128,128,128, 0.08); padding: 6px 10px; border-radius: 6px; cursor: default;
+      display: flex; align-items: center; gap: 8px;
     }
+    .time-greeting { font-size: 12px; opacity: 0.8; }
 
     /* 主内容区 */
-    main {
-      padding: 48px 6vw;
-      overflow-y: auto;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch; 
-    }
+    main { padding: 48px 6vw; overflow-y: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
 
     .hero-quote {
-      margin-bottom: 40px; 
-      padding: 56px;
-      background-color: #2c2c2e; 
-      background-image: url('laopo.png'); 
-      background-size: cover;
-      background-position: center;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-card);
-      position: relative; 
-      overflow: hidden;
+      margin-bottom: 40px; padding: 56px; background-color: #2c2c2e; 
+      background-image: url('laopo.png'); background-size: cover; background-position: center;
+      border-radius: var(--radius-lg); border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-card); position: relative; overflow: hidden;
     }
     .hero-quote::before {
-        content: ""; position: absolute; inset: 0;
-        background: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2)); 
-        z-index: 1;
+        content: ""; position: absolute; inset: 0; background: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2)); z-index: 1;
     }
     .quote-text, .quote-sub { position: relative; z-index: 2; }
-    .quote-text {
-      font-size: 32px; line-height: 1.6; color: #ffffff; margin-bottom: 12px;
-    }
+    .quote-text { font-size: 32px; line-height: 1.6; color: #ffffff; margin-bottom: 12px; }
     .quote-sub { font-size: 16px; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; }
 
-    /* 优化后的隐藏彩蛋 */
-    .secret-trigger {
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-    .secret-trigger:hover {
-        color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.8);
-    }
+    .secret-trigger { cursor: pointer; transition: all 0.2s; }
+    .secret-trigger:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.8); }
 
     /* 网格与卡片 */
     .section-block { margin-bottom: 56px; scroll-margin-top: 32px; }
     .section-header {
       display: flex; align-items: baseline; justify-content: space-between;
-      margin-bottom: 24px; padding-bottom: 10px;
-      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);
     }
     .section-title { font-size: 22px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px;}
-    .section-count { font-size: 14px; color: var(--text-sub); text-transform: uppercase; }
+    .section-count { font-size: 14px; color: var(--text-sub); text-transform: uppercase; font-family: system-ui, sans-serif;}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 20px;
-    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
 
     .card {
-      background: var(--bg-card);
-      backdrop-filter: blur(var(--blur-val));
-      -webkit-backdrop-filter: blur(var(--blur-val));
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 20px;
-      cursor: pointer;
-      display: flex; flex-direction: column; gap: 12px;
-      transition: all var(--transition-fast);
-      will-change: transform; 
-      text-decoration: none; 
-      color: inherit;        
+      background: var(--bg-card); backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
+      border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;
+      cursor: pointer; display: flex; flex-direction: column; gap: 12px;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      will-change: transform, box-shadow; text-decoration: none; color: inherit;        
     }
     .card:hover {
-      border-color: var(--border-hover);
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-hover);
-      background: var(--bg-body);
+      border-color: var(--border-hover); transform: translateY(-5px) scale(1.02);
+      box-shadow: var(--shadow-hover); background: var(--bg-body);
     }
 
     .card-head { display: flex; justify-content: space-between; align-items: flex-start; }
     .icon-box {
-      width: 36px; height: 36px;
-      border-radius: 10px; background: rgba(128,128,128, 0.08);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; color: var(--text-main);
+      width: 36px; height: 36px; border-radius: 10px; background: rgba(128,128,128, 0.08);
+      display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--text-main);
     }
     .link-arrow { font-size: 14px; color: var(--border-color); transition: var(--transition-fast); }
     .card:hover .link-arrow { color: var(--accent); transform: translate(3px, -3px); }
@@ -254,25 +190,20 @@
     .card-body { display: flex; flex-direction: column; gap: 4px; }
     .card-title { font-size: 18px; font-weight: 600; color: var(--text-main); }
     .card-desc { 
-      font-size: 14px; color: var(--text-sub); line-height: 1.4;
+      font-size: 14px; color: var(--text-sub); line-height: 1.4; font-family: system-ui, sans-serif;
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
 
     /* 特殊区块：时光机 */
     .time-capsule {
-        margin-bottom: 56px; padding: 24px 32px;
-        background: linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
-        border-radius: var(--radius-lg); cursor: pointer;
-        display: flex; align-items: center; justify-content: space-between;
-        box-shadow: var(--shadow-hover); border: 1px solid rgba(255,255,255,0.15);
-        position: relative; overflow: hidden; color: #fff;
-        transition: transform var(--transition-fast);
-        text-decoration: none; 
+        margin-bottom: 56px; padding: 24px 32px; background: linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
+        border-radius: var(--radius-lg); cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+        box-shadow: var(--shadow-hover); border: 1px solid rgba(255,255,255,0.15); position: relative; overflow: hidden; color: #fff;
+        transition: transform var(--transition-fast); text-decoration: none; 
     }
     .time-capsule:hover { transform: scale(1.01) translateY(-2px); border-color: rgba(255,255,255,0.4); }
     .time-capsule::before {
-        content: ''; position: absolute;
-        top: 0; left: -100%; width: 50%; height: 100%;
+        content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
         background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
         transform: skewX(-20deg); transition: 0s;
     }
@@ -285,7 +216,7 @@
     }
     .capsule-info { display: flex; flex-direction: column; }
     .capsule-title { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
-    .capsule-desc { color: rgba(255,255,255,0.6); font-size: 14px; margin-top: 4px; }
+    .capsule-desc { color: rgba(255,255,255,0.6); font-size: 14px; margin-top: 4px; font-family: system-ui, sans-serif;}
     .capsule-arrow {
         width: 36px; height: 36px; border-radius: 50%; background: #fff; color: #000;
         display: flex; align-items: center; justify-content: center;
@@ -294,85 +225,88 @@
     .time-capsule:hover .capsule-arrow { opacity: 1; transform: translateX(0); }
 
     /* 敏感内容区域 */
-    .sensitive-zone { position: relative; }
+    .sensitive-zone { position: relative; transition: all 0.5s ease; }
     .locked { display: none !important; }
     .sensitive-blur { filter: blur(12px); opacity: 0.3; transition: 0.4s ease; }
     .sensitive-mask {
-      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-      z-index: 5; pointer-events: none;
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5; pointer-events: none;
     }
     .mask-badge {
       background: rgba(0,0,0,0.8); color: #fff; backdrop-filter: blur(4px);
-      padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-      transition: var(--transition-fast);
+      padding: 8px 16px; border-radius: 8px; font-size: 14px; font-family: system-ui; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+      transition: var(--transition-fast); box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
     .sensitive-zone:hover .sensitive-blur { filter: blur(0); opacity: 1; }
     .sensitive-zone:hover .mask-badge { opacity: 0; transform: scale(0.9); }
 
     /* 开屏界面 */
     #splash {
-      position: fixed; inset: 0; z-index: 9999;
-      background: var(--bg-body); 
+      position: fixed; inset: 0; z-index: 9999; background: var(--bg-body); 
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      transition: opacity 0.6s ease;
-      user-select: none; 
+      transition: opacity 0.6s ease, visibility 0.6s; user-select: none; 
     }
     .splash-quote { 
-        font-size: 32px; 
-        text-align: center; max-width: 600px; line-height: 1.6; margin-bottom: 40px; padding: 0 20px;
-        color: var(--text-main);
-        
-        /* 开启上下滑动能力 */
-        max-height: 75vh;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
-    .splash-quote::-webkit-scrollbar {
-        display: none;
+        font-size: 32px; text-align: center; max-width: 600px; line-height: 1.6; margin-bottom: 40px; padding: 0 20px;
+        color: var(--text-main); max-height: 75vh; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
     }
 
     /* 备忘录 */
     #fab-memo { display: none; }
     #ghost-memo {
-      position: fixed; bottom: 90px; right: 30px; 
-      width: 320px; height: 420px;
-      background: var(--bg-card); color: var(--text-main);
-      backdrop-filter: blur(var(--blur-val));
-      -webkit-backdrop-filter: blur(var(--blur-val));
-      border: 1px solid var(--border-color);
-      border-radius: 16px; padding: 20px;
-      display: flex; flex-direction: column;
-      box-shadow: var(--shadow-hover);
-      transform: translateY(20px) scale(0.9); opacity: 0; pointer-events: none;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      z-index: 100;
+      position: fixed; bottom: 90px; right: 30px; width: 320px; height: 420px;
+      background: var(--bg-card); color: var(--text-main); backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
+      border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; display: flex; flex-direction: column;
+      box-shadow: var(--shadow-hover); transform: translateY(20px) scale(0.9); opacity: 0; pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 100; font-family: system-ui, sans-serif;
     }
     #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
     
-    /* 备忘录新增时间戳专属样式 */
     #memo-content {
       flex: 1; background: rgba(128,128,128, 0.05); border: none; outline: none; border-radius: 8px; padding: 12px;
-      color: var(--text-main); font-size: 14px; line-height: 1.6; resize: none; margin-top: 10px; margin-bottom: 10px;
+      color: var(--text-main); font-size: 14px; line-height: 1.6; resize: none; margin-top: 10px; margin-bottom: 10px; font-family: inherit;
     }
     #memo-new-record {
       width: 100%; background: rgba(128,128,128, 0.08); border: 1px solid transparent; outline: none; border-radius: 8px; padding: 12px;
-      color: var(--text-main); font-size: 14px; transition: all var(--transition-fast);
+      color: var(--text-main); font-size: 14px; transition: all var(--transition-fast); font-family: inherit;
     }
-    #memo-new-record:focus {
-      background: var(--bg-card); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
-    }
+    #memo-new-record:focus { background: var(--bg-card); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); }
 
-    /* 老板键 */
+    /* ================= 趣味特效区 ================= */
+    /* 1. 老板键 404 Glitch 特效 */
     #panic-overlay {
       position: fixed; inset: 0; background: #ffffff; z-index: 99999;
       display: flex; align-items: center; justify-content: center;
-      text-align: center; opacity: 0; pointer-events: none; transition: 0.1s;
+      text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; font-family: monospace;
     }
     #panic-overlay.active { opacity: 1; pointer-events: auto; }
+    .glitch-wrapper { position: relative; }
+    .glitch { font-size: 100px; margin: 0; color: #333; position: relative; font-weight: bold; }
+    .glitch::before, .glitch::after {
+        content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8;
+    }
+    .glitch::before { left: 2px; text-shadow: -2px 0 red; clip: rect(24px, 550px, 90px, 0); animation: glitch-anim 2.5s infinite linear alternate-reverse; }
+    .glitch::after { left: -2px; text-shadow: -2px 0 blue; clip: rect(85px, 550px, 140px, 0); animation: glitch-anim 3s infinite linear alternate-reverse; }
+    @keyframes glitch-anim {
+      0% { clip: rect(11px, 9999px, 86px, 0); } 20% { clip: rect(65px, 9999px, 13px, 0); }
+      40% { clip: rect(100px, 9999px, 10px, 0); } 60% { clip: rect(3px, 9999px, 80px, 0); }
+      80% { clip: rect(40px, 9999px, 15px, 0); } 100% { clip: rect(95px, 9999px, 50px, 0); }
+    }
 
-    .hidden { opacity: 0; pointer-events: none; }
+    /* 2. Toast 提示弹窗 (终端风格) */
+    .toast-container {
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+      z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none;
+    }
+    .toast {
+      background: rgba(0, 0, 0, 0.85); color: #0f0; font-family: monospace; font-size: 14px;
+      padding: 12px 24px; border-radius: 8px; border: 1px solid #0f0; box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+      animation: toast-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, toast-out 0.3s 2.5s forwards;
+    }
+    @keyframes toast-in { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes toast-out { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-50%); opacity: 0; } }
+    /* ============================================== */
+
+    .hidden { opacity: 0; pointer-events: none; visibility: hidden; }
     .mobile-header, .mobile-overlay { display: none; }
 
     /* 移动端响应式深度优化 */
@@ -382,10 +316,8 @@
       
       .mobile-header {
         display: flex; align-items: center; justify-content: space-between; gap: 16px;
-        padding: 12px 20px; background: var(--bg-sidebar);
-        backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
-        border-bottom: 1px solid var(--border-color);
-        position: sticky; top: 0; z-index: 900;
+        padding: 12px 20px; background: var(--bg-sidebar); backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
+        border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 900;
       }
       .mh-left { display: flex; align-items: center; gap: 16px; flex: 1; }
       .mh-logo { color: #ff3b30; font-size: 26px; animation: heartbeat 1.5s infinite; cursor: pointer; }
@@ -398,10 +330,8 @@
       .mh-menu-btn { font-size: 26px; color: var(--text-main); cursor: pointer; }
 
       aside { 
-        position: fixed; top: 0; left: -100%; bottom: 0;
-        width: 280px; height: 100dvh;
-        transition: left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+        position: fixed; top: 0; left: -100%; bottom: 0; width: 280px; height: 100dvh;
+        transition: left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 10px 0 30px rgba(0,0,0,0.1);
       }
       aside.open { left: 0; }
       
@@ -413,27 +343,22 @@
 
       main { padding: 24px 20px calc(80px + env(safe-area-inset-bottom)) 20px; }
       .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
-      
       .hero-quote { padding: 32px 24px; margin-bottom: 24px; }
       .quote-text { font-size: 28px; }
-
-      #ghost-memo { 
-        width: auto; left: 16px; right: 16px; 
-        bottom: calc(90px + env(safe-area-inset-bottom)); 
-        height: 60vh; 
-      }
+      #ghost-memo { width: auto; left: 16px; right: 16px; bottom: calc(90px + env(safe-area-inset-bottom)); height: 60vh; }
     }
   </style>
 </head>
 <body>
 
+  <div class="toast-container" id="toast-container"></div>
   <div class="mobile-overlay" id="mobile-overlay"></div>
 
   <div id="panic-overlay">
-    <div>
-      <h1 style="font-size: 80px; margin: 0; color: #333;">404</h1>
-      <p style="font-size: 24px; color: #666;">Not Found</p>
-      <div style="margin-top: 20px; color: #999;">nginx/1.18.0 (Ubuntu)</div>
+    <div class="glitch-wrapper">
+      <h1 class="glitch" data-text="404">404</h1>
+      <p style="font-size: 24px; color: #666; font-family: system-ui;">Not Found</p>
+      <div style="margin-top: 20px; color: #999; font-size: 14px;">nginx/1.18.0 (Ubuntu)</div>
     </div>
   </div>
 
@@ -443,17 +368,14 @@
         走了很长的路，也见过很多风景。<br>
         唯独星空深处的那轮明月最不认生。<br>
         它在异乡的窗前，守着当年我在故乡没做完的梦。<br>
-        <br>
-        <br>
+        <br><br>
         回头看，<span onclick="closeSplash()" style="cursor: pointer; touch-action: manipulation; padding: 10px 5px; margin: -10px -5px; position: relative; z-index: 10;">轻舟</span>已过万重山；<br>
         向前看，长路漫漫亦灿烂。
       </p>
     </div>
   </div>
 
-  <div id="fab-memo" title="Open Cloud Memo">
-    <i class="ri-cloud-line"></i>
-  </div>
+  <div id="fab-memo" title="Open Cloud Memo"><i class="ri-cloud-line"></i></div>
 
   <div id="app">
     <div class="mobile-header" id="mobile-header">
@@ -472,7 +394,7 @@
         <div class="brand-logo"><i class="ri-heart-3-fill"></i></div>
         <div class="brand-text">
           <h1>JIN Tong</h1>
-          <span>ARCHIVE</span>
+          <span style="font-family: system-ui;">ARCHIVE</span>
         </div>
       </div>
         
@@ -484,7 +406,10 @@
       <div class="nav-scroll" id="nav-container"></div>
 
       <div class="aside-footer">
-        <div class="time-badge" id="time-pill">00:00</div>
+        <div class="time-badge">
+            <span id="time-pill">00:00</span>
+            <span class="time-greeting" id="time-greeting">你好</span>
+        </div>
         <i class="ri-equalizer-line" style="font-size:12px; color:var(--text-sub); opacity:0.5;"></i>
       </div>
     </aside>
@@ -494,7 +419,7 @@
         <div class="quote-text">
           天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo()">凌云</span>之志。
         </div>
-        <div class="quote-sub">Long live freedom / The Visual Archive</div>
+        <div class="quote-sub" style="font-family: system-ui;">Long live freedom / The Visual Archive</div>
       </div>
 
       <a class="time-capsule" href="https://archive.org/" target="_blank" rel="noopener noreferrer">
@@ -589,6 +514,7 @@
            </a>
         </div>
       </div>
+      
       <div class="section-block" id="sec-ai" data-icon="ri-brain-line">
         <div class="section-header">
            <div class="section-title">AI 与大模型</div>
@@ -1187,7 +1113,8 @@
 
     </main>
   </div>
-<div id="ghost-memo" class="hidden">
+  
+  <div id="ghost-memo" class="hidden">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
       <span style="font-size:14px; font-weight:700; letter-spacing:1px;">实时云备忘录</span>
       <div style="display:flex; gap:10px;">
@@ -1247,7 +1174,7 @@
       });
     });
 
-    // === 开屏动画逻辑 (核心：保证页面能进) ===
+    // === 开屏动画逻辑 ===
     function closeSplash() {
       const splash = document.getElementById('splash');
       if(splash) {
@@ -1260,15 +1187,46 @@
       if(splash) splash.style.display = 'none';
     }
 
-    // === 更新系统时间 ===
+    // === 更新系统时间与动态问候语 ===
     function updateTime() {
+      const now = new Date();
       const timePill = document.getElementById('time-pill');
-      if(timePill) timePill.textContent = new Date().toLocaleTimeString('zh-CN', {hour12:false});
+      const greeting = document.getElementById('time-greeting');
+      
+      if(timePill) timePill.textContent = now.toLocaleTimeString('zh-CN', {hour12:false});
+      
+      if(greeting) {
+        const hour = now.getHours();
+        if (hour < 5) greeting.textContent = '夜深了';
+        else if (hour < 9) greeting.textContent = '早上好';
+        else if (hour < 12) greeting.textContent = '上午好';
+        else if (hour < 14) greeting.textContent = '中午好';
+        else if (hour < 19) greeting.textContent = '下午好';
+        else greeting.textContent = '晚上好';
+      }
     }
     setInterval(updateTime, 1000); 
     updateTime();
 
-    // === 搜索卡片过滤逻辑 ===
+    // === 趣味：终端提示弹窗机制 ===
+    function showToast(message) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = `> ${message}`;
+      container.appendChild(toast);
+      setTimeout(() => { if (toast.parentNode) toast.remove(); }, 3000);
+    }
+
+    // === 搜索防抖机制 ===
+    function debounce(func, wait) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+      };
+    }
+
     function filterCards(term) {
         document.querySelectorAll('.card').forEach(card => {
           const text = card.textContent.toLowerCase();
@@ -1280,12 +1238,15 @@
         });
     }
 
+    const debouncedFilter = debounce(filterCards, 150); // 150ms防抖提升性能
+
     // === 实时搜索与口令逻辑 ===
     const searchInputs = document.querySelectorAll('.search-input');
     searchInputs.forEach(input => {
       input.addEventListener('input', (e) => {
         const term = e.target.value.toLowerCase().trim();
         
+        // 隐藏空间口令逻辑
         if (term === 'open') {
           const secretZones = document.querySelectorAll('.sensitive-zone');
           let isUnlocking = false;
@@ -1302,6 +1263,7 @@
           document.querySelectorAll('.section-block').forEach(sec => { sec.style.display = 'block'; });
 
           if (isUnlocking && secretZones.length > 0) {
+             showToast("Access Granted. Welcome to the Abyss."); // 炫酷提示
              if (window.innerWidth <= 768) {
                  document.getElementById('sidebar').classList.remove('open');
                  document.getElementById('mobile-overlay').classList.remove('open');
@@ -1309,17 +1271,14 @@
              setTimeout(() => {
                  secretZones[0].scrollIntoView({ behavior: 'smooth' });
              }, 50);
+          } else {
+             showToast("Connection Terminated.");
           }
           return;
         }
 
         searchInputs.forEach(inp => { if(inp !== e.target) inp.value = term; });
-
-        if (document.startViewTransition) {
-            document.startViewTransition(() => filterCards(term));
-        } else {
-            filterCards(term);
-        }
+        debouncedFilter(term);
       });
     });
 
@@ -1329,12 +1288,12 @@
       const activeEl = document.activeElement;
       const isInputActive = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA');
 
+      // 老板键 (404 故障特效页面)
       if (e.key === 'Escape') {
         if (isInputActive) {
             activeEl.blur();
             return;
         }
-
         const panicOverlay = document.getElementById('panic-overlay');
         const app = document.getElementById('app');
         if (panicOverlay.classList.contains('active')) {
@@ -1342,11 +1301,12 @@
           app.style.filter = 'none';
         } else {
           panicOverlay.classList.add('active');
-          app.style.filter = 'blur(10px)'; 
+          app.style.filter = 'blur(10px) grayscale(100%)'; 
         }
         return; 
       }
 
+      // 快捷搜索
       if((e.metaKey || e.ctrlKey) && e.key === 'k') { 
           e.preventDefault(); 
           const visibleSearch = Array.from(searchInputs).find(i => i.offsetParent !== null);
@@ -1354,19 +1314,20 @@
           return;
       }
 
+      // 全局静默输入 "open"
       if(isInputActive) return;
-      
       secretCode += e.key.toLowerCase();
       if (secretCode.length > 4) secretCode = secretCode.slice(-4);
       
       if (secretCode === 'open') {
         const secretZones = document.querySelectorAll('.sensitive-zone');
-        secretZones.forEach(zone => {
-             zone.classList.toggle('locked');
-        });
+        secretZones.forEach(zone => { zone.classList.toggle('locked'); });
 
         if (secretZones.length > 0 && !secretZones[0].classList.contains('locked')) {
+             showToast("Access Granted.");
              secretZones[0].scrollIntoView({ behavior: 'smooth' });
+        } else {
+             showToast("Locked.");
         }
         secretCode = ''; 
       }
@@ -1394,9 +1355,7 @@
   </script>
 
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  
   <script>
-    // 格式化时间的辅助函数
     function formatTime(isoString) {
       const date = new Date(isoString);
       const year = date.getFullYear();
@@ -1408,19 +1367,15 @@
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     }
 
-    // 严谨的安全容错：如果网络原因导致 supabase 库被拦截，不要让网页崩溃
     if (typeof window.supabase !== 'undefined') {
-        
         const SUPABASE_URL = 'https://nwyjvswvgkilgsggnnid.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_wCF407WM8NaCF-WTKn_rlg_DBOhamPx';
-        
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         const memoContent = document.getElementById('memo-content');
         const memoNewRecord = document.getElementById('memo-new-record');
         const statusText = document.getElementById('cloud-status');
 
-        // 核心读取逻辑：挂载到 window 供优先加载的 toggleMemo 引用
         window.loadFromCloud = async function() {
           statusText.textContent = "SYNCING...";
           try {
@@ -1436,7 +1391,6 @@
             } else {
                 memoContent.value = '暂无记录，开启你的数字记忆...';
             }
-            
             statusText.textContent = "CONNECTED";
             memoContent.scrollTop = memoContent.scrollHeight; 
           } catch (err) {
@@ -1445,18 +1399,15 @@
           }
         };
 
-        // 核心写入逻辑
         memoNewRecord.addEventListener('keydown', async function(e) {
           if (e.key === 'Enter' && this.value.trim() !== '') {
             const newText = this.value.trim();
             this.value = ''; 
             statusText.textContent = "SENDING...";
-
             try {
               const { error } = await supabase
                 .from('memos')
                 .insert([{ content: newText }]); 
-
               if (error) throw error;
               statusText.textContent = "SAVED";
               setTimeout(() => { if(statusText.textContent === "SAVED") statusText.textContent="CONNECTED"; }, 2000);
@@ -1468,29 +1419,22 @@
           }
         });
 
-        // WebSockets 实时监听逻辑
-        supabase
-          .channel('public:memos')
+        supabase.channel('public:memos')
           .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'memos' }, payload => {
             const newRow = payload.new;
             const newEntry = `[${formatTime(newRow.created_at)}] ${newRow.content}`;
-            
             if (memoContent.value === '暂无记录，开启你的数字记忆...') {
                 memoContent.value = newEntry;
             } else {
                 memoContent.value += '\n\n' + newEntry;
             }
             memoContent.scrollTop = memoContent.scrollHeight;
-            
             statusText.textContent = "NEW MSG!";
             setTimeout(() => { statusText.textContent="CONNECTED"; }, 1500);
-          })
-          .subscribe();
+          }).subscribe();
 
         document.getElementById('cloud-sync-btn').addEventListener('click', window.loadFromCloud);
-
     } else {
-        // 断网降级提示
         document.getElementById('cloud-status').textContent = "OFFLINE";
         document.getElementById('memo-content').value = "通信库加载失败。\n如果您的网络受限（例如国内环境），请尝试刷新或开启代理。";
     }
