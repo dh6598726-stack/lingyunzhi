@@ -154,13 +154,14 @@
     .quote-text { font-size: 32px; line-height: 1.6; color: #ffffff; margin-bottom: 12px; }
     .quote-sub { font-size: 16px; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-sys); }
 
-  /* 优化唤醒触发器 UI 反馈 (彻底无痕化) */
+    /* 优化唤醒触发器 UI 反馈 */
     .secret-trigger { 
       cursor: pointer; transition: all var(--transition-fast); display: inline-block;
     }
     .secret-trigger:hover { 
       color: #fff; text-shadow: 0 0 12px rgba(255,255,255,0.9); transform: translateY(-2px); 
     }
+
     /* 网格与卡片 */
     .section-block { margin-bottom: 56px; scroll-margin-top: 32px; }
     .section-header {
@@ -172,12 +173,19 @@
 
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
 
+    /* 卡片入场动画 */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .card {
       background: var(--bg-card); backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
       border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;
       cursor: pointer; display: flex; flex-direction: column; gap: 12px;
       transition: var(--transition-smooth);
-      will-change: transform, box-shadow; text-decoration: none; color: inherit;        
+      text-decoration: none; color: inherit; 
+      opacity: 0; animation: fadeUp 0.4s ease forwards;
     }
     .card:hover {
       border-color: var(--border-hover); transform: translateY(-5px) scale(1.02);
@@ -210,7 +218,7 @@
     .time-capsule::before {
         content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
         background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-        transform: skewX(-20deg); transition: 0s;
+        transform: skewX(-20deg);
     }
     .time-capsule:hover::before { left: 200%; transition: 0.8s ease-in-out; }
 
@@ -277,7 +285,11 @@
       color: var(--text-main); font-size: 14px; line-height: 1.6;
     }
     .memo-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .memo-text { flex: 1; word-break: break-all; white-space: pre-wrap; font-family: inherit;}
+    .memo-text { 
+        flex: 1; word-break: break-all; white-space: pre-wrap; font-family: inherit;
+        cursor: pointer; transition: opacity var(--transition-fast);
+    }
+    .memo-text:hover { opacity: 0.7; }
     .memo-time { font-size: 11px; opacity: 0.5; display: block; margin-bottom: 4px;}
     .memo-delete {
       cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity var(--transition-fast);
@@ -325,7 +337,6 @@
     @keyframes toast-in { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     @keyframes toast-out { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-50%); opacity: 0; } }
     
-    .hidden { opacity: 0; pointer-events: none; visibility: hidden; }
     .mobile-header, .mobile-overlay { display: none; }
 
     /* 移动端响应式优化 */
@@ -417,21 +428,21 @@
         
       <div class="search-box">
         <i class="ri-search-2-line search-icon"></i>
-        <input type="text" class="search-input" id="search-input" placeholder="搜点什么...">
+        <input type="text" class="search-input" id="search-input" placeholder="搜点什么 (Ctrl+K)">
       </div>
 
       <div class="nav-scroll" id="nav-container"></div>
 
       <div class="aside-footer">
         <div class="time-badge">
-            <span id="time-pill">00:00</span>
+            <span id="date-pill" style="margin-right: 4px;"></span>
+            <span id="time-pill" style="font-weight: 600;">00:00</span>
             <span class="time-greeting" id="time-greeting">你好</span>
         </div>
-        <i class="ri-equalizer-line" style="font-size:12px; color:var(--text-sub); opacity:0.5;"></i>
       </div>
     </aside>
 
-    <main id="main-scroll">
+    <main>
       <div class="hero-quote">
         <div class="quote-text">
           天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo()">凌云</span>之志。
@@ -1164,6 +1175,14 @@
         mobileOverlay.addEventListener('click', toggleMobileMenu);
     }
 
+    // 动态卡片入场动画 (流式渐显)
+    function animateCards() {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach((card, index) => {
+        card.style.animationDelay = `${(index % 12) * 0.05}s`;
+      });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       // 侧边栏导航渲染
       const navContainer = document.getElementById('nav-container');
@@ -1192,7 +1211,8 @@
         navContainer.appendChild(link);
       });
 
-      // 主题同步
+      // 初始化动画与主题同步
+      animateCards();
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark-mode');
       }
@@ -1203,7 +1223,7 @@
       const splash = document.getElementById('splash');
       if(splash) {
           splash.style.opacity = '0';
-          setTimeout(() => { splash.classList.add('hidden'); }, 600);
+          setTimeout(() => { splash.style.display = 'none'; }, 600);
           sessionStorage.setItem('archiveSplashSeen', 'true');
       }
     }
@@ -1212,13 +1232,18 @@
       if(splash) splash.style.display = 'none';
     }
 
-    // 系统时钟与问候
+    // 系统时钟、日期与问候
     function updateTime() {
       const now = new Date();
       const timePill = document.getElementById('time-pill');
+      const datePill = document.getElementById('date-pill');
       const greeting = document.getElementById('time-greeting');
       
       if(timePill) timePill.textContent = now.toLocaleTimeString('zh-CN', {hour12:false});
+      if(datePill) {
+        const dateOptions = { month: 'long', day: 'numeric' };
+        datePill.textContent = now.toLocaleDateString('zh-CN', dateOptions);
+      }
       
       if(greeting) {
         const hour = now.getHours();
@@ -1261,9 +1286,32 @@
           const visibleCards = sec.querySelectorAll('.card[style="display: flex;"]');
           sec.style.display = (visibleCards.length === 0 && term !== '') ? 'none' : 'block';
         });
+        animateCards(); // 过滤后重置动画效果
     }
 
     const debouncedFilter = debounce(filterCards, 150);
+
+    // 深海区切换统一逻辑
+    function toggleAbyss() {
+      const secretZones = document.querySelectorAll('.sensitive-zone');
+      let isUnlocking = false;
+
+      secretZones.forEach(zone => {
+        zone.classList.toggle('locked');
+        if (!zone.classList.contains('locked')) isUnlocking = true;
+      });
+
+      if (isUnlocking && secretZones.length > 0) {
+         showToast("Access Granted. Welcome to the Abyss."); 
+         if (window.innerWidth <= 768) {
+             sidebar.classList.remove('open');
+             mobileOverlay.classList.remove('open');
+         }
+         setTimeout(() => { secretZones[0].scrollIntoView({ behavior: 'smooth' }); }, 50);
+      } else {
+         showToast("Connection Terminated / Locked.");
+      }
+    }
 
     const searchInputs = document.querySelectorAll('.search-input');
     searchInputs.forEach(input => {
@@ -1271,28 +1319,10 @@
         const term = e.target.value.toLowerCase().trim();
         
         if (term === 'open') {
-          const secretZones = document.querySelectorAll('.sensitive-zone');
-          let isUnlocking = false;
-
-          secretZones.forEach(zone => {
-            zone.classList.toggle('locked');
-            if (!zone.classList.contains('locked')) isUnlocking = true;
-          });
-
           searchInputs.forEach(inp => { inp.value = ''; });
           document.querySelectorAll('.card').forEach(card => { card.style.display = 'flex'; });
           document.querySelectorAll('.section-block').forEach(sec => { sec.style.display = 'block'; });
-
-          if (isUnlocking && secretZones.length > 0) {
-             showToast("Access Granted. Welcome to the Abyss."); 
-             if (window.innerWidth <= 768) {
-                 sidebar.classList.remove('open');
-                 mobileOverlay.classList.remove('open');
-             }
-             setTimeout(() => { secretZones[0].scrollIntoView({ behavior: 'smooth' }); }, 50);
-          } else {
-             showToast("Connection Terminated.");
-          }
+          toggleAbyss();
           return;
         }
 
@@ -1334,15 +1364,7 @@
       if (secretCode.length > 4) secretCode = secretCode.slice(-4);
       
       if (secretCode === 'open') {
-        const secretZones = document.querySelectorAll('.sensitive-zone');
-        secretZones.forEach(zone => { zone.classList.toggle('locked'); });
-
-        if (secretZones.length > 0 && !secretZones[0].classList.contains('locked')) {
-             showToast("Access Granted.");
-             secretZones[0].scrollIntoView({ behavior: 'smooth' });
-        } else {
-             showToast("Locked.");
-        }
+        toggleAbyss();
         secretCode = ''; 
       }
     });
@@ -1361,7 +1383,7 @@
               window.loadFromCloud();
           }
           setTimeout(() => {
-             document.getElementById('memo-new-record').focus();
+              document.getElementById('memo-new-record').focus();
           }, 300); // 确保动画执行后再聚焦，避免页面异常跳动
       }
     }
@@ -1388,6 +1410,23 @@
         const memoNewRecord = document.getElementById('memo-new-record');
         const statusText = document.getElementById('cloud-status');
 
+        // 云端状态指示器自动重置逻辑
+        const resetStatus = (triggerText) => {
+            setTimeout(() => { 
+                if(statusText.textContent === triggerText) statusText.textContent="CONNECTED"; 
+            }, 1500);
+        };
+
+        // 一键复制备忘录内容
+        window.copyMemo = async function(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                showToast("Memo copied to clipboard.");
+            } catch (err) {
+                console.error("Failed to copy!", err);
+            }
+        };
+
         function renderMemos(data) {
             memoContent.innerHTML = '';
             if (!data || data.length === 0) {
@@ -1398,10 +1437,12 @@
                 const item = document.createElement('div');
                 item.className = 'memo-item';
                 item.id = `memo-${row.id}`;
+                // 加入安全的转义并绑定 onClick 复制事件
+                const safeContent = row.content.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
                 item.innerHTML = `
                     <div style="flex:1;">
                         <span class="memo-time">${formatTime(row.created_at)}</span>
-                        <div class="memo-text">${row.content}</div>
+                        <div class="memo-text" title="点击复制" onclick="copyMemo('${safeContent}')">${row.content}</div>
                     </div>
                     <span class="memo-delete" onclick="deleteMemo('${row.id}')" title="抹除此条记录">×</span>
                 `;
@@ -1450,7 +1491,7 @@
                 }
                 
                 statusText.textContent = "DELETED";
-                setTimeout(() => { if(statusText.textContent === "DELETED") statusText.textContent="CONNECTED"; }, 1500);
+                resetStatus("DELETED");
             } catch (err) {
                 console.error("[Delete Error]:", err);
                 statusText.textContent = "DEL ERROR";
@@ -1470,7 +1511,7 @@
               if (error) throw error;
               
               statusText.textContent = "SAVED";
-              setTimeout(() => { if(statusText.textContent === "SAVED") statusText.textContent="CONNECTED"; }, 1500);
+              resetStatus("SAVED");
             } catch (err) {
               console.error("[Save Error]:", err);
               statusText.textContent = "SAVE ERROR";
@@ -1489,7 +1530,7 @@
               .on('postgres_changes', { event: '*', schema: 'public', table: 'memos' }, payload => {
                 window.loadFromCloud();
                 statusText.textContent = "LIVE UPDATED";
-                setTimeout(() => { if(statusText.textContent === "LIVE UPDATED") statusText.textContent="CONNECTED"; }, 1500);
+                resetStatus("LIVE UPDATED");
               }).subscribe();
         } catch (err) {
             console.warn("Realtime subscription disabled or failed.");
