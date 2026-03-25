@@ -438,6 +438,70 @@
         <div class="quote-sub" style="font-family: system-ui;">Long live freedom / The Visual Archive</div>
       </div>
 
+    <div class="section-block" id="sec-realtime" data-icon="ri-flashlight-line">
+        <div class="section-header">
+          <div class="section-title">云端快讯</div>
+          <div class="section-count">Real-time News Feed</div>
+        </div>
+        <div style="background: var(--bg-card); backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val)); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-card); transition: all var(--transition-fast);">
+          <ul id="dynamic-news-list" style="list-style: none; padding: 0; margin: 0;">
+            <li style="color: var(--text-sub); font-size: 15px; font-family: system-ui; display: flex; align-items: center; gap: 8px;">
+              <i class="ri-loader-4-line" style="animation: spin 2s linear infinite;"></i> 正在连接 Vercel 云端抓取最新资讯...
+            </li>
+          </ul>
+        </div>
+      </div>
+      ```
+*(注：由于使用了 `class="section-block"`，你的左侧边栏会自动多出一个带闪电图标的“云端快讯”菜单，体验拉满！)*
+
+---
+
+### 第二处：插入 JavaScript (抓取引擎)
+
+一直滚动到你的代码最底部，找到最后那个 `</script>` 标签（就在 `</body>` 的上一行）。
+
+**在这个 `</script>` 的前面（也就是处理 Supabase 逻辑的代码下面），追加这段严谨的动态拉取逻辑：**
+
+```javascript
+        // === Vercel 实时新闻动态拉取逻辑 ===
+        async function fetchRealtimeNews() {
+            const container = document.getElementById('dynamic-news-list');
+            if (!container) return;
+            try {
+                // 调用你在 Vercel 部署的接口
+                const res = await fetch('/api/get-news');
+                const data = await res.json();
+                
+                if (data && data.length > 0) {
+                    // 使用你系统现有的颜色变量，确保完美兼容黑夜/白天模式
+                    container.innerHTML = data.map(item => `
+                        <li style="margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px dashed rgba(128,128,128,0.2);">
+                            <a href="${item.link}" target="_blank" style="color: var(--text-main); text-decoration: none; font-size: 15px; display: flex; align-items: flex-start; gap: 10px; transition: color var(--transition-fast);">
+                                <span style="color: var(--accent); font-weight: bold;">·</span>
+                                <span style="flex: 1; line-height: 1.5;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-main)'">${item.title}</span>
+                                <span style="color: var(--text-sub); font-size: 12px; font-family: system-ui; white-space: nowrap; margin-top: 3px;">${item.date || '刚刚'}</span>
+                            </a>
+                        </li>
+                    `).join('');
+                    
+                    // 去掉最后一行多余的下划线
+                    if(container.lastElementChild) {
+                        container.lastElementChild.style.borderBottom = 'none';
+                        container.lastElementChild.style.marginBottom = '0';
+                        container.lastElementChild.style.paddingBottom = '0';
+                    }
+                } else {
+                    container.innerHTML = '<li style="color: var(--text-sub);">今日暂无最新资讯。</li>';
+                }
+            } catch (err) {
+                console.error("Vercel 接口连接失败:", err);
+                container.innerHTML = '<li style="color: #ff3b30; font-size: 14px;">📡 云端接口离线，请检查 Vercel 部署状态。</li>';
+            }
+        }
+        
+        // 延迟 800 毫秒执行，错开你网页原本的开屏动画与渲染，保证极致流畅
+        setTimeout(fetchRealtimeNews, 800);
+
       <a class="time-capsule" href="https://archive.org/" target="_blank" rel="noopener noreferrer">
         <div class="capsule-left">
             <div class="capsule-icon-box"><i class="ri-bank-line"></i></div>
