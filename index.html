@@ -452,55 +452,56 @@
         </div>
       </div>
       ```
-*(注：由于使用了 `class="section-block"`，你的左侧边栏会自动多出一个带闪电图标的“云端快讯”菜单，体验拉满！)*
 
 ---
 
-### 第二处：插入 JavaScript (抓取引擎)
+### 第二步：把 JavaScript 放到正确的大脑区域
 
-一直滚动到你的代码最底部，找到最后那个 `</script>` 标签（就在 `</body>` 的上一行）。
+JavaScript 必须放在专门的 `<script>` 标签里才能运行。为了防止干扰您原本的 Supabase 代码，我们**直接在文件的最底部新建一个独立的脚本块**。
 
-**在这个 `</script>` 的前面（也就是处理 Supabase 逻辑的代码下面），追加这段严谨的动态拉取逻辑：**
+请一直滚动到 `index.html` 的**最最最下面**，找到倒数第二行的 `</body>`。
 
-```javascript
-        // === Vercel 实时新闻动态拉取逻辑 ===
-        async function fetchRealtimeNews() {
-            const container = document.getElementById('dynamic-news-list');
-            if (!container) return;
-            try {
-                // 调用你在 Vercel 部署的接口
-                const res = await fetch('/api/get-news');
-                const data = await res.json();
+**请将下面这段完整的代码（包含 `<script>` 标签本身），原封不动地粘贴在 `</body>` 的正上方：**
+
+```html
+<script>
+    // === Vercel 实时新闻动态拉取逻辑 ===
+    async function fetchRealtimeNews() {
+        const container = document.getElementById('dynamic-news-list');
+        if (!container) return;
+        try {
+            // 调用你在 Vercel 部署的接口
+            const res = await fetch('/api/get-news');
+            const data = await res.json();
+            
+            if (data && data.length > 0) {
+                container.innerHTML = data.map(item => `
+                    <li style="margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px dashed rgba(128,128,128,0.2);">
+                        <a href="${item.link}" target="_blank" style="color: var(--text-main); text-decoration: none; font-size: 15px; display: flex; align-items: flex-start; gap: 10px; transition: color var(--transition-fast);">
+                            <span style="color: var(--accent); font-weight: bold;">·</span>
+                            <span style="flex: 1; line-height: 1.5;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-main)'">${item.title}</span>
+                            <span style="color: var(--text-sub); font-size: 12px; font-family: system-ui; white-space: nowrap; margin-top: 3px;">${item.date || '刚刚'}</span>
+                        </a>
+                    </li>
+                `).join('');
                 
-                if (data && data.length > 0) {
-                    // 使用你系统现有的颜色变量，确保完美兼容黑夜/白天模式
-                    container.innerHTML = data.map(item => `
-                        <li style="margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px dashed rgba(128,128,128,0.2);">
-                            <a href="${item.link}" target="_blank" style="color: var(--text-main); text-decoration: none; font-size: 15px; display: flex; align-items: flex-start; gap: 10px; transition: color var(--transition-fast);">
-                                <span style="color: var(--accent); font-weight: bold;">·</span>
-                                <span style="flex: 1; line-height: 1.5;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-main)'">${item.title}</span>
-                                <span style="color: var(--text-sub); font-size: 12px; font-family: system-ui; white-space: nowrap; margin-top: 3px;">${item.date || '刚刚'}</span>
-                            </a>
-                        </li>
-                    `).join('');
-                    
-                    // 去掉最后一行多余的下划线
-                    if(container.lastElementChild) {
-                        container.lastElementChild.style.borderBottom = 'none';
-                        container.lastElementChild.style.marginBottom = '0';
-                        container.lastElementChild.style.paddingBottom = '0';
-                    }
-                } else {
-                    container.innerHTML = '<li style="color: var(--text-sub);">今日暂无最新资讯。</li>';
+                if(container.lastElementChild) {
+                    container.lastElementChild.style.borderBottom = 'none';
+                    container.lastElementChild.style.marginBottom = '0';
+                    container.lastElementChild.style.paddingBottom = '0';
                 }
-            } catch (err) {
-                console.error("Vercel 接口连接失败:", err);
-                container.innerHTML = '<li style="color: #ff3b30; font-size: 14px;">📡 云端接口离线，请检查 Vercel 部署状态。</li>';
+            } else {
+                container.innerHTML = '<li style="color: var(--text-sub);">今日暂无最新资讯。</li>';
             }
+        } catch (err) {
+            console.error("Vercel 接口连接失败:", err);
+            container.innerHTML = '<li style="color: #ff3b30; font-size: 14px;">📡 云端接口离线，请检查 Vercel 部署状态。</li>';
         }
-        
-        // 延迟 800 毫秒执行，错开你网页原本的开屏动画与渲染，保证极致流畅
-        setTimeout(fetchRealtimeNews, 800);
+    }
+    
+    // 延迟 800 毫秒执行，错开你网页原本的开屏动画与渲染，保证极致流畅
+    setTimeout(fetchRealtimeNews, 800);
+</script>
 
       <a class="time-capsule" href="https://archive.org/" target="_blank" rel="noopener noreferrer">
         <div class="capsule-left">
