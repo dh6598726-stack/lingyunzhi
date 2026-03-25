@@ -19,36 +19,51 @@
   <link href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap" rel="stylesheet">
 
   <style>
-    /* 全局系统设定与 CSS 变量 */
+    /* ================= 系统级变量与动态渐变 ================= */
     :root {
       --font-main: 'Long Cang', "Xingkai SC", "STXingkai", cursive;
       --font-sys: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      /* 优化：使用柔和的流态渐变背景 */
-      --bg-body: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%); 
-      --bg-sidebar: rgba(255, 255, 255, 0.45); 
-      --bg-card: rgba(255, 255, 255, 0.6); 
+      
+      /* UI 容器的玻璃态调优，降低不透明度以透出底色 */
+      --bg-sidebar: rgba(255, 255, 255, 0.4); 
+      --bg-card: rgba(255, 255, 255, 0.5); 
       --border-color: rgba(255, 255, 255, 0.5);
-      --border-hover: rgba(0, 122, 255, 0.5);
+      --border-hover: rgba(0, 122, 255, 0.6);
       --text-main: #1d1d1f;
       --text-sub: #5a5a5e; 
       --accent: #007aff;
-      --shadow-card: 0 8px 20px rgba(0, 0, 0, 0.04);
-      --shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.1);
+      --shadow-card: 0 8px 20px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.12);
       --radius-sm: 10px;
       --radius-md: 16px;
       --radius-lg: 20px;
-      --blur-val: 20px; 
+      --blur-val: 24px; 
       --transition-fast: 0.2s ease;
       --transition-smooth: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
+    /* 白天模式：梦幻粉蓝流彩背景 */
+    body {
+      font-family: var(--font-main);
+      background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      transition: color var(--transition-fast);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* 夜间模式：深邃星空流彩背景 */
     body.dark-mode {
-      /* 优化：深色模式下的深邃星空微渐变 */
-      --bg-body: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-      --bg-sidebar: rgba(15, 23, 42, 0.5);
-      --bg-card: rgba(30, 41, 59, 0.6);
-      --border-color: rgba(255, 255, 255, 0.08);
-      --border-hover: rgba(10, 132, 255, 0.6);
+      background: linear-gradient(-45deg, #091221, #1e293b, #0f172a, #1a0b2e);
+      background-size: 400% 400%;
+      --bg-sidebar: rgba(15, 23, 42, 0.45);
+      --bg-card: rgba(30, 41, 59, 0.5);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --border-hover: rgba(59, 130, 246, 0.6);
       --text-main: #f8fafc;
       --text-sub: #94a3b8;
       --accent: #3b82f6;
@@ -56,31 +71,24 @@
       --shadow-hover: 0 10px 24px rgba(0, 0, 0, 0.5);
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    
-    body {
-      font-family: var(--font-main);
-      background: var(--bg-body); 
-      background-attachment: fixed;
-      color: var(--text-main);
-      height: 100vh;
-      overflow: hidden;
-      transition: background var(--transition-smooth), color var(--transition-fast);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+    /* 背景色彩流转动画引擎 */
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
-    /* 自定义精美滚动条 */
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.2); border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(128,128,128,0.4); }
-
     input, textarea { font-family: var(--font-sys); }
     
     #app { display: grid; grid-template-columns: 280px 1fr; height: 100%; }
 
-    /* 侧边栏样式 */
+    /* ================= 侧边栏 ================= */
     aside {
       background: var(--bg-sidebar);
       backdrop-filter: blur(var(--blur-val));
@@ -93,24 +101,21 @@
     }
     
     .brand { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; cursor: pointer; }
-    
     @keyframes heartbeat {
       0%, 28%, 70% { transform: scale(1); }
       14%, 42% { transform: scale(1.15); }
     }
-
     .brand-logo {
       width: 40px; height: 40px; color: #ff3b30; 
       display: flex; align-items: center; justify-content: center;
       font-size: 28px; animation: heartbeat 1.5s infinite ease-in-out; 
     }
-    
     .brand-text h1 { font-size: 26px; font-weight: 400; line-height: 1; letter-spacing: 0.5px; }
     .brand-text span { font-size: 14px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 4px; font-family: var(--font-sys); }
 
     .search-box { position: relative; margin-bottom: 24px; }
     .search-input {
-      width: 100%; padding: 12px 16px 12px 40px; background: rgba(128,128,128, 0.1);
+      width: 100%; padding: 12px 16px 12px 40px; background: rgba(128,128,128, 0.12);
       border: 1px solid var(--border-color); border-radius: var(--radius-sm); 
       color: var(--text-main); font-size: 16px; transition: all var(--transition-fast);
     }
@@ -120,7 +125,6 @@
     .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-sub); }
 
     .nav-scroll { flex: 1; overflow-y: auto; padding-right: 8px; }
-    
     .nav-item {
       padding: 12px 14px; border-radius: var(--radius-sm); font-size: 16px; font-weight: 500; color: var(--text-sub);
       text-decoration: none; display: flex; align-items: center; gap: 12px; transition: all var(--transition-fast); cursor: pointer; margin-bottom: 4px;
@@ -129,10 +133,7 @@
     .nav-item.active { background: var(--text-main); color: var(--bg-body); }
     .nav-icon { font-size: 18px; opacity: 0.9; }
 
-    .aside-footer { 
-      margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color); 
-      display: flex; justify-content: space-between; align-items: center; 
-    }
+    .aside-footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
     .time-badge {
       font-size: 14px; color: var(--text-sub); font-family: var(--font-sys);
       background: rgba(128,128,128, 0.1); padding: 6px 10px; border-radius: 6px; cursor: default;
@@ -140,7 +141,7 @@
     }
     .time-greeting { font-size: 12px; opacity: 0.8; }
 
-    /* 主内容区 */
+    /* ================= 主内容区 ================= */
     main { padding: 48px 6vw; overflow-y: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
 
     .hero-quote {
@@ -149,19 +150,12 @@
       border-radius: var(--radius-lg); border: 1px solid var(--border-color);
       box-shadow: var(--shadow-card); position: relative; overflow: hidden;
     }
-    .hero-quote::before {
-        content: ""; position: absolute; inset: 0; background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)); z-index: 1;
-    }
+    .hero-quote::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)); z-index: 1; }
     .quote-text, .quote-sub { position: relative; z-index: 2; }
     .quote-text { font-size: 32px; line-height: 1.6; color: #ffffff; margin-bottom: 12px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
     .quote-sub { font-size: 16px; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-sys); }
-
-    .secret-trigger { 
-      cursor: pointer; transition: all var(--transition-fast); display: inline-block;
-    }
-    .secret-trigger:hover { 
-      color: #fff; text-shadow: 0 0 12px rgba(255,255,255,0.9); transform: translateY(-2px); 
-    }
+    .secret-trigger { cursor: pointer; transition: all var(--transition-fast); display: inline-block; }
+    .secret-trigger:hover { color: #fff; text-shadow: 0 0 12px rgba(255,255,255,0.9); transform: translateY(-2px); }
 
     /* 网格与卡片 */
     .section-block { margin-bottom: 56px; scroll-margin-top: 32px; transition: opacity 0.3s; }
@@ -173,6 +167,11 @@
     .section-count { font-size: 14px; color: var(--text-sub); text-transform: uppercase; font-family: var(--font-sys);}
 
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+
+    /* 搜索过滤专用样式 (最高权重，确保强制隐藏生效) */
+    .card.hidden, .section-block.hidden {
+      display: none !important;
+    }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(15px); }
@@ -189,7 +188,7 @@
     }
     .card:hover {
       border-color: var(--border-hover); transform: translateY(-5px) scale(1.02);
-      box-shadow: var(--shadow-hover); background: var(--bg-body);
+      box-shadow: var(--shadow-hover); background: var(--bg-sidebar);
     }
 
     .card-head { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -207,7 +206,7 @@
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
 
-    /* 特殊区块：时光机 */
+    /* 时光机特殊样式 */
     .time-capsule {
         margin-bottom: 56px; padding: 24px 32px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
         border-radius: var(--radius-lg); cursor: pointer; display: flex; align-items: center; justify-content: space-between;
@@ -237,7 +236,7 @@
     }
     .time-capsule:hover .capsule-arrow { opacity: 1; transform: translateX(0); }
 
-    /* 敏感内容区域 */
+    /* ================= 私密区域 ================= */
     .sensitive-zone { position: relative; transition: all 0.5s ease; }
     .locked { display: none !important; }
     .sensitive-blur { filter: blur(12px); opacity: 0.3; transition: 0.4s ease; will-change: filter, opacity; }
@@ -252,26 +251,23 @@
     .sensitive-zone:hover .sensitive-blur { filter: blur(0); opacity: 1; }
     .sensitive-zone:hover .mask-badge { opacity: 0; transform: scale(0.9); }
 
-    /* 开屏界面 */
+    /* ================= 辅助界面模块 ================= */
     #splash {
-      position: fixed; inset: 0; z-index: 9999; background: var(--bg-body); 
+      position: fixed; inset: 0; z-index: 9999; background: #000; 
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      transition: opacity 0.6s ease, visibility 0.6s; user-select: none; 
-      will-change: opacity;
+      transition: opacity 0.6s ease, visibility 0.6s; user-select: none; will-change: opacity;
     }
     .splash-quote { 
         font-size: 32px; text-align: center; max-width: 600px; line-height: 1.6; margin-bottom: 40px; padding: 0 20px;
-        color: var(--text-main); max-height: 75vh; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+        color: #fff; max-height: 75vh; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
     }
 
-    /* 备忘录架构 */
     #ghost-memo {
       position: fixed; bottom: 40px; right: 40px; width: 340px; height: 460px;
       background: var(--bg-card); color: var(--text-main); backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
       border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 24px; display: flex; flex-direction: column;
       box-shadow: var(--shadow-hover); transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none;
       transition: var(--transition-smooth); z-index: 1000; font-family: var(--font-sys);
-      will-change: transform, opacity;
     }
     #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
     
@@ -285,16 +281,10 @@
       color: var(--text-main); font-size: 14px; line-height: 1.6;
     }
     .memo-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .memo-text { 
-        flex: 1; word-break: break-all; white-space: pre-wrap; font-family: inherit;
-        cursor: pointer; transition: opacity var(--transition-fast);
-    }
+    .memo-text { flex: 1; word-break: break-all; white-space: pre-wrap; font-family: inherit; cursor: pointer; transition: opacity var(--transition-fast); }
     .memo-text:hover { opacity: 0.7; }
     .memo-time { font-size: 11px; opacity: 0.5; display: block; margin-bottom: 4px;}
-    .memo-delete {
-      cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity var(--transition-fast);
-      padding: 0 4px; margin-left: 8px; font-weight: bold; font-size: 16px; user-select: none;
-    }
+    .memo-delete { cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity var(--transition-fast); padding: 0 4px; margin-left: 8px; font-weight: bold; font-size: 16px; user-select: none; }
     .memo-item:hover .memo-delete { opacity: 0.6; }
     .memo-delete:hover { opacity: 1 !important; transform: scale(1.1); }
     @media (max-width: 768px) { .memo-delete { opacity: 0.8; } }
@@ -305,18 +295,15 @@
     }
     #memo-new-record:focus { background: var(--bg-card); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); }
 
-    /* 趣味特效区 */
+    /* 趣味特效与弹窗 */
     #panic-overlay {
-      position: fixed; inset: 0; background: #ffffff; z-index: 99999;
-      display: flex; align-items: center; justify-content: center;
+      position: fixed; inset: 0; background: #ffffff; z-index: 99999; display: flex; align-items: center; justify-content: center;
       text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; font-family: monospace;
     }
     #panic-overlay.active { opacity: 1; pointer-events: auto; }
     .glitch-wrapper { position: relative; }
     .glitch { font-size: 100px; margin: 0; color: #333; position: relative; font-weight: bold; }
-    .glitch::before, .glitch::after {
-        content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8;
-    }
+    .glitch::before, .glitch::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8; }
     .glitch::before { left: 2px; text-shadow: -2px 0 red; clip: rect(24px, 550px, 90px, 0); animation: glitch-anim 2.5s infinite linear alternate-reverse; }
     .glitch::after { left: -2px; text-shadow: -2px 0 blue; clip: rect(85px, 550px, 140px, 0); animation: glitch-anim 3s infinite linear alternate-reverse; }
     @keyframes glitch-anim {
@@ -325,10 +312,7 @@
       80% { clip: rect(40px, 9999px, 15px, 0); } 100% { clip: rect(95px, 9999px, 50px, 0); }
     }
 
-    .toast-container {
-      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-      z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none;
-    }
+    .toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
     .toast {
       background: rgba(0, 0, 0, 0.85); color: #0f0; font-family: monospace; font-size: 14px;
       padding: 12px 24px; border-radius: 8px; border: 1px solid #0f0; box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
@@ -339,7 +323,7 @@
     
     .mobile-header, .mobile-overlay { display: none; }
 
-    /* 移动端响应式优化 */
+    /* ================= 移动端响应式 ================= */
     @media (max-width: 768px) {
       body { height: 100dvh; } 
       #app { display: flex; flex-direction: column; }
@@ -365,10 +349,7 @@
       }
       aside.open { left: 0; }
       
-      .mobile-overlay {
-        display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(2px); z-index: 990;
-        opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-      }
+      .mobile-overlay { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(2px); z-index: 990; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
       .mobile-overlay.open { opacity: 1; pointer-events: auto; }
 
       main { padding: 24px 20px calc(80px + env(safe-area-inset-bottom)) 20px; }
@@ -399,7 +380,7 @@
         唯独星空深处的那轮明月最不认生。<br>
         它在异乡的窗前，守着当年我在故乡没做完的梦。<br>
         <br><br>
-        回头看，<span onclick="closeSplash()" style="cursor: pointer; touch-action: manipulation; padding: 10px 5px; margin: -10px -5px; position: relative; z-index: 10;">轻舟</span>已过万重山；<br>
+        回头看，<span onclick="window.closeSplash()" style="cursor: pointer; touch-action: manipulation; padding: 10px 5px; margin: -10px -5px; position: relative; z-index: 10;">轻舟</span>已过万重山；<br>
         向前看，长路漫漫亦灿烂。
       </p>
     </div>
@@ -445,7 +426,7 @@
     <main>
       <div class="hero-quote">
         <div class="quote-text">
-          天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo()">凌云</span>之志。
+          天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="window.toggleMemo()">凌云</span>之志。
         </div>
         <div class="quote-sub">Long live freedom / The Visual Archive</div>
       </div>
@@ -462,10 +443,7 @@
       </a>
 
       <div class="section-block" id="sec-daily" data-icon="ri-newspaper-line">
-        <div class="section-header">
-          <div class="section-title">资讯</div>
-          <div class="section-count">Tech & Startup Feed</div>
-        </div>
+        <div class="section-header"><div class="section-title">资讯</div><div class="section-count">Tech & Startup Feed</div></div>
         <div class="grid">
           <a class="card" href="https://36kr.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📰</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">36氪</div><div class="card-desc">国内前沿的科技与商业创投新闻</div></div></a>
           <a class="card" href="https://sspai.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📱</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">少数派</div><div class="card-desc">提升工作效率的数码产品和软件教程</div></div></a>
@@ -479,10 +457,7 @@
       </div>
 
       <div class="section-block" id="sec-news" data-icon="ri-global-line">
-        <div class="section-header">
-           <div class="section-title">权威新闻</div>
-           <div class="section-count">Global & Authoritative News</div>
-        </div>
+        <div class="section-header"><div class="section-title">权威新闻</div><div class="section-count">Global & Authoritative News</div></div>
         <div class="grid">
            <a class="card" href="https://www.reuters.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">路透社</div><div class="card-desc">全球领先的国际新闻与金融数据通讯社</div></div></a>
            <a class="card" href="https://apnews.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">美联社</div><div class="card-desc">全球最大、历史最悠久的独立新闻通讯社之一</div></div></a>
@@ -496,10 +471,7 @@
       </div>
       
       <div class="section-block" id="sec-ai" data-icon="ri-brain-line">
-        <div class="section-header">
-           <div class="section-title">AI 与大模型</div>
-           <div class="section-count">Artificial Intelligence</div>
-        </div>
+        <div class="section-header"><div class="section-title">AI 与大模型</div><div class="section-count">Artificial Intelligence</div></div>
         <div class="grid">
            <a class="card" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🧠</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">ChatGPT</div><div class="card-desc">全球最强大的AI人工智能文字对话助手</div></div></a>
            <a class="card" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gemini</div><div class="card-desc">谷歌公司推出的官方智能AI模型助手</div></div></a>
@@ -516,10 +488,7 @@
       </div>
 
       <div class="section-block" id="sec-webmaster" data-icon="ri-server-line">
-        <div class="section-header">
-           <div class="section-title">站长</div>
-           <div class="section-count">Webmaster & Infrastructure</div>
-        </div>
+        <div class="section-header"><div class="section-title">站长</div><div class="section-count">Webmaster & Infrastructure</div></div>
         <div class="grid">
            <a class="card" href="https://dashboard.decodo.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🎛️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Decodo</div><div class="card-desc">提供高匿名性和高防安全保护的网络代理服务</div></div></a>
            <a class="card" href="https://github.com/dh6598726-stack/woaibixia" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📦</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">GitHub</div><div class="card-desc">全球程序员用来托管代码和开源软件的网站</div></div></a>
@@ -534,10 +503,7 @@
       </div>
 
       <div class="section-block" id="sec-geek" data-icon="ri-shield-keyhole-line">
-         <div class="section-header">
-            <div class="section-title">代码</div>
-            <div class="section-count">Development & Cybersecurity</div>
-         </div>
+         <div class="section-header"><div class="section-title">代码</div><div class="section-count">Development & Cybersecurity</div></div>
          <div class="grid">
             <a class="card" href="https://stackoverflow.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">💡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">StackOverflow</div><div class="card-desc">全球最大的程序员代码报错与技术问答社区</div></div></a>
             <a class="card" href="https://replit.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">💻</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Replit</div><div class="card-desc">无需本地环境配置，打开网页就能直接写代码的平台</div></div></a>
@@ -560,10 +526,7 @@
       </div>
 
       <div class="section-block" id="sec-design" data-icon="ri-palette-line">
-         <div class="section-header">
-            <div class="section-title">视觉</div>
-            <div class="section-count">Design & Assets</div>
-         </div>
+         <div class="section-header"><div class="section-title">视觉</div><div class="section-count">Design & Assets</div></div>
          <div class="grid">
             <a class="card" href="https://www.pinterest.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Pinterest</div><div class="card-desc">全球知名的瀑布流图片分享与设计灵感采集网站</div></div></a>
             <a class="card" href="https://www.behance.net" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🎨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Behance</div><div class="card-desc">Adobe旗下的全球顶尖设计师原创作品展示平台</div></div></a>
@@ -583,10 +546,7 @@
       </div>
 
       <div class="section-block" id="sec-explore" data-icon="ri-earth-line">
-         <div class="section-header">
-            <div class="section-title">探索</div>
-            <div class="section-count">Explore & Global Monitor</div>
-         </div>
+         <div class="section-header"><div class="section-title">探索</div><div class="section-count">Explore & Global Monitor</div></div>
          <div class="grid">
             <a class="card" href="https://earth.google.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🌎</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌地球</div><div class="card-desc">提供全球高分辨率卫星图像的3D虚拟地球仪</div></div></a>
             <a class="card" href="https://www.skyscanner.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🎫</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">天巡</div><div class="card-desc">全球性的廉价航空与国际航班比价预订平台</div></div></a>
@@ -615,10 +575,7 @@
       </div>
 
       <div class="section-block" id="sec-utils" data-icon="ri-hammer-line">
-         <div class="section-header">
-            <div class="section-title">工具</div>
-            <div class="section-count">Tools, Search & Crypto</div>
-         </div>
+         <div class="section-header"><div class="section-title">工具</div><div class="section-count">Tools, Search & Crypto</div></div>
          <div class="grid">
             <a class="card" href="https://www.google.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌搜索</div><div class="card-desc">全球使用人数最多、信息最全的搜索引擎</div></div></a>
             <a class="card" href="https://mail.google.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">✉️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gmail</div><div class="card-desc">谷歌官方提供的安全电子邮箱服务</div></div></a>
@@ -646,10 +603,7 @@
       </div>
 
       <div class="section-block" id="sec-social" data-icon="ri-discuss-line">
-         <div class="section-header">
-            <div class="section-title">影音</div>
-            <div class="section-count">Social & Media</div>
-         </div>
+         <div class="section-header"><div class="section-title">影音</div><div class="section-count">Social & Media</div></div>
          <div class="grid">
             <a class="card" href="https://telegram.org/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">✈️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Telegram</div><div class="card-desc">主打高度隐私保护与端到端加密的即时通讯软件</div></div></a>
             <a class="card" href="https://x.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🕇</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">X (Twitter)</div><div class="card-desc">全球性的短信息社交网络与实时热点新闻讨论平台</div></div></a>
@@ -700,237 +654,184 @@
 
     </main>
   </div>
-  
- <div id="ghost-memo">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--border-color);">
-      <span style="font-size:15px; font-weight:700; letter-spacing:1px;">云端手记</span>
-      <div style="display:flex; gap:14px; align-items:center;">
-        <span id="cloud-status" style="font-size:12px; font-family:var(--font-sys); font-weight:600; color:var(--accent);">STANDBY</span>
-        <span id="cloud-sync-btn" style="cursor:pointer; font-size:13px; font-weight:bold; opacity:0.7; transition:opacity var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">更新</span>
-        <span onclick="toggleMemo()" style="cursor:pointer; font-size:13px; font-weight:bold; opacity:0.7; transition:opacity var(--transition-fast);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">关闭</span>
-      </div>
-    </div>
-    <div id="memo-content"></div>
-    <input type="text" id="memo-new-record" placeholder="写入新记录，回车封存..." autocomplete="off" />
-  </div>
 
   <script>
-    // === 核心逻辑初始化 ===
-    const sidebar = document.getElementById('sidebar');
-    const mobileOverlay = document.getElementById('mobile-overlay');
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    
-    function toggleMobileMenu() {
-        if(window.innerWidth <= 768) {
-            sidebar.classList.toggle('open');
-            mobileOverlay.classList.toggle('open');
-        }
-    }
-    
-    if (mobileMenuBtn && mobileOverlay) {
-        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
-        mobileOverlay.addEventListener('click', toggleMobileMenu);
-    }
-
-    // 动态卡片入场动画
-    function animateCards() {
-      const cards = document.querySelectorAll('.card');
-      cards.forEach((card, index) => {
-        card.style.animationDelay = `${(index % 12) * 0.05}s`;
-      });
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
-      // 侧边栏导航渲染
-      const navContainer = document.getElementById('nav-container');
-      const sections = document.querySelectorAll('.section-block');
-      
-      sections.forEach(sec => {
-        if (sec.classList.contains('sensitive-zone')) return; 
-        const id = sec.id;
-        const iconClass = sec.dataset.icon || 'ri-links-line';
-        const title = sec.querySelector('.section-title').textContent.trim();
-        const link = document.createElement('a');
-        link.className = 'nav-item';
-        link.href = '#' + id;
-        link.innerHTML = `<i class="${iconClass} nav-icon"></i> ${title}`;
+        // ================= UI 初始化 =================
+        const sidebar = document.getElementById('sidebar');
+        const mobileOverlay = document.getElementById('mobile-overlay');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-          document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-          link.classList.add('active');
-          if(window.innerWidth <= 768) toggleMobileMenu();
+        function toggleMobileMenu() {
+            if(window.innerWidth <= 768) {
+                sidebar.classList.toggle('open');
+                mobileOverlay.classList.toggle('open');
+            }
+        }
+        if (mobileMenuBtn && mobileOverlay) {
+            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            mobileOverlay.addEventListener('click', toggleMobileMenu);
+        }
+
+        function animateCards() {
+          const cards = document.querySelectorAll('.card');
+          cards.forEach((card, index) => {
+            card.style.animationDelay = `${(index % 12) * 0.05}s`;
+          });
+        }
+
+        // 导航渲染
+        const navContainer = document.getElementById('nav-container');
+        document.querySelectorAll('.section-block').forEach(sec => {
+          if (sec.classList.contains('sensitive-zone')) return; 
+          const link = document.createElement('a');
+          link.className = 'nav-item';
+          link.href = '#' + sec.id;
+          link.innerHTML = `<i class="${sec.dataset.icon || 'ri-links-line'} nav-icon"></i> ${sec.querySelector('.section-title').textContent.trim()}`;
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById(sec.id).scrollIntoView({ behavior: 'smooth' });
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            link.classList.add('active');
+            if(window.innerWidth <= 768) toggleMobileMenu();
+          });
+          navContainer.appendChild(link);
         });
-        navContainer.appendChild(link);
-      });
 
-      animateCards();
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark-mode');
-      }
-    });
+        animateCards();
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.body.classList.add('dark-mode');
+        }
 
-    // 开屏动画管理
-    function closeSplash() {
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+          document.body.classList.toggle('dark-mode');
+        });
+
+        // 时钟系统
+        function updateTime() {
+          const now = new Date();
+          const timePill = document.getElementById('time-pill');
+          const datePill = document.getElementById('date-pill');
+          const greeting = document.getElementById('time-greeting');
+          
+          if(timePill) timePill.textContent = now.toLocaleTimeString('zh-CN', {hour12:false});
+          if(datePill) datePill.textContent = now.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' });
+          if(greeting) {
+            const hour = now.getHours();
+            if (hour < 5) greeting.textContent = '夜深了';
+            else if (hour < 9) greeting.textContent = '早上好';
+            else if (hour < 12) greeting.textContent = '上午好';
+            else if (hour < 14) greeting.textContent = '中午好';
+            else if (hour < 19) greeting.textContent = '下午好';
+            else greeting.textContent = '晚上好';
+          }
+        }
+        setInterval(updateTime, 1000); 
+        updateTime();
+
+        if (sessionStorage.getItem('archiveSplashSeen')) {
+          const splash = document.getElementById('splash');
+          if(splash) splash.style.display = 'none';
+        }
+
+        // ================= 重构后的最稳定搜索系统 =================
+        function performSearch(term) {
+            const sections = document.querySelectorAll('.section-block');
+            
+            sections.forEach(sec => {
+                // 如果是加密区且未输入完整口令，直接隐藏整个板块
+                if (sec.classList.contains('locked')) {
+                    sec.classList.add('hidden');
+                    return; 
+                }
+
+                let matchCount = 0;
+                const cards = sec.querySelectorAll('.card');
+                
+                cards.forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    if (text.includes(term) || term === '') {
+                        card.classList.remove('hidden');
+                        matchCount++;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                // 如果该板块下有匹配的卡片，或者搜索词为空，则显示该板块
+                if (matchCount > 0) {
+                    sec.classList.remove('hidden');
+                } else {
+                    sec.classList.add('hidden');
+                }
+            });
+        }
+
+        const searchInputs = document.querySelectorAll('.search-input');
+        searchInputs.forEach(input => {
+            // 使用完全无延迟的 input 事件，保证最高响应速度
+            input.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase().trim();
+                
+                if (term === 'open') {
+                    searchInputs.forEach(inp => inp.value = '');
+                    performSearch(''); 
+                    window.toggleAbyss();
+                    return;
+                }
+                
+                // 同步多端搜索框内容
+                searchInputs.forEach(inp => { if(inp !== e.target) inp.value = term; });
+                performSearch(term);
+            });
+        });
+
+        // ================= 快捷键与事件暴露 =================
+        let secretCode = '';
+        document.addEventListener('keydown', (e) => {
+          const activeEl = document.activeElement;
+          const isInputActive = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA');
+
+          if (e.key === 'Escape') {
+            if (isInputActive) { activeEl.blur(); return; }
+            const panicOverlay = document.getElementById('panic-overlay');
+            const app = document.getElementById('app');
+            if (panicOverlay.classList.contains('active')) {
+              panicOverlay.classList.remove('active');
+              app.style.filter = 'none';
+            } else {
+              panicOverlay.classList.add('active');
+              app.style.filter = 'blur(10px) grayscale(100%)'; 
+            }
+            return; 
+          }
+
+          if((e.metaKey || e.ctrlKey) && e.key === 'k') { 
+              e.preventDefault(); 
+              const visibleSearch = Array.from(searchInputs).find(i => i.offsetParent !== null);
+              if (visibleSearch) visibleSearch.focus(); 
+              return;
+          }
+
+          if(isInputActive) return;
+          
+          secretCode += e.key.toLowerCase();
+          if (secretCode.length > 4) secretCode = secretCode.slice(-4);
+          if (secretCode === 'open') { window.toggleAbyss(); secretCode = ''; }
+        });
+
+    }); // end DOMContentLoaded
+
+    // 全局方法暴露给 HTML 的 onclick
+    window.closeSplash = function() {
       const splash = document.getElementById('splash');
       if(splash) {
           splash.style.opacity = '0';
           setTimeout(() => { splash.style.display = 'none'; }, 600);
           sessionStorage.setItem('archiveSplashSeen', 'true');
       }
-    }
-    if (sessionStorage.getItem('archiveSplashSeen')) {
-      const splash = document.getElementById('splash');
-      if(splash) splash.style.display = 'none';
-    }
+    };
 
-    // 系统时钟
-    function updateTime() {
-      const now = new Date();
-      const timePill = document.getElementById('time-pill');
-      const datePill = document.getElementById('date-pill');
-      const greeting = document.getElementById('time-greeting');
-      
-      if(timePill) timePill.textContent = now.toLocaleTimeString('zh-CN', {hour12:false});
-      if(datePill) datePill.textContent = now.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' });
-      
-      if(greeting) {
-        const hour = now.getHours();
-        if (hour < 5) greeting.textContent = '夜深了';
-        else if (hour < 9) greeting.textContent = '早上好';
-        else if (hour < 12) greeting.textContent = '上午好';
-        else if (hour < 14) greeting.textContent = '中午好';
-        else if (hour < 19) greeting.textContent = '下午好';
-        else greeting.textContent = '晚上好';
-      }
-    }
-    setInterval(updateTime, 1000); 
-    updateTime();
-
-    // 终端弹窗
-    function showToast(message) {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      toast.textContent = `> ${message}`;
-      container.appendChild(toast);
-      setTimeout(() => { if (toast.parentNode) toast.remove(); }, 3000);
-    }
-
-    // 防抖逻辑
-    function debounce(func, wait) {
-      let timeout;
-      return function(...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), wait);
-      };
-    }
-
-    // 优化：重构后的可靠搜索逻辑
-    function filterCards(term) {
-        document.querySelectorAll('.section-block').forEach(sec => {
-            // 如果是已锁定的私密板块且搜索词不是解锁口令，则直接跳过
-            if (sec.classList.contains('locked') && term !== 'open') {
-                sec.style.display = 'none';
-                return;
-            }
-
-            let hasVisibleCard = false;
-            sec.querySelectorAll('.card').forEach(card => {
-                const text = card.textContent.toLowerCase();
-                const isMatch = text.includes(term);
-                card.style.display = isMatch ? 'flex' : 'none';
-                if (isMatch) hasVisibleCard = true;
-            });
-            
-            // 只要板块内有卡片显示，或者搜索词为空，就显示该板块
-            sec.style.display = (hasVisibleCard || term === '') ? 'block' : 'none';
-        });
-        animateCards(); 
-    }
-
-    const debouncedFilter = debounce(filterCards, 150);
-
-    // 深海区切换
-    function toggleAbyss() {
-      const secretZones = document.querySelectorAll('.sensitive-zone');
-      let isUnlocking = false;
-
-      secretZones.forEach(zone => {
-        zone.classList.toggle('locked');
-        if (!zone.classList.contains('locked')) {
-            isUnlocking = true;
-            zone.style.display = 'block'; // 强制展示
-        }
-      });
-
-      if (isUnlocking && secretZones.length > 0) {
-         showToast("Access Granted. Welcome to the Abyss."); 
-         if (window.innerWidth <= 768) {
-             sidebar.classList.remove('open');
-             mobileOverlay.classList.remove('open');
-         }
-         setTimeout(() => { secretZones[0].scrollIntoView({ behavior: 'smooth' }); }, 50);
-      } else {
-         showToast("Connection Terminated / Locked.");
-      }
-    }
-
-    const searchInputs = document.querySelectorAll('.search-input');
-    searchInputs.forEach(input => {
-      input.addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase().trim();
-        if (term === 'open') {
-          searchInputs.forEach(inp => { inp.value = ''; });
-          filterCards(''); // 清空搜索结果重置视图
-          toggleAbyss();
-          return;
-        }
-        searchInputs.forEach(inp => { if(inp !== e.target) inp.value = term; });
-        debouncedFilter(term);
-      });
-    });
-
-    // 快捷键与静默口令
-    let secretCode = '';
-    document.addEventListener('keydown', (e) => {
-      const activeEl = document.activeElement;
-      const isInputActive = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA');
-
-      if (e.key === 'Escape') {
-        if (isInputActive) { activeEl.blur(); return; }
-        const panicOverlay = document.getElementById('panic-overlay');
-        const app = document.getElementById('app');
-        if (panicOverlay.classList.contains('active')) {
-          panicOverlay.classList.remove('active');
-          app.style.filter = 'none';
-        } else {
-          panicOverlay.classList.add('active');
-          app.style.filter = 'blur(10px) grayscale(100%)'; 
-        }
-        return; 
-      }
-
-      if((e.metaKey || e.ctrlKey) && e.key === 'k') { 
-          e.preventDefault(); 
-          const visibleSearch = Array.from(searchInputs).find(i => i.offsetParent !== null);
-          if (visibleSearch) visibleSearch.focus(); 
-          return;
-      }
-
-      if(isInputActive) return;
-      
-      secretCode += e.key.toLowerCase();
-      if (secretCode.length > 4) secretCode = secretCode.slice(-4);
-      if (secretCode === 'open') { toggleAbyss(); secretCode = ''; }
-    });
-
-    document.getElementById('theme-toggle').addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-    });
-
-    // 备忘录核心控制
     window.toggleMemo = function() {
       const ghostMemo = document.getElementById('ghost-memo');
       const isActive = ghostMemo.classList.toggle('active');
@@ -938,6 +839,41 @@
           if (typeof window.loadFromCloud === 'function') window.loadFromCloud();
           setTimeout(() => { document.getElementById('memo-new-record').focus(); }, 300);
       }
+    };
+
+    window.toggleAbyss = function() {
+      const secretZones = document.querySelectorAll('.sensitive-zone');
+      let isUnlocking = false;
+
+      secretZones.forEach(zone => {
+        zone.classList.toggle('locked');
+        if (!zone.classList.contains('locked')) {
+            isUnlocking = true;
+            zone.classList.remove('hidden'); // 解锁时确保处于可见状态
+        } else {
+            zone.classList.add('hidden');
+        }
+      });
+
+      if (isUnlocking && secretZones.length > 0) {
+         showToast("Access Granted. Welcome to the Abyss."); 
+         if (window.innerWidth <= 768) {
+             document.getElementById('sidebar').classList.remove('open');
+             document.getElementById('mobile-overlay').classList.remove('open');
+         }
+         setTimeout(() => { secretZones[0].scrollIntoView({ behavior: 'smooth' }); }, 50);
+      } else {
+         showToast("Connection Terminated / Locked.");
+      }
+    };
+
+    function showToast(message) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = `> ${message}`;
+      container.appendChild(toast);
+      setTimeout(() => { if (toast.parentNode) toast.remove(); }, 3000);
     }
   </script>
 
@@ -974,7 +910,6 @@
                 item.id = `memo-${row.id}`;
                 const safeContent = row.content.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
                 
-                // 格式化时间
                 const date = new Date(row.created_at);
                 const timeStr = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')} ${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}`;
                 
