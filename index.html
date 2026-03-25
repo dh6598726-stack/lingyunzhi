@@ -154,13 +154,13 @@
     .quote-text { font-size: 32px; line-height: 1.6; color: #ffffff; margin-bottom: 12px; }
     .quote-sub { font-size: 16px; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-sys); }
 
-    /* 优化唤醒触发器 UI 反馈 */
+  /* 优化唤醒触发器 UI 反馈 (彻底无痕化) */
     .secret-trigger { 
       cursor: pointer; transition: all var(--transition-fast); display: inline-block;
-      padding: 0 4px; border-bottom: 1px dashed rgba(255,255,255,0.4); 
     }
-    .secret-trigger:hover { color: #fff; text-shadow: 0 0 12px rgba(255,255,255,0.9); border-bottom-color: transparent; transform: translateY(-2px); }
-
+    .secret-trigger:hover { 
+      color: #fff; text-shadow: 0 0 12px rgba(255,255,255,0.9); transform: translateY(-2px); 
+    }
     /* 网格与卡片 */
     .section-block { margin-bottom: 56px; scroll-margin-top: 32px; }
     .section-header {
@@ -1131,13 +1131,15 @@
     </main>
   </div>
   
-  <div id="ghost-memo">
+ <div id="ghost-memo">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--border-color);">
       <span style="font-size:15px; font-weight:700; letter-spacing:1px;">云端手记</span>
       <div style="display:flex; gap:14px; align-items:center;">
         <span id="cloud-status" style="font-size:12px; font-family:var(--font-sys); font-weight:600; color:var(--accent);">STANDBY</span>
-        <span id="cloud-sync-btn" style="cursor:pointer; font-size:16px; opacity:0.7; transition:opacity var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">↺</span>
-        <span onclick="toggleMemo()" style="cursor:pointer; font-size:20px; line-height:1; opacity:0.7; transition:opacity var(--transition-fast);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">×</span>
+        
+        <span id="cloud-sync-btn" style="cursor:pointer; font-size:13px; font-weight:bold; opacity:0.7; transition:opacity var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">更新</span>
+        
+        <span onclick="toggleMemo()" style="cursor:pointer; font-size:13px; font-weight:bold; opacity:0.7; transition:opacity var(--transition-fast);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">关闭</span>
       </div>
     </div>
     <div id="memo-content"></div>
