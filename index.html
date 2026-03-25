@@ -20,12 +20,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap" rel="stylesheet">
 
   <style>
-    /* === 新增：加载圈圈的旋转动画 === */
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
     /* 全局系统设定 */
     :root {
       --font-main: 'Long Cang', "Xingkai SC", "STXingkai", cursive;
@@ -256,8 +250,16 @@
         color: var(--text-main); max-height: 75vh; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
     }
 
-    /* 备忘录及 DOM 列表重构样式 */
-    #fab-memo { display: none; }
+    /* 备忘录及 DOM 列表重构样式（修复按钮不显示） */
+    #fab-memo {
+      position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
+      background-color: var(--accent); color: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 24px;
+      box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4); cursor: pointer; z-index: 99;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+    #fab-memo:hover { transform: scale(1.1); background-color: #005bb5; }
+
     #ghost-memo {
       position: fixed; bottom: 90px; right: 30px; width: 320px; height: 420px;
       background: var(--bg-card); color: var(--text-main); backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
@@ -397,7 +399,7 @@
     </div>
   </div>
 
-  <div id="fab-memo" title="Open Cloud Memo"><i class="ri-cloud-line"></i></div>
+  <div id="fab-memo" title="Open Cloud Memo" onclick="toggleMemo()"><i class="ri-cloud-line"></i></div>
 
   <div id="app">
     <div class="mobile-header" id="mobile-header">
@@ -444,19 +446,6 @@
         <div class="quote-sub" style="font-family: system-ui;">Long live freedom / The Visual Archive</div>
       </div>
 
-      <div class="section-block" id="sec-realtime" data-icon="ri-flashlight-line">
-        <div class="section-header">
-          <div class="section-title">云端快讯</div>
-          <div class="section-count">Real-time News Feed</div>
-        </div>
-        <div style="background: var(--bg-card); backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val)); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-card); transition: all var(--transition-fast);">
-          <ul id="dynamic-news-list" style="list-style: none; padding: 0; margin: 0;">
-            <li style="color: var(--text-sub); font-size: 15px; font-family: system-ui; display: flex; align-items: center; gap: 8px;">
-              <i class="ri-loader-4-line" style="animation: spin 2s linear infinite;"></i> 正在连接 Vercel 云端抓取最新资讯...
-            </li>
-          </ul>
-        </div>
-      </div>
       <a class="time-capsule" href="https://archive.org/" target="_blank" rel="noopener noreferrer">
         <div class="capsule-left">
             <div class="capsule-icon-box"><i class="ri-bank-line"></i></div>
@@ -1505,70 +1494,6 @@
         document.getElementById('cloud-status').textContent = "OFFLINE";
         document.getElementById('memo-content').innerHTML = "<div style='opacity:0.8; font-size:14px;'>通信库加载失败。<br>如果您的网络受限，请尝试刷新或检查网络设置。</div>";
     }
-
-<script>
-      async function fetchRealtimeNews() {
-          const container = document.getElementById('dynamic-news-list');
-          if (!container) return;
-          
-          // 严谨工程：设立 8 秒超时炸弹 (AbortController)
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 8000);
-
-          try {
-              // 抓取源：路透社当天最新全球动态
-              const RSS_URL = "https://news.google.com/rss/search?q=site:reuters.com+when:1d&hl=en-US&gl=US&ceid=US:en";
-              const fetchUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}&_t=${new Date().getTime()}`;
-              
-              // 发起请求，并将超时控制器绑定到请求上
-              const res = await fetch(fetchUrl, { signal: controller.signal });
-              
-              // 如果成功拿到响应，立刻拆除超时炸弹
-              clearTimeout(timeoutId);
-              
-              if (!res.ok) throw new Error(`HTTP 状态码异常: ${res.status}`);
-              
-              const data = await res.json();
-              
-              if (data && data.status === "ok" && data.items && data.items.length > 0) {
-                  const newsItems = data.items.slice(0, 6);
-                  container.innerHTML = newsItems.map(item => {
-                      const pubDate = item.pubDate ? item.pubDate.split(' ')[0] : '刚刚';
-                      return `
-                      <li style="margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px dashed rgba(128,128,128,0.2);">
-                          <a href="${item.link}" target="_blank" style="color: var(--text-main); text-decoration: none; font-size: 15px; display: flex; align-items: flex-start; gap: 10px; transition: color var(--transition-fast);">
-                              <span style="color: var(--accent); font-weight: bold;">·</span>
-                              <span style="flex: 1; line-height: 1.5;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-main)'">${item.title}</span>
-                              <span style="color: var(--text-sub); font-size: 12px; font-family: system-ui; white-space: nowrap; margin-top: 3px;">${pubDate}</span>
-                          </a>
-                      </li>
-                  `}).join('');
-                  
-                  if(container.lastElementChild) {
-                      container.lastElementChild.style.borderBottom = 'none';
-                      container.lastElementChild.style.marginBottom = '0';
-                      container.lastElementChild.style.paddingBottom = '0';
-                  }
-              } else {
-                  throw new Error("接口返回数据为空或解析失败");
-              }
-          } catch (err) {
-              // 无论发生什么错误，都要确保清除定时器
-              clearTimeout(timeoutId);
-              console.error("动态拉取失败:", err);
-              
-              // 严谨的错误归类
-              let errorMsg = err.message;
-              if (err.name === 'AbortError') {
-                  errorMsg = "请求超时 (8秒)。当前网络环境连接海外新闻源存在阻断。";
-              }
-              
-              // 强制终止圈圈，显示精确的诊断结果
-              container.innerHTML = `<li style="color: #ff3b30; font-size: 13px; font-family: monospace; line-height: 1.5;">🔴 资讯获取失败<br>原因: ${errorMsg}</li>`;
-          }
-      }
-      
-      setTimeout(fetchRealtimeNews, 800);
   </script>
 </body>
 </html>
