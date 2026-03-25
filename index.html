@@ -1505,59 +1505,61 @@
         document.getElementById('cloud-status').textContent = "OFFLINE";
         document.getElementById('memo-content').innerHTML = "<div style='opacity:0.8; font-size:14px;'>通信库加载失败。<br>如果您的网络受限，请尝试刷新或检查网络设置。</div>";
     }
-  </script>
+
 <script>
       async function fetchRealtimeNews() {
           const container = document.getElementById('dynamic-news-list');
           if (!container) return;
           try {
-              // 1. 强制破坏 Vercel CDN 边缘缓存（加入动态时间戳）
-             const fetchUrl = '/api/api/get-news?t=' + new Date().getTime();
+              // 1. 核心架构：采用前端直连，彻底绕过 Vercel 后端路由限制
+              // 严谨聚合链路：限定抓取 Reuters 官网 24 小时内的最新突发新闻，确保资讯绝对新鲜
+              const RSS_URL = "https://news.google.com/rss/search?q=site:reuters.com+when:1d&hl=en-US&gl=US&ceid=US:en";
+              
+              // 2. 强力破除缓存：加入 _t 时间戳，强迫浏览器每次都去拿最新的数据
+              const fetchUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}&_t=${new Date().getTime()}`;
+              
               const res = await fetch(fetchUrl);
               
-              // 2. 严谨检查 HTTP 状态码
-              if (!res.ok) {
-                  throw new Error(`网络请求失败，HTTP 状态码: ${res.status}`);
-              }
+              if (!res.ok) throw new Error(`HTTP 状态码: ${res.status}`);
               
-              // 3. 先以纯文本形式读取，防止 JSON 解析炸弹
-              const rawText = await res.text(); 
+              const data = await res.json();
               
-              let data;
-              try {
-                  data = JSON.parse(rawText);
-              } catch (parseErr) {
-                  throw new Error(`数据格式异常 (非 JSON): ${rawText.substring(0, 40)}...`);
-              }
-              
-              // 4. 严谨校验数据结构是否为数组
-              if (Array.isArray(data) && data.length > 0) {
-                  container.innerHTML = data.map(item => `
+              // 3. 数据层层校验与精细化渲染
+              if (data && data.status === "ok" && data.items && data.items.length > 0) {
+                  // 截取前 6 条最新高价值资讯
+                  const newsItems = data.items.slice(0, 6);
+                  
+                  container.innerHTML = newsItems.map(item => {
+                      // 提取日期并格式化，去除多余的冗长时区信息
+                      const pubDate = item.pubDate ? item.pubDate.split(' ')[0] : '刚刚';
+                      return `
                       <li style="margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px dashed rgba(128,128,128,0.2);">
                           <a href="${item.link}" target="_blank" style="color: var(--text-main); text-decoration: none; font-size: 15px; display: flex; align-items: flex-start; gap: 10px; transition: color var(--transition-fast);">
                               <span style="color: var(--accent); font-weight: bold;">·</span>
-                              <span style="flex: 1; line-height: 1.5;">${item.title || '无标题'}</span>
-                              <span style="color: var(--text-sub); font-size: 12px; font-family: system-ui; white-space: nowrap; margin-top: 3px;">${item.date || '刚刚'}</span>
+                              <span style="flex: 1; line-height: 1.5;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-main)'">${item.title}</span>
+                              <span style="color: var(--text-sub); font-size: 12px; font-family: system-ui; white-space: nowrap; margin-top: 3px;">${pubDate}</span>
                           </a>
                       </li>
-                  `).join('');
+                  `}).join('');
                   
+                  // 严谨样式收尾：清理最后一条的底部分隔线
                   if(container.lastElementChild) {
                       container.lastElementChild.style.borderBottom = 'none';
                       container.lastElementChild.style.marginBottom = '0';
                       container.lastElementChild.style.paddingBottom = '0';
                   }
               } else {
-                  throw new Error("接口返回成功，但数据为空或不是标准数组格式。");
+                  throw new Error("目标数据源返回为空，或格式不符。");
               }
           } catch (err) {
-              console.error("Vercel 探针诊断报错:", err);
-              // 将真正的死因直接打印到网页上
-              container.innerHTML = `<li style="color: #ff3b30; font-size: 13px; font-family: monospace; word-break: break-all; line-height: 1.5;">🔴 探针诊断结果: ${err.message}</li>`;
+              console.error("前端直连拉取失败:", err);
+              container.innerHTML = `<li style="color: #ff3b30; font-size: 13px; font-family: monospace; line-height: 1.5;">🔴 动态数据源直连失败，请稍后重试。<br>排查原因: ${err.message}</li>`;
           }
       }
+      
+      // 延迟 800 毫秒执行，错开系统的开屏心跳动画，保证极度流畅
       setTimeout(fetchRealtimeNews, 800);
   </script>
-  
+    
 </body>
 </html>
