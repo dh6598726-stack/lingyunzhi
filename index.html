@@ -1506,21 +1506,37 @@
         document.getElementById('memo-content').innerHTML = "<div style='opacity:0.8; font-size:14px;'>通信库加载失败。<br>如果您的网络受限，请尝试刷新或检查网络设置。</div>";
     }
   </script>
-
-  <script>
+<script>
       async function fetchRealtimeNews() {
           const container = document.getElementById('dynamic-news-list');
           if (!container) return;
           try {
-              const res = await fetch('/api/get-news');
-              const data = await res.json();
+              // 1. 强制破坏 Vercel CDN 边缘缓存（加入动态时间戳）
+              const fetchUrl = '/api/get-news?t=' + new Date().getTime();
+              const res = await fetch(fetchUrl);
               
-              if (data && data.length > 0) {
+              // 2. 严谨检查 HTTP 状态码
+              if (!res.ok) {
+                  throw new Error(`网络请求失败，HTTP 状态码: ${res.status}`);
+              }
+              
+              // 3. 先以纯文本形式读取，防止 JSON 解析炸弹
+              const rawText = await res.text(); 
+              
+              let data;
+              try {
+                  data = JSON.parse(rawText);
+              } catch (parseErr) {
+                  throw new Error(`数据格式异常 (非 JSON): ${rawText.substring(0, 40)}...`);
+              }
+              
+              // 4. 严谨校验数据结构是否为数组
+              if (Array.isArray(data) && data.length > 0) {
                   container.innerHTML = data.map(item => `
                       <li style="margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px dashed rgba(128,128,128,0.2);">
                           <a href="${item.link}" target="_blank" style="color: var(--text-main); text-decoration: none; font-size: 15px; display: flex; align-items: flex-start; gap: 10px; transition: color var(--transition-fast);">
                               <span style="color: var(--accent); font-weight: bold;">·</span>
-                              <span style="flex: 1; line-height: 1.5;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-main)'">${item.title}</span>
+                              <span style="flex: 1; line-height: 1.5;">${item.title || '无标题'}</span>
                               <span style="color: var(--text-sub); font-size: 12px; font-family: system-ui; white-space: nowrap; margin-top: 3px;">${item.date || '刚刚'}</span>
                           </a>
                       </li>
@@ -1532,14 +1548,16 @@
                       container.lastElementChild.style.paddingBottom = '0';
                   }
               } else {
-                  container.innerHTML = '<li style="color: var(--text-sub);">今日暂无最新资讯。</li>';
+                  throw new Error("接口返回成功，但数据为空或不是标准数组格式。");
               }
           } catch (err) {
-              console.error("Vercel 接口连接失败:", err);
-              container.innerHTML = '<li style="color: #ff3b30; font-size: 14px;">📡 云端接口离线，请检查 Vercel 部署状态。</li>';
+              console.error("Vercel 探针诊断报错:", err);
+              // 将真正的死因直接打印到网页上
+              container.innerHTML = `<li style="color: #ff3b30; font-size: 13px; font-family: monospace; word-break: break-all; line-height: 1.5;">🔴 探针诊断结果: ${err.message}</li>`;
           }
       }
       setTimeout(fetchRealtimeNews, 800);
   </script>
+  
 </body>
 </html>
