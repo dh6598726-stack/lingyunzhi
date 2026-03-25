@@ -20,9 +20,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap" rel="stylesheet">
 
   <style>
-    /* 全局系统设定 */
+    /* 全局系统设定与 CSS 变量 */
     :root {
       --font-main: 'Long Cang', "Xingkai SC", "STXingkai", cursive;
+      --font-sys: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       --bg-body: #f5f5f7; 
       --bg-sidebar: rgba(255, 255, 255, 0.75); 
       --bg-card: rgba(255, 255, 255, 0.85); 
@@ -38,6 +39,7 @@
       --radius-lg: 20px;
       --blur-val: 24px; 
       --transition-fast: 0.2s ease;
+      --transition-smooth: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
     body.dark-mode {
@@ -66,15 +68,13 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* 全局自定义精美滚动条 */
+    /* 自定义精美滚动条 */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.2); border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(128,128,128,0.4); }
 
-    input, textarea {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
+    input, textarea { font-family: var(--font-sys); }
     
     #app { display: grid; grid-template-columns: 280px 1fr; height: 100%; }
 
@@ -87,6 +87,7 @@
       padding: 32px 24px;
       display: flex; flex-direction: column;
       z-index: 1000;
+      will-change: transform;
     }
     
     .brand { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; cursor: pointer; }
@@ -103,7 +104,7 @@
     }
     
     .brand-text h1 { font-size: 26px; font-weight: 400; line-height: 1; letter-spacing: 0.5px; }
-    .brand-text span { font-size: 14px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 4px; }
+    .brand-text span { font-size: 14px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 4px; font-family: var(--font-sys); }
 
     .search-box { position: relative; margin-bottom: 24px; }
     .search-input {
@@ -131,7 +132,7 @@
       display: flex; justify-content: space-between; align-items: center; 
     }
     .time-badge {
-      font-size: 14px; color: var(--text-sub); font-family: system-ui, sans-serif;
+      font-size: 14px; color: var(--text-sub); font-family: var(--font-sys);
       background: rgba(128,128,128, 0.08); padding: 6px 10px; border-radius: 6px; cursor: default;
       display: flex; align-items: center; gap: 8px;
     }
@@ -151,10 +152,14 @@
     }
     .quote-text, .quote-sub { position: relative; z-index: 2; }
     .quote-text { font-size: 32px; line-height: 1.6; color: #ffffff; margin-bottom: 12px; }
-    .quote-sub { font-size: 16px; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; }
+    .quote-sub { font-size: 16px; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-sys); }
 
-    .secret-trigger { cursor: pointer; transition: all 0.2s; }
-    .secret-trigger:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.8); }
+    /* 优化唤醒触发器 UI 反馈 */
+    .secret-trigger { 
+      cursor: pointer; transition: all var(--transition-fast); display: inline-block;
+      padding: 0 4px; border-bottom: 1px dashed rgba(255,255,255,0.4); 
+    }
+    .secret-trigger:hover { color: #fff; text-shadow: 0 0 12px rgba(255,255,255,0.9); border-bottom-color: transparent; transform: translateY(-2px); }
 
     /* 网格与卡片 */
     .section-block { margin-bottom: 56px; scroll-margin-top: 32px; }
@@ -163,7 +168,7 @@
       margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);
     }
     .section-title { font-size: 22px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px;}
-    .section-count { font-size: 14px; color: var(--text-sub); text-transform: uppercase; font-family: system-ui, sans-serif;}
+    .section-count { font-size: 14px; color: var(--text-sub); text-transform: uppercase; font-family: var(--font-sys);}
 
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
 
@@ -171,7 +176,7 @@
       background: var(--bg-card); backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
       border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;
       cursor: pointer; display: flex; flex-direction: column; gap: 12px;
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition: var(--transition-smooth);
       will-change: transform, box-shadow; text-decoration: none; color: inherit;        
     }
     .card:hover {
@@ -190,7 +195,7 @@
     .card-body { display: flex; flex-direction: column; gap: 4px; }
     .card-title { font-size: 18px; font-weight: 600; color: var(--text-main); }
     .card-desc { 
-      font-size: 14px; color: var(--text-sub); line-height: 1.4; font-family: system-ui, sans-serif;
+      font-size: 14px; color: var(--text-sub); line-height: 1.4; font-family: var(--font-sys);
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
 
@@ -216,7 +221,7 @@
     }
     .capsule-info { display: flex; flex-direction: column; }
     .capsule-title { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
-    .capsule-desc { color: rgba(255,255,255,0.6); font-size: 14px; margin-top: 4px; font-family: system-ui, sans-serif;}
+    .capsule-desc { color: rgba(255,255,255,0.6); font-size: 14px; margin-top: 4px; font-family: var(--font-sys);}
     .capsule-arrow {
         width: 36px; height: 36px; border-radius: 50%; background: #fff; color: #000;
         display: flex; align-items: center; justify-content: center;
@@ -227,13 +232,13 @@
     /* 敏感内容区域 */
     .sensitive-zone { position: relative; transition: all 0.5s ease; }
     .locked { display: none !important; }
-    .sensitive-blur { filter: blur(12px); opacity: 0.3; transition: 0.4s ease; }
+    .sensitive-blur { filter: blur(12px); opacity: 0.3; transition: 0.4s ease; will-change: filter, opacity; }
     .sensitive-mask {
       position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5; pointer-events: none;
     }
     .mask-badge {
       background: rgba(0,0,0,0.8); color: #fff; backdrop-filter: blur(4px);
-      padding: 8px 16px; border-radius: 8px; font-size: 14px; font-family: system-ui; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+      padding: 8px 16px; border-radius: 8px; font-size: 14px; font-family: var(--font-sys); font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
       transition: var(--transition-fast); box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
     .sensitive-zone:hover .sensitive-blur { filter: blur(0); opacity: 1; }
@@ -244,45 +249,38 @@
       position: fixed; inset: 0; z-index: 9999; background: var(--bg-body); 
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       transition: opacity 0.6s ease, visibility 0.6s; user-select: none; 
+      will-change: opacity;
     }
     .splash-quote { 
         font-size: 32px; text-align: center; max-width: 600px; line-height: 1.6; margin-bottom: 40px; padding: 0 20px;
         color: var(--text-main); max-height: 75vh; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
     }
 
-    /* 备忘录及 DOM 列表重构样式（修复按钮不显示） */
-    #fab-memo {
-      position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
-      background-color: var(--accent); color: #fff; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; font-size: 24px;
-      box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4); cursor: pointer; z-index: 99;
-      transition: transform 0.2s ease, background-color 0.2s ease;
-    }
-    #fab-memo:hover { transform: scale(1.1); background-color: #005bb5; }
-
+    /* 备忘录架构 */
     #ghost-memo {
-      position: fixed; bottom: 90px; right: 30px; width: 320px; height: 420px;
+      position: fixed; bottom: 40px; right: 40px; width: 340px; height: 460px;
       background: var(--bg-card); color: var(--text-main); backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
-      border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; display: flex; flex-direction: column;
-      box-shadow: var(--shadow-hover); transform: translateY(20px) scale(0.9); opacity: 0; pointer-events: none;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 100; font-family: system-ui, sans-serif;
+      border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 24px; display: flex; flex-direction: column;
+      box-shadow: var(--shadow-hover); transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none;
+      transition: var(--transition-smooth); z-index: 1000; font-family: var(--font-sys);
+      will-change: transform, opacity;
     }
     #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
     
     #memo-content {
-      flex: 1; background: rgba(128,128,128, 0.05); border: none; outline: none; border-radius: 8px; padding: 12px;
-      margin-top: 10px; margin-bottom: 10px; overflow-y: auto;
+      flex: 1; background: rgba(128,128,128, 0.05); border: none; outline: none; border-radius: 8px; padding: 14px;
+      margin-top: 12px; margin-bottom: 12px; overflow-y: auto; scroll-behavior: smooth;
     }
     .memo-item {
       display: flex; justify-content: space-between; align-items: flex-start;
-      margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed rgba(128,128,128,0.15);
+      margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed rgba(128,128,128,0.15);
       color: var(--text-main); font-size: 14px; line-height: 1.6;
     }
     .memo-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
     .memo-text { flex: 1; word-break: break-all; white-space: pre-wrap; font-family: inherit;}
-    .memo-time { font-size: 11px; opacity: 0.5; display: block; margin-bottom: 4px; font-family: system-ui, sans-serif;}
+    .memo-time { font-size: 11px; opacity: 0.5; display: block; margin-bottom: 4px;}
     .memo-delete {
-      cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity 0.2s;
+      cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity var(--transition-fast);
       padding: 0 4px; margin-left: 8px; font-weight: bold; font-size: 16px; user-select: none;
     }
     .memo-item:hover .memo-delete { opacity: 0.6; }
@@ -296,7 +294,6 @@
     #memo-new-record:focus { background: var(--bg-card); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); }
 
     /* ================= 趣味特效区 ================= */
-    /* 1. 老板键 404 Glitch 特效 */
     #panic-overlay {
       position: fixed; inset: 0; background: #ffffff; z-index: 99999;
       display: flex; align-items: center; justify-content: center;
@@ -316,7 +313,6 @@
       80% { clip: rect(40px, 9999px, 15px, 0); } 100% { clip: rect(95px, 9999px, 50px, 0); }
     }
 
-    /* 2. Toast 提示弹窗 (终端风格) */
     .toast-container {
       position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
       z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none;
@@ -328,12 +324,11 @@
     }
     @keyframes toast-in { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     @keyframes toast-out { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-50%); opacity: 0; } }
-    /* ============================================== */
-
+    
     .hidden { opacity: 0; pointer-events: none; visibility: hidden; }
     .mobile-header, .mobile-overlay { display: none; }
 
-    /* 移动端响应式深度优化 */
+    /* 移动端响应式优化 */
     @media (max-width: 768px) {
       body { height: 100dvh; } 
       #app { display: flex; flex-direction: column; }
@@ -355,7 +350,7 @@
 
       aside { 
         position: fixed; top: 0; left: -100%; bottom: 0; width: 280px; height: 100dvh;
-        transition: left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+        transition: left var(--transition-smooth); box-shadow: 10px 0 30px rgba(0,0,0,0.1);
       }
       aside.open { left: 0; }
       
@@ -369,7 +364,7 @@
       .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
       .hero-quote { padding: 32px 24px; margin-bottom: 24px; }
       .quote-text { font-size: 28px; }
-      #ghost-memo { width: auto; left: 16px; right: 16px; bottom: calc(90px + env(safe-area-inset-bottom)); height: 60vh; }
+      #ghost-memo { width: auto; left: 16px; right: 16px; bottom: calc(20px + env(safe-area-inset-bottom)); height: 65vh; }
     }
   </style>
 </head>
@@ -381,7 +376,7 @@
   <div id="panic-overlay">
     <div class="glitch-wrapper">
       <h1 class="glitch" data-text="404">404</h1>
-      <p style="font-size: 24px; color: #666; font-family: system-ui;">Not Found</p>
+      <p style="font-size: 24px; color: #666; font-family: var(--font-sys);">Not Found</p>
       <div style="margin-top: 20px; color: #999; font-size: 14px;">nginx/1.18.0 (Ubuntu)</div>
     </div>
   </div>
@@ -398,8 +393,6 @@
       </p>
     </div>
   </div>
-
-  <div id="fab-memo" title="Open Cloud Memo" onclick="toggleMemo()"><i class="ri-cloud-line"></i></div>
 
   <div id="app">
     <div class="mobile-header" id="mobile-header">
@@ -418,7 +411,7 @@
         <div class="brand-logo"><i class="ri-heart-3-fill"></i></div>
         <div class="brand-text">
           <h1>JIN Tong</h1>
-          <span style="font-family: system-ui;">ARCHIVE</span>
+          <span>ARCHIVE</span>
         </div>
       </div>
         
@@ -443,7 +436,7 @@
         <div class="quote-text">
           天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo()">凌云</span>之志。
         </div>
-        <div class="quote-sub" style="font-family: system-ui;">Long live freedom / The Visual Archive</div>
+        <div class="quote-sub">Long live freedom / The Visual Archive</div>
       </div>
 
       <a class="time-capsule" href="https://archive.org/" target="_blank" rel="noopener noreferrer">
@@ -1139,20 +1132,20 @@
   </div>
   
   <div id="ghost-memo">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <span style="font-size:14px; font-weight:700; letter-spacing:1px;">实时云备忘录</span>
-      <div style="display:flex; gap:10px;">
-        <span id="cloud-status" style="font-size:12px; opacity:0.5; font-weight:bold; color: var(--accent);">READY</span>
-        <span id="cloud-sync-btn" style="cursor:pointer;" title="手动刷新">↺</span>
-        <span onclick="toggleMemo()" style="cursor:pointer;">×</span>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--border-color);">
+      <span style="font-size:15px; font-weight:700; letter-spacing:1px;">云端手记</span>
+      <div style="display:flex; gap:14px; align-items:center;">
+        <span id="cloud-status" style="font-size:12px; font-family:var(--font-sys); font-weight:600; color:var(--accent);">STANDBY</span>
+        <span id="cloud-sync-btn" style="cursor:pointer; font-size:16px; opacity:0.7; transition:opacity var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">↺</span>
+        <span onclick="toggleMemo()" style="cursor:pointer; font-size:20px; line-height:1; opacity:0.7; transition:opacity var(--transition-fast);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">×</span>
       </div>
     </div>
     <div id="memo-content"></div>
-    <input type="text" id="memo-new-record" placeholder="输入新记录，回车发送至云端..." autocomplete="off" />
+    <input type="text" id="memo-new-record" placeholder="写入新记录，回车封存..." autocomplete="off" />
   </div>
 
   <script>
-    // === 侧滑菜单与遮罩控制 ===
+    // === 核心逻辑初始化 ===
     const sidebar = document.getElementById('sidebar');
     const mobileOverlay = document.getElementById('mobile-overlay');
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -1163,13 +1156,14 @@
             mobileOverlay.classList.toggle('open');
         }
     }
+    
     if (mobileMenuBtn && mobileOverlay) {
         mobileMenuBtn.addEventListener('click', toggleMobileMenu);
         mobileOverlay.addEventListener('click', toggleMobileMenu);
     }
 
-    // === 侧边栏导航生成逻辑 ===
     document.addEventListener('DOMContentLoaded', () => {
+      // 侧边栏导航渲染
       const navContainer = document.getElementById('nav-container');
       const sections = document.querySelectorAll('.section-block');
       
@@ -1190,19 +1184,24 @@
           document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
           document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
           link.classList.add('active');
-          
-          if(window.innerWidth <= 768) { toggleMobileMenu(); }
+          if(window.innerWidth <= 768) toggleMobileMenu();
         });
         
         navContainer.appendChild(link);
       });
+
+      // 主题同步
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark-mode');
+      }
     });
 
-    // === 开屏动画逻辑 ===
+    // 开屏动画管理
     function closeSplash() {
       const splash = document.getElementById('splash');
       if(splash) {
-          splash.classList.add('hidden');
+          splash.style.opacity = '0';
+          setTimeout(() => { splash.classList.add('hidden'); }, 600);
           sessionStorage.setItem('archiveSplashSeen', 'true');
       }
     }
@@ -1211,7 +1210,7 @@
       if(splash) splash.style.display = 'none';
     }
 
-    // === 更新系统时间与动态问候语 ===
+    // 系统时钟与问候
     function updateTime() {
       const now = new Date();
       const timePill = document.getElementById('time-pill');
@@ -1232,7 +1231,7 @@
     setInterval(updateTime, 1000); 
     updateTime();
 
-    // === 趣味：终端提示弹窗机制 ===
+    // 终端弹窗
     function showToast(message) {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
@@ -1242,7 +1241,7 @@
       setTimeout(() => { if (toast.parentNode) toast.remove(); }, 3000);
     }
 
-    // === 搜索防抖机制 ===
+    // 防抖搜索
     function debounce(func, wait) {
       let timeout;
       return function(...args) {
@@ -1264,22 +1263,18 @@
 
     const debouncedFilter = debounce(filterCards, 150);
 
-    // === 实时搜索与口令逻辑 ===
     const searchInputs = document.querySelectorAll('.search-input');
     searchInputs.forEach(input => {
       input.addEventListener('input', (e) => {
         const term = e.target.value.toLowerCase().trim();
         
-        // 隐藏空间口令逻辑
         if (term === 'open') {
           const secretZones = document.querySelectorAll('.sensitive-zone');
           let isUnlocking = false;
 
           secretZones.forEach(zone => {
             zone.classList.toggle('locked');
-            if (!zone.classList.contains('locked')) {
-              isUnlocking = true;
-            }
+            if (!zone.classList.contains('locked')) isUnlocking = true;
           });
 
           searchInputs.forEach(inp => { inp.value = ''; });
@@ -1289,12 +1284,10 @@
           if (isUnlocking && secretZones.length > 0) {
              showToast("Access Granted. Welcome to the Abyss."); 
              if (window.innerWidth <= 768) {
-                 document.getElementById('sidebar').classList.remove('open');
-                 document.getElementById('mobile-overlay').classList.remove('open');
+                 sidebar.classList.remove('open');
+                 mobileOverlay.classList.remove('open');
              }
-             setTimeout(() => {
-                 secretZones[0].scrollIntoView({ behavior: 'smooth' });
-             }, 50);
+             setTimeout(() => { secretZones[0].scrollIntoView({ behavior: 'smooth' }); }, 50);
           } else {
              showToast("Connection Terminated.");
           }
@@ -1306,18 +1299,14 @@
       });
     });
 
-    // === 监听全局按键 ===
+    // 全局快捷键与静默口令
     let secretCode = '';
     document.addEventListener('keydown', (e) => {
       const activeEl = document.activeElement;
       const isInputActive = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA');
 
-      // 老板键 (404 故障特效页面)
       if (e.key === 'Escape') {
-        if (isInputActive) {
-            activeEl.blur();
-            return;
-        }
+        if (isInputActive) { activeEl.blur(); return; }
         const panicOverlay = document.getElementById('panic-overlay');
         const app = document.getElementById('app');
         if (panicOverlay.classList.contains('active')) {
@@ -1330,7 +1319,6 @@
         return; 
       }
 
-      // 快捷搜索
       if((e.metaKey || e.ctrlKey) && e.key === 'k') { 
           e.preventDefault(); 
           const visibleSearch = Array.from(searchInputs).find(i => i.offsetParent !== null);
@@ -1338,8 +1326,8 @@
           return;
       }
 
-      // 全局静默输入 "open"
       if(isInputActive) return;
+      
       secretCode += e.key.toLowerCase();
       if (secretCode.length > 4) secretCode = secretCode.slice(-4);
       
@@ -1357,23 +1345,22 @@
       }
     });
 
-    // === 主题切换 ===
     document.getElementById('theme-toggle').addEventListener('click', () => {
       document.body.classList.toggle('dark-mode');
     });
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.body.classList.add('dark-mode');
-    }
 
-    // === 全局备忘录唤醒开关 ===
+    // 备忘录核心控制
     window.toggleMemo = function() {
       const ghostMemo = document.getElementById('ghost-memo');
-      ghostMemo.classList.toggle('active');
-      if(ghostMemo.classList.contains('active')) {
+      const isActive = ghostMemo.classList.toggle('active');
+      
+      if(isActive) {
           if (typeof window.loadFromCloud === 'function') {
               window.loadFromCloud();
           }
-          document.getElementById('memo-new-record').focus();
+          setTimeout(() => {
+             document.getElementById('memo-new-record').focus();
+          }, 300); // 确保动画执行后再聚焦，避免页面异常跳动
       }
     }
   </script>
@@ -1387,8 +1374,7 @@
       const day = String(date.getDate()).padStart(2, '0');
       const hours = String(date.getHours()).padStart(2, '0');
       const minutes = String(date.getMinutes()).padStart(2, '0');
-      const seconds = String(date.getSeconds()).padStart(2, '0');
-      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      return `${year}-${month}-${day} ${hours}:${minutes}`;
     }
 
     if (typeof window.supabase !== 'undefined') {
@@ -1403,7 +1389,7 @@
         function renderMemos(data) {
             memoContent.innerHTML = '';
             if (!data || data.length === 0) {
-                memoContent.innerHTML = '<div style="opacity:0.5; text-align:center; margin-top:20px; font-size:14px;">暂无记录，开启你的数字记忆...</div>';
+                memoContent.innerHTML = '<div style="opacity:0.4; text-align:center; margin-top:40px; font-size:13px; font-family:var(--font-sys);">记忆之海干涸，输入点什么吧...</div>';
                 return;
             }
             data.forEach(row => {
@@ -1415,15 +1401,18 @@
                         <span class="memo-time">${formatTime(row.created_at)}</span>
                         <div class="memo-text">${row.content}</div>
                     </div>
-                    <span class="memo-delete" onclick="deleteMemo('${row.id}')" title="删除记录">×</span>
+                    <span class="memo-delete" onclick="deleteMemo('${row.id}')" title="抹除此条记录">×</span>
                 `;
                 memoContent.appendChild(item);
             });
-            memoContent.scrollTop = memoContent.scrollHeight;
+            requestAnimationFrame(() => {
+                memoContent.scrollTop = memoContent.scrollHeight;
+            });
         }
 
         window.loadFromCloud = async function() {
           statusText.textContent = "SYNCING...";
+          statusText.style.color = "var(--text-main)";
           try {
             const { data, error } = await supabase
               .from('memos')
@@ -1434,31 +1423,36 @@
             
             renderMemos(data);
             statusText.textContent = "CONNECTED";
+            statusText.style.color = "var(--accent)";
           } catch (err) {
-            console.error("加载数据失败:", err);
+            console.error("[Data Load Error]:", err);
             statusText.textContent = "SYNC FAIL";
+            statusText.style.color = "#ff3b30";
+            if(memoContent.innerHTML === '') {
+                memoContent.innerHTML = `<div style='opacity:0.8; font-size:13px; color:#ff3b30;'>数据拉取被阻断。<br>请确认已在 Supabase 后台开启 RLS 的匿名读写权限。</div>`;
+            }
           }
         };
 
         window.deleteMemo = async function(id) {
-            if(!confirm('严谨确认：是否永久删除此条记录？')) return;
+            if(!confirm('数据消除确认：此操作不可逆。')) return;
             statusText.textContent = "DELETING...";
             try {
-                const { error } = await supabase
-                    .from('memos')
-                    .delete()
-                    .eq('id', id);
-                
+                const { error } = await supabase.from('memos').delete().eq('id', id);
                 if (error) throw error;
                 
                 const targetNode = document.getElementById(`memo-${id}`);
-                if (targetNode) targetNode.remove();
+                if (targetNode) {
+                    targetNode.style.opacity = '0';
+                    setTimeout(() => targetNode.remove(), 200);
+                }
                 
                 statusText.textContent = "DELETED";
-                setTimeout(() => { if(statusText.textContent === "DELETED") statusText.textContent="CONNECTED"; }, 2000);
+                setTimeout(() => { if(statusText.textContent === "DELETED") statusText.textContent="CONNECTED"; }, 1500);
             } catch (err) {
-                console.error("删除失败:", err);
+                console.error("[Delete Error]:", err);
                 statusText.textContent = "DEL ERROR";
+                statusText.style.color = "#ff3b30";
             }
         };
 
@@ -1466,33 +1460,44 @@
           if (e.key === 'Enter' && this.value.trim() !== '') {
             const newText = this.value.trim();
             this.value = ''; 
+            this.disabled = true; // 防重复提交
             statusText.textContent = "SENDING...";
+            
             try {
-              const { error } = await supabase
-                .from('memos')
-                .insert([{ content: newText }]); 
+              const { error } = await supabase.from('memos').insert([{ content: newText }]); 
               if (error) throw error;
+              
               statusText.textContent = "SAVED";
-              setTimeout(() => { if(statusText.textContent === "SAVED") statusText.textContent="CONNECTED"; }, 2000);
+              setTimeout(() => { if(statusText.textContent === "SAVED") statusText.textContent="CONNECTED"; }, 1500);
             } catch (err) {
-              console.error("保存失败:", err);
-              statusText.textContent = "ERROR";
-              this.value = newText; 
+              console.error("[Save Error]:", err);
+              statusText.textContent = "SAVE ERROR";
+              statusText.style.color = "#ff3b30";
+              this.value = newText; // 恢复未发送成功的文本
+            } finally {
+              this.disabled = false;
+              this.focus();
             }
           }
         });
 
-        supabase.channel('public:memos')
-          .on('postgres_changes', { event: '*', schema: 'public', table: 'memos' }, payload => {
-            window.loadFromCloud();
-            statusText.textContent = "UPDATED!";
-            setTimeout(() => { if(statusText.textContent === "UPDATED!") statusText.textContent="CONNECTED"; }, 1500);
-          }).subscribe();
+        // 实时订阅
+        try {
+            supabase.channel('public:memos')
+              .on('postgres_changes', { event: '*', schema: 'public', table: 'memos' }, payload => {
+                window.loadFromCloud();
+                statusText.textContent = "LIVE UPDATED";
+                setTimeout(() => { if(statusText.textContent === "LIVE UPDATED") statusText.textContent="CONNECTED"; }, 1500);
+              }).subscribe();
+        } catch (err) {
+            console.warn("Realtime subscription disabled or failed.");
+        }
 
         document.getElementById('cloud-sync-btn').addEventListener('click', window.loadFromCloud);
     } else {
         document.getElementById('cloud-status').textContent = "OFFLINE";
-        document.getElementById('memo-content').innerHTML = "<div style='opacity:0.8; font-size:14px;'>通信库加载失败。<br>如果您的网络受限，请尝试刷新或检查网络设置。</div>";
+        document.getElementById('cloud-status').style.color = "#ff3b30";
+        document.getElementById('memo-content').innerHTML = "<div style='opacity:0.8; font-size:13px;'>核心通信库加载失败。<br>服务暂时阻断。</div>";
     }
   </script>
 </body>
