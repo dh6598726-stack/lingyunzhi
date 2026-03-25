@@ -1,27 +1,31 @@
-// Vercel Serverless Function: 实时新闻抓取器
 export default async function handler(req, res) {
+  // 允许跨域
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  
   try {
-    // 这里我们抓取开源中国 (OSChina) 的最新资讯作为演示
     const RSS_URL = "https://www.oschina.net/news/rss";
     const API_CONVERTER = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
-
+    
     const response = await fetch(API_CONVERTER);
     const data = await response.json();
 
-    // 严谨处理：如果抓取失败则返回提示
-    if (!data.items) throw new Error("无法获取内容");
+    if (!data || !data.items) {
+        throw new Error("抓取目标源被限流");
+    }
 
-    // 仅保留最关键的 8 条新闻，减少传输体积
-    const news = data.items.slice(0, 8).map(item => ({
+    const news = data.items.slice(0, 6).map(item => ({
       title: item.title,
       link: item.link,
-      date: item.pubDate.split(' ')[0] // 只要日期部分
+      date: item.pubDate.split(' ')[0]
     }));
 
-    // 设置跨域头，确保你的网页可以安全调用
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(200).json(news);
   } catch (error) {
-    res.status(500).json({ error: "抓取失败: " + error.message });
+    // 【终极容错】：如果外部新闻源挂了，直接返回备用数据，证明咱们自己的 Vercel 没挂！
+    res.status(200).json([
+      { title: "✅ Vercel 动态接口已成功连通！", link: "#", date: "刚刚" },
+      { title: "⚠️ 当前外部新闻源 (rss2json) 响应超时，请稍后再试。", link: "#", date: "刚刚" },
+      { title: "💡 建议：您可以随时在 api/get-news.js 中更换更稳定的新闻接口", link: "#", date: "刚刚" }
+    ]);
   }
 }
