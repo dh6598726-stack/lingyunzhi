@@ -250,7 +250,7 @@
         color: var(--text-main); max-height: 75vh; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
     }
 
-    /* 备忘录 */
+    /* 备忘录及 DOM 列表重构样式 */
     #fab-memo { display: none; }
     #ghost-memo {
       position: fixed; bottom: 90px; right: 30px; width: 320px; height: 420px;
@@ -263,8 +263,24 @@
     
     #memo-content {
       flex: 1; background: rgba(128,128,128, 0.05); border: none; outline: none; border-radius: 8px; padding: 12px;
-      color: var(--text-main); font-size: 14px; line-height: 1.6; resize: none; margin-top: 10px; margin-bottom: 10px; font-family: inherit;
+      margin-top: 10px; margin-bottom: 10px; overflow-y: auto;
     }
+    .memo-item {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed rgba(128,128,128,0.15);
+      color: var(--text-main); font-size: 14px; line-height: 1.6;
+    }
+    .memo-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .memo-text { flex: 1; word-break: break-all; white-space: pre-wrap; font-family: inherit;}
+    .memo-time { font-size: 11px; opacity: 0.5; display: block; margin-bottom: 4px; font-family: system-ui, sans-serif;}
+    .memo-delete {
+      cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity 0.2s;
+      padding: 0 4px; margin-left: 8px; font-weight: bold; font-size: 16px; user-select: none;
+    }
+    .memo-item:hover .memo-delete { opacity: 0.6; }
+    .memo-delete:hover { opacity: 1 !important; transform: scale(1.1); }
+    @media (max-width: 768px) { .memo-delete { opacity: 0.8; } }
+
     #memo-new-record {
       width: 100%; background: rgba(128,128,128, 0.08); border: 1px solid transparent; outline: none; border-radius: 8px; padding: 12px;
       color: var(--text-main); font-size: 14px; transition: all var(--transition-fast); font-family: inherit;
@@ -1123,7 +1139,7 @@
         <span onclick="toggleMemo()" style="cursor:pointer;">×</span>
       </div>
     </div>
-    <textarea id="memo-content" readonly placeholder="正在连接加密通道..."></textarea>
+    <div id="memo-content"></div>
     <input type="text" id="memo-new-record" placeholder="输入新记录，回车发送至云端..." autocomplete="off" />
   </div>
 
@@ -1238,7 +1254,7 @@
         });
     }
 
-    const debouncedFilter = debounce(filterCards, 150); // 150ms防抖提升性能
+    const debouncedFilter = debounce(filterCards, 150);
 
     // === 实时搜索与口令逻辑 ===
     const searchInputs = document.querySelectorAll('.search-input');
@@ -1263,7 +1279,7 @@
           document.querySelectorAll('.section-block').forEach(sec => { sec.style.display = 'block'; });
 
           if (isUnlocking && secretZones.length > 0) {
-             showToast("Access Granted. Welcome to the Abyss."); // 炫酷提示
+             showToast("Access Granted. Welcome to the Abyss."); 
              if (window.innerWidth <= 768) {
                  document.getElementById('sidebar').classList.remove('open');
                  document.getElementById('mobile-overlay').classList.remove('open');
@@ -1376,27 +1392,66 @@
         const memoNewRecord = document.getElementById('memo-new-record');
         const statusText = document.getElementById('cloud-status');
 
+        function renderMemos(data) {
+            memoContent.innerHTML = '';
+            if (!data || data.length === 0) {
+                memoContent.innerHTML = '<div style="opacity:0.5; text-align:center; margin-top:20px; font-size:14px;">暂无记录，开启你的数字记忆...</div>';
+                return;
+            }
+            data.forEach(row => {
+                const item = document.createElement('div');
+                item.className = 'memo-item';
+                item.id = `memo-${row.id}`;
+                item.innerHTML = `
+                    <div style="flex:1;">
+                        <span class="memo-time">${formatTime(row.created_at)}</span>
+                        <div class="memo-text">${row.content}</div>
+                    </div>
+                    <span class="memo-delete" onclick="deleteMemo('${row.id}')" title="删除记录">×</span>
+                `;
+                memoContent.appendChild(item);
+            });
+            memoContent.scrollTop = memoContent.scrollHeight;
+        }
+
         window.loadFromCloud = async function() {
           statusText.textContent = "SYNCING...";
           try {
             const { data, error } = await supabase
               .from('memos')
-              .select('content, created_at')
+              .select('id, content, created_at')
               .order('created_at', { ascending: true }); 
 
             if (error) throw error;
-
-            if (data && data.length > 0) {
-                memoContent.value = data.map(row => `[${formatTime(row.created_at)}] ${row.content}`).join('\n\n');
-            } else {
-                memoContent.value = '暂无记录，开启你的数字记忆...';
-            }
+            
+            renderMemos(data);
             statusText.textContent = "CONNECTED";
-            memoContent.scrollTop = memoContent.scrollHeight; 
           } catch (err) {
             console.error("加载数据失败:", err);
             statusText.textContent = "SYNC FAIL";
           }
+        };
+
+        window.deleteMemo = async function(id) {
+            if(!confirm('严谨确认：是否永久删除此条记录？')) return;
+            statusText.textContent = "DELETING...";
+            try {
+                const { error } = await supabase
+                    .from('memos')
+                    .delete()
+                    .eq('id', id);
+                
+                if (error) throw error;
+                
+                const targetNode = document.getElementById(`memo-${id}`);
+                if (targetNode) targetNode.remove();
+                
+                statusText.textContent = "DELETED";
+                setTimeout(() => { if(statusText.textContent === "DELETED") statusText.textContent="CONNECTED"; }, 2000);
+            } catch (err) {
+                console.error("删除失败:", err);
+                statusText.textContent = "DEL ERROR";
+            }
         };
 
         memoNewRecord.addEventListener('keydown', async function(e) {
@@ -1420,23 +1475,16 @@
         });
 
         supabase.channel('public:memos')
-          .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'memos' }, payload => {
-            const newRow = payload.new;
-            const newEntry = `[${formatTime(newRow.created_at)}] ${newRow.content}`;
-            if (memoContent.value === '暂无记录，开启你的数字记忆...') {
-                memoContent.value = newEntry;
-            } else {
-                memoContent.value += '\n\n' + newEntry;
-            }
-            memoContent.scrollTop = memoContent.scrollHeight;
-            statusText.textContent = "NEW MSG!";
-            setTimeout(() => { statusText.textContent="CONNECTED"; }, 1500);
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'memos' }, payload => {
+            window.loadFromCloud();
+            statusText.textContent = "UPDATED!";
+            setTimeout(() => { if(statusText.textContent === "UPDATED!") statusText.textContent="CONNECTED"; }, 1500);
           }).subscribe();
 
         document.getElementById('cloud-sync-btn').addEventListener('click', window.loadFromCloud);
     } else {
         document.getElementById('cloud-status').textContent = "OFFLINE";
-        document.getElementById('memo-content').value = "通信库加载失败。\n如果您的网络受限（例如国内环境），请尝试刷新或开启代理。";
+        document.getElementById('memo-content').innerHTML = "<div style='opacity:0.8; font-size:14px;'>通信库加载失败。<br>如果您的网络受限，请尝试刷新或检查网络设置。</div>";
     }
   </script>
 </body>
