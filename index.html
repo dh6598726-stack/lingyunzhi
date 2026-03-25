@@ -24,7 +24,6 @@
       --font-main: 'Long Cang', "Xingkai SC", "STXingkai", cursive;
       --font-sys: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       
-      /* UI 容器的玻璃态调优，降低不透明度以透出底色 */
       --bg-sidebar: rgba(255, 255, 255, 0.4); 
       --bg-card: rgba(255, 255, 255, 0.5); 
       --border-color: rgba(255, 255, 255, 0.5);
@@ -71,7 +70,6 @@
       --shadow-hover: 0 10px 24px rgba(0, 0, 0, 0.5);
     }
 
-    /* 背景色彩流转动画引擎 */
     @keyframes gradientBG {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -154,7 +152,7 @@
     .quote-text, .quote-sub { position: relative; z-index: 2; }
     .quote-text { font-size: 32px; line-height: 1.6; color: #ffffff; margin-bottom: 12px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
     .quote-sub { font-size: 16px; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-sys); }
-    .secret-trigger { cursor: pointer; transition: all var(--transition-fast); display: inline-block; }
+    .secret-trigger { cursor: pointer; transition: all var(--transition-fast); display: inline-block; position: relative; z-index: 10; }
     .secret-trigger:hover { color: #fff; text-shadow: 0 0 12px rgba(255,255,255,0.9); transform: translateY(-2px); }
 
     /* 网格与卡片 */
@@ -168,10 +166,8 @@
 
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
 
-    /* 搜索过滤专用样式 (最高权重，确保强制隐藏生效) */
-    .card.hidden, .section-block.hidden {
-      display: none !important;
-    }
+    /* 搜索过滤专用样式 */
+    .card.hidden, .section-block.hidden { display: none !important; }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(15px); }
@@ -182,7 +178,7 @@
       background: var(--bg-card); backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
       border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;
       cursor: pointer; display: flex; flex-direction: column; gap: 12px;
-      transition: var(--transition-smooth); box-shadow: var(--shadow-card);
+      transition: all var(--transition-smooth); box-shadow: var(--shadow-card);
       text-decoration: none; color: inherit; 
       opacity: 0; animation: fadeUp 0.4s ease forwards;
     }
@@ -267,7 +263,7 @@
       background: var(--bg-card); color: var(--text-main); backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
       border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 24px; display: flex; flex-direction: column;
       box-shadow: var(--shadow-hover); transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none;
-      transition: var(--transition-smooth); z-index: 1000; font-family: var(--font-sys);
+      transition: all var(--transition-smooth); z-index: 1000; font-family: var(--font-sys);
     }
     #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
     
@@ -380,7 +376,7 @@
         唯独星空深处的那轮明月最不认生。<br>
         它在异乡的窗前，守着当年我在故乡没做完的梦。<br>
         <br><br>
-        回头看，<span onclick="window.closeSplash()" style="cursor: pointer; touch-action: manipulation; padding: 10px 5px; margin: -10px -5px; position: relative; z-index: 10;">轻舟</span>已过万重山；<br>
+        回头看，<span onclick="closeSplash()" style="cursor: pointer; touch-action: manipulation; padding: 10px 5px; margin: -10px -5px; position: relative; z-index: 10;">轻舟</span>已过万重山；<br>
         向前看，长路漫漫亦灿烂。
       </p>
     </div>
@@ -426,7 +422,7 @@
     <main>
       <div class="hero-quote">
         <div class="quote-text">
-          天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="window.toggleMemo()">凌云</span>之志。
+          天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo()">凌云</span>之志。
         </div>
         <div class="quote-sub">Long live freedom / The Visual Archive</div>
       </div>
@@ -654,10 +650,82 @@
 
     </main>
   </div>
+  
+ <div id="ghost-memo">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--border-color);">
+      <span style="font-size:15px; font-weight:700; letter-spacing:1px;">云端手记</span>
+      <div style="display:flex; gap:14px; align-items:center;">
+        <span id="cloud-status" style="font-size:12px; font-family:var(--font-sys); font-weight:600; color:var(--accent);">STANDBY</span>
+        <span id="cloud-sync-btn" style="cursor:pointer; font-size:13px; font-weight:bold; opacity:0.7; transition:opacity var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">更新</span>
+        <span onclick="toggleMemo()" style="cursor:pointer; font-size:13px; font-weight:bold; opacity:0.7; transition:opacity var(--transition-fast);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">关闭</span>
+      </div>
+    </div>
+    <div id="memo-content"></div>
+    <input type="text" id="memo-new-record" placeholder="写入新记录，回车封存..." autocomplete="off" />
+  </div>
 
   <script>
+    // 【核心修复】：将所有触发函数剥离到最顶层，彻底杜绝作用域丢失的问题
+    function closeSplash() {
+      const splash = document.getElementById('splash');
+      if(splash) {
+          splash.style.opacity = '0';
+          setTimeout(() => { splash.style.display = 'none'; }, 600);
+          sessionStorage.setItem('archiveSplashSeen', 'true');
+      }
+    }
+
+    function toggleMemo() {
+      const ghostMemo = document.getElementById('ghost-memo');
+      if (!ghostMemo) return;
+      const isActive = ghostMemo.classList.toggle('active');
+      if(isActive) {
+          if (typeof window.loadFromCloud === 'function') window.loadFromCloud();
+          setTimeout(() => { 
+              const input = document.getElementById('memo-new-record');
+              if(input) input.focus(); 
+          }, 300);
+      }
+    }
+
+    function toggleAbyss() {
+      const secretZones = document.querySelectorAll('.sensitive-zone');
+      let isUnlocking = false;
+
+      secretZones.forEach(zone => {
+        zone.classList.toggle('locked');
+        if (!zone.classList.contains('locked')) {
+            isUnlocking = true;
+            zone.classList.remove('hidden'); 
+        } else {
+            zone.classList.add('hidden');
+        }
+      });
+
+      if (isUnlocking && secretZones.length > 0) {
+         showToast("Access Granted. Welcome to the Abyss."); 
+         if (window.innerWidth <= 768) {
+             document.getElementById('sidebar').classList.remove('open');
+             document.getElementById('mobile-overlay').classList.remove('open');
+         }
+         setTimeout(() => { secretZones[0].scrollIntoView({ behavior: 'smooth' }); }, 50);
+      } else {
+         showToast("Connection Terminated / Locked.");
+      }
+    }
+
+    function showToast(message) {
+      const container = document.getElementById('toast-container');
+      if(!container) return;
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = `> ${message}`;
+      container.appendChild(toast);
+      setTimeout(() => { if (toast.parentNode) toast.remove(); }, 3000);
+    }
+
+    // UI 与交互逻辑初始化
     document.addEventListener('DOMContentLoaded', () => {
-        // ================= UI 初始化 =================
         const sidebar = document.getElementById('sidebar');
         const mobileOverlay = document.getElementById('mobile-overlay');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -680,7 +748,6 @@
           });
         }
 
-        // 导航渲染
         const navContainer = document.getElementById('nav-container');
         document.querySelectorAll('.section-block').forEach(sec => {
           if (sec.classList.contains('sensitive-zone')) return; 
@@ -707,7 +774,6 @@
           document.body.classList.toggle('dark-mode');
         });
 
-        // 时钟系统
         function updateTime() {
           const now = new Date();
           const timePill = document.getElementById('time-pill');
@@ -734,20 +800,16 @@
           if(splash) splash.style.display = 'none';
         }
 
-        // ================= 重构后的最稳定搜索系统 =================
+        // 搜索过滤逻辑
         function performSearch(term) {
             const sections = document.querySelectorAll('.section-block');
-            
             sections.forEach(sec => {
-                // 如果是加密区且未输入完整口令，直接隐藏整个板块
                 if (sec.classList.contains('locked')) {
                     sec.classList.add('hidden');
                     return; 
                 }
-
                 let matchCount = 0;
                 const cards = sec.querySelectorAll('.card');
-                
                 cards.forEach(card => {
                     const text = card.textContent.toLowerCase();
                     if (text.includes(term) || term === '') {
@@ -757,8 +819,6 @@
                         card.classList.add('hidden');
                     }
                 });
-
-                // 如果该板块下有匹配的卡片，或者搜索词为空，则显示该板块
                 if (matchCount > 0) {
                     sec.classList.remove('hidden');
                 } else {
@@ -769,24 +829,19 @@
 
         const searchInputs = document.querySelectorAll('.search-input');
         searchInputs.forEach(input => {
-            // 使用完全无延迟的 input 事件，保证最高响应速度
             input.addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase().trim();
-                
                 if (term === 'open') {
                     searchInputs.forEach(inp => inp.value = '');
                     performSearch(''); 
-                    window.toggleAbyss();
+                    toggleAbyss();
                     return;
                 }
-                
-                // 同步多端搜索框内容
                 searchInputs.forEach(inp => { if(inp !== e.target) inp.value = term; });
                 performSearch(term);
             });
         });
 
-        // ================= 快捷键与事件暴露 =================
         let secretCode = '';
         document.addEventListener('keydown', (e) => {
           const activeEl = document.activeElement;
@@ -817,64 +872,9 @@
           
           secretCode += e.key.toLowerCase();
           if (secretCode.length > 4) secretCode = secretCode.slice(-4);
-          if (secretCode === 'open') { window.toggleAbyss(); secretCode = ''; }
+          if (secretCode === 'open') { toggleAbyss(); secretCode = ''; }
         });
-
-    }); // end DOMContentLoaded
-
-    // 全局方法暴露给 HTML 的 onclick
-    window.closeSplash = function() {
-      const splash = document.getElementById('splash');
-      if(splash) {
-          splash.style.opacity = '0';
-          setTimeout(() => { splash.style.display = 'none'; }, 600);
-          sessionStorage.setItem('archiveSplashSeen', 'true');
-      }
-    };
-
-    window.toggleMemo = function() {
-      const ghostMemo = document.getElementById('ghost-memo');
-      const isActive = ghostMemo.classList.toggle('active');
-      if(isActive) {
-          if (typeof window.loadFromCloud === 'function') window.loadFromCloud();
-          setTimeout(() => { document.getElementById('memo-new-record').focus(); }, 300);
-      }
-    };
-
-    window.toggleAbyss = function() {
-      const secretZones = document.querySelectorAll('.sensitive-zone');
-      let isUnlocking = false;
-
-      secretZones.forEach(zone => {
-        zone.classList.toggle('locked');
-        if (!zone.classList.contains('locked')) {
-            isUnlocking = true;
-            zone.classList.remove('hidden'); // 解锁时确保处于可见状态
-        } else {
-            zone.classList.add('hidden');
-        }
-      });
-
-      if (isUnlocking && secretZones.length > 0) {
-         showToast("Access Granted. Welcome to the Abyss."); 
-         if (window.innerWidth <= 768) {
-             document.getElementById('sidebar').classList.remove('open');
-             document.getElementById('mobile-overlay').classList.remove('open');
-         }
-         setTimeout(() => { secretZones[0].scrollIntoView({ behavior: 'smooth' }); }, 50);
-      } else {
-         showToast("Connection Terminated / Locked.");
-      }
-    };
-
-    function showToast(message) {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      toast.textContent = `> ${message}`;
-      container.appendChild(toast);
-      setTimeout(() => { if (toast.parentNode) toast.remove(); }, 3000);
-    }
+    });
   </script>
 
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
@@ -908,6 +908,8 @@
                 const item = document.createElement('div');
                 item.className = 'memo-item';
                 item.id = `memo-${row.id}`;
+                
+                // 【核心修复】：彻底修复了转义字符的语法错误，防止整个脚本运行崩溃
                 const safeContent = row.content.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
                 
                 const date = new Date(row.created_at);
@@ -959,27 +961,30 @@
             }
         };
 
-        document.getElementById('memo-new-record').addEventListener('keydown', async function(e) {
-          if (e.key === 'Enter' && this.value.trim() !== '') {
-            const newText = this.value.trim();
-            this.value = ''; 
-            this.disabled = true;
-            statusText.textContent = "SENDING...";
-            try {
-              const { error } = await supabase.from('memos').insert([{ content: newText }]); 
-              if (error) throw error;
-              statusText.textContent = "SAVED";
-              resetStatus("SAVED");
-            } catch (err) {
-              statusText.textContent = "SAVE ERROR";
-              statusText.style.color = "#ff3b30";
-              this.value = newText;
-            } finally {
-              this.disabled = false;
-              this.focus();
-            }
-          }
-        });
+        const newRecordInput = document.getElementById('memo-new-record');
+        if (newRecordInput) {
+            newRecordInput.addEventListener('keydown', async function(e) {
+              if (e.key === 'Enter' && this.value.trim() !== '') {
+                const newText = this.value.trim();
+                this.value = ''; 
+                this.disabled = true;
+                statusText.textContent = "SENDING...";
+                try {
+                  const { error } = await supabase.from('memos').insert([{ content: newText }]); 
+                  if (error) throw error;
+                  statusText.textContent = "SAVED";
+                  resetStatus("SAVED");
+                } catch (err) {
+                  statusText.textContent = "SAVE ERROR";
+                  statusText.style.color = "#ff3b30";
+                  this.value = newText;
+                } finally {
+                  this.disabled = false;
+                  this.focus();
+                }
+              }
+            });
+        }
 
         try {
             supabase.channel('public:memos').on('postgres_changes', { event: '*', schema: 'public', table: 'memos' }, payload => {
@@ -989,7 +994,8 @@
             }).subscribe();
         } catch (err) {}
 
-        document.getElementById('cloud-sync-btn').addEventListener('click', window.loadFromCloud);
+        const syncBtn = document.getElementById('cloud-sync-btn');
+        if(syncBtn) syncBtn.addEventListener('click', window.loadFromCloud);
     }
   </script>
 </body>
