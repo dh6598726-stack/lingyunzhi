@@ -1510,27 +1510,29 @@
       async function fetchRealtimeNews() {
           const container = document.getElementById('dynamic-news-list');
           if (!container) return;
+          
+          // 严谨工程：设立 8 秒超时炸弹 (AbortController)
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 8000);
+
           try {
-              // 1. 核心架构：采用前端直连，彻底绕过 Vercel 后端路由限制
-              // 严谨聚合链路：限定抓取 Reuters 官网 24 小时内的最新突发新闻，确保资讯绝对新鲜
+              // 抓取源：路透社当天最新全球动态
               const RSS_URL = "https://news.google.com/rss/search?q=site:reuters.com+when:1d&hl=en-US&gl=US&ceid=US:en";
-              
-              // 2. 强力破除缓存：加入 _t 时间戳，强迫浏览器每次都去拿最新的数据
               const fetchUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}&_t=${new Date().getTime()}`;
               
-              const res = await fetch(fetchUrl);
+              // 发起请求，并将超时控制器绑定到请求上
+              const res = await fetch(fetchUrl, { signal: controller.signal });
               
-              if (!res.ok) throw new Error(`HTTP 状态码: ${res.status}`);
+              // 如果成功拿到响应，立刻拆除超时炸弹
+              clearTimeout(timeoutId);
+              
+              if (!res.ok) throw new Error(`HTTP 状态码异常: ${res.status}`);
               
               const data = await res.json();
               
-              // 3. 数据层层校验与精细化渲染
               if (data && data.status === "ok" && data.items && data.items.length > 0) {
-                  // 截取前 6 条最新高价值资讯
                   const newsItems = data.items.slice(0, 6);
-                  
                   container.innerHTML = newsItems.map(item => {
-                      // 提取日期并格式化，去除多余的冗长时区信息
                       const pubDate = item.pubDate ? item.pubDate.split(' ')[0] : '刚刚';
                       return `
                       <li style="margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px dashed rgba(128,128,128,0.2);">
@@ -1542,24 +1544,31 @@
                       </li>
                   `}).join('');
                   
-                  // 严谨样式收尾：清理最后一条的底部分隔线
                   if(container.lastElementChild) {
                       container.lastElementChild.style.borderBottom = 'none';
                       container.lastElementChild.style.marginBottom = '0';
                       container.lastElementChild.style.paddingBottom = '0';
                   }
               } else {
-                  throw new Error("目标数据源返回为空，或格式不符。");
+                  throw new Error("接口返回数据为空或解析失败");
               }
           } catch (err) {
-              console.error("前端直连拉取失败:", err);
-              container.innerHTML = `<li style="color: #ff3b30; font-size: 13px; font-family: monospace; line-height: 1.5;">🔴 动态数据源直连失败，请稍后重试。<br>排查原因: ${err.message}</li>`;
+              // 无论发生什么错误，都要确保清除定时器
+              clearTimeout(timeoutId);
+              console.error("动态拉取失败:", err);
+              
+              // 严谨的错误归类
+              let errorMsg = err.message;
+              if (err.name === 'AbortError') {
+                  errorMsg = "请求超时 (8秒)。当前网络环境连接海外新闻源存在阻断。";
+              }
+              
+              // 强制终止圈圈，显示精确的诊断结果
+              container.innerHTML = `<li style="color: #ff3b30; font-size: 13px; font-family: monospace; line-height: 1.5;">🔴 资讯获取失败<br>原因: ${errorMsg}</li>`;
           }
       }
       
-      // 延迟 800 毫秒执行，错开系统的开屏心跳动画，保证极度流畅
       setTimeout(fetchRealtimeNews, 800);
   </script>
-    
 </body>
 </html>
