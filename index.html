@@ -851,11 +851,24 @@
 
       if (isUnlocking && secretZones.length > 0) {
          showToast("深海区域已解禁。"); 
+         
+         // --- 核心修复逻辑 ---
+         // 1. 如果是在手机端，解禁瞬间必须强制关闭侧边栏和遮罩
          if (window.innerWidth <= 768) {
-             sidebar.classList.remove('open');
-             mobileOverlay.classList.remove('open');
+             const sidebar = document.getElementById('sidebar');
+             const mobileOverlay = document.getElementById('mobile-overlay');
+             if(sidebar) sidebar.classList.remove('open');
+             if(mobileOverlay) mobileOverlay.classList.remove('open');
+             
+             // 2. 强制收回手机软键盘，防止遮挡
+             if(document.activeElement) document.activeElement.blur(); 
          }
-         setTimeout(() => { secretZones[0].scrollIntoView({ behavior: 'smooth' }); }, 50);
+
+         // 3. 延迟执行滚动，确保侧边栏关闭动画完成后再定位
+         setTimeout(() => { 
+             secretZones[0].scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+         }, 300);
+         
       } else {
          showToast("连接已终止。");
       }
@@ -867,6 +880,8 @@
         const term = e.target.value.toLowerCase().trim();
         
         if (term === 'open') {
+          // 立即清空并失去焦点，强制手机键盘收回
+          e.target.blur(); 
           searchInputs.forEach(inp => { inp.value = ''; });
           filterCards(''); 
           toggleAbyss();
