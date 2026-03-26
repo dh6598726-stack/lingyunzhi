@@ -14,7 +14,6 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='red' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/><path stroke='white' stroke-width='2' stroke-linecap='round' d='M2 2l20 20M2 7V2h5M17 22h5v-5'/></svg>">
     
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
-  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap" rel="stylesheet">
@@ -25,7 +24,7 @@
       --font-main: 'Long Cang', "Xingkai SC", "STXingkai", cursive;
       --font-sys: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       --bg-sidebar: rgba(255, 255, 255, 0.6); 
-      --bg-card: rgba(255, 255, 255, 0.85); /* 提升透明度质感，替代高消耗的滤镜 */
+      --bg-card: rgba(255, 255, 255, 0.85);
       --border-color: rgba(255, 255, 255, 0.4);
       --border-hover: rgba(0, 122, 255, 0.6);
       --text-main: #1d1d1f;
@@ -42,17 +41,15 @@
     }
 
     @keyframes fluidRainbow {
-      0% { background-position: 0% 50%; }
+      0%, 100% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
     }
 
     body {
       font-family: var(--font-main);
-      background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb, #fbc2eb);
+      background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb, #fbc2eb) fixed;
       background-size: 400% 400%;
       animation: fluidRainbow 15s ease infinite;
-      background-attachment: fixed;
       color: var(--text-main);
       height: 100vh;
       overflow: hidden;
@@ -62,7 +59,7 @@
     }
 
     body.dark-mode {
-      background: linear-gradient(-45deg, #2A0845, #6441A5, #120E1F, #040914, #1D2671);
+      background: linear-gradient(-45deg, #2A0845, #6441A5, #120E1F, #040914, #1D2671) fixed;
       background-size: 400% 400%;
       --bg-sidebar: rgba(28, 28, 30, 0.65);
       --bg-card: rgba(44, 44, 46, 0.85);
@@ -352,6 +349,7 @@
         display: flex; align-items: center; justify-content: space-between; gap: 16px;
         padding: 12px 20px; background: var(--bg-sidebar); backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
         border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 900;
+        flex-shrink: 0; /* 修复防压缩重排 */
       }
       .mh-left { display: flex; align-items: center; gap: 16px; flex: 1; }
       .mh-logo { color: #ff3b30; font-size: 26px; animation: heartbeat 1.5s infinite; cursor: pointer; }
@@ -697,6 +695,8 @@
   </div>
 
   <script>
+    let isAbyssOpen = false; // 核心状态追踪，解耦 DOM class
+    
     const sidebar = document.getElementById('sidebar');
     const mobileOverlay = document.getElementById('mobile-overlay');
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -781,18 +781,10 @@
     function updateTime() {
       const now = new Date();
       if(timePill) timePill.textContent = now.toLocaleTimeString('zh-CN', {hour12:false});
-      if(datePill) {
-        const dateOptions = { month: 'long', day: 'numeric' };
-        datePill.textContent = now.toLocaleDateString('zh-CN', dateOptions);
-      }
+      if(datePill) datePill.textContent = now.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' });
       if(greeting) {
-        const hour = now.getHours();
-        if (hour < 5) greeting.textContent = '夜深了';
-        else if (hour < 9) greeting.textContent = '早上好';
-        else if (hour < 12) greeting.textContent = '上午好';
-        else if (hour < 14) greeting.textContent = '中午好';
-        else if (hour < 19) greeting.textContent = '下午好';
-        else greeting.textContent = '晚上好';
+        const h = now.getHours();
+        greeting.textContent = h < 5 ? '夜深了' : h < 9 ? '早上好' : h < 12 ? '上午好' : h < 14 ? '中午好' : h < 19 ? '下午好' : '晚上好';
       }
     }
     setInterval(updateTime, 1000); 
@@ -817,7 +809,7 @@
 
     function filterCards(term) {
         document.querySelectorAll('.section-block').forEach(sec => {
-            if (sec.classList.contains('locked') && term !== 'open') {
+            if (sec.id === 'sec-abyss' && !isAbyssOpen && term !== 'open') {
                 sec.style.display = 'none';
                 return;
             }
@@ -838,33 +830,32 @@
     const debouncedFilter = debounce(filterCards, 150);
 
     function toggleAbyss() {
+      isAbyssOpen = !isAbyssOpen;
       const secretZones = document.querySelectorAll('.sensitive-zone');
-      let isUnlocking = false;
 
       secretZones.forEach(zone => {
-        zone.classList.toggle('locked');
-        if (!zone.classList.contains('locked')) {
-            isUnlocking = true;
-            zone.style.display = 'block'; 
-        }
+          if (isAbyssOpen) {
+              zone.classList.remove('locked');
+              zone.classList.add('unlocked');
+              zone.style.display = 'block'; 
+          } else {
+              zone.classList.add('locked');
+              zone.classList.remove('unlocked');
+              zone.style.display = 'none';
+          }
       });
 
-      if (isUnlocking && secretZones.length > 0) {
+      if (isAbyssOpen && secretZones.length > 0) {
          showToast("深海区域已解禁。"); 
          
-         // --- 核心修复逻辑 ---
-         // 1. 如果是在手机端，解禁瞬间必须强制关闭侧边栏和遮罩
          if (window.innerWidth <= 768) {
              const sidebar = document.getElementById('sidebar');
              const mobileOverlay = document.getElementById('mobile-overlay');
              if(sidebar) sidebar.classList.remove('open');
              if(mobileOverlay) mobileOverlay.classList.remove('open');
-             
-             // 2. 强制收回手机软键盘，防止遮挡
              if(document.activeElement) document.activeElement.blur(); 
          }
 
-         // 3. 延迟执行滚动，确保侧边栏关闭动画完成后再定位
          setTimeout(() => { 
              secretZones[0].scrollIntoView({ behavior: 'smooth', block: 'start' }); 
          }, 300);
@@ -880,11 +871,13 @@
         const term = e.target.value.toLowerCase().trim();
         
         if (term === 'open') {
-          // 立即清空并失去焦点，强制手机键盘收回
-          e.target.blur(); 
+          e.target.blur(); // 立即清空并失去焦点，强制手机键盘收回
           searchInputs.forEach(inp => { inp.value = ''; });
-          filterCards(''); 
-          toggleAbyss();
+          
+          setTimeout(() => {
+              filterCards(''); 
+              toggleAbyss();
+          }, 50); // 延迟执行，等待键盘收回并释放重绘资源
           return;
         }
 
@@ -951,15 +944,10 @@
 
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <script>
-    function formatTime(isoString) {
-      const date = new Date(isoString);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-      return `${year}-${month}-${day} ${hours}:${minutes}`;
-    }
+    const formatTime = (isoString) => {
+      const d = new Date(isoString);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+    };
 
     if (typeof window.supabase !== 'undefined') {
         const SUPABASE_URL = 'https://nwyjvswvgkilgsggnnid.supabase.co';
@@ -970,13 +958,17 @@
         const memoNewRecord = document.getElementById('memo-new-record');
         const statusText = document.getElementById('cloud-status');
 
-        const resetStatus = (triggerText) => {
-            setTimeout(() => { 
-                if(statusText.textContent === triggerText) {
-                    statusText.textContent="已连接";
-                    statusText.style.color="var(--accent)";
-                }
-            }, 1500);
+        const setStatus = (text, color = "var(--text-main)", autoReset = true) => {
+            statusText.textContent = text;
+            statusText.style.color = color;
+            if(autoReset) {
+                setTimeout(() => { 
+                    if(statusText.textContent === text) {
+                        statusText.textContent = "已连接";
+                        statusText.style.color = "var(--accent)";
+                    }
+                }, 1500);
+            }
         };
 
         window.copyMemo = async function(text) {
@@ -1016,8 +1008,7 @@
         }
 
         window.loadFromCloud = async function() {
-          statusText.textContent = "同步中...";
-          statusText.style.color = "var(--text-main)";
+          setStatus("同步中...", "var(--text-main)", false);
           try {
             const { data, error } = await supabase
               .from('memos')
@@ -1027,18 +1018,16 @@
             if (error) throw error;
             
             renderMemos(data);
-            statusText.textContent = "已连接";
-            statusText.style.color = "var(--accent)";
+            setStatus("已连接", "var(--accent)", false);
           } catch (err) {
             console.error("[Data Load Error]:", err);
-            statusText.textContent = "连接失败";
-            statusText.style.color = "#ff3b30";
+            setStatus("连接失败", "#ff3b30", false);
           }
         };
 
         window.deleteMemo = async function(id) {
             if(!confirm('数据消除确认：此操作不可逆。')) return;
-            statusText.textContent = "删除中...";
+            setStatus("删除中...", "var(--text-main)", false);
             try {
                 const { error } = await supabase.from('memos').delete().eq('id', id);
                 if (error) throw error;
@@ -1049,12 +1038,10 @@
                     setTimeout(() => targetNode.remove(), 200);
                 }
                 
-                statusText.textContent = "已删除";
-                resetStatus("已删除");
+                setStatus("已删除", "var(--text-main)");
             } catch (err) {
                 console.error("[Delete Error]:", err);
-                statusText.textContent = "删除被拦截";
-                statusText.style.color = "#ff3b30";
+                setStatus("删除被拦截", "#ff3b30", false);
             }
         };
 
@@ -1067,18 +1054,16 @@
 
             this.value = ''; 
             this.disabled = true; 
-            statusText.textContent = "发送中...";
+            setStatus("发送中...", "var(--text-main)", false);
             
             try {
               const { error } = await supabase.from('memos').insert([{ content: newText }]); 
               if (error) throw error;
               
-              statusText.textContent = "已封存";
-              resetStatus("已封存");
+              setStatus("已封存", "var(--text-main)");
             } catch (err) {
               console.error("[Save Error]:", err);
-              statusText.textContent = "保存失败";
-              statusText.style.color = "#ff3b30";
+              setStatus("保存失败", "#ff3b30", false);
               this.value = newText; 
             } finally {
               this.disabled = false;
@@ -1093,8 +1078,7 @@
             supabase.channel('public:memos')
               .on('postgres_changes', { event: '*', schema: 'public', table: 'memos' }, payload => {
                 debouncedLoadFromCloud();
-                statusText.textContent = "实时更新";
-                resetStatus("实时更新");
+                setStatus("实时更新", "var(--text-main)");
               }).subscribe();
         } catch (err) {
             console.warn("Realtime subscription disabled or failed.");
