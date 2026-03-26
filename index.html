@@ -524,10 +524,39 @@
       #back-top { bottom: calc(100px + env(safe-area-inset-bottom)); right: 20px; width: 38px; height: 38px; font-size: 16px; }
       #shortcut-panel .shortcut-card { margin: 20px; min-width: unset; }
     }
+    /* --- 背景视频适配：加在 </style> 之前 --- */
+#bg-video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  filter: brightness(0.6);
+  pointer-events: none;
+  background-color: #000;
+}
+
+/* 强制背景透明，否则视频会被挡住 */
+body, #app {
+  background: transparent !important;
+}
+
+/* 手机端自动加暗 */
+@media (max-width: 768px) {
+  #bg-video { filter: brightness(0.5); }
+}
   </style>
 </head>
 <body>
 
+  <video id="bg-video" autoplay loop muted playsinline preload="auto">
+  <source src="https://github.com/user-attachments/assets/1542c972-c303-4c28-b63d-9c32b5dd9a5f" type="video/mp4">
+</video>
   <div id="read-progress"></div>
   <div class="toast-container" id="toast-container"></div>
   <div class="mobile-overlay" id="mobile-overlay"></div>
