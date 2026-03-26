@@ -1,820 +1,527 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="robots" content="noindex, nofollow">
-  <title>JIN Tong｜导航收藏</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="JIN Tong">
-
-  <link rel="preload" href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap">
-  </noscript>
-
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='red' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/><path stroke='white' stroke-width='2' stroke-linecap='round' d='M2 2l20 20M2 7V2h5M17 22h5v-5'/></svg>">
-
-  <style>
-    /* ================= 极简高级美学系统变量 ================= */
-    :root {
-      --font-main: 'Long Cang', "Xingkai SC", "STXingkai", cursive;
-      --font-sys: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-      
-      --bg-base: #f4f5f7;
-      --bg-glow-1: radial-gradient(circle at 15% 50%, rgba(200, 215, 255, 0.4), transparent 50%);
-      --bg-glow-2: radial-gradient(circle at 85% 30%, rgba(255, 200, 220, 0.3), transparent 50%);
-      
-      --bg-sidebar: rgba(255, 255, 255, 0.6); 
-      --bg-card: rgba(255, 255, 255, 0.7); 
-      --bg-card-hover: rgba(255, 255, 255, 0.95);
-      
-      --border-color: rgba(0, 0, 0, 0.06);
-      --border-hover: rgba(0, 122, 255, 0.4);
-      
-      --text-main: #1d1d1f;
-      --text-sub: #86868b; 
-      --accent: #0071e3;
-      
-      --shadow-card: 0 4px 14px rgba(0, 0, 0, 0.03);
-      --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.08);
-      
-      --radius-sm: 12px;
-      --radius-md: 18px;
-      --radius-lg: 24px;
-      --blur-val: 30px; 
-      
-      --transition-fast: 0.2s ease;
-      --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    body.dark-mode {
-      --bg-base: #0a0a0c;
-      --bg-glow-1: radial-gradient(circle at 15% 50%, rgba(40, 55, 100, 0.5), transparent 50%);
-      --bg-glow-2: radial-gradient(circle at 85% 30%, rgba(80, 30, 60, 0.4), transparent 50%);
-      
-      --bg-sidebar: rgba(20, 20, 22, 0.65);
-      --bg-card: rgba(30, 30, 34, 0.6);
-      --bg-card-hover: rgba(45, 45, 50, 0.95);
-      
-      --border-color: rgba(255, 255, 255, 0.05);
-      --border-hover: rgba(41, 151, 255, 0.5);
-      
-      --text-main: #f5f5f7;
-      --text-sub: #a1a1a6;
-      --accent: #2997ff;
-      
-      --shadow-card: 0 4px 14px rgba(0, 0, 0, 0.4);
-      --shadow-hover: 0 12px 30px rgba(0, 0, 0, 0.6);
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.25); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(128,128,128,0.5); }
-    input, textarea { font-family: var(--font-sys); }
-
-    body {
-      font-family: var(--font-sys);
-      background-color: var(--bg-base);
-      background-image: var(--bg-glow-1), var(--bg-glow-2);
-      background-attachment: fixed;
-      color: var(--text-main);
-      height: 100vh;
-      overflow: hidden;
-      transition: background-color var(--transition-smooth), color var(--transition-fast);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    #app { display: grid; grid-template-columns: 280px 1fr; height: 100%; }
-
-    /* ================= 侧边栏 ================= */
-    aside {
-      background: var(--bg-sidebar);
-      backdrop-filter: blur(var(--blur-val));
-      -webkit-backdrop-filter: blur(var(--blur-val));
-      border-right: 1px solid var(--border-color);
-      padding: 36px 24px;
-      display: flex; flex-direction: column;
-      z-index: 1000;
-    }
-    
-    .brand { display: flex; align-items: center; gap: 16px; margin-bottom: 40px; cursor: pointer; user-select: none; }
-    @keyframes heartbeat { 0%, 28%, 70% { transform: scale(1); } 14%, 42% { transform: scale(1.12); } }
-    .brand-logo { width: 40px; height: 40px; color: #ff3b30; display: flex; align-items: center; justify-content: center; font-size: 28px; animation: heartbeat 2s infinite ease-in-out; }
-    .brand-text h1 { font-size: 22px; font-weight: 600; line-height: 1.1; letter-spacing: -0.5px; }
-    .brand-text span { font-size: 12px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-top: 4px; font-weight: 500; }
-
-    .search-box { position: relative; margin-bottom: 28px; }
-    .search-input {
-      width: 100%; padding: 12px 16px 12px 42px; background: rgba(128,128,128, 0.06);
-      border: 1px solid transparent; border-radius: var(--radius-sm); 
-      color: var(--text-main); font-size: 15px; transition: all var(--transition-fast); font-weight: 500;
-    }
-    .search-input::placeholder { color: var(--text-sub); font-weight: 400; }
-    .search-input:focus { background: var(--bg-card); border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15); }
-    .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-sub); }
-
-    .nav-scroll { flex: 1; overflow-y: auto; padding-right: 8px; margin-right: -8px; }
-    .nav-item {
-      padding: 10px 16px; border-radius: 10px; font-size: 15px; font-weight: 500; color: var(--text-sub);
-      text-decoration: none; display: flex; align-items: center; gap: 12px; transition: all var(--transition-fast); cursor: pointer; margin-bottom: 6px;
-    }
-    .nav-item:hover { background: rgba(128,128,128, 0.08); color: var(--text-main); }
-    .nav-item.active { background: var(--text-main); color: var(--bg-base); font-weight: 600; }
-    .nav-icon { font-size: 18px; }
-
-    .aside-footer { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-color); }
-    .time-badge {
-      font-size: 13px; color: var(--text-sub); font-family: SFMono-Regular, Consolas, monospace;
-      background: rgba(128,128,128, 0.06); padding: 8px 12px; border-radius: 8px; cursor: default;
-      display: flex; align-items: center; justify-content: space-between; font-weight: 500;
-    }
-
-    /* ================= 主内容区 (Bento Box 极简风) ================= */
-    main { padding: 56px 6vw; overflow-y: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
-
-    .hero-quote {
-      margin-bottom: 48px; padding: 48px; background-color: #1c1c1e; 
-      background-image: url('laopo.png'); background-size: cover; background-position: center;
-      border-radius: var(--radius-lg); border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-card); position: relative; overflow: hidden;
-    }
-    .hero-quote::before { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 100%); z-index: 1; }
-    .quote-text, .quote-sub { position: relative; z-index: 2; }
-    .quote-text { font-family: var(--font-main); font-size: 36px; line-height: 1.5; color: #ffffff; margin-bottom: 12px; text-shadow: 0 4px 12px rgba(0,0,0,0.6); }
-    .quote-sub { font-size: 13px; color: rgba(255,255,255,0.6); letter-spacing: 3px; text-transform: uppercase; font-weight: 600; }
-    .secret-trigger { cursor: pointer; transition: color var(--transition-fast); display: inline-block; position: relative; z-index: 10; }
-    .secret-trigger:hover { color: #fff; text-shadow: 0 0 16px rgba(255,255,255,1); }
-
-    .section-block { margin-bottom: 56px; scroll-margin-top: 40px; transition: opacity 0.3s; }
-    .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px; padding-left: 4px; }
-    .section-title { font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; letter-spacing: -0.5px;}
-    .section-count { font-size: 13px; color: var(--text-sub); text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;}
-
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
-
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-    .card {
-      background: var(--bg-card); backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
-      border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px;
-      cursor: pointer; display: flex; align-items: center; gap: 16px;
-      transition: all var(--transition-smooth); box-shadow: var(--shadow-card);
-      text-decoration: none; color: inherit; opacity: 0; animation: fadeUp 0.5s ease forwards;
-    }
-    .card:hover {
-      background: var(--bg-card-hover); border-color: var(--border-hover); transform: translateY(-3px);
-      box-shadow: var(--shadow-hover);
-    }
-
-    .icon-box {
-      flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; background: rgba(128,128,128, 0.08);
-      display: flex; align-items: center; justify-content: center; font-size: 22px; color: var(--text-main);
-    }
-    .card-body { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 0; }
-    .card-title { font-size: 15px; font-weight: 600; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .card-desc { font-size: 13px; color: var(--text-sub); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-
-    .hidden { display: none !important; }
-    
-    #empty-state { text-align: center; padding: 60px 20px; opacity: 0.6; animation: fadeUp 0.4s ease; }
-    #empty-state i { font-size: 48px; color: var(--text-sub); margin-bottom: 16px; display: block; }
-    #empty-state p { font-size: 16px; color: var(--text-main); font-weight: 500; }
-
-    .time-capsule {
-        margin-bottom: 56px; padding: 24px 32px; background: linear-gradient(135deg, #1c1c1e 0%, #000000 100%);
-        border-radius: var(--radius-lg); cursor: pointer; display: flex; align-items: center; justify-content: space-between;
-        box-shadow: var(--shadow-hover); border: 1px solid rgba(255,255,255,0.1); color: #fff;
-        transition: transform var(--transition-fast); text-decoration: none; 
-    }
-    .time-capsule:hover { transform: scale(1.01); border-color: rgba(255,255,255,0.3); }
-    .capsule-left { display: flex; align-items: center; gap: 20px; }
-    .capsule-icon-box { width: 48px; height: 48px; background: rgba(255,255,255,0.1); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
-    .capsule-info { display: flex; flex-direction: column; gap: 4px;}
-    .capsule-title { font-size: 18px; font-weight: 600; }
-    .capsule-desc { color: rgba(255,255,255,0.6); font-size: 14px; }
-    .capsule-arrow { font-size: 20px; opacity: 0.5; transition: opacity var(--transition-fast); }
-    .time-capsule:hover .capsule-arrow { opacity: 1; transform: translateX(5px); }
-
-    /* ================= 私密区域 ================= */
-    .sensitive-zone { position: relative; transition: all 0.5s ease; }
-    .sensitive-blur { filter: blur(16px) grayscale(50%); opacity: 0.4; transition: 0.5s ease; will-change: filter, opacity; pointer-events: none; }
-    .sensitive-mask { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5; pointer-events: none; }
-    .mask-badge {
-      background: rgba(0,0,0,0.85); color: #fff; backdrop-filter: blur(8px);
-      padding: 10px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
-      transition: var(--transition-fast); box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    }
-    .sensitive-zone:hover .sensitive-blur { filter: blur(4px) grayscale(20%); opacity: 0.6; }
-    .sensitive-zone.unlocked .sensitive-blur { filter: blur(0) grayscale(0); opacity: 1; pointer-events: auto; }
-    .sensitive-zone.unlocked .sensitive-mask { display: none; }
-
-    /* ================= 辅助界面与彩蛋 (全新流体彩虹开屏) ================= */
-    #splash {
-      position: fixed; inset: 0; z-index: 9999;
-      /* 极其高级、柔和且充满呼吸感的流彩背景 */
-      background: linear-gradient(124deg, #ff8a00, #e52e71, #9b51e0, #4facfe, #00f2fe, #4facfe, #9b51e0, #e52e71);
-      background-size: 400% 400%;
-      animation: rainbowSplash 12s ease infinite;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      transition: opacity 0.8s ease, visibility 0.8s; user-select: none;
-    }
-    @keyframes rainbowSplash {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .splash-quote { font-family: var(--font-main); font-size: 36px; text-align: center; line-height: 1.6; color: #fff; padding: 0 30px; text-shadow: 0 4px 24px rgba(0,0,0,0.25); }
-
-    /* 云端手记 UI (全中文操作体系) */
-    #ghost-memo {
-      position: fixed; bottom: 40px; right: 40px; width: 360px; height: 500px;
-      background: var(--bg-sidebar); color: var(--text-main); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-      border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px; display: flex; flex-direction: column;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15); transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none;
-      transition: all var(--transition-smooth); z-index: 1000;
-    }
-    #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
-    #memo-content { flex: 1; border-radius: 12px; padding: 4px; margin: 12px 0; overflow-y: auto; }
-    .memo-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px; margin-bottom: 8px; background: rgba(128,128,128,0.05); border-radius: 12px; font-size: 14px; line-height: 1.5; }
-    .memo-text { flex: 1; word-break: break-all; white-space: pre-wrap; cursor: pointer; opacity: 0.9; transition: opacity var(--transition-fast); }
-    .memo-text:hover { opacity: 1; }
-    .memo-time { font-size: 11px; opacity: 0.5; display: block; margin-bottom: 6px; font-family: monospace; }
-    .memo-delete { cursor: pointer; color: #ff3b30; opacity: 0; padding: 0 4px; margin-left: 8px; font-size: 18px; line-height: 1; }
-    .memo-item:hover .memo-delete { opacity: 0.7; }
-    .memo-delete:hover { opacity: 1 !important; transform: scale(1.2); }
-    #memo-new-record {
-      width: 100%; background: rgba(128,128,128, 0.08); border: 1px solid transparent; border-radius: 12px; padding: 14px;
-      color: var(--text-main); font-size: 14px; transition: all var(--transition-fast);
-    }
-    #memo-new-record:focus { background: var(--bg-card); border-color: var(--accent); outline: none; }
-    .action-btn { font-size: 13px; font-weight: 600; cursor: pointer; opacity: 0.6; transition: all var(--transition-fast); user-select: none; }
-    .action-btn:hover { opacity: 1; color: var(--accent); }
-
-    #panic-overlay { position: fixed; inset: 0; background: var(--bg-base); z-index: 99999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; font-family: monospace; }
-    #panic-overlay.active { opacity: 1; pointer-events: auto; }
-    .toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
-    .toast { background: rgba(0, 0, 0, 0.85); color: #fff; font-size: 13px; font-weight: 500; padding: 12px 24px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); animation: toast-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards, toast-out 0.3s 2.5s forwards; backdrop-filter: blur(10px); }
-    @keyframes toast-in { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    @keyframes toast-out { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-20px); opacity: 0; } }
-    
-    .mobile-header, .mobile-overlay { display: none; }
-
-    @media (max-width: 768px) {
-      body { height: 100dvh; } #app { display: flex; flex-direction: column; }
-      .mobile-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: var(--bg-sidebar); backdrop-filter: blur(var(--blur-val)); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 900; }
-      .mh-left { display: flex; align-items: center; gap: 16px; flex: 1; }
-      .mh-logo { color: #ff3b30; font-size: 26px; animation: heartbeat 2s infinite; }
-      .mh-search-box { flex: 1; position: relative; }
-      .mh-search-box input { width: 100%; padding: 10px 14px 10px 36px; border-radius: var(--radius-sm); font-size: 15px; background: rgba(128,128,128, 0.08); border: none; color: var(--text-main); }
-      .mh-search-box i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-sub); }
-      .mh-menu-btn { font-size: 24px; color: var(--text-main); cursor: pointer; }
-      aside { position: fixed; top: 0; left: -100%; bottom: 0; width: 280px; height: 100dvh; transition: left var(--transition-smooth); box-shadow: 10px 0 30px rgba(0,0,0,0.1); }
-      aside.open { left: 0; }
-      .mobile-overlay { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(2px); z-index: 990; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
-      .mobile-overlay.open { opacity: 1; pointer-events: auto; }
-      main { padding: 24px 20px calc(80px + env(safe-area-inset-bottom)) 20px; }
-      .grid { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); }
-      .hero-quote { padding: 32px 24px; margin-bottom: 32px; }
-      .quote-text { font-size: 28px; }
-      #ghost-memo { width: auto; left: 16px; right: 16px; bottom: calc(20px + env(safe-area-inset-bottom)); height: 70vh; }
-    }
-  </style>
+<meta charset="UTF-8"><meta name="robots" content="noindex, nofollow">
+<title>JIN Tong｜导航收藏</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='red' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"></noscript>
+<style>
+:root {
+  --font-sys: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  --bg-sidebar: rgba(255, 255, 255, 0.35); --bg-card: rgba(255, 255, 255, 0.45); --bg-card-hover: rgba(255, 255, 255, 0.85);
+  --border-color: rgba(255, 255, 255, 0.3); --border-hover: rgba(0, 113, 227, 0.6);
+  --text-main: #1d1d1f; --text-sub: #5a5a5e; --accent: #0071e3;
+  --shadow-card: 0 4px 14px rgba(0, 0, 0, 0.05); --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.12);
+  --radius-sm: 12px; --radius-md: 18px; --radius-lg: 24px; --blur-val: 30px;
+  --transition-fast: 0.2s ease; --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes globalFluidRainbow { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
+/* 极简高级主页面流体彩虹 */
+body {
+  font-family: var(--font-sys); margin: 0; padding: 0; height: 100vh; overflow: hidden;
+  background: linear-gradient(120deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb, #fbc2eb);
+  background-size: 300% 300%; animation: globalFluidRainbow 15s ease infinite; background-attachment: fixed;
+  color: var(--text-main); transition: color var(--transition-fast); -webkit-font-smoothing: antialiased;
+}
+body.dark-mode {
+  background: linear-gradient(120deg, #2A0845, #6441A5, #120E1F, #040914, #1D2671);
+  --bg-sidebar: rgba(20, 20, 22, 0.5); --bg-card: rgba(30, 30, 34, 0.55); --bg-card-hover: rgba(45, 45, 50, 0.95);
+  --border-color: rgba(255, 255, 255, 0.08); --border-hover: rgba(41, 151, 255, 0.5);
+  --text-main: #f5f5f7; --text-sub: #a1a1a6; --accent: #2997ff;
+  --shadow-card: 0 4px 14px rgba(0, 0, 0, 0.4); --shadow-hover: 0 12px 30px rgba(0, 0, 0, 0.6);
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.25); border-radius: 10px; }
+#app { display: grid; grid-template-columns: 280px 1fr; height: 100%; }
+aside { background: var(--bg-sidebar); backdrop-filter: blur(var(--blur-val)); border-right: 1px solid var(--border-color); padding: 36px 24px; display: flex; flex-direction: column; z-index: 1000; }
+.brand { display: flex; align-items: center; gap: 16px; margin-bottom: 40px; cursor: pointer; user-select: none; }
+@keyframes heartbeat { 0%, 28%, 70% { transform: scale(1); } 14%, 42% { transform: scale(1.12); } }
+.brand-logo { width: 40px; height: 40px; color: #ff3b30; display: flex; align-items: center; justify-content: center; font-size: 28px; animation: heartbeat 2s infinite ease-in-out; }
+.brand-text h1 { font-size: 22px; margin:0; font-weight: 600; line-height: 1.1; letter-spacing: -0.5px; }
+.brand-text span { font-size: 12px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-top: 4px; font-weight: 500; }
+.search-box { position: relative; margin-bottom: 28px; }
+.search-input { width: 100%; padding: 12px 16px 12px 42px; background: rgba(128,128,128, 0.1); border: 1px solid var(--border-color); border-radius: var(--radius-sm); color: var(--text-main); font-size: 15px; transition: all var(--transition-fast); outline: none;}
+.search-input:focus { background: var(--bg-card); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2); }
+.search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-sub); }
+.nav-scroll { flex: 1; overflow-y: auto; padding-right: 8px; margin-right: -8px; }
+.nav-item { padding: 10px 16px; border-radius: 10px; font-size: 15px; font-weight: 500; color: var(--text-sub); text-decoration: none; display: flex; align-items: center; gap: 12px; transition: all var(--transition-fast); cursor: pointer; margin-bottom: 6px; }
+.nav-item:hover { background: rgba(128,128,128, 0.1); color: var(--text-main); }
+.nav-item.active { background: var(--text-main); color: #fff; font-weight: 600; }
+body.dark-mode .nav-item.active { color: #000; }
+.aside-footer { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-color); }
+.time-badge { font-size: 13px; color: var(--text-sub); font-family: monospace; background: rgba(128,128,128, 0.1); padding: 8px 12px; border-radius: 8px; display: flex; justify-content: space-between; font-weight: 500; border: 1px solid var(--border-color); }
+main { padding: 56px 6vw; overflow-y: auto; scroll-behavior: smooth; }
+.hero-quote { margin-bottom: 48px; padding: 48px; background-color: #1c1c1e; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-card); position: relative; overflow: hidden; }
+.hero-quote::before { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 100%); z-index: 1; }
+.quote-text, .quote-sub { position: relative; z-index: 2; color: #fff; }
+.quote-text { font-size: 32px; line-height: 1.5; margin-bottom: 12px; font-style: italic;}
+.quote-sub { font-size: 13px; color: rgba(255,255,255,0.6); letter-spacing: 3px; text-transform: uppercase; font-weight: 600; }
+.secret-trigger { cursor: pointer; transition: color var(--transition-fast); display: inline-block; position: relative; z-index: 10; }
+.secret-trigger:hover { text-shadow: 0 0 16px rgba(255,255,255,1); }
+.section-block { margin-bottom: 56px; scroll-margin-top: 40px; transition: opacity 0.3s; }
+.section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px; }
+.section-title { font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; letter-spacing: -0.5px;}
+.section-count { font-size: 13px; color: var(--text-sub); text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;}
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+@keyframes fadeUp { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
+.card { background: var(--bg-card); backdrop-filter: blur(var(--blur-val)); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; cursor: pointer; display: flex; align-items: center; gap: 16px; transition: all var(--transition-smooth); box-shadow: var(--shadow-card); text-decoration: none; color: inherit; opacity: 0; animation: fadeUp 0.5s ease forwards; }
+.card:hover { background: var(--bg-card-hover); border-color: var(--border-hover); transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+.icon-box { flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; background: rgba(128,128,128, 0.1); display: flex; align-items: center; justify-content: center; font-size: 22px; color: var(--text-main); border: 1px solid var(--border-color); }
+.card-body { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 0; }
+.card-title { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-desc { font-size: 13px; color: var(--text-sub); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.hidden { display: none !important; }
+#empty-state { text-align: center; padding: 60px 20px; opacity: 0.6; animation: fadeUp 0.4s ease; }
+#empty-state i { font-size: 48px; color: var(--text-sub); margin-bottom: 16px; display: block; }
+#empty-state p { font-size: 16px; margin:0; font-weight: 500; }
+.time-capsule { margin-bottom: 56px; padding: 24px 32px; background: linear-gradient(135deg, #1c1c1e 0%, #000000 100%); border-radius: var(--radius-lg); cursor: pointer; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-hover); border: 1px solid rgba(255,255,255,0.1); color: #fff; transition: transform var(--transition-fast); text-decoration: none; }
+.time-capsule:hover { transform: scale(1.01); border-color: rgba(255,255,255,0.3); }
+.capsule-left { display: flex; align-items: center; gap: 20px; }
+.capsule-icon-box { width: 48px; height: 48px; background: rgba(255,255,255,0.1); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+.capsule-info { display: flex; flex-direction: column; gap: 4px;}
+.capsule-title { font-size: 18px; font-weight: 600; }
+.capsule-desc { color: rgba(255,255,255,0.6); font-size: 14px; }
+.sensitive-zone { position: relative; transition: all 0.5s ease; }
+.sensitive-blur { filter: blur(16px) grayscale(50%); opacity: 0.4; transition: 0.5s ease; pointer-events: none; }
+.sensitive-mask { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5; pointer-events: none; }
+.mask-badge { background: rgba(0,0,0,0.85); color: #fff; backdrop-filter: blur(8px); padding: 10px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+.sensitive-zone.unlocked .sensitive-blur { filter: blur(0) grayscale(0); opacity: 1; pointer-events: auto; }
+.sensitive-zone.unlocked .sensitive-mask { display: none; }
+/* 高级开屏彩虹渲染 */
+#splash {
+  position: fixed; inset: 0; z-index: 9999;
+  background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e513, #1de840, #1ddde8, #2b1de8, #dd00f3);
+  background-size: 400% 400%; animation: globalFluidRainbow 8s ease infinite;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.8s ease, visibility 0.8s; user-select: none;
+}
+.splash-quote { font-size: 32px; font-style: italic; text-align: center; line-height: 1.6; color: #fff; padding: 0 30px; text-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+/* 备忘录架构 */
+#ghost-memo {
+  position: fixed; bottom: 40px; right: 40px; width: 360px; height: 500px;
+  background: var(--bg-sidebar); backdrop-filter: blur(40px); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px; display: flex; flex-direction: column;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15); transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none; transition: all var(--transition-smooth); z-index: 1000;
+}
+#ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
+#memo-content { flex: 1; border-radius: 12px; padding: 4px; margin: 12px 0; overflow-y: auto; }
+.memo-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px; margin-bottom: 8px; background: rgba(128,128,128,0.1); border-radius: 12px; font-size: 14px; line-height: 1.5; }
+.memo-text { flex: 1; word-break: break-all; white-space: pre-wrap; cursor: pointer; opacity: 0.9; }
+.memo-time { font-size: 11px; opacity: 0.5; display: block; margin-bottom: 6px; font-family: monospace; }
+.memo-delete { cursor: pointer; color: #ff3b30; font-style: normal; font-size: 18px; line-height: 1; margin-left: 8px; opacity: 0; transition:0.2s;}
+.memo-item:hover .memo-delete { opacity: 0.8; }
+#memo-new-record { width: 100%; background: rgba(128,128,128, 0.1); border: 1px solid transparent; border-radius: 12px; padding: 14px; color: var(--text-main); font-size: 14px; outline: none; }
+#memo-new-record:focus { background: var(--bg-card); border-color: var(--accent); }
+.cn-btn { font-size: 13px; font-weight: 600; cursor: pointer; padding: 4px 8px; border-radius: 6px; background: rgba(128,128,128,0.15); transition: 0.2s; user-select: none; }
+.cn-btn:hover { background: var(--text-main); color: var(--bg-base); }
+#panic-overlay { position: fixed; inset: 0; background: var(--bg-base); z-index: 99999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+#panic-overlay.active { opacity: 1; pointer-events: auto; }
+.toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { background: rgba(0,0,0,0.85); color: #fff; font-size: 13px; font-weight: 500; padding: 12px 24px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); animation: toast-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards, toast-out 0.3s 2.5s forwards; }
+@keyframes toast-in { from {transform:translateY(100%); opacity:0;} to {transform:translateY(0); opacity:1;} }
+@keyframes toast-out { from {transform:translateY(0); opacity:1;} to {transform:translateY(-20px); opacity:0;} }
+.mobile-header, .mobile-overlay { display: none; }
+@media (max-width: 768px) {
+  body { height: 100dvh; } #app { display: flex; flex-direction: column; }
+  .mobile-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: var(--bg-sidebar); backdrop-filter: blur(var(--blur-val)); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 900; }
+  .mh-left { display: flex; align-items: center; gap: 16px; flex: 1; }
+  .mh-logo { color: #ff3b30; font-size: 26px; animation: heartbeat 2s infinite; }
+  .mh-search-box { flex: 1; position: relative; }
+  .mh-search-box input { width: 100%; padding: 10px 14px 10px 36px; border-radius: var(--radius-sm); font-size: 15px; background: rgba(128,128,128, 0.1); border: none; color: var(--text-main); }
+  .mh-search-box i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-sub); }
+  .mh-menu-btn { font-size: 24px; color: var(--text-main); cursor: pointer; }
+  aside { position: fixed; top: 0; left: -100%; bottom: 0; width: 280px; height: 100dvh; transition: left var(--transition-smooth); box-shadow: 10px 0 30px rgba(0,0,0,0.1); }
+  aside.open { left: 0; }
+  .mobile-overlay { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 990; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .mobile-overlay.open { opacity: 1; pointer-events: auto; }
+  main { padding: 24px 20px 100px; } .grid { grid-template-columns: 1fr; }
+  #ghost-memo { width: auto; left: 16px; right: 16px; bottom: 20px; height: 70vh; }
+  .memo-delete { opacity: 1; }
+}
+</style>
 </head>
 <body>
+<div class="toast-container" id="toast-container"></div>
+<div class="mobile-overlay" id="mobile-overlay"></div>
 
-  <div class="toast-container" id="toast-container"></div>
-  <div class="mobile-overlay" id="mobile-overlay"></div>
+<div id="panic-overlay">
+  <div style="text-align: center;">
+    <h1 style="font-size: 80px; margin: 0;">404</h1>
+    <p style="font-size: 20px; color: var(--text-sub);">Not Found</p>
+  </div>
+</div>
 
-  <div id="panic-overlay">
-    <div style="text-align: center;">
-      <h1 style="font-size: 80px; margin: 0; color: var(--text-main);">404</h1>
-      <p style="font-size: 20px; color: var(--text-sub);">Not Found</p>
-      <div style="margin-top: 20px; color: var(--text-sub); font-size: 13px;">nginx/1.18.0 (Ubuntu)</div>
-    </div>
+<div id="splash">
+  <div class="splash-quote">
+    <p style="text-align: left; margin:0;">
+      走了很长的路，也见过很多风景。<br>
+      唯独星空深处的那轮明月最不认生。<br>
+      它在异乡的窗前，守着当年我在故乡没做完的梦。<br><br>
+      回头看，<span onclick="window.closeSplash()" style="cursor: pointer; opacity: 0.9; text-decoration:underline;">轻舟</span>已过万重山；<br>
+      向前看，长路漫漫亦灿烂。
+    </p>
+  </div>
+</div>
+
+<div id="app">
+  <div class="mobile-header" id="mobile-header">
+    <div class="mh-left"><div class="mh-logo" onclick="document.body.classList.toggle('dark-mode')"><i class="ri-heart-3-fill"></i></div>
+    <div class="mh-search-box"><i class="ri-search-2-line"></i><input type="text" class="search-input" placeholder="Search..."></div></div>
+    <div class="mh-menu-btn" id="mobile-menu-btn"><i class="ri-menu-4-line"></i></div>
   </div>
 
-  <div id="splash">
-    <div class="splash-quote">
-      <p style="text-align: left;">
-        走了很长的路，也见过很多风景。<br>
-        唯独星空深处的那轮明月最不认生。<br>
-        它在异乡的窗前，守着当年我在故乡没做完的梦。<br><br>
-        回头看，<span onclick="window.closeSplash()" style="cursor: pointer; opacity: 0.9;">轻舟</span>已过万重山；<br>
-        向前看，长路漫漫亦灿烂。
-      </p>
+  <aside id="sidebar">
+    <div class="brand" id="theme-toggle" title="切换模式">
+      <div class="brand-logo"><i class="ri-heart-3-fill"></i></div>
+      <div class="brand-text"><h1>JIN Tong</h1><span>ARCHIVE</span></div>
+    </div>
+    <div class="search-box"><i class="ri-search-2-line search-icon"></i><input type="text" class="search-input" placeholder="Search (Ctrl+K)"></div>
+    <div class="nav-scroll" id="nav-container"></div>
+    <div class="aside-footer"><div class="time-badge"><span id="date-pill"></span><span id="time-pill">00:00</span></div></div>
+  </aside>
+
+  <main>
+    <div class="hero-quote">
+      <div class="quote-text">天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，却从未失那颗赤子之心，<span class="secret-trigger" onclick="window.toggleMemo()">凌云</span>之志。</div>
+      <div class="quote-sub">Long live freedom / Visual Archive</div>
+    </div>
+    <a class="time-capsule" href="https://archive.org/" target="_blank" rel="noopener noreferrer">
+      <div class="capsule-left"><div class="capsule-icon-box"><i class="ri-bank-line"></i></div><div class="capsule-info"><span class="capsule-title">互联网档案馆</span><span class="capsule-desc">查询全球互联网历史页面的免费数据库</span></div></div>
+      <i class="ri-arrow-right-line capsule-arrow"></i>
+    </a>
+    
+    <div id="empty-state" class="hidden">
+      <i class="ri-ghost-line"></i><p>当前象限未捕捉到相关信号...</p>
+    </div>
+    <div id="dynamic-grid-container"></div>
+  </main>
+</div>
+
+<div id="ghost-memo">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--border-color);">
+    <span style="font-size:16px; font-weight:600;">云端手记</span>
+    <div style="display:flex; gap:12px; align-items:center;">
+      <span id="cloud-status" style="font-size:12px; font-weight:600; color:var(--accent);">待机中</span>
+      <div class="cn-btn" id="cloud-sync-btn">同步</div>
+      <div class="cn-btn" onclick="window.toggleMemo()">关闭</div>
     </div>
   </div>
+  <div id="memo-content"></div>
+  <input type="text" id="memo-new-record" placeholder="写入新记录，回车封存..." autocomplete="off">
+</div>
 
-  <div id="app">
-    <div class="mobile-header" id="mobile-header">
-      <div class="mh-left">
-        <div class="mh-logo" onclick="document.body.classList.toggle('dark-mode')"><i class="ri-heart-3-fill"></i></div>
-        <div class="mh-search-box"><i class="ri-search-2-line"></i><input type="text" class="search-input" placeholder="Search..."></div>
-      </div>
-      <div class="mh-menu-btn" id="mobile-menu-btn"><i class="ri-menu-4-line"></i></div>
-    </div>
+<script>
+// JSON 数据源引擎
+const navData = [
+  {id: "sec-daily", title: "资讯", count: "Tech", icon: "ri-newspaper-line", links: [
+    {title: "36氪", url: "https://36kr.com/", icon: "📰", desc: "国内前沿的科技与商业创投新闻"},
+    {title: "少数派", url: "https://sspai.com/", icon: "📱", desc: "提升工作效率的数码产品和软件教程"},
+    {title: "V2EX", url: "https://www.v2ex.com/", icon: "💬", desc: "程序员和技术爱好者的交流社区"},
+    {title: "Product Hunt", url: "https://www.producthunt.com/", icon: "🚀", desc: "每天发现并推荐全球最新发布的软件"},
+    {title: "TopGear", url: "https://www.topgear.com/car-news", icon: "🏎️", desc: "全球顶尖的汽车资讯和专业评测"},
+    {title: "Gadget Flow", url: "https://thegadgetflow.com/", icon: "🧰", desc: "浏览和购买全球各种新奇有趣的数码好物"},
+    {title: "想买这个", url: "https://www.dudeiwantthat.com/", icon: "🛒", desc: "专门推荐各种奇特、少见的创意商品"},
+    {title: "CryptoPanic", url: "https://www.cryptopanic.com", icon: "📉", desc: "整合全网加密货币最新动态的新闻网站"}
+  ]},
+  {id: "sec-news", title: "权威新闻", count: "News", icon: "ri-global-line", links: [
+    {title: "路透社", url: "https://www.reuters.com/", icon: "🌐", desc: "全球领先的国际新闻与金融数据通讯社"},
+    {title: "美联社", url: "https://apnews.com/", icon: "📡", desc: "全球最大、历史最悠久的独立新闻通讯社之一"},
+    {title: "BBC 新闻", url: "https://www.bbc.com/news", icon: "🎙️", desc: "英国广播公司旗下的国际权威多媒体新闻播报"},
+    {title: "彭博社", url: "https://www.bloomberg.com/", icon: "📈", desc: "全球商业、金融信息和财经新闻的权威提供商"},
+    {title: "华尔街日报", url: "https://www.wsj.com/", icon: "📰", desc: "侧重金融与商业领域的全球顶尖财经报纸"},
+    {title: "纽约时报", url: "https://www.nytimes.com/", icon: "🗞️", desc: "具有全球影响力的美国老牌权威综合性日报"},
+    {title: "联合早报", url: "https://www.zaobao.com/", icon: "🌏", desc: "新加坡领先的华文综合性客观新闻媒体"},
+    {title: "新华社", url: "http://www.news.cn/", icon: "🇨🇳", desc: "中国国家通讯社及世界性通讯社"}
+  ]},
+  {id: "sec-ai", title: "AI 与大模型", count: "AI", icon: "ri-brain-line", links: [
+    {title: "ChatGPT", url: "https://chatgpt.com", icon: "🧠", desc: "全球最强大的AI人工智能文字对话助手"},
+    {title: "Gemini", url: "https://gemini.google.com/", icon: "✨", desc: "谷歌公司推出的官方智能AI模型助手"},
+    {title: "Grok", url: "https://grok.com", icon: "✖️", desc: "马斯克团队开发的能够实时联网分析的AI"},
+    {title: "Perplexity", url: "https://www.perplexity.ai", icon: "🔎", desc: "通过AI直接帮你总结答案的智能搜索引擎"},
+    {title: "Midjourney", url: "https://www.midjourney.com", icon: "🖌️", desc: "输入文字描述就能自动生成高质量图片的AI"},
+    {title: "Runway", url: "https://runwayml.com", icon: "🎥", desc: "专业的AI视频生成与特效剪辑工具平台"},
+    {title: "Suno", url: "https://www.suno.ai", icon: "🎧", desc: "输入歌词就能自动生成带人声和伴奏的歌曲"},
+    {title: "ElevenLabs", url: "https://elevenlabs.io", icon: "🎙️", desc: "极其逼真的AI文字转语音与人声克隆技术"},
+    {title: "Gamma", url: "https://gamma.app", icon: "📊", desc: "输入大纲或主题，AI一键自动生成排版精美的PPT"},
+    {title: "Nvidia AI", url: "https://www.nvidia.com/en-us/research/ai-playground", icon: "🟢", desc: "英伟达官方提供的前沿AI技术免费体验专区"},
+    {title: "Futurepedia", url: "https://futurepedia.io", icon: "🧭", desc: "收录全球各种最新AI工具的分类导航网站"}
+  ]},
+  {id: "sec-webmaster", title: "站长", count: "Infra", icon: "ri-server-line", links: [
+    {title: "Decodo", url: "https://dashboard.decodo.com", icon: "🎛️", desc: "提供高匿名性和高防安全保护的网络代理服务"},
+    {title: "GitHub", url: "https://github.com/dh6598726-stack/woaibixia", icon: "📦", desc: "全球程序员用来托管代码和开源软件的网站"},
+    {title: "Porkbun", url: "https://porkbun.com/account/domainsSpeedy", icon: "🐷", desc: "价格便宜且界面好用的国外网站域名购买平台"},
+    {title: "Cloudflare", url: "https://dash.cloudflare.com/", icon: "☁️", desc: "为网站提供免费加速(CDN)和防黑客攻击的安全服务"},
+    {title: "Thordata", url: "https://dashboard.thordata.com/", icon: "🌐", desc: "提供流量中转与网络加速的专业平台"},
+    {title: "IPFoxy", url: "https://app.ipfoxy.net/login?_bt=2", icon: "🦊", desc: "提供干净无污染的独享IP代理服务"},
+    {title: "2FA 在线", url: "https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq", icon: "🛡️", desc: "在线生成账号登录所需的动态双重验证码"},
+    {title: "Vercel", url: "https://vercel.com", icon: "🚀", desc: "前端开发者可免费将网页代码一键部署上线的平台"},
+    {title: "Cusdis", url: "https://cusdis.com/", icon: "💬", desc: "一款注重隐私、极简轻量的开源网站留言评论系统"}
+  ]},
+  {id: "sec-geek", title: "代码", count: "Cyber", icon: "ri-shield-keyhole-line", links: [
+    {title: "StackOverflow", url: "https://stackoverflow.com", icon: "💡", desc: "全球最大的程序员代码报错与技术问答社区"},
+    {title: "Replit", url: "https://replit.com", icon: "💻", desc: "无需本地环境配置，打开网页就能直接写代码的平台"},
+    {title: "CodePen", url: "https://codepen.io", icon: "🧪", desc: "前端网页开发者的代码在线测试与作品展示库"},
+    {title: "Lusion", url: "https://lusion.co/", icon: "✨", desc: "展示行业顶尖3D前端交互与视觉效果的网站"},
+    {title: "Geektyper", url: "https://geektyper.com/", icon: "⌨️", desc: "模拟影视剧中黑客敲击代码界面的娱乐工具"},
+    {title: "Ping.pe", url: "https://ping.pe", icon: "📡", desc: "测试你的网站在世界各地网络连通性的工具"},
+    {title: "HackerOne", url: "https://www.hackerone.com", icon: "🛡️", desc: "帮大型企业寻找系统安全漏洞并获取合法奖金的平台"},
+    {title: "Bugcrowd", url: "https://www.bugcrowd.com", icon: "🏢", desc: "网络安全专家的线上安全众测与漏洞赏金平台"},
+    {title: "TryHackMe", url: "https://tryhackme.com", icon: "🎓", desc: "适合初学者的网络安全渗透测试学习与实践网站"},
+    {title: "HackTheBox", url: "https://www.hackthebox.com", icon: "🧨", desc: "专业黑客用来进行攻防实战模拟的虚拟训练场"},
+    {title: "Exploit-DB", url: "https://www.exploit-db.com", icon: "📂", desc: "收录最新公开系统漏洞与攻击测试代码的权威数据库"},
+    {title: "OWASP", url: "https://owasp.org", icon: "📜", desc: "提供Web应用程序安全开发标准与规范的组织组织"},
+    {title: "Kali Linux", url: "https://www.kali.org", icon: "🐉", desc: "专用于渗透测试和安全审计的Linux操作系统官网"},
+    {title: "Netsec", url: "https://www.reddit.com/r/netsec/", icon: "🧬", desc: "讨论最新网络安全漏洞与行业情报的活跃社区"},
+    {title: "VirusTotal", url: "https://www.virustotal.com/gui/home/upload", icon: "🧫", desc: "上传可疑文件或网址，集合几十家杀毒引擎免费查毒"},
+    {title: "Shodan", url: "https://www.shodan.io/", icon: "🛰️", desc: "专门用来检索全球联网智能设备(如摄像头)的搜索引擎"},
+    {title: "卡巴斯基图", url: "https://cybermap.kaspersky.com/", icon: "☣️", desc: "在3D地球仪上实时动态展示全球发生的网络攻击情况"}
+  ]},
+  {id: "sec-design", title: "视觉", count: "Design", icon: "ri-palette-line", links: [
+    {title: "Pinterest", url: "https://www.pinterest.com/", icon: "🖼️", desc: "全球知名的瀑布流图片分享与设计灵感采集网站"},
+    {title: "Behance", url: "https://www.behance.net", icon: "🎨", desc: "Adobe旗下的全球顶尖设计师原创作品展示平台"},
+    {title: "花瓣网", url: "https://huaban.com/", icon: "🌸", desc: "国内主流的设计师素材采集与灵感管理平台"},
+    {title: "Unsplash", url: "https://unsplash.com", icon: "📷", desc: "提供完全免费、且可自由商用的高质量摄影图片库"},
+    {title: "Pexels", url: "https://www.pexels.com/", icon: "📸", desc: "免费且支持高质量商业用途的图库与视频素材库"},
+    {title: "Pixabay", url: "https://pixabay.com/", icon: "🌄", desc: "提供海量无版权限制的免费插画、矢量图与配图库"},
+    {title: "Wallhaven", url: "https://wallhaven.cc/", icon: "🖼️", desc: "公认质量最高的电脑高清桌面壁纸下载网站"},
+    {title: "高清壁纸", url: "https://wallpaperswide.com/", icon: "🖥️", desc: "提供支持各种宽屏与高分辨率显示器的电脑壁纸"},
+    {title: "彼岸图网", url: "https://pic.netbian.com/", icon: "🌉", desc: "国内提供原生4K极清画质电脑桌面壁纸的网站"},
+    {title: "Cool BG", url: "https://coolbackgrounds.io/", icon: "🟦", desc: "专门生成极简主义的纯色、渐变与几何图案背景"},
+    {title: "Photopea", url: "https://www.photopea.com", icon: "🖊️", desc: "无需安装，界面和功能高度类似Photoshop的在线修图工具"},
+    {title: "Remove.bg", url: "https://www.remove.bg", icon: "✂️", desc: "上传图片即可利用AI精准去除背景并生成透明底图"},
+    {title: "Canva", url: "https://www.canva.com", icon: "🎨", desc: "提供海量预设模板的在线平面设计与海报制作工具"},
+    {title: "美丽数据", url: "https://informationisbeautiful.net", icon: "📈", desc: "将枯燥的数据转化为直观、精美的数据可视化图表"}
+  ]},
+  {id: "sec-explore", title: "探索", count: "Explore", icon: "ri-earth-line", links: [
+    {title: "谷歌地球", url: "https://earth.google.com", icon: "🌎", desc: "提供全球高分辨率卫星图像的3D虚拟地球仪"},
+    {title: "天巡", url: "https://www.skyscanner.com", icon: "🎫", desc: "全球性的廉价航空与国际航班比价预订平台"},
+    {title: "全球航线图", url: "https://www.flightconnections.com", icon: "🛫", desc: "直观展示全球所有民航机场之间的直飞航线地图"},
+    {title: "奇趣地图", url: "https://www.atlasobscura.com", icon: "🗺️", desc: "收录全球罕见、猎奇、小众探险景点的旅行指南"},
+    {title: "EarthCam", url: "https://www.earthcam.com/", icon: "📹", desc: "汇集全球知名地标建筑与公共区域的实时直播摄像头"},
+    {title: "旅游镜头", url: "https://www.webcams.travel/", icon: "🔭", desc: "提供全球各大风景区、沙滩及自然景观的实时快照"},
+    {title: "WindowSwap", url: "http://www.window-swap.com/", icon: "🪟", desc: "随机向你展示世界各地陌生人窗外的视频风景"},
+    {title: "日本窗景", url: "http://www.window-swap-japan.com/", icon: "🗾", desc: "专门收集并展示日本各地家庭窗外的静谧风景"},
+    {title: "MapCrunch", url: "https://www.mapcrunch.com", icon: "🧭", desc: "随机将你传送到全球某个角落的谷歌街景中"},
+    {title: "任意门", url: "https://www.thesecretdoor.com/", icon: "🚪", desc: "点击门把手，随机带你参观世界各地的奇异场景"},
+    {title: "自然生态", url: "https://explore.org/", icon: "🐼", desc: "提供全球野生动物和自然保护区的高清实时直播"},
+    {title: "虚拟视窗", url: "http://www.virtualwindow.com/", icon: "🖼️", desc: "提供用于放松身心的循环自然风景视频画面"},
+    {title: "NASA每日图", url: "https://apod.nasa.gov/apod/astropix.html", icon: "🚀", desc: "美国国家航空航天局每日更新的一张天文摄影图片"},
+    {title: "看手指", url: "https://pointerpointer.com/", icon: "👉", desc: "娱乐网站：鼠标停在哪里，就会显示一张指着该处的照片"},
+    {title: "流量雷达", url: "https://radar.cloudflare.com/", icon: "🌐", desc: "从宏观视角展示全球互联网流量趋势与网络拥堵情况"},
+    {title: "实时航班", url: "https://www.flightradar24.com/", icon: "🛫", desc: "在地图上实时追踪全球正在飞行的客机动态"},
+    {title: "实时货轮", url: "https://www.marinetraffic.com/", icon: "🚢", desc: "实时监控全球海域商船与货轮的航行轨迹与位置"},
+    {title: "海底光缆图", url: "https://www.submarinecablemap.com/", icon: "🌊", desc: "展示连接全球互联网的物理海底电缆分布图"},
+    {title: "BGP 数据站", url: "https://stat.ripe.net/", icon: "🧷", desc: "提供底层网络IP路由信息的专业数据查询平台"},
+    {title: "宏观数据", url: "https://ourworldindata.org/", icon: "📊", desc: "用严谨的图表展示人类社会在人口、经济等领域的宏观变化"},
+    {title: "实时地震", url: "https://earthquake.usgs.gov/earthquakes/map/", icon: "🌋", desc: "美国地质调查局提供的全球最新地震动态监测"},
+    {title: "全球火灾", url: "https://firms.modaps.eosdis.nasa.gov/map/", icon: "🔥", desc: "利用NASA卫星数据实时标记全球发生火灾的区域"},
+    {title: "极光预测", url: "https://www.swpc.noaa.gov/products/aurora-30-minute-forecast", icon: "🌌", desc: "提供全球极光出现概率的预测图表与太空天气报告"}
+  ]},
+  {id: "sec-utils", title: "工具", count: "Tools", icon: "ri-hammer-line", links: [
+    {title: "谷歌搜索", url: "https://www.google.com/", icon: "🔎", desc: "全球使用人数最多、信息最全的搜索引擎"},
+    {title: "Gmail", url: "https://mail.google.com/", icon: "✉️", desc: "谷歌官方提供的安全电子邮箱服务"},
+    {title: "Google云盘", url: "https://drive.google.com/", icon: "☁️", desc: "谷歌官方提供的高效在线文件存储与同步网盘"},
+    {title: "谷歌地图", url: "https://maps.google.com/", icon: "🗺️", desc: "提供详细路线规划与实景街景的全球地图导航服务"},
+    {title: "维基百科", url: "https://www.wikipedia.org/", icon: "📚", desc: "自由开放、内容详实的全球多语言在线百科全书"},
+    {title: "谷歌识图", url: "https://images.google.com/", icon: "🖼️", desc: "上传图片或网址即可查找图片来源的官方检索工具"},
+    {title: "Yandex搜图", url: "https://yandex.com/images", icon: "🔍", desc: "俄罗斯Yandex搜索引擎提供的高精度反向图像查找引擎"},
+    {title: "Pin 下载器", url: "https://pindown.io/en1", icon: "📌", desc: "无水印提取并下载Pinterest平台图片与视频的工具"},
+    {title: "Trace.moe", url: "https://trace.moe", icon: "🔎", desc: "上传动漫截图即可精确检索该画面出自哪一部动画及集数"},
+    {title: "WikiHow", url: "https://www.wikihow.com", icon: "📘", desc: "提供各类生活常识与实用技能操作步骤指南的百科网站"},
+    {title: "Speedtest", url: "https://www.speedtest.net", icon: "⚡", desc: "测试当前网络连接速度及宽带延迟的在线工具"},
+    {title: "TinyWow", url: "https://tinywow.com", icon: "🧰", desc: "免费的在线多功能工具箱，支持各种文件与媒体格式转换"},
+    {title: "iLovePDF", url: "https://www.ilovepdf.com", icon: "📄", desc: "提供PDF合并、拆分、压缩及格式互转的在线办公处理平台"},
+    {title: "Gumroad", url: "https://gumroad.com", icon: "💸", desc: "面向独立创作者的数字产品销售与交易平台"},
+    {title: "随机信用卡", url: "https://www.suijidaquan.com/", icon: "🎲", desc: "用于注册测试目的的随机身份信息与信用卡号生成工具"},
+    {title: "Coinepay", url: "https://www.coinepay.net", icon: "💳", desc: "提供海外虚拟信用卡服务，方便订阅境外网络服务"},
+    {title: "BuyAcc", url: "https://www.buyaacc.com/", icon: "🛒", desc: "提供各类海外社交媒体及数字服务成品账号的购买平台"},
+    {title: "10分钟邮箱", url: "https://www.10minutemail.com", icon: "⌛", desc: "提供临时匿名电子邮箱地址，防止垃圾邮件骚扰"},
+    {title: "MJJ发卡", url: "https://mjjfaka.net/", icon: "🏪", desc: "支持24小时自动化处理订单的虚拟数字商品交易平台"},
+    {title: "币安", url: "https://www.binance.com/", icon: "💰", desc: "全球交易量最大、用户最多的综合性加密货币交易所"},
+    {title: "欧易 (OKX)", url: "https://www.okx.com/", icon: "🟢", desc: "全球主流的加密货币与Web3资产交易及衍生品服务平台"},
+    {title: "小狐狸钱包", url: "https://metamask.io/", icon: "🦊", desc: "基于浏览器扩展程序的去中心化加密数字资产管理钱包"}
+  ]},
+  {id: "sec-social", title: "影音", count: "Media", icon: "ri-discuss-line", links: [
+    {title: "Telegram", url: "https://telegram.org/", icon: "✈️", desc: "主打高度隐私保护与端到端加密的即时通讯软件"},
+    {title: "X (Twitter)", url: "https://x.com/", icon: "🕇", desc: "全球性的短信息社交网络与实时热点新闻讨论平台"},
+    {title: "Facebook", url: "https://www.facebook.com/", icon: "📘", desc: "全球注册用户数量最多的综合性社交媒体平台"},
+    {title: "Instagram", url: "https://www.instagram.com/", icon: "📸", desc: "以高质量照片与短视频分享为核心的视觉社交应用"},
+    {title: "Signal", url: "https://signal.org/", icon: "📨", desc: "采用最高规格开源加密技术的跨平台安全通讯软件"},
+    {title: "Reddit", url: "https://www.reddit.com/", icon: "🍊", desc: "涵盖各类细分话题讨论与新闻聚合的综合性网络论坛"},
+    {title: "YouTube", url: "https://www.youtube.com/", icon: "▶️", desc: "全球最大、内容最丰富的视频分享与在线观看平台"},
+    {title: "Netflix", url: "https://www.netflix.com/", icon: "🎞️", desc: "全球领先的提供高质量独家影视剧的正版流媒体播放平台"},
+    {title: "Spotify", url: "https://open.spotify.com/", icon: "🎵", desc: "提供海量曲库与个性化推荐的全球主流流媒体音乐服务"},
+    {title: "音乐地图", url: "https://everynoise.com", icon: "🎶", desc: "呈现全球所有音乐流派分类与演变关系的可视化数据地图"},
+    {title: "TikTok", url: "https://www.tiktok.com/", icon: "📱", desc: "面向国际市场的短视频分享与音乐创意社交应用平台"},
+    {title: "银河录像局", url: "https://nf.video/银河录像局", icon: "🎬", desc: "提供Netflix等各大海外流媒体平台付费账号的合租共享服务"}
+  ]},
+  {id: "sec-abyss", title: "深海与私藏", count: "Abyss", icon: "ri-eye-off-line", isSecret: true, links: [
+    {title: "Tor 浏览器", url: "https://www.torproject.org/zh-CN/download/", icon: "🧅", desc: "实现高等级匿名访问与网络隐匿的洋葱路由浏览器"},
+    {title: "翻墙路", url: "https://fanqianglu.com", icon: "🪜", desc: "提供各类型虚拟专用网络（VPN）与代理加速器的导航指南"},
+    {title: "百醇导航", url: "https://baichunlink.com", icon: "🔗", desc: "分类收录各类成人向媒体内容与综合资源的导航网站"},
+    {title: "Fuun.fun", url: "https://fuun.fun/", icon: "🎡", desc: "探讨两性知识并提供相关成人向内容的综合在线社区"},
+    {title: "欧美图库", url: "https://www.pornpics.com/", icon: "👱‍♀️", desc: "提供海量欧美风格成人摄影与大尺度套图的照片库"},
+    {title: "俊美图", url: "https://www.junmeitu.com/", icon: "💃", desc: "收录亚洲风格女性写真与大尺度摄影作品的图库网站"},
+    {title: "91图鲁", url: "https://www.91tulu.com/", icon: "🚗", desc: "每日更新的综合性成人图片与优质套图资源站"},
+    {title: "微图", url: "https://www.v2ph.com/", icon: "📸", desc: "提供高分辨率、无水印的高质量摄影与私房写真图库"},
+    {title: "绅士列表", url: "https://www.tblop.com/", icon: "📜", desc: "全球范围内收录最全的纯文本成人网站分类大全与目录导航"},
+    {title: "色情向导", url: "https://theporndude.com/", icon: "🤠", desc: "提供专业成人网站评测与筛选的优质色情资源导航平台"},
+    {title: "Pornhub", url: "https://pornhub.com", icon: "🟧", desc: "全球知名度最高、访问量最大的综合性成人视频流媒体平台"},
+    {title: "Xvideos", url: "https://www.xvideos.com/", icon: "❌", desc: "界面极简、资源储量极大的老牌免费成人视频共享网站"},
+    {title: "xHamster", url: "https://xhamster.com/", icon: "🐹", desc: "拥有庞大用户基数的免费成人视频及成人社区互动平台"},
+    {title: "Eporner", url: "https://www.eporner.com/", icon: "📺", desc: "专门提供极高画质（包括1080P及4K分辨率）的成人视频站"},
+    {title: "Stripchat", url: "https://stripchat.com/", icon: "👙", desc: "提供全球真人模特在线大尺度表演与互动的成人直播平台"},
+    {title: "OnlyFans", url: "https://onlyfans.com/", icon: "🔵", desc: "创作者通过向粉丝提供私密付费订阅内容来获利的社交平台"},
+    {title: "Netflav", url: "https://netflav.com/", icon: "N", desc: "采用现代流媒体界面设计，提供综合成人视频的聚合播放站"},
+    {title: "Hanime1", url: "https://hanime1.me/", icon: "🌸", desc: "专门收集并提供带有成人内容色彩的二次元动漫番剧资源站"},
+    {title: "SupJAV", url: "https://supjav.com/", icon: "S", desc: "提供日本成人影视剧作品在线观看与下载服务的网站"},
+    {title: "Sukebei", url: "https://sukebei.nyaa.si/", icon: "🧲", desc: "全球最大的二次元相关成人内容磁力种子聚合站"},
+    {title: "Nyaa", url: "https://nyaa.si/", icon: "N", desc: "核心的综合性二次元动漫、漫画及衍生资源的磁力下载站"},
+    {title: "BTSOW", url: "https://btsow.motorcycles/", icon: "⚡", desc: "强大的综合性磁力链接搜索引擎，支持全网番号与关键字检索"},
+    {title: "Erome", url: "https://www.erome.com/", icon: "📂", desc: "用于分享和存档带有成人属性的短视频与私人图片的社区平台"}
+  ]}
+];
 
-    <aside id="sidebar">
-      <div class="brand" id="theme-toggle" title="切换昼夜模式">
-        <div class="brand-logo"><i class="ri-heart-3-fill"></i></div>
-        <div class="brand-text"><h1>JIN Tong</h1><span>ARCHIVE</span></div>
-      </div>
-      <div class="search-box">
-        <i class="ri-search-2-line search-icon"></i>
-        <input type="text" class="search-input" id="search-input" placeholder="Search (Ctrl+K)">
-      </div>
-      <div class="nav-scroll" id="nav-container"></div>
-      <div class="aside-footer">
-        <div class="time-badge">
-            <span id="date-pill"></span>
-            <span id="time-pill">00:00</span>
-        </div>
-      </div>
-    </aside>
+// 全局暴露方法
+window.closeSplash = () => { const s = document.getElementById('splash'); if(s) { s.style.opacity='0'; setTimeout(()=>s.style.display='none',800); sessionStorage.setItem('archiveSplashSeen','true'); } };
+window.toggleMemo = () => { const m = document.getElementById('ghost-memo'); if(m && m.classList.toggle('active')) { if(typeof window.loadFromCloud==='function') window.loadFromCloud(); setTimeout(()=>{const i=document.getElementById('memo-new-record'); if(i) i.focus();},300); } };
+window.toggleAbyss = () => {
+  const zones = document.querySelectorAll('.sensitive-zone'); let unlocked = false;
+  zones.forEach(zone => { if(!zone.classList.toggle('unlocked')) { zone.classList.add('hidden'); } else { unlocked=true; zone.classList.remove('hidden'); } });
+  if (unlocked) { showToast("深海权限已授权"); if (window.innerWidth<=768) { document.getElementById('sidebar').classList.remove('open'); document.getElementById('mobile-overlay').classList.remove('open'); } setTimeout(()=>zones[0].scrollIntoView({behavior:'smooth'}),100); } else { showToast("深海已锁定"); }
+};
+function showToast(msg) { const c = document.getElementById('toast-container'); if(!c) return; const t = document.createElement('div'); t.className='toast'; t.textContent=`> ${msg}`; c.appendChild(t); setTimeout(()=>t.remove(), 3000); }
 
-    <main>
-      <div class="hero-quote">
-        <div class="quote-text">
-          天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，却从未失那颗赤子之心，<span class="secret-trigger" onclick="window.toggleMemo()">凌云</span>之志。
-        </div>
-        <div class="quote-sub">Long live freedom / Visual Archive</div>
-      </div>
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('dynamic-grid-container');
+    const navContainer = document.getElementById('nav-container');
 
-      <a class="time-capsule" href="https://archive.org/" target="_blank" rel="noopener noreferrer">
-        <div class="capsule-left">
-            <div class="capsule-icon-box"><i class="ri-bank-line"></i></div>
-            <div class="capsule-info"><span class="capsule-title">互联网档案馆</span><span class="capsule-desc">查询全球互联网历史页面的免费数据库</span></div>
-        </div>
-        <i class="ri-arrow-right-line capsule-arrow"></i>
-      </a>
+    navData.forEach(sec => {
+        if(!sec.isSecret) {
+            const link = document.createElement('a'); link.className = 'nav-item'; link.href = '#' + sec.id; link.innerHTML = `<i class="${sec.icon} nav-icon"></i> ${sec.title}`;
+            link.addEventListener('click', (e) => { e.preventDefault(); document.getElementById(sec.id).scrollIntoView({behavior:'smooth'}); document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); link.classList.add('active'); if(window.innerWidth<=768) { document.getElementById('sidebar').classList.remove('open'); document.getElementById('mobile-overlay').classList.remove('open'); } });
+            navContainer.appendChild(link);
+        }
+        const secBlock = document.createElement('div'); secBlock.className = `section-block ${sec.isSecret ? 'sensitive-zone hidden' : ''}`; secBlock.id = sec.id;
+        let html = `${sec.isSecret ? '<div class="sensitive-mask"><div class="mask-badge">Confidential</div></div><div class="sensitive-blur">' : ''}<div class="section-header"><div class="section-title">${sec.title}</div><div class="section-count">${sec.count}</div></div><div class="grid">`;
+        sec.links.forEach((c, i) => { html += `<a class="card" href="${c.url}" target="_blank" rel="noopener noreferrer" style="animation-delay:${(i%10)*0.05}s"><div class="icon-box">${c.icon}</div><div class="card-body"><div class="card-title">${c.title}</div><div class="card-desc">${c.desc}</div></div></a>`; });
+        html += `</div>${sec.isSecret ? '</div>' : ''}`; secBlock.innerHTML = html; container.appendChild(secBlock);
+    });
 
-      <div id="empty-state" class="hidden">
-        <i class="ri-ghost-line"></i>
-        <p>当前象限未捕捉到相关信号...</p>
-      </div>
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', () => { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('mobile-overlay').classList.toggle('open'); });
+    document.getElementById('mobile-overlay')?.addEventListener('click', () => { document.getElementById('sidebar').classList.remove('open'); document.getElementById('mobile-overlay').classList.remove('open'); });
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) document.body.classList.add('dark-mode');
+    document.getElementById('theme-toggle').addEventListener('click', () => document.body.classList.toggle('dark-mode'));
 
-      <div id="dynamic-grid-container"></div>
+    function updateTime() { const d = new Date(); document.getElementById('time-pill').textContent = d.toLocaleTimeString('zh-CN', {hour12:false}); document.getElementById('date-pill').textContent = d.toLocaleDateString('zh-CN', {month:'short',day:'numeric',weekday:'short'}); }
+    setInterval(updateTime, 1000); updateTime();
+    if (sessionStorage.getItem('archiveSplashSeen')) { const s = document.getElementById('splash'); if(s) s.style.display='none'; }
 
-    </main>
-  </div>
-  
-  <div id="ghost-memo">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--border-color);">
-      <span style="font-size:16px; font-weight:600;">云端手记</span>
-      <div style="display:flex; gap:16px; align-items:center;">
-        <span id="cloud-status" style="font-size:12px; font-weight:600; color:var(--accent);">待机中</span>
-        <span class="action-btn" id="cloud-sync-btn">同步</span>
-        <span class="action-btn" onclick="window.toggleMemo()">关闭</span>
-      </div>
-    </div>
-    <div id="memo-content"></div>
-    <input type="text" id="memo-new-record" placeholder="写入新记录，回车封存..." autocomplete="off" />
-  </div>
-
-  <script>
-    // ================= 数据驱动层 =================
-    // 精确的 148 个链接数据
-    const navData = [
-      {
-        id: "sec-daily", title: "资讯", count: "Tech & Startup Feed", icon: "ri-newspaper-line",
-        links: [
-          { title: "36氪", url: "https://36kr.com/", icon: "📰", desc: "国内前沿的科技与商业创投新闻" },
-          { title: "少数派", url: "https://sspai.com/", icon: "📱", desc: "提升工作效率的数码产品和软件教程" },
-          { title: "V2EX", url: "https://www.v2ex.com/", icon: "💬", desc: "程序员和技术爱好者的交流社区" },
-          { title: "Product Hunt", url: "https://www.producthunt.com/", icon: "🚀", desc: "每天发现并推荐全球最新发布的软件" },
-          { title: "TopGear", url: "https://www.topgear.com/car-news", icon: "🏎️", desc: "全球顶尖的汽车资讯和专业评测" },
-          { title: "Gadget Flow", url: "https://thegadgetflow.com/", icon: "🧰", desc: "浏览和购买全球各种新奇有趣的数码好物" },
-          { title: "想买这个", url: "https://www.dudeiwantthat.com/", icon: "🛒", desc: "专门推荐各种奇特、少见的创意商品" },
-          { title: "CryptoPanic", url: "https://www.cryptopanic.com", icon: "📉", desc: "整合全网加密货币最新动态的新闻网站" }
-        ]
-      },
-      {
-        id: "sec-news", title: "权威新闻", count: "Global & Authoritative News", icon: "ri-global-line",
-        links: [
-          { title: "路透社", url: "https://www.reuters.com/", icon: "🌐", desc: "全球领先的国际新闻与金融数据通讯社" },
-          { title: "美联社", url: "https://apnews.com/", icon: "📡", desc: "全球最大、历史最悠久的独立新闻通讯社之一" },
-          { title: "BBC 新闻", url: "https://www.bbc.com/news", icon: "🎙️", desc: "英国广播公司旗下的国际权威多媒体新闻播报" },
-          { title: "彭博社", url: "https://www.bloomberg.com/", icon: "📈", desc: "全球商业、金融信息和财经新闻的权威提供商" },
-          { title: "华尔街日报", url: "https://www.wsj.com/", icon: "📰", desc: "侧重金融与商业领域的全球顶尖财经报纸" },
-          { title: "纽约时报", url: "https://www.nytimes.com/", icon: "🗞️", desc: "具有全球影响力的美国老牌权威综合性日报" },
-          { title: "联合早报", url: "https://www.zaobao.com/", icon: "🌏", desc: "新加坡领先的华文综合性客观新闻媒体" },
-          { title: "新华社", url: "http://www.news.cn/", icon: "🇨🇳", desc: "中国国家通讯社及世界性通讯社" }
-        ]
-      },
-      {
-        id: "sec-ai", title: "AI 与大模型", count: "Artificial Intelligence", icon: "ri-brain-line",
-        links: [
-          { title: "ChatGPT", url: "https://chatgpt.com", icon: "🧠", desc: "全球最强大的AI人工智能文字对话助手" },
-          { title: "Gemini", url: "https://gemini.google.com/", icon: "✨", desc: "谷歌公司推出的官方智能AI模型助手" },
-          { title: "Grok", url: "https://grok.com", icon: "✖️", desc: "马斯克团队开发的能够实时联网分析的AI" },
-          { title: "Perplexity", url: "https://www.perplexity.ai", icon: "🔎", desc: "通过AI直接帮你总结答案的智能搜索引擎" },
-          { title: "Midjourney", url: "https://www.midjourney.com", icon: "🖌️", desc: "输入文字描述就能自动生成高质量图片的AI" },
-          { title: "Runway", url: "https://runwayml.com", icon: "🎥", desc: "专业的AI视频生成与特效剪辑工具平台" },
-          { title: "Suno", url: "https://www.suno.ai", icon: "🎧", desc: "输入歌词就能自动生成带人声和伴奏的歌曲" },
-          { title: "ElevenLabs", url: "https://elevenlabs.io", icon: "🎙️", desc: "极其逼真的AI文字转语音与人声克隆技术" },
-          { title: "Gamma", url: "https://gamma.app", icon: "📊", desc: "输入大纲或主题，AI一键自动生成排版精美的PPT" },
-          { title: "Nvidia AI", url: "https://www.nvidia.com/en-us/research/ai-playground", icon: "🟢", desc: "英伟达官方提供的前沿AI技术免费体验专区" },
-          { title: "Futurepedia", url: "https://futurepedia.io", icon: "🧭", desc: "收录全球各种最新AI工具的分类导航网站" }
-        ]
-      },
-      {
-        id: "sec-webmaster", title: "站长", count: "Webmaster & Infrastructure", icon: "ri-server-line",
-        links: [
-          { title: "Decodo", url: "https://dashboard.decodo.com", icon: "🎛️", desc: "提供高匿名性和高防安全保护的网络代理服务" },
-          { title: "GitHub", url: "https://github.com/dh6598726-stack/woaibixia", icon: "📦", desc: "全球程序员用来托管代码和开源软件的网站" },
-          { title: "Porkbun", url: "https://porkbun.com/account/domainsSpeedy", icon: "🐷", desc: "价格便宜且界面好用的国外网站域名购买平台" },
-          { title: "Cloudflare", url: "https://dash.cloudflare.com/", icon: "☁️", desc: "为网站提供免费加速(CDN)和防黑客攻击的安全服务" },
-          { title: "Thordata", url: "https://dashboard.thordata.com/", icon: "🌐", desc: "提供流量中转与网络加速的专业平台" },
-          { title: "IPFoxy", url: "https://app.ipfoxy.net/login?_bt=2", icon: "🦊", desc: "提供干净无污染的独享IP代理服务" },
-          { title: "2FA 在线", url: "https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq", icon: "🛡️", desc: "在线生成账号登录所需的动态双重验证码" },
-          { title: "Vercel", url: "https://vercel.com", icon: "🚀", desc: "前端开发者可免费将网页代码一键部署上线的平台" },
-          { title: "Cusdis", url: "https://cusdis.com/", icon: "💬", desc: "一款注重隐私、极简轻量的开源网站留言评论系统" }
-        ]
-      },
-      {
-        id: "sec-geek", title: "代码", count: "Development & Cybersecurity", icon: "ri-shield-keyhole-line",
-        links: [
-          { title: "StackOverflow", url: "https://stackoverflow.com", icon: "💡", desc: "全球最大的程序员代码报错与技术问答社区" },
-          { title: "Replit", url: "https://replit.com", icon: "💻", desc: "无需本地环境配置，打开网页就能直接写代码的平台" },
-          { title: "CodePen", url: "https://codepen.io", icon: "🧪", desc: "前端网页开发者的代码在线测试与作品展示库" },
-          { title: "Lusion", url: "https://lusion.co/", icon: "✨", desc: "展示行业顶尖3D前端交互与视觉效果的网站" },
-          { title: "Geektyper", url: "https://geektyper.com/", icon: "⌨️", desc: "模拟影视剧中黑客敲击代码界面的娱乐工具" },
-          { title: "Ping.pe", url: "https://ping.pe", icon: "📡", desc: "测试你的网站在世界各地网络连通性的工具" },
-          { title: "HackerOne", url: "https://www.hackerone.com", icon: "🛡️", desc: "帮大型企业寻找系统安全漏洞并获取合法奖金的平台" },
-          { title: "Bugcrowd", url: "https://www.bugcrowd.com", icon: "🏢", desc: "网络安全专家的线上安全众测与漏洞赏金平台" },
-          { title: "TryHackMe", url: "https://tryhackme.com", icon: "🎓", desc: "适合初学者的网络安全渗透测试学习与实践网站" },
-          { title: "HackTheBox", url: "https://www.hackthebox.com", icon: "🧨", desc: "专业黑客用来进行攻防实战模拟的虚拟训练场" },
-          { title: "Exploit-DB", url: "https://www.exploit-db.com", icon: "📂", desc: "收录最新公开系统漏洞与攻击测试代码的权威数据库" },
-          { title: "OWASP", url: "https://owasp.org", icon: "📜", desc: "提供Web应用程序安全开发标准与规范的组织组织" },
-          { title: "Kali Linux", url: "https://www.kali.org", icon: "🐉", desc: "专用于渗透测试和安全审计的Linux操作系统官网" },
-          { title: "Netsec", url: "https://www.reddit.com/r/netsec/", icon: "🧬", desc: "讨论最新网络安全漏洞与行业情报的活跃社区" },
-          { title: "VirusTotal", url: "https://www.virustotal.com/gui/home/upload", icon: "🧫", desc: "上传可疑文件或网址，集合几十家杀毒引擎免费查毒" },
-          { title: "Shodan", url: "https://www.shodan.io/", icon: "🛰️", desc: "专门用来检索全球联网智能设备(如摄像头)的搜索引擎" },
-          { title: "卡巴斯基图", url: "https://cybermap.kaspersky.com/", icon: "☣️", desc: "在3D地球仪上实时动态展示全球发生的网络攻击情况" }
-        ]
-      },
-      {
-        id: "sec-design", title: "视觉", count: "Design & Assets", icon: "ri-palette-line",
-        links: [
-          { title: "Pinterest", url: "https://www.pinterest.com/", icon: "🖼️", desc: "全球知名的瀑布流图片分享与设计灵感采集网站" },
-          { title: "Behance", url: "https://www.behance.net", icon: "🎨", desc: "Adobe旗下的全球顶尖设计师原创作品展示平台" },
-          { title: "花瓣网", url: "https://huaban.com/", icon: "🌸", desc: "国内主流的设计师素材采集与灵感管理平台" },
-          { title: "Unsplash", url: "https://unsplash.com", icon: "📷", desc: "提供完全免费、且可自由商用的高质量摄影图片库" },
-          { title: "Pexels", url: "https://www.pexels.com/", icon: "📸", desc: "免费且支持高质量商业用途的图库与视频素材库" },
-          { title: "Pixabay", url: "https://pixabay.com/", icon: "🌄", desc: "提供海量无版权限制的免费插画、矢量图与配图库" },
-          { title: "Wallhaven", url: "https://wallhaven.cc/", icon: "🖼️", desc: "公认质量最高的电脑高清桌面壁纸下载网站" },
-          { title: "高清壁纸", url: "https://wallpaperswide.com/", icon: "🖥️", desc: "提供支持各种宽屏与高分辨率显示器的电脑壁纸" },
-          { title: "彼岸图网", url: "https://pic.netbian.com/", icon: "🌉", desc: "国内提供原生4K极清画质电脑桌面壁纸的网站" },
-          { title: "Cool BG", url: "https://coolbackgrounds.io/", icon: "🟦", desc: "专门生成极简主义的纯色、渐变与几何图案背景" },
-          { title: "Photopea", url: "https://www.photopea.com", icon: "🖊️", desc: "无需安装，界面和功能高度类似Photoshop的在线修图工具" },
-          { title: "Remove.bg", url: "https://www.remove.bg", icon: "✂️", desc: "上传图片即可利用AI精准去除背景并生成透明底图" },
-          { title: "Canva", url: "https://www.canva.com", icon: "🎨", desc: "提供海量预设模板的在线平面设计与海报制作工具" },
-          { title: "美丽数据", url: "https://informationisbeautiful.net", icon: "📈", desc: "将枯燥的数据转化为直观、精美的数据可视化图表" }
-        ]
-      },
-      {
-        id: "sec-explore", title: "探索", count: "Explore & Global Monitor", icon: "ri-earth-line",
-        links: [
-          { title: "谷歌地球", url: "https://earth.google.com", icon: "🌎", desc: "提供全球高分辨率卫星图像的3D虚拟地球仪" },
-          { title: "天巡", url: "https://www.skyscanner.com", icon: "🎫", desc: "全球性的廉价航空与国际航班比价预订平台" },
-          { title: "全球航线图", url: "https://www.flightconnections.com", icon: "🛫", desc: "直观展示全球所有民航机场之间的直飞航线地图" },
-          { title: "奇趣地图", url: "https://www.atlasobscura.com", icon: "🗺️", desc: "收录全球罕见、猎奇、小众探险景点的旅行指南" },
-          { title: "EarthCam", url: "https://www.earthcam.com/", icon: "📹", desc: "汇集全球知名地标建筑与公共区域的实时直播摄像头" },
-          { title: "旅游镜头", url: "https://www.webcams.travel/", icon: "🔭", desc: "提供全球各大风景区、沙滩及自然景观的实时快照" },
-          { title: "WindowSwap", url: "http://www.window-swap.com/", icon: "🪟", desc: "随机向你展示世界各地陌生人窗外的视频风景" },
-          { title: "日本窗景", url: "http://www.window-swap-japan.com/", icon: "🗾", desc: "专门收集并展示日本各地家庭窗外的静谧风景" },
-          { title: "MapCrunch", url: "https://www.mapcrunch.com", icon: "🧭", desc: "随机将你传送到全球某个角落的谷歌街景中" },
-          { title: "任意门", url: "https://www.thesecretdoor.com/", icon: "🚪", desc: "点击门把手，随机带你参观世界各地的奇异场景" },
-          { title: "自然生态", url: "https://explore.org/", icon: "🐼", desc: "提供全球野生动物和自然保护区的高清实时直播" },
-          { title: "虚拟视窗", url: "http://www.virtualwindow.com/", icon: "🖼️", desc: "提供用于放松身心的循环自然风景视频画面" },
-          { title: "NASA每日图", url: "https://apod.nasa.gov/apod/astropix.html", icon: "🚀", desc: "美国国家航空航天局每日更新的一张天文摄影图片" },
-          { title: "看手指", url: "https://pointerpointer.com/", icon: "👉", desc: "娱乐网站：鼠标停在哪里，就会显示一张指着该处的照片" },
-          { title: "流量雷达", url: "https://radar.cloudflare.com/", icon: "🌐", desc: "从宏观视角展示全球互联网流量趋势与网络拥堵情况" },
-          { title: "实时航班", url: "https://www.flightradar24.com/", icon: "🛫", desc: "在地图上实时追踪全球正在飞行的客机动态" },
-          { title: "实时货轮", url: "https://www.marinetraffic.com/", icon: "🚢", desc: "实时监控全球海域商船与货轮的航行轨迹与位置" },
-          { title: "海底光缆图", url: "https://www.submarinecablemap.com/", icon: "🌊", desc: "展示连接全球互联网的物理海底电缆分布图" },
-          { title: "BGP 数据站", url: "https://stat.ripe.net/", icon: "🧷", desc: "提供底层网络IP路由信息的专业数据查询平台" },
-          { title: "宏观数据", url: "https://ourworldindata.org/", icon: "📊", desc: "用严谨的图表展示人类社会在人口、经济等领域的宏观变化" },
-          { title: "实时地震", url: "https://earthquake.usgs.gov/earthquakes/map/", icon: "🌋", desc: "美国地质调查局提供的全球最新地震动态监测" },
-          { title: "全球火灾", url: "https://firms.modaps.eosdis.nasa.gov/map/", icon: "🔥", desc: "利用NASA卫星数据实时标记全球发生火灾的区域" },
-          { title: "极光预测", url: "https://www.swpc.noaa.gov/products/aurora-30-minute-forecast", icon: "🌌", desc: "提供全球极光出现概率的预测图表与太空天气报告" }
-        ]
-      },
-      {
-        id: "sec-utils", title: "工具", count: "Tools, Search & Crypto", icon: "ri-hammer-line",
-        links: [
-          { title: "谷歌搜索", url: "https://www.google.com/", icon: "🔎", desc: "全球使用人数最多、信息最全的搜索引擎" },
-          { title: "Gmail", url: "https://mail.google.com/", icon: "✉️", desc: "谷歌官方提供的安全电子邮箱服务" },
-          { title: "Google云盘", url: "https://drive.google.com/", icon: "☁️", desc: "谷歌官方提供的高效在线文件存储与同步网盘" },
-          { title: "谷歌地图", url: "https://maps.google.com/", icon: "🗺️", desc: "提供详细路线规划与实景街景的全球地图导航服务" },
-          { title: "维基百科", url: "https://www.wikipedia.org/", icon: "📚", desc: "自由开放、内容详实的全球多语言在线百科全书" },
-          { title: "谷歌识图", url: "https://images.google.com/", icon: "🖼️", desc: "上传图片或网址即可查找图片来源的官方检索工具" },
-          { title: "Yandex搜图", url: "https://yandex.com/images", icon: "🔍", desc: "俄罗斯Yandex搜索引擎提供的高精度反向图像查找引擎" },
-          { title: "Pin 下载器", url: "https://pindown.io/en1", icon: "📌", desc: "无水印提取并下载Pinterest平台图片与视频的工具" },
-          { title: "Trace.moe", url: "https://trace.moe", icon: "🔎", desc: "上传动漫截图即可精确检索该画面出自哪一部动画及集数" },
-          { title: "WikiHow", url: "https://www.wikihow.com", icon: "📘", desc: "提供各类生活常识与实用技能操作步骤指南的百科网站" },
-          { title: "Speedtest", url: "https://www.speedtest.net", icon: "⚡", desc: "测试当前网络连接速度及宽带延迟的在线工具" },
-          { title: "TinyWow", url: "https://tinywow.com", icon: "🧰", desc: "免费的在线多功能工具箱，支持各种文件与媒体格式转换" },
-          { title: "iLovePDF", url: "https://www.ilovepdf.com", icon: "📄", desc: "提供PDF合并、拆分、压缩及格式互转的在线办公处理平台" },
-          { title: "Gumroad", url: "https://gumroad.com", icon: "💸", desc: "面向独立创作者的数字产品销售与交易平台" },
-          { title: "随机信用卡", url: "https://www.suijidaquan.com/", icon: "🎲", desc: "用于注册测试目的的随机身份信息与信用卡号生成工具" },
-          { title: "Coinepay", url: "https://www.coinepay.net", icon: "💳", desc: "提供海外虚拟信用卡服务，方便订阅境外网络服务" },
-          { title: "BuyAcc", url: "https://www.buyaacc.com/", icon: "🛒", desc: "提供各类海外社交媒体及数字服务成品账号的购买平台" },
-          { title: "10分钟邮箱", url: "https://www.10minutemail.com", icon: "⌛", desc: "提供临时匿名电子邮箱地址，防止垃圾邮件骚扰" },
-          { title: "MJJ发卡", url: "https://mjjfaka.net/", icon: "🏪", desc: "支持24小时自动化处理订单的虚拟数字商品交易平台" },
-          { title: "币安", url: "https://www.binance.com/", icon: "💰", desc: "全球交易量最大、用户最多的综合性加密货币交易所" },
-          { title: "欧易 (OKX)", url: "https://www.okx.com/", icon: "🟢", desc: "全球主流的加密货币与Web3资产交易及衍生品服务平台" },
-          { title: "小狐狸钱包", url: "https://metamask.io/", icon: "🦊", desc: "基于浏览器扩展程序的去中心化加密数字资产管理钱包" }
-        ]
-      },
-      {
-        id: "sec-social", title: "影音", count: "Social & Media", icon: "ri-discuss-line",
-        links: [
-          { title: "Telegram", url: "https://telegram.org/", icon: "✈️", desc: "主打高度隐私保护与端到端加密的即时通讯软件" },
-          { title: "X (Twitter)", url: "https://x.com/", icon: "🕇", desc: "全球性的短信息社交网络与实时热点新闻讨论平台" },
-          { title: "Facebook", url: "https://www.facebook.com/", icon: "📘", desc: "全球注册用户数量最多的综合性社交媒体平台" },
-          { title: "Instagram", url: "https://www.instagram.com/", icon: "📸", desc: "以高质量照片与短视频分享为核心的视觉社交应用" },
-          { title: "Signal", url: "https://signal.org/", icon: "📨", desc: "采用最高规格开源加密技术的跨平台安全通讯软件" },
-          { title: "Reddit", url: "https://www.reddit.com/", icon: "🍊", desc: "涵盖各类细分话题讨论与新闻聚合的综合性网络论坛" },
-          { title: "YouTube", url: "https://www.youtube.com/", icon: "▶️", desc: "全球最大、内容最丰富的视频分享与在线观看平台" },
-          { title: "Netflix", url: "https://www.netflix.com/", icon: "🎞️", desc: "全球领先的提供高质量独家影视剧的正版流媒体播放平台" },
-          { title: "Spotify", url: "https://open.spotify.com/", icon: "🎵", desc: "提供海量曲库与个性化推荐的全球主流流媒体音乐服务" },
-          { title: "音乐地图", url: "https://everynoise.com", icon: "🎶", desc: "呈现全球所有音乐流派分类与演变关系的可视化数据地图" },
-          { title: "TikTok", url: "https://www.tiktok.com/", icon: "📱", desc: "面向国际市场的短视频分享与音乐创意社交应用平台" },
-          { title: "银河录像局", url: "https://nf.video/银河录像局", icon: "🎬", desc: "提供Netflix等各大海外流媒体平台付费账号的合租共享服务" }
-        ]
-      },
-      {
-        id: "sec-abyss", title: "深海与私藏", count: "Abyss & Gentleman", icon: "ri-eye-off-line", isSecret: true,
-        links: [
-          { title: "Tor 浏览器", url: "https://www.torproject.org/zh-CN/download/", icon: "🧅", desc: "实现高等级匿名访问与网络隐匿的洋葱路由浏览器" },
-          { title: "翻墙路", url: "https://fanqianglu.com", icon: "🪜", desc: "提供各类型虚拟专用网络（VPN）与代理加速器的导航指南" },
-          { title: "百醇导航", url: "https://baichunlink.com", icon: "🔗", desc: "分类收录各类成人向媒体内容与综合资源的导航网站" },
-          { title: "Fuun.fun", url: "https://fuun.fun/", icon: "🎡", desc: "探讨两性知识并提供相关成人向内容的综合在线社区" },
-          { title: "欧美图库", url: "https://www.pornpics.com/", icon: "👱‍♀️", desc: "提供海量欧美风格成人摄影与大尺度套图的照片库" },
-          { title: "俊美图", url: "https://www.junmeitu.com/", icon: "💃", desc: "收录亚洲风格女性写真与大尺度摄影作品的图库网站" },
-          { title: "91图鲁", url: "https://www.91tulu.com/", icon: "🚗", desc: "每日更新的综合性成人图片与优质套图资源站" },
-          { title: "微图", url: "https://www.v2ph.com/", icon: "📸", desc: "提供高分辨率、无水印的高质量摄影与私房写真图库" },
-          { title: "绅士列表", url: "https://www.tblop.com/", icon: "📜", desc: "全球范围内收录最全的纯文本成人网站分类大全与目录导航" },
-          { title: "色情向导", url: "https://theporndude.com/", icon: "🤠", desc: "提供专业成人网站评测与筛选的优质色情资源导航平台" },
-          { title: "Pornhub", url: "https://pornhub.com", icon: "🟧", desc: "全球知名度最高、访问量最大的综合性成人视频流媒体平台" },
-          { title: "Xvideos", url: "https://www.xvideos.com/", icon: "❌", desc: "界面极简、资源储量极大的老牌免费成人视频共享网站" },
-          { title: "xHamster", url: "https://xhamster.com/", icon: "🐹", desc: "拥有庞大用户基数的免费成人视频及成人社区互动平台" },
-          { title: "Eporner", url: "https://www.eporner.com/", icon: "📺", desc: "专门提供极高画质（包括1080P及4K分辨率）的成人视频站" },
-          { title: "Stripchat", url: "https://stripchat.com/", icon: "👙", desc: "提供全球真人模特在线大尺度表演与互动的成人直播平台" },
-          { title: "OnlyFans", url: "https://onlyfans.com/", icon: "🔵", desc: "创作者通过向粉丝提供私密付费订阅内容来获利的社交平台" },
-          { title: "Netflav", url: "https://netflav.com/", icon: "N", desc: "采用现代流媒体界面设计，提供综合成人视频的聚合播放站" },
-          { title: "Hanime1", url: "https://hanime1.me/", icon: "🌸", desc: "专门收集并提供带有成人内容色彩的二次元动漫番剧资源站" },
-          { title: "SupJAV", url: "https://supjav.com/", icon: "S", desc: "提供日本成人影视剧作品在线观看与下载服务的网站" },
-          { title: "Sukebei", url: "https://sukebei.nyaa.si/", icon: "🧲", desc: "全球最大的二次元相关成人内容磁力种子聚合站" },
-          { title: "Nyaa", url: "https://nyaa.si/", icon: "N", desc: "核心的综合性二次元动漫、漫画及衍生资源的磁力下载站" },
-          { title: "BTSOW", url: "https://btsow.motorcycles/", icon: "⚡", desc: "强大的综合性磁力链接搜索引擎，支持全网番号与关键字检索" },
-          { title: "Erome", url: "https://www.erome.com/", icon: "📂", desc: "用于分享和存档带有成人属性的短视频与私人图片的社区平台" }
-        ]
-      }
-    ];
-
-    // 全局方法暴露
-    window.closeSplash = () => {
-      const splash = document.getElementById('splash');
-      if(splash) { splash.style.opacity = '0'; setTimeout(() => splash.style.display = 'none', 800); sessionStorage.setItem('archiveSplashSeen', 'true'); }
-    };
-
-    window.toggleMemo = () => {
-      const memo = document.getElementById('ghost-memo');
-      if(memo && memo.classList.toggle('active')) {
-          if (typeof window.loadFromCloud === 'function') window.loadFromCloud();
-          setTimeout(() => { const input = document.getElementById('memo-new-record'); if(input) input.focus(); }, 300);
-      }
-    };
-
-    window.toggleAbyss = () => {
-      const zones = document.querySelectorAll('.sensitive-zone');
-      let unlocked = false;
-      zones.forEach(zone => {
-        const isLocked = !zone.classList.toggle('unlocked');
-        if (!isLocked) { unlocked = true; zone.classList.remove('hidden'); } 
-        else { zone.classList.add('hidden'); }
-      });
-      if (unlocked) {
-         showToast("Access Granted. Welcome to the Abyss."); 
-         if (window.innerWidth <= 768) { document.getElementById('sidebar').classList.remove('open'); document.getElementById('mobile-overlay').classList.remove('open'); }
-         setTimeout(() => { zones[0].scrollIntoView({ behavior: 'smooth' }); }, 100);
-      } else { showToast("Connection Terminated / Locked."); }
-    };
-
-    function showToast(message) {
-      const container = document.getElementById('toast-container');
-      if(!container) return;
-      const toast = document.createElement('div');
-      toast.className = 'toast'; toast.textContent = `> ${message}`;
-      container.appendChild(toast);
-      setTimeout(() => { if (toast.parentNode) toast.remove(); }, 3000);
+    function performSearch(term) {
+        const sections = document.querySelectorAll('.section-block'), emptyState = document.getElementById('empty-state'); let total = 0;
+        sections.forEach(sec => {
+            if (sec.classList.contains('sensitive-zone') && !sec.classList.contains('unlocked')) { sec.classList.add('hidden'); return; }
+            let secMatch = 0;
+            sec.querySelectorAll('.card').forEach(card => { if (card.textContent.toLowerCase().includes(term) || term === '') { card.classList.remove('hidden'); secMatch++; total++; } else card.classList.add('hidden'); });
+            secMatch > 0 ? sec.classList.remove('hidden') : sec.classList.add('hidden');
+        });
+        total === 0 && term !== '' ? emptyState.classList.remove('hidden') : emptyState.classList.add('hidden');
     }
-
-    // ================= 初始化与渲染引擎 =================
-    document.addEventListener('DOMContentLoaded', () => {
-        const container = document.getElementById('dynamic-grid-container');
-        const navContainer = document.getElementById('nav-container');
-
-        navData.forEach(sec => {
-            if(!sec.isSecret) {
-                const link = document.createElement('a');
-                link.className = 'nav-item'; link.href = '#' + sec.id;
-                link.innerHTML = `<i class="${sec.icon} nav-icon"></i> ${sec.title}`;
-                link.addEventListener('click', (e) => {
-                    e.preventDefault(); document.getElementById(sec.id).scrollIntoView({ behavior: 'smooth' });
-                    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-                    link.classList.add('active');
-                    if(window.innerWidth <= 768) { document.getElementById('sidebar').classList.remove('open'); document.getElementById('mobile-overlay').classList.remove('open'); }
-                });
-                navContainer.appendChild(link);
-            }
-
-            const secBlock = document.createElement('div');
-            secBlock.className = `section-block ${sec.isSecret ? 'sensitive-zone hidden' : ''}`;
-            secBlock.id = sec.id;
-
-            let innerHTML = `
-                ${sec.isSecret ? '<div class="sensitive-mask"><div class="mask-badge">Confidential / NSFW</div></div><div class="sensitive-blur">' : ''}
-                <div class="section-header"><div class="section-title">${sec.title}</div><div class="section-count">${sec.count}</div></div>
-                <div class="grid">
-            `;
-            
-            sec.links.forEach((card, index) => {
-                innerHTML += `
-                <a class="card" href="${card.url}" target="_blank" rel="noopener noreferrer" style="animation-delay: ${(index % 10) * 0.05}s">
-                    <div class="icon-box">${card.icon}</div>
-                    <div class="card-body">
-                        <div class="card-title">${card.title}</div>
-                        <div class="card-desc">${card.desc}</div>
-                    </div>
-                </a>`;
-            });
-            
-            innerHTML += `</div>${sec.isSecret ? '</div>' : ''}`;
-            secBlock.innerHTML = innerHTML;
-            container.appendChild(secBlock);
-        });
-
-        const sidebar = document.getElementById('sidebar');
-        const mobileOverlay = document.getElementById('mobile-overlay');
-        document.getElementById('mobile-menu-btn')?.addEventListener('click', () => { sidebar.classList.toggle('open'); mobileOverlay.classList.toggle('open'); });
-        mobileOverlay?.addEventListener('click', () => { sidebar.classList.remove('open'); mobileOverlay.classList.remove('open'); });
-
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) document.body.classList.add('dark-mode');
-        document.getElementById('theme-toggle').addEventListener('click', () => document.body.classList.toggle('dark-mode'));
-
-        function updateTime() {
-          const now = new Date();
-          const timePill = document.getElementById('time-pill');
-          if(timePill) timePill.textContent = now.toLocaleTimeString('zh-CN', {hour12:false});
-          const datePill = document.getElementById('date-pill');
-          if(datePill) datePill.textContent = now.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric', weekday: 'short' });
-        }
-        setInterval(updateTime, 1000); updateTime();
-
-        if (sessionStorage.getItem('archiveSplashSeen')) { const s = document.getElementById('splash'); if(s) s.style.display = 'none'; }
-
-        // ================= 搜索空状态反馈 =================
-        function performSearch(term) {
-            const sections = document.querySelectorAll('.section-block');
-            const emptyState = document.getElementById('empty-state');
-            let totalMatch = 0;
-
-            sections.forEach(sec => {
-                if (sec.classList.contains('sensitive-zone') && !sec.classList.contains('unlocked')) { sec.classList.add('hidden'); return; }
-                let secMatch = 0;
-                sec.querySelectorAll('.card').forEach(card => {
-                    if (card.textContent.toLowerCase().includes(term) || term === '') { card.classList.remove('hidden'); secMatch++; totalMatch++; } 
-                    else { card.classList.add('hidden'); }
-                });
-                secMatch > 0 ? sec.classList.remove('hidden') : sec.classList.add('hidden');
-            });
-            
-            totalMatch === 0 && term !== '' ? emptyState.classList.remove('hidden') : emptyState.classList.add('hidden');
-        }
-
-        const searchInputs = document.querySelectorAll('.search-input');
-        searchInputs.forEach(input => {
-            input.addEventListener('input', (e) => {
-                const term = e.target.value.toLowerCase().trim();
-                if (term === 'open') { searchInputs.forEach(inp => inp.value = ''); performSearch(''); window.toggleAbyss(); return; }
-                searchInputs.forEach(inp => { if(inp !== e.target) inp.value = term; });
-                performSearch(term);
-            });
-        });
-
-        let secretCode = '';
-        document.addEventListener('keydown', (e) => {
-          const activeEl = document.activeElement;
-          const isInputActive = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA');
-          if (e.key === 'Escape') {
-            if (isInputActive) { activeEl.blur(); return; }
-            const p = document.getElementById('panic-overlay'), a = document.getElementById('app');
-            if (p.classList.contains('active')) { p.classList.remove('active'); a.style.filter = 'none'; } 
-            else { p.classList.add('active'); a.style.filter = 'blur(20px) grayscale(100%)'; }
-            return; 
-          }
-          if((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); const v = Array.from(searchInputs).find(i => i.offsetParent !== null); if (v) v.focus(); return; }
-          if(isInputActive) return;
-          secretCode += e.key.toLowerCase();
-          if (secretCode.length > 4) secretCode = secretCode.slice(-4);
-          if (secretCode === 'open') { window.toggleAbyss(); secretCode = ''; }
+    const searchInputs = document.querySelectorAll('.search-input');
+    searchInputs.forEach(input => {
+        input.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase().trim();
+            if (term === 'open') { searchInputs.forEach(i=>i.value=''); performSearch(''); window.toggleAbyss(); return; }
+            searchInputs.forEach(i => { if(i!==e.target) i.value=term; }); performSearch(term);
         });
     });
-  </script>
 
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script>
-    if (typeof window.supabase !== 'undefined') {
-        const SUPABASE_URL = 'https://nwyjvswvgkilgsggnnid.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_wCF407WM8NaCF-WTKn_rlg_DBOhamPx';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    let keys = ''; document.addEventListener('keydown', (e) => {
+      const el = document.activeElement; if(el && (el.tagName==='INPUT' || el.tagName==='TEXTAREA')) return;
+      keys += e.key.toLowerCase(); if (keys.length>4) keys = keys.slice(-4); if (keys==='open') { window.toggleAbyss(); keys=''; }
+    });
+});
+</script>
 
-        const memoContent = document.getElementById('memo-content');
-        const statusText = document.getElementById('cloud-status');
-        
-        const resetStatus = (triggerText) => { setTimeout(() => { if(statusText.textContent === triggerText) statusText.textContent="已连接"; }, 1500); };
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+if (typeof window.supabase !== 'undefined') {
+    const supabase = window.supabase.createClient('https://nwyjvswvgkilgsggnnid.supabase.co', 'sb_publishable_wCF407WM8NaCF-WTKn_rlg_DBOhamPx');
+    const memoContent = document.getElementById('memo-content'), statusText = document.getElementById('cloud-status');
+    const resetStatus = (text) => { setTimeout(() => { if(statusText.textContent === text) statusText.textContent="已连接"; }, 2000); };
+    
+    window.copyMemo = async (txt) => { try { await navigator.clipboard.writeText(txt); showToast("内容已复制"); } catch(e){} };
 
-        window.copyMemo = async function(text) { try { await navigator.clipboard.writeText(text); showToast("内容已复制"); } catch (err) {} };
-
-        function renderMemos(data) {
-            memoContent.innerHTML = '';
-            if (!data || data.length === 0) { memoContent.innerHTML = '<div style="opacity:0.4; text-align:center; margin-top:40px; font-size:13px;">记忆之海干涸，输入点什么吧...</div>'; return; }
-            data.forEach(row => {
-                const item = document.createElement('div'); item.className = 'memo-item'; item.id = `memo-${row.id}`;
-                const safeContent = row.content.replace(/"/g, '"').replace(/'/g, ''');
-                const date = new Date(row.created_at);
-                const timeStr = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')} ${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}`;
-                item.innerHTML = `<div style="flex:1;"><span class="memo-time">${timeStr}</span><div class="memo-text" title="点击复制" onclick="copyMemo('${safeContent}')">${row.content}</div></div><i class="ri-delete-bin-line memo-delete" onclick="deleteMemo('${row.id}')" title="抹除此条记录"></i>`;
-                memoContent.appendChild(item);
-            });
-            requestAnimationFrame(() => { memoContent.scrollTop = memoContent.scrollHeight; });
-        }
-
-        window.loadFromCloud = async function() {
-          statusText.textContent = "同步中..."; statusText.style.color = "var(--text-main)";
-          try {
-            const { data, error } = await supabase.from('memos').select('id, content, created_at').order('created_at', { ascending: true }); 
-            if (error) throw error;
-            renderMemos(data); statusText.textContent = "已连接"; statusText.style.color = "var(--accent)";
-          } catch (err) { statusText.textContent = "同步失败"; statusText.style.color = "#ff3b30"; }
-        };
-
-        window.deleteMemo = async function(id) {
-            if(!confirm('数据消除确认：此操作不可逆。')) return;
-            statusText.textContent = "删除中...";
-            try {
-                const { error } = await supabase.from('memos').delete().eq('id', id);
-                if (error) throw error;
-                const node = document.getElementById(`memo-${id}`); if (node) { node.style.opacity = '0'; setTimeout(() => node.remove(), 200); }
-                statusText.textContent = "已删除"; resetStatus("已删除");
-            } catch (err) { statusText.textContent = "删除失败"; statusText.style.color = "#ff3b30"; }
-        };
-
-        // 严谨修复：确保防抖机制绝对在 finally 中解锁
-        const newRecordInput = document.getElementById('memo-new-record');
-        if (newRecordInput) {
-            newRecordInput.addEventListener('keydown', async function(e) {
-              if (e.key === 'Enter') {
-                e.preventDefault(); // 阻止浏览器默认的回车换行或提交行为
-                const newText = this.value.trim(); 
-                if (!newText) return;
-                
-                this.value = ''; 
-                this.disabled = true; 
-                statusText.textContent = "发送中...";
-                
-                try {
-                  const { error } = await supabase.from('memos').insert([{ content: newText }]); 
-                  if (error) throw error;
-                  statusText.textContent = "已封存"; 
-                  resetStatus("已封存");
-                } catch (err) { 
-                  console.error("Supabase Save Error: ", err);
-                  statusText.textContent = "保存失败"; 
-                  statusText.style.color = "#ff3b30"; 
-                  this.value = newText; // 失败后将文字填回，防止数据丢失
-                } finally { 
-                  // 核心修复：强力解锁，保障永远不会假死
-                  this.disabled = false; 
-                  this.focus(); 
-                }
-              }
-            });
-        }
-
-        try { supabase.channel('public:memos').on('postgres_changes', { event: '*', schema: 'public', table: 'memos' }, payload => { window.loadFromCloud(); statusText.textContent = "实时更新"; resetStatus("实时更新"); }).subscribe(); } catch (err) {}
-        const syncBtn = document.getElementById('cloud-sync-btn'); if(syncBtn) syncBtn.addEventListener('click', window.loadFromCloud);
+    function renderMemos(data) {
+        memoContent.innerHTML = '';
+        if (!data || data.length === 0) { memoContent.innerHTML = '<div style="opacity:0.4; text-align:center; margin-top:40px; font-size:13px;">记忆之海干涸，输入点什么吧...</div>'; return; }
+        data.forEach(row => {
+            const item = document.createElement('div'); item.className = 'memo-item'; item.id = `memo-${row.id}`;
+            const safe = row.content.replace(/"/g, '"').replace(/'/g, ''');
+            const d = new Date(row.created_at), t = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+            item.innerHTML = `<div style="flex:1;"><span class="memo-time">${t}</span><div class="memo-text" title="点击复制" onclick="copyMemo('${safe}')">${row.content}</div></div><i class="memo-delete" onclick="deleteMemo('${row.id}')" title="删除">✖</i>`;
+            memoContent.appendChild(item);
+        });
+        requestAnimationFrame(() => { memoContent.scrollTop = memoContent.scrollHeight; });
     }
-  </script>
+
+    window.loadFromCloud = async () => {
+      statusText.textContent = "同步中..."; statusText.style.color = "var(--text-main)";
+      try {
+        const { data, error } = await supabase.from('memos').select('id, content, created_at').order('created_at', { ascending: true });
+        if (error) throw error;
+        renderMemos(data); statusText.textContent = "已连接"; statusText.style.color = "var(--accent)";
+      } catch (err) { statusText.textContent = "连接失败"; statusText.style.color = "#ff3b30"; console.error("Load Error:", err); }
+    };
+
+    window.deleteMemo = async (id) => {
+        if(!confirm('确认抹除此记录？')) return;
+        statusText.textContent = "删除中...";
+        try {
+            const { error } = await supabase.from('memos').delete().eq('id', id); if (error) throw error;
+            const n = document.getElementById(`memo-${id}`); if(n) { n.style.opacity='0'; setTimeout(()=>n.remove(), 200); }
+            statusText.textContent = "已删除"; resetStatus("已删除");
+        } catch (err) { statusText.textContent = "删除被拦截"; statusText.style.color = "#ff3b30"; console.error("Del Error:", err); }
+    };
+
+    const input = document.getElementById('memo-new-record');
+    if (input) {
+        input.addEventListener('keydown', async (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault(); // 核心：绝对阻止默认回车行为
+            const text = input.value.trim(); 
+            if (!text) return;
+            
+            input.value = ''; 
+            input.disabled = true; 
+            statusText.textContent = "发送中...";
+            
+            try {
+              const { error } = await supabase.from('memos').insert([{ content: text }]); 
+              if (error) throw error;
+              statusText.textContent = "已封存"; 
+              resetStatus("已封存");
+            } catch (err) {
+              console.error("云端拦截 (检查Supabase RLS权限):", err);
+              statusText.textContent = "云端拒绝访问"; 
+              statusText.style.color = "#ff3b30";
+              input.value = text; // 容灾：把没发出去的字退回给用户
+              showToast("由于后端 RLS 权限拦截，数据未能写入");
+            } finally {
+              input.disabled = false; // 核心：无论成功失败，必然解锁
+              input.focus();
+            }
+          }
+        });
+    }
+
+    try { supabase.channel('public:memos').on('postgres_changes', { event: '*', schema: 'public', table: 'memos' }, () => { window.loadFromCloud(); statusText.textContent = "有新同步"; resetStatus("有新同步"); }).subscribe(); } catch(e){}
+    document.getElementById('cloud-sync-btn')?.addEventListener('click', window.loadFromCloud);
+}
+</script>
 </body>
 </html>
