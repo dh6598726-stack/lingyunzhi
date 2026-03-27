@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="robots" content="noindex, nofollow">
-  <title>JIN Tong｜锦麟</title>
+  <title>JIN Tong｜锦麟 - 水墨境</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 
   <link rel="manifest" href="manifest.json">
@@ -11,85 +11,97 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="JIN Tong">
 
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='red' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23a72121' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>">
     
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Long+Cang&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
+      /* 核心字体：行书标题 + 衬线宋体正文 */
       --font-main: 'Long Cang', "Xingkai SC", "STXingkai", cursive;
-      --font-sys: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --bg-sidebar: rgba(255, 255, 255, 0.62);
-      --bg-card: rgba(255, 255, 255, 0.82);
-      --border-color: rgba(255, 255, 255, 0.45);
-      --border-hover: rgba(0, 122, 255, 0.6);
-      --text-main: #1d1d1f;
-      --text-sub: #5a5a5e;
-      --accent: #007aff;
-      --shadow-card: 0 4px 12px rgba(0,0,0,0.04);
-      --shadow-hover: 0 10px 28px rgba(0,0,0,0.12);
-      --radius-sm: 10px;
-      --radius-md: 16px;
-      --radius-lg: 20px;
-      --blur-val: 24px;
-      --transition-fast: 0.2s ease;
-      --transition-smooth: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      --progress-height: 3px;
+      --font-sys: 'Noto Serif SC', 'Songti SC', 'SimSun', Georgia, serif;
+      
+      /* 水墨风配色 - 明亮模式 (宣纸) */
+      --bg-body: #f5f5f3; 
+      --bg-sidebar: rgba(245, 245, 243, 0.85);
+      --bg-card: rgba(255, 255, 255, 0.6);
+      --border-color: rgba(0, 0, 0, 0.08);
+      --border-hover: rgba(167, 33, 33, 0.3); /* 朱砂红晕染 */
+      --text-main: #222222; /* 浓墨 */
+      --text-sub: #666666; /* 淡墨 */
+      --accent: #a72121; /* 朱砂/印泥红 */
+      
+      /* 阴影与圆角 */
+      --shadow-card: 0 4px 16px rgba(0,0,0,0.03);
+      --shadow-hover: 0 12px 32px rgba(0,0,0,0.08);
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --blur-val: 20px;
+      --transition-fast: 0.3s ease;
+      --transition-smooth: 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --progress-height: 2px;
     }
 
-    @keyframes fluidRainbow {
-      0%, 100% { background-position: 0% 50%; }
+    /* 水墨风配色 - 暗黑模式 (夜墨) */
+    body.dark-mode {
+      --bg-body: #121212;
+      --bg-sidebar: rgba(18, 18, 18, 0.85);
+      --bg-card: rgba(28, 28, 28, 0.6);
+      --border-color: rgba(255, 255, 255, 0.06);
+      --border-hover: rgba(186, 54, 54, 0.4);
+      --text-main: #e0e0e0;
+      --text-sub: #888888;
+      --accent: #ba3636;
+      --shadow-card: 0 4px 16px rgba(0,0,0,0.4);
+      --shadow-hover: 0 12px 32px rgba(0,0,0,0.6);
+    }
+
+    /* 背景晕染动效 */
+    @keyframes inkSpread {
+      0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     body {
-      font-family: var(--font-main);
-      background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb, #fbc2eb) fixed;
+      font-family: var(--font-sys);
+      background: linear-gradient(-45deg, var(--bg-body), #ecece9, var(--bg-body), #e8e8e6);
       background-size: 400% 400%;
-      animation: fluidRainbow 15s ease infinite;
+      animation: inkSpread 25s ease infinite;
       color: var(--text-main);
       height: 100vh;
       overflow: hidden;
-      transition: color var(--transition-fast);
+      transition: color var(--transition-smooth), background var(--transition-smooth);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
     body.dark-mode {
-      background: linear-gradient(-45deg, #2A0845, #6441A5, #120E1F, #040914, #1D2671) fixed;
+      background: linear-gradient(-45deg, #0a0a0a, #1a1a1a, #121212, #181818);
       background-size: 400% 400%;
-      --bg-sidebar: rgba(28, 28, 30, 0.68);
-      --bg-card: rgba(44, 44, 46, 0.85);
-      --border-color: rgba(255, 255, 255, 0.1);
-      --border-hover: rgba(10, 132, 255, 0.5);
-      --text-main: #f5f5f7;
-      --text-sub: #a1a1a6;
-      --accent: #0a84ff;
-      --shadow-card: 0 4px 12px rgba(0,0,0,0.4);
-      --shadow-hover: 0 10px 28px rgba(0,0,0,0.65);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.18); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(128,128,128,0.38); }
+    ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.2); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
     input, textarea { font-family: var(--font-sys); }
     
-    /* ── 阅读进度条 ── */
+    /* ── 阅读进度条 (朱砂红一线) ── */
     #read-progress {
       position: fixed; top: 0; left: 0; right: 0; height: var(--progress-height);
-      background: linear-gradient(90deg, #007aff, #af52de, #ff375f);
+      background: linear-gradient(90deg, transparent, var(--accent), #ff4d4d);
       transform-origin: left;
       transform: scaleX(0);
       z-index: 9998;
       transition: transform 0.1s linear;
-      border-radius: 0 2px 2px 0;
     }
 
     #app { display: grid; grid-template-columns: 280px 1fr; height: 100%; }
@@ -114,26 +126,26 @@
     }
 
     .brand-logo {
-      width: 40px; height: 40px; color: #ff3b30;
+      width: 40px; height: 40px; color: var(--accent);
       display: flex; align-items: center; justify-content: center;
-      font-size: 28px; animation: heartbeat 1.5s infinite ease-in-out;
+      font-size: 28px; animation: heartbeat 2.5s infinite ease-in-out;
       will-change: transform;
     }
     
-    .brand-text h1 { font-size: 26px; font-weight: 400; line-height: 1; letter-spacing: 0.5px; }
-    .brand-text span { font-size: 14px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 4px; font-family: var(--font-sys); }
+    .brand-text h1 { font-family: var(--font-main); font-size: 32px; font-weight: 400; line-height: 1; letter-spacing: 2px; }
+    .brand-text span { font-size: 12px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 2px; display: block; margin-top: 4px; }
 
-    /* ── 搜索框（含清除按钮）── */
+    /* ── 搜索框 ── */
     .search-box { position: relative; margin-bottom: 24px; }
     .search-input {
       width: 100%; padding: 12px 36px 12px 40px;
-      background: rgba(128,128,128,0.08);
+      background: transparent;
       border: 1px solid var(--border-color); border-radius: var(--radius-sm);
-      color: var(--text-main); font-size: 16px; transition: all var(--transition-fast);
+      color: var(--text-main); font-size: 15px; transition: all var(--transition-fast);
     }
     .search-input:focus {
       background: var(--bg-card); border-color: var(--accent); outline: none;
-      box-shadow: 0 0 0 3px rgba(0,122,255,0.15);
+      box-shadow: 0 0 0 1px var(--accent);
     }
     .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-sub); pointer-events: none; }
     .search-clear {
@@ -143,342 +155,345 @@
       padding: 4px;
     }
     .search-clear.visible { opacity: 1; }
-    .search-clear:hover { color: var(--text-main); }
+    .search-clear:hover { color: var(--accent); }
 
-    /* ── 搜索结果计数 ── */
     .search-hint {
-      font-size: 12px; color: var(--text-sub); font-family: var(--font-sys);
+      font-size: 12px; color: var(--text-sub);
       text-align: center; padding: 4px 0 8px; opacity: 0;
       transition: opacity var(--transition-fast);
+      letter-spacing: 1px;
     }
     .search-hint.visible { opacity: 1; }
 
     .nav-scroll { flex: 1; overflow-y: auto; padding-right: 8px; }
     
     .nav-item {
-      padding: 12px 14px; border-radius: var(--radius-sm); font-size: 16px; font-weight: 500; color: var(--text-sub);
+      padding: 12px 14px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 500; color: var(--text-sub);
       text-decoration: none; display: flex; align-items: center; gap: 12px;
       transition: all var(--transition-fast); cursor: pointer; margin-bottom: 4px;
       will-change: transform, background-color; position: relative;
     }
-    .nav-item:hover { background: rgba(128,128,128,0.1); color: var(--text-main); transform: translateX(4px); }
-    .nav-item.active { background: var(--text-main); color: #fff; }
-    body.dark-mode .nav-item.active { color: #000; }
-    .nav-icon { font-size: 18px; opacity: 0.9; }
-    /* 侧边栏活跃指示点 */
-    .nav-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--accent); margin-left: auto; opacity: 0;
-      transition: opacity var(--transition-fast);
+    .nav-item:hover { color: var(--text-main); transform: translateX(6px); }
+    .nav-item.active { background: transparent; color: var(--text-main); font-weight: 700; }
+    .nav-item.active::before {
+      content: ''; position: absolute; left: 0; top: 20%; height: 60%; width: 2px;
+      background: var(--accent);
     }
-    .nav-item.active .nav-dot { opacity: 1; }
-    body.dark-mode .nav-item.active .nav-dot { background: #0a84ff; }
+    
+    .nav-icon { font-size: 18px; opacity: 0.8; font-weight: normal; }
+    .nav-dot { display: none; }
 
     .aside-footer {
-      margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color);
+      margin-top: 20px; padding-top: 20px; border-top: 1px dashed var(--border-color);
       display: flex; justify-content: space-between; align-items: center;
     }
     .time-badge {
-      font-size: 14px; color: var(--text-sub); font-family: var(--font-sys);
-      background: rgba(128,128,128,0.08); padding: 6px 10px; border-radius: 6px; cursor: default;
-      display: flex; align-items: center; gap: 8px; border: 1px solid var(--border-color);
+      font-size: 13px; color: var(--text-sub);
+      background: transparent; padding: 6px 0; cursor: default;
+      display: flex; align-items: center; gap: 8px; border: none;
+      letter-spacing: 1px;
     }
     .time-greeting { font-size: 12px; opacity: 0.8; }
 
-    /* ── 快捷键提示图标 ── */
     .shortcut-btn {
-      width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border-color);
-      background: rgba(128,128,128,0.08); cursor: pointer; display: flex; align-items: center;
+      width: 28px; height: 28px; border-radius: 4px; border: 1px solid var(--border-color);
+      background: transparent; cursor: pointer; display: flex; align-items: center;
       justify-content: center; font-size: 14px; color: var(--text-sub);
       transition: all var(--transition-fast);
     }
-    .shortcut-btn:hover { background: var(--bg-card); color: var(--text-main); border-color: var(--accent); }
+    .shortcut-btn:hover { color: var(--accent); border-color: var(--accent); }
 
     main { padding: 48px 6vw; overflow-y: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; position: relative; }
 
-    /* ── 返回顶部按钮 ── */
     #back-top {
       position: fixed; bottom: 40px; right: 40px;
-      width: 44px; height: 44px; border-radius: 50%;
+      width: 44px; height: 44px; border-radius: 4px;
       background: var(--bg-sidebar); border: 1px solid var(--border-color);
       backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
-      box-shadow: var(--shadow-hover);
+      box-shadow: var(--shadow-card);
       display: flex; align-items: center; justify-content: center;
-      font-size: 20px; color: var(--text-main); cursor: pointer;
+      font-size: 20px; color: var(--text-sub); cursor: pointer;
       opacity: 0; transform: translateY(20px);
       transition: all var(--transition-smooth);
       z-index: 900;
     }
     #back-top.visible { opacity: 1; transform: translateY(0); }
-    #back-top:hover { background: var(--text-main); color: #fff; transform: translateY(-3px); }
-    body.dark-mode #back-top:hover { background: #fff; color: #000; }
+    #back-top:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-3px); }
 
+    /* ── Hero 水墨留白区块 ── */
     .hero-quote {
-      margin-bottom: 40px; padding: 56px;
-      background-color: #2c2c2e;
-      background-image: url('JIN.jpg'); background-size: cover; background-position: center;
-      border-radius: var(--radius-lg); border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-card); position: relative; overflow: hidden;
+      margin-bottom: 56px; padding: 64px 40px;
+      background: linear-gradient(135deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.05) 100%);
+      border-radius: var(--radius-sm); 
+      border-left: 4px solid var(--text-main);
+      position: relative; overflow: hidden;
     }
-    .hero-quote::before {
-      content: ""; position: absolute; inset: 0;
-      background: linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.2)); z-index: 1;
+    body.dark-mode .hero-quote {
+      background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.05) 100%);
+    }
+    /* 装饰性印章印记 */
+    .hero-quote::after {
+      content: '锦麟';
+      position: absolute; right: 40px; bottom: 40px;
+      font-family: var(--font-main); font-size: 60px;
+      color: var(--accent); opacity: 0.1; transform: rotate(-15deg);
+      user-select: none; pointer-events: none;
     }
     .quote-text, .quote-sub { position: relative; z-index: 2; }
-    .quote-text { font-size: 32px; line-height: 1.6; color: #ffffff; margin-bottom: 12px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-    .quote-sub { font-size: 16px; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-sys); }
+    .quote-text { 
+      font-family: var(--font-main);
+      font-size: 38px; line-height: 1.5; color: var(--text-main); 
+      margin-bottom: 16px; letter-spacing: 2px;
+    }
+    .quote-sub { 
+      font-size: 14px; color: var(--text-sub); letter-spacing: 3px; 
+      text-transform: uppercase; border-top: 1px solid var(--border-color); 
+      display: inline-block; padding-top: 12px;
+    }
+    .secret-trigger { cursor: pointer; transition: all var(--transition-fast); display: inline-block; color: var(--accent); }
+    .secret-trigger:hover { transform: scale(1.1); }
 
-    .secret-trigger { cursor: pointer; transition: all var(--transition-fast); display: inline-block; }
-    .secret-trigger:hover { color: #fff; text-shadow: 0 0 12px rgba(255,255,255,0.9); transform: translateY(-2px); }
-
-    .section-block { margin-bottom: 56px; scroll-margin-top: 32px; }
+    .section-block { margin-bottom: 64px; scroll-margin-top: 32px; }
     .section-header {
       display: flex; align-items: baseline; justify-content: space-between;
-      margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);
+      margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color);
     }
-    .section-title { font-size: 22px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; }
-    .section-count { font-size: 14px; color: var(--text-sub); text-transform: uppercase; font-family: var(--font-sys); }
+    .section-title { font-family: var(--font-main); font-size: 28px; font-weight: normal; color: var(--text-main); display: flex; align-items: center; gap: 8px; letter-spacing: 2px; }
+    .section-count { font-size: 12px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 2px; }
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
     .hidden { display: none !important; }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(15px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* ── 卡片水墨风调整 ── */
     .card {
       background: var(--bg-card);
-      border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;
-      cursor: pointer; display: flex; flex-direction: column; gap: 12px;
+      border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 24px;
+      cursor: pointer; display: flex; flex-direction: column; gap: 16px;
       transition: var(--transition-smooth);
       text-decoration: none; color: inherit;
-      opacity: 0; animation: fadeUp 0.4s ease forwards;
+      opacity: 0; animation: fadeUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
       will-change: transform, box-shadow, border-color;
-      transform: translateZ(0);
       position: relative;
     }
+    .card::before {
+      content: ''; position: absolute; left: 0; bottom: 0; width: 0; height: 2px;
+      background: var(--accent); transition: width var(--transition-smooth);
+    }
     .card:hover {
-      border-color: var(--border-hover); transform: translateY(-5px) scale(1.02);
+      border-color: var(--border-hover); transform: translateY(-4px);
       box-shadow: var(--shadow-hover); background: var(--bg-sidebar);
     }
+    .card:hover::before { width: 100%; }
 
-    /* ── 收藏角标 ── */
+    /* 收藏角标 */
     .card-fav {
-      position: absolute; top: 10px; right: 10px;
-      font-size: 14px; opacity: 0; cursor: pointer;
-      transition: opacity var(--transition-fast), transform var(--transition-fast);
-      z-index: 5; color: #ff9500; padding: 4px;
+      position: absolute; top: 12px; right: 12px;
+      font-size: 16px; opacity: 0; cursor: pointer;
+      transition: all var(--transition-fast);
+      z-index: 5; color: var(--text-sub); padding: 4px;
       background: none; border: none; line-height: 1;
     }
-    .card:hover .card-fav { opacity: 0.5; }
-    .card-fav.active { opacity: 1 !important; }
-    .card-fav:hover { transform: scale(1.2); opacity: 1 !important; }
+    .card:hover .card-fav { opacity: 0.3; }
+    .card-fav.active { opacity: 1 !important; color: var(--accent); }
+    .card-fav:hover { transform: scale(1.2); opacity: 1 !important; color: var(--accent); }
 
     .card-head { display: flex; justify-content: space-between; align-items: flex-start; }
-    .icon-box {
-      width: 36px; height: 36px; border-radius: 10px; background: rgba(128,128,128,0.1);
-      display: flex; align-items: center; justify-content: center; font-size: 18px;
-      color: var(--text-main); border: 1px solid var(--border-color);
-    }
-    .link-arrow { font-size: 14px; color: var(--text-sub); transition: var(--transition-fast); }
-    .card:hover .link-arrow { color: var(--accent); transform: translate(3px, -3px); }
     
-    .card-body { display: flex; flex-direction: column; gap: 4px; }
-    .card-title { font-size: 18px; font-weight: 600; color: var(--text-main); }
+    /* 图标：默认仿古褪色，悬浮恢复彩色 */
+    .icon-box {
+      width: 40px; height: 40px; border-radius: 4px; background: transparent;
+      display: flex; align-items: center; justify-content: center; font-size: 20px;
+      color: var(--text-main); border: 1px solid var(--border-color);
+      filter: sepia(0.4) grayscale(0.8) contrast(0.9);
+      transition: var(--transition-smooth);
+    }
+    .card:hover .icon-box { filter: grayscale(0%) sepia(0); border-color: var(--border-hover); }
+    
+    .link-arrow { font-size: 16px; color: var(--text-sub); transition: var(--transition-fast); opacity: 0; transform: translate(-5px, 5px); }
+    .card:hover .link-arrow { color: var(--accent); opacity: 1; transform: translate(0, 0); }
+    
+    .card-body { display: flex; flex-direction: column; gap: 8px; }
+    .card-title { font-size: 17px; font-weight: 600; color: var(--text-main); letter-spacing: 0.5px; }
     .card-desc {
-      font-size: 14px; color: var(--text-sub); line-height: 1.4; font-family: var(--font-sys);
+      font-size: 13px; color: var(--text-sub); line-height: 1.6;
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
+    
     /* 搜索高亮 */
-    mark {
-      background: rgba(0,122,255,0.2); color: var(--accent);
-      border-radius: 3px; padding: 0 2px;
-    }
-    body.dark-mode mark { background: rgba(10,132,255,0.25); }
+    mark { background: transparent; color: var(--accent); font-weight: bold; padding: 0; }
 
-    #empty-state { text-align: center; padding: 60px 20px; opacity: 0.6; }
+    #empty-state { text-align: center; padding: 80px 20px; opacity: 0.6; }
     #empty-state i { font-size: 48px; color: var(--text-sub); margin-bottom: 16px; display: block; }
-    #empty-state p { font-size: 16px; color: var(--text-main); font-weight: 500; font-family: var(--font-sys); }
+    #empty-state p { font-size: 15px; color: var(--text-main); letter-spacing: 2px; }
 
+    /* ── 岁月胶囊 (特殊区块) ── */
     .time-capsule {
-      margin-bottom: 56px; padding: 24px 32px;
-      background: linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
-      border-radius: var(--radius-lg); cursor: pointer; display: flex; align-items: center; justify-content: space-between;
-      box-shadow: var(--shadow-hover); border: 1px solid rgba(255,255,255,0.15);
-      position: relative; overflow: hidden; color: #fff;
-      transition: transform var(--transition-fast); text-decoration: none;
-      will-change: transform;
+      margin-bottom: 64px; padding: 28px 40px;
+      background: transparent; border: 1px dashed var(--border-color);
+      border-radius: var(--radius-sm); cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+      position: relative; overflow: hidden; color: var(--text-main);
+      transition: all var(--transition-smooth); text-decoration: none;
     }
-    .time-capsule:hover { transform: scale(1.01) translateY(-2px); border-color: rgba(255,255,255,0.4); }
-    .time-capsule::before {
-      content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-      transform: skewX(-20deg);
-    }
-    .time-capsule:hover::before { left: 200%; transition: 0.8s ease-in-out; }
-    .capsule-left { display: flex; align-items: center; gap: 20px; z-index: 2; }
+    .time-capsule:hover { border-color: var(--text-main); background: rgba(0,0,0,0.02); }
+    body.dark-mode .time-capsule:hover { background: rgba(255,255,255,0.02); }
+    
+    .capsule-left { display: flex; align-items: center; gap: 24px; z-index: 2; }
     .capsule-icon-box {
-      width: 48px; height: 48px; background: rgba(255,255,255,0.15); backdrop-filter: blur(5px);
-      border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px;
+      width: 48px; height: 48px; border: 1px solid var(--border-color);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px;
+      color: var(--text-sub); transition: color var(--transition-fast);
     }
+    .time-capsule:hover .capsule-icon-box { color: var(--accent); border-color: var(--accent); }
     .capsule-info { display: flex; flex-direction: column; }
-    .capsule-title { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
-    .capsule-desc { color: rgba(255,255,255,0.6); font-size: 14px; margin-top: 4px; font-family: var(--font-sys); }
+    .capsule-title { font-size: 18px; font-weight: 700; letter-spacing: 1px; }
+    .capsule-desc { color: var(--text-sub); font-size: 13px; margin-top: 6px; }
     .capsule-arrow {
-      width: 36px; height: 36px; border-radius: 50%; background: #fff; color: #000;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; opacity: 0; transform: translateX(-15px); transition: all var(--transition-fast);
+      font-size: 24px; color: var(--text-sub); transition: all var(--transition-fast);
     }
-    .time-capsule:hover .capsule-arrow { opacity: 1; transform: translateX(0); }
+    .time-capsule:hover .capsule-arrow { color: var(--accent); transform: translateX(5px); }
 
-    /* ── 收藏区 ── */
     #sec-favorites .grid { min-height: 60px; }
-    #fav-empty {
-      font-size: 14px; color: var(--text-sub); font-family: var(--font-sys);
-      padding: 20px 0; text-align: center; opacity: 0.7;
-    }
+    #fav-empty { font-size: 14px; color: var(--text-sub); padding: 20px 0; text-align: center; opacity: 0.7; letter-spacing: 1px; }
 
+    /* 深海区域模糊 */
     .sensitive-zone { position: relative; transition: all 0.5s ease; }
     .locked { display: none !important; }
-    .sensitive-blur { filter: blur(12px); opacity: 0.3; transition: 0.4s ease; will-change: filter, opacity; pointer-events: none; }
+    .sensitive-blur { filter: blur(16px); opacity: 0.2; transition: 0.6s ease; pointer-events: none; }
     .sensitive-mask {
       position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5; pointer-events: none;
     }
     .mask-badge {
-      background: rgba(0,0,0,0.8); color: #fff; backdrop-filter: blur(4px);
-      padding: 8px 16px; border-radius: 8px; font-size: 14px; font-family: var(--font-sys);
-      font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-      transition: var(--transition-fast); box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      background: var(--text-main); color: var(--bg-body); 
+      padding: 10px 24px; border-radius: 2px; font-size: 13px;
+      letter-spacing: 4px; text-transform: uppercase;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     }
-    .sensitive-zone:hover .sensitive-blur { filter: blur(0); opacity: 1; }
+    .sensitive-zone:hover .sensitive-blur { filter: blur(4px); opacity: 0.5; }
     .sensitive-zone.unlocked .sensitive-blur { filter: blur(0); opacity: 1; pointer-events: auto; }
     .sensitive-zone.unlocked .sensitive-mask { display: none; }
 
-    /* ── 闪屏 ── */
+    /* ── 水墨闪屏 ── */
     #splash {
       position: fixed; inset: 0; z-index: 9999;
-      background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb, #fbc2eb);
-      background-size: 400% 400%;
-      animation: fluidRainbow 10s ease infinite;
+      background: var(--bg-body);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      transition: opacity 0.6s ease, visibility 0.6s; user-select: none;
-      will-change: opacity, visibility;
+      transition: opacity 1s ease, visibility 1s; user-select: none;
     }
     .splash-quote {
-      font-size: 32px; text-align: center; max-width: 600px; line-height: 1.6;
-      margin-bottom: 40px; padding: 0 20px; color: var(--text-main);
-      max-height: 75vh; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      font-family: var(--font-main); font-size: 36px; text-align: center; 
+      max-width: 600px; line-height: 1.8; padding: 0 20px; color: var(--text-main);
+      letter-spacing: 2px;
     }
+    .splash-stamp {
+      color: var(--accent); border: 2px solid var(--accent); padding: 4px 8px;
+      font-size: 24px; display: inline-block; transform: rotate(-5deg);
+      cursor: pointer; border-radius: 4px; margin-top: 20px;
+      transition: all 0.3s;
+    }
+    .splash-stamp:hover { background: var(--accent); color: var(--bg-body); }
 
     /* ── 快捷键面板 ── */
     #shortcut-panel {
       position: fixed; inset: 0; z-index: 9995;
-      background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
       display: flex; align-items: center; justify-content: center;
       opacity: 0; pointer-events: none; transition: opacity var(--transition-smooth);
     }
     #shortcut-panel.active { opacity: 1; pointer-events: auto; }
     .shortcut-card {
       background: var(--bg-card); border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg); padding: 32px; min-width: 340px;
+      border-radius: var(--radius-md); padding: 40px; min-width: 360px;
       box-shadow: var(--shadow-hover);
-      transform: scale(0.95); transition: transform var(--transition-smooth);
+      transform: scale(0.95) translateY(10px); transition: all var(--transition-smooth);
     }
-    #shortcut-panel.active .shortcut-card { transform: scale(1); }
-    .shortcut-card h3 { font-size: 18px; margin-bottom: 20px; color: var(--text-main); font-family: var(--font-main); }
+    #shortcut-panel.active .shortcut-card { transform: scale(1) translateY(0); }
+    .shortcut-card h3 { font-family: var(--font-main); font-size: 26px; margin-bottom: 24px; color: var(--text-main); font-weight: normal; text-align: center; }
     .shortcut-row {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 0; border-bottom: 1px solid var(--border-color);
-      font-family: var(--font-sys); font-size: 14px; color: var(--text-sub);
+      padding: 12px 0; border-bottom: 1px dashed var(--border-color);
+      font-size: 14px; color: var(--text-sub);
     }
     .shortcut-row:last-child { border-bottom: none; }
     .shortcut-row span:first-child { color: var(--text-main); }
     kbd {
-      background: rgba(128,128,128,0.1); border: 1px solid var(--border-color);
-      border-radius: 5px; padding: 3px 8px; font-size: 12px; font-family: monospace;
-      color: var(--text-main); box-shadow: 0 1px 0 var(--border-color);
+      background: transparent; border: 1px solid var(--border-color);
+      border-radius: 4px; padding: 2px 8px; font-size: 12px; font-family: monospace;
+      color: var(--text-sub); 
     }
 
-    /* ── 备忘录 ── */
+    /* ── 备忘录 (手札) ── */
     #ghost-memo {
-      position: fixed; bottom: 40px; right: 40px; width: 340px; height: 460px;
+      position: fixed; bottom: 40px; right: 40px; width: 360px; height: 500px;
       background: var(--bg-sidebar); color: var(--text-main);
       backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
-      border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 24px;
+      border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 24px;
       display: flex; flex-direction: column;
       box-shadow: var(--shadow-hover); transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none;
-      transition: var(--transition-smooth); z-index: 1000; font-family: var(--font-sys);
-      will-change: transform, opacity;
+      transition: var(--transition-smooth); z-index: 1000;
     }
     #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
 
     #memo-content {
-      flex: 1; background: rgba(128,128,128,0.05); border: none; outline: none; border-radius: 8px; padding: 14px;
-      margin-top: 12px; margin-bottom: 8px; overflow-y: auto; scroll-behavior: smooth;
+      flex: 1; background: transparent; border: none; outline: none; padding: 10px 0;
+      margin-top: 12px; margin-bottom: 12px; overflow-y: auto; scroll-behavior: smooth;
     }
     .memo-item {
       display: flex; justify-content: space-between; align-items: flex-start;
-      margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed rgba(128,128,128,0.15);
-      color: var(--text-main); font-size: 14px; line-height: 1.6;
+      margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px dashed var(--border-color);
+      color: var(--text-main); font-size: 14px; line-height: 1.8;
     }
     .memo-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
     .memo-text {
       flex: 1; word-break: break-all; white-space: pre-wrap; font-family: inherit;
       cursor: pointer; transition: opacity var(--transition-fast);
     }
-    .memo-text:hover { opacity: 0.7; }
-    .memo-time { font-size: 11px; opacity: 0.5; display: block; margin-bottom: 4px; }
+    .memo-text:hover { color: var(--accent); }
+    .memo-time { font-size: 12px; color: var(--text-sub); display: block; margin-bottom: 6px; font-family: monospace; }
     .memo-delete {
-      cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity var(--transition-fast);
-      padding: 0 4px; margin-left: 8px; font-weight: bold; font-size: 16px; user-select: none;
+      cursor: pointer; color: var(--text-sub); opacity: 0; transition: all var(--transition-fast);
+      padding: 0 4px; margin-left: 8px; font-size: 18px; user-select: none;
     }
-    .memo-item:hover .memo-delete { opacity: 0.6; }
-    .memo-delete:hover { opacity: 1 !important; transform: scale(1.1); }
-    @media (max-width: 768px) { .memo-delete { opacity: 0.8; } }
+    .memo-item:hover .memo-delete { opacity: 0.5; }
+    .memo-delete:hover { opacity: 1 !important; color: var(--accent); transform: scale(1.2) rotate(90deg); }
 
-    /* 字数统计 */
     .memo-input-wrap { position: relative; }
     #memo-new-record {
-      width: 100%; background: rgba(128,128,128,0.08); border: 1px solid var(--border-color);
-      outline: none; border-radius: 8px; padding: 12px 48px 12px 12px;
+      width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--text-main);
+      outline: none; padding: 12px 48px 12px 4px;
       color: var(--text-main); font-size: 14px; transition: all var(--transition-fast); font-family: inherit;
     }
-    #memo-new-record:focus { background: var(--bg-sidebar); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,122,255,0.15); }
+    #memo-new-record:focus { border-color: var(--accent); }
     #memo-char-count {
-      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-      font-size: 11px; color: var(--text-sub); pointer-events: none; opacity: 0;
-      transition: opacity var(--transition-fast);
+      position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+      font-size: 12px; color: var(--text-sub); pointer-events: none; opacity: 0;
+      transition: opacity var(--transition-fast); font-family: monospace;
     }
     #memo-new-record:focus ~ #memo-char-count { opacity: 1; }
 
     /* ── 恐慌覆盖层 ── */
     #panic-overlay {
-      position: fixed; inset: 0; background: #ffffff; z-index: 99999;
+      position: fixed; inset: 0; background: var(--bg-body); z-index: 99999;
       display: flex; align-items: center; justify-content: center;
       text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; font-family: monospace;
     }
     #panic-overlay.active { opacity: 1; pointer-events: auto; }
-    .glitch-wrapper { position: relative; }
-    .glitch { font-size: 100px; margin: 0; color: #333; position: relative; font-weight: bold; }
-    .glitch::before, .glitch::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8; }
-    .glitch::before { left: 2px; text-shadow: -2px 0 red; clip: rect(24px,550px,90px,0); animation: glitch-anim 2.5s infinite linear alternate-reverse; }
-    .glitch::after { left: -2px; text-shadow: -2px 0 blue; clip: rect(85px,550px,140px,0); animation: glitch-anim 3s infinite linear alternate-reverse; }
-    @keyframes glitch-anim {
-      0%{clip:rect(11px,9999px,86px,0)} 20%{clip:rect(65px,9999px,13px,0)}
-      40%{clip:rect(100px,9999px,10px,0)} 60%{clip:rect(3px,9999px,80px,0)}
-      80%{clip:rect(40px,9999px,15px,0)} 100%{clip:rect(95px,9999px,50px,0)}
-    }
+    .glitch { font-size: 80px; margin: 0; color: var(--text-sub); font-weight: normal; letter-spacing: 10px; }
 
-    /* ── Toast ── */
-    .toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+    /* ── Toast (提示) ── */
+    .toast-container { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 12px; pointer-events: none; }
     .toast {
-      background: rgba(0,0,0,0.85); color: #0f0; font-family: monospace; font-size: 14px;
-      padding: 12px 24px; border-radius: 8px; border: 1px solid #0f0; box-shadow: 0 0 15px rgba(0,255,0,0.3);
-      animation: toast-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards, toast-out 0.3s 2.5s forwards;
+      background: var(--text-main); color: var(--bg-body); font-size: 14px;
+      padding: 12px 32px; border-radius: 2px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      animation: toast-in 0.4s cubic-bezier(0.175,0.885,0.32,1.275) forwards, toast-out 0.4s 2.5s forwards;
+      letter-spacing: 1px; text-align: center;
     }
     @keyframes toast-in { from{transform:translateY(100%);opacity:0} to{transform:translateY(0);opacity:1} }
-    @keyframes toast-out { from{transform:translateY(0);opacity:1} to{transform:translateY(-50%);opacity:0} }
+    @keyframes toast-out { from{transform:translateY(0);opacity:1} to{transform:translateY(-20px);opacity:0} }
     
     .mobile-header, .mobile-overlay { display: none; }
 
@@ -489,19 +504,19 @@
       .mobile-header {
         display: flex; align-items: center; justify-content: space-between; gap: 16px;
         padding: 12px 20px; background: var(--bg-sidebar); backdrop-filter: blur(var(--blur-val));
-        -webkit-backdrop-filter: blur(var(--blur-val)); border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
         position: sticky; top: 0; z-index: 900; flex-shrink: 0;
       }
       .mh-left { display: flex; align-items: center; gap: 16px; flex: 1; }
-      .mh-logo { color: #ff3b30; font-size: 26px; animation: heartbeat 1.5s infinite; cursor: pointer; }
+      .mh-logo { color: var(--accent); font-size: 24px; animation: heartbeat 2.5s infinite; cursor: pointer; }
       .mh-search-box { flex: 1; position: relative; }
       .mh-search-box input {
-        width: 100%; padding: 10px 36px 10px 36px; border-radius: var(--radius-sm); font-size: 16px;
-        background: rgba(128,128,128,0.08); border: 1px solid transparent; color: var(--text-main);
+        width: 100%; padding: 10px 32px; border-radius: var(--radius-sm); font-size: 15px;
+        background: transparent; border: 1px solid var(--border-color); color: var(--text-main);
       }
-      .mh-search-box .search-icon { left: 12px; }
+      .mh-search-box .search-icon { left: 10px; }
       .mh-search-box .search-clear { right: 8px; }
-      .mh-menu-btn { font-size: 26px; color: var(--text-main); cursor: pointer; }
+      .mh-menu-btn { font-size: 24px; color: var(--text-main); cursor: pointer; }
 
       aside {
         position: fixed; top: 0; left: -100%; bottom: 0; width: 280px; height: 100dvh;
@@ -510,19 +525,19 @@
       aside.open { left: 0; }
       
       .mobile-overlay {
-        display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.4);
-        backdrop-filter: blur(2px); z-index: 990;
-        opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+        z-index: 990; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
       }
       .mobile-overlay.open { opacity: 1; pointer-events: auto; }
 
-      main { padding: 24px 20px calc(80px + env(safe-area-inset-bottom)) 20px; }
+      main { padding: 32px 20px calc(80px + env(safe-area-inset-bottom)) 20px; }
       .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
-      .hero-quote { padding: 32px 24px; margin-bottom: 24px; }
+      .hero-quote { padding: 40px 24px; margin-bottom: 40px; }
       .quote-text { font-size: 28px; }
+      .hero-quote::after { font-size: 40px; bottom: 20px; right: 20px; }
       #ghost-memo { width: auto; left: 16px; right: 16px; bottom: calc(20px + env(safe-area-inset-bottom)); height: 65vh; }
-      #back-top { bottom: calc(100px + env(safe-area-inset-bottom)); right: 20px; width: 38px; height: 38px; font-size: 16px; }
-      #shortcut-panel .shortcut-card { margin: 20px; min-width: unset; }
+      #back-top { bottom: calc(100px + env(safe-area-inset-bottom)); right: 20px; width: 40px; height: 40px; font-size: 18px; }
+      #shortcut-panel .shortcut-card { margin: 20px; min-width: unset; padding: 24px; }
     }
   </style>
 </head>
@@ -533,33 +548,33 @@
   <div class="mobile-overlay" id="mobile-overlay"></div>
 
   <div id="panic-overlay">
-    <div class="glitch-wrapper">
-      <h1 class="glitch" data-text="404">404</h1>
-      <p style="font-size:24px;color:#666;font-family:var(--font-sys);">Not Found</p>
-      <div style="margin-top:20px;color:#999;font-size:14px;">nginx/1.18.0 (Ubuntu)</div>
+    <div>
+      <h1 class="glitch">404</h1>
+      <p style="font-size:20px;color:var(--text-sub);letter-spacing:4px;margin-top:20px;">万物皆空</p>
     </div>
   </div>
 
-  <!-- 快捷键面板 -->
   <div id="shortcut-panel" onclick="if(event.target===this)toggleShortcuts()">
     <div class="shortcut-card">
-      <h3>⌨️ 快捷键一览</h3>
-      <div class="shortcut-row"><span>打开搜索</span><span><kbd>Ctrl</kbd>+<kbd>K</kbd></span></div>
-      <div class="shortcut-row"><span>查看收藏</span><span><kbd>F</kbd></span></div>
-      <div class="shortcut-row"><span>关闭此面板</span><span><kbd>?</kbd> 或点击背景</span></div>
+      <h3>键盘引路</h3>
+      <div class="shortcut-row"><span>唤醒搜索</span><span><kbd>Ctrl</kbd> + <kbd>K</kbd></span></div>
+      <div class="shortcut-row"><span>阅览收藏</span><span><kbd>F</kbd></span></div>
+      <div class="shortcut-row"><span>昼夜交替</span><span><kbd>T</kbd></span></div>
+      <div class="shortcut-row"><span>隐秘手札</span><span><kbd>M</kbd></span></div>
+      <div class="shortcut-row"><span>隐去此卷</span><span><kbd>?</kbd> 或 点击留白</span></div>
     </div>
   </div>
 
   <div id="splash">
     <div class="splash-quote">
-      <p style="font-size:28px;text-align:left;line-height:1.8;">
-        走了很长的路，也见过很多风景。<br>
-        唯独星空深处的那轮明月最不认生。<br>
-        它在异乡的窗前，守着当年我在故乡没做完的梦。<br>
-        <br><br>
-        回头看，<span onclick="closeSplash()" style="cursor:pointer;touch-action:manipulation;padding:10px 5px;margin:-10px -5px;position:relative;z-index:10;">轻舟</span>已过万重山；<br>
-        向前看，长路漫漫亦灿烂。
-      </p>
+      走了很长的路，也见过很多风景。<br>
+      唯独星空深处的那轮明月最不认生。<br>
+      它在异乡的窗前，守着当年我在故乡没做完的梦。<br>
+      <br>
+      回头看，轻舟已过万重山；<br>
+      向前看，长路漫漫亦灿烂。
+      <br>
+      <div class="splash-stamp" onclick="closeSplash()">启卷</div>
     </div>
   </div>
 
@@ -569,26 +584,26 @@
         <div class="mh-logo" onclick="document.body.classList.toggle('dark-mode')"><i class="ri-heart-3-fill"></i></div>
         <div class="mh-search-box">
           <i class="ri-search-2-line search-icon"></i>
-          <input type="text" class="search-input" placeholder="搜点什么...">
-          <i class="ri-close-circle-fill search-clear" id="search-clear-mobile" title="清空"></i>
+          <input type="text" class="search-input" placeholder="寻觅...">
+          <i class="ri-close-line search-clear" id="search-clear-mobile" title="清空"></i>
         </div>
       </div>
       <div class="mh-menu-btn" id="mobile-menu-btn"><i class="ri-menu-4-line"></i></div>
     </div>
 
     <aside id="sidebar">
-      <div class="brand" id="theme-toggle" title="切换主题 (T)">
+      <div class="brand" id="theme-toggle" title="明暗更替 (T)">
         <div class="brand-logo"><i class="ri-heart-3-fill"></i></div>
         <div class="brand-text">
           <h1>JIN Tong</h1>
-          <span>ARCHIVE</span>
+          <span>Archival Realm</span>
         </div>
       </div>
         
       <div class="search-box">
         <i class="ri-search-2-line search-icon"></i>
-        <input type="text" class="search-input" id="search-input" placeholder="搜点什么 (Ctrl+K)">
-        <i class="ri-close-circle-fill search-clear" id="search-clear-desktop" title="清空"></i>
+        <input type="text" class="search-input" id="search-input" placeholder="寻觅... (Ctrl+K)">
+        <i class="ri-close-line search-clear" id="search-clear-desktop" title="清空"></i>
       </div>
       <div class="search-hint" id="search-hint"></div>
 
@@ -596,9 +611,9 @@
 
       <div class="aside-footer">
         <div class="time-badge">
-          <span id="date-pill" style="margin-right:4px;"></span>
-          <span id="time-pill" style="font-weight:600;">00:00</span>
-          <span class="time-greeting" id="time-greeting">你好</span>
+          <span id="date-pill" style="margin-right:8px;"></span>
+          <span id="time-pill" style="font-family:monospace;font-size:14px;">00:00</span>
+          <span class="time-greeting" id="time-greeting" style="margin-left:8px;">你好</span>
         </div>
         <div class="shortcut-btn" onclick="toggleShortcuts()" title="快捷键 (?)">
           <i class="ri-keyboard-line"></i>
@@ -611,38 +626,37 @@
         <div class="quote-text">
           天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo()">凌云</span>之志。
         </div>
-        <div class="quote-sub">Long live freedom / The Visual Archive</div>
+        <div class="quote-sub">The Zen Archive / Endless Horizon</div>
       </div>
 
       <a class="time-capsule" href="https://archive.org/" target="_blank" rel="noopener noreferrer">
         <div class="capsule-left">
           <div class="capsule-icon-box"><i class="ri-bank-line"></i></div>
           <div class="capsule-info">
-            <span class="capsule-title">互联网档案馆</span>
-            <span class="capsule-desc">查询全球互联网历史页面的免费数据库</span>
+            <span class="capsule-title">岁月史书 (Archive)</span>
+            <span class="capsule-desc">穿梭时光，寻觅散落于岁月的互联网遗迹</span>
           </div>
         </div>
         <div class="capsule-arrow"><i class="ri-arrow-right-line"></i></div>
       </a>
 
-      <!-- 收藏夹区块 -->
       <div class="section-block" id="sec-favorites" style="display:none;">
         <div class="section-header">
-          <div class="section-title">⭐ 我的收藏</div>
-          <div class="section-count" id="fav-count">0 items</div>
+          <div class="section-title">珍藏</div>
+          <div class="section-count" id="fav-count">0 卷</div>
         </div>
         <div class="grid" id="fav-grid">
-          <div id="fav-empty">还没有收藏，点击卡片右上角的 ★ 即可收藏</div>
+          <div id="fav-empty">书架空空如也，点按卡片右上角朱批即可珍藏</div>
         </div>
       </div>
 
       <div id="empty-state" class="hidden">
-        <i class="ri-ghost-line"></i>
-        <p>当前象限未捕捉到相关信号...</p>
+        <i class="ri-blur-off-line"></i>
+        <p>迷雾重重，未寻得线索...</p>
       </div>
 
       <div class="section-block" id="sec-daily" data-icon="ri-newspaper-line">
-        <div class="section-header"><div class="section-title">资讯</div><div class="section-count">Tech & Startup Feed</div></div>
+        <div class="section-header"><div class="section-title">朝闻</div><div class="section-count">Tech & Startup Feed</div></div>
         <div class="grid">
           <a class="card" href="https://36kr.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="36kr" data-title="36氪" data-desc="国内前沿的科技与商业创投新闻" data-icon="📰" data-href="https://36kr.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">📰</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">36氪</div><div class="card-desc">国内前沿的科技与商业创投新闻</div></div></a>
           <a class="card" href="https://sspai.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="sspai" data-title="少数派" data-desc="提升工作效率的数码产品和软件教程" data-icon="📱" data-href="https://sspai.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">📱</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">少数派</div><div class="card-desc">提升工作效率的数码产品和软件教程</div></div></a>
@@ -656,7 +670,7 @@
       </div>
 
       <div class="section-block" id="sec-news" data-icon="ri-global-line">
-        <div class="section-header"><div class="section-title">权威新闻</div><div class="section-count">Global & Authoritative News</div></div>
+        <div class="section-header"><div class="section-title">风云</div><div class="section-count">Global & Authoritative News</div></div>
         <div class="grid">
           <a class="card" href="https://www.reuters.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="reuters" data-title="路透社" data-desc="全球领先的国际新闻与金融数据通讯社" data-icon="🌐" data-href="https://www.reuters.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">路透社</div><div class="card-desc">全球领先的国际新闻与金融数据通讯社</div></div></a>
           <a class="card" href="https://apnews.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="apnews" data-title="美联社" data-desc="全球最大、历史最悠久的独立新闻通讯社之一" data-icon="📡" data-href="https://apnews.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">📡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">美联社</div><div class="card-desc">全球最大、历史最悠久的独立新闻通讯社之一</div></div></a>
@@ -670,7 +684,7 @@
       </div>
 
       <div class="section-block" id="sec-ai" data-icon="ri-brain-line">
-        <div class="section-header"><div class="section-title">AI 与大模型</div><div class="section-count">Artificial Intelligence</div></div>
+        <div class="section-header"><div class="section-title">智枢</div><div class="section-count">Artificial Intelligence</div></div>
         <div class="grid">
           <a class="card" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="chatgpt" data-title="ChatGPT" data-desc="全球最强大的AI人工智能文字对话助手" data-icon="🧠" data-href="https://chatgpt.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🧠</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">ChatGPT</div><div class="card-desc">全球最强大的AI人工智能文字对话助手</div></div></a>
           <a class="card" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="gemini" data-title="Gemini" data-desc="谷歌公司推出的官方智能AI模型助手" data-icon="✨" data-href="https://gemini.google.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gemini</div><div class="card-desc">谷歌公司推出的官方智能AI模型助手</div></div></a>
@@ -687,7 +701,7 @@
       </div>
 
       <div class="section-block" id="sec-webmaster" data-icon="ri-server-line">
-        <div class="section-header"><div class="section-title">站长</div><div class="section-count">Webmaster & Infrastructure</div></div>
+        <div class="section-header"><div class="section-title">基石</div><div class="section-count">Webmaster & Infrastructure</div></div>
         <div class="grid">
           <a class="card" href="https://dashboard.decodo.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="decodo" data-title="Decodo" data-desc="提供高匿名性和高防安全保护的网络代理服务" data-icon="🎛️" data-href="https://dashboard.decodo.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🎛️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Decodo</div><div class="card-desc">提供高匿名性和高防安全保护的网络代理服务</div></div></a>
           <a class="card" href="https://github.com/dh6598726-stack/woaibixia" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="github" data-title="GitHub" data-desc="全球程序员用来托管代码和开源软件的网站" data-icon="📦" data-href="https://github.com/dh6598726-stack/woaibixia" title="收藏">★</button><div class="card-head"><div class="icon-box">📦</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">GitHub</div><div class="card-desc">全球程序员用来托管代码和开源软件的网站</div></div></a>
@@ -702,7 +716,7 @@
       </div>
 
       <div class="section-block" id="sec-geek" data-icon="ri-shield-keyhole-line">
-        <div class="section-header"><div class="section-title">代码</div><div class="section-count">Development & Cybersecurity</div></div>
+        <div class="section-header"><div class="section-title">极客</div><div class="section-count">Development & Cybersecurity</div></div>
         <div class="grid">
           <a class="card" href="https://stackoverflow.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="stackoverflow" data-title="StackOverflow" data-desc="全球最大的程序员代码报错与技术问答社区" data-icon="💡" data-href="https://stackoverflow.com" title="收藏">★</button><div class="card-head"><div class="icon-box">💡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">StackOverflow</div><div class="card-desc">全球最大的程序员代码报错与技术问答社区</div></div></a>
           <a class="card" href="https://replit.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="replit" data-title="Replit" data-desc="无需本地环境配置，打开网页就能直接写代码的平台" data-icon="💻" data-href="https://replit.com" title="收藏">★</button><div class="card-head"><div class="icon-box">💻</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Replit</div><div class="card-desc">无需本地环境配置，打开网页就能直接写代码的平台</div></div></a>
@@ -725,7 +739,7 @@
       </div>
 
       <div class="section-block" id="sec-design" data-icon="ri-palette-line">
-        <div class="section-header"><div class="section-title">视觉</div><div class="section-count">Design & Assets</div></div>
+        <div class="section-header"><div class="section-title">丹青</div><div class="section-count">Design & Assets</div></div>
         <div class="grid">
           <a class="card" href="https://www.pinterest.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="pinterest" data-title="Pinterest" data-desc="全球知名的瀑布流图片分享与设计灵感采集网站" data-icon="🖼️" data-href="https://www.pinterest.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Pinterest</div><div class="card-desc">全球知名的瀑布流图片分享与设计灵感采集网站</div></div></a>
           <a class="card" href="https://www.behance.net" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="behance" data-title="Behance" data-desc="Adobe旗下的全球顶尖设计师原创作品展示平台" data-icon="🎨" data-href="https://www.behance.net" title="收藏">★</button><div class="card-head"><div class="icon-box">🎨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Behance</div><div class="card-desc">Adobe旗下的全球顶尖设计师原创作品展示平台</div></div></a>
@@ -745,7 +759,7 @@
       </div>
 
       <div class="section-block" id="sec-explore" data-icon="ri-earth-line">
-        <div class="section-header"><div class="section-title">探索</div><div class="section-count">Explore & Global Monitor</div></div>
+        <div class="section-header"><div class="section-title">八荒</div><div class="section-count">Explore & Global Monitor</div></div>
         <div class="grid">
           <a class="card" href="https://earth.google.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="googleearth" data-title="谷歌地球" data-desc="提供全球高分辨率卫星图像的3D虚拟地球仪" data-icon="🌎" data-href="https://earth.google.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🌎</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌地球</div><div class="card-desc">提供全球高分辨率卫星图像的3D虚拟地球仪</div></div></a>
           <a class="card" href="https://www.skyscanner.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="skyscanner" data-title="天巡" data-desc="全球性的廉价航空与国际航班比价预订平台" data-icon="🎫" data-href="https://www.skyscanner.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🎫</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">天巡</div><div class="card-desc">全球性的廉价航空与国际航班比价预订平台</div></div></a>
@@ -774,7 +788,7 @@
       </div>
 
       <div class="section-block" id="sec-utils" data-icon="ri-hammer-line">
-        <div class="section-header"><div class="section-title">工具</div><div class="section-count">Tools, Search & Crypto</div></div>
+        <div class="section-header"><div class="section-title">利器</div><div class="section-count">Tools, Search & Crypto</div></div>
         <div class="grid">
           <a class="card" href="https://www.google.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="google" data-title="谷歌搜索" data-desc="全球使用人数最多、信息最全的搜索引擎" data-icon="🔎" data-href="https://www.google.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌搜索</div><div class="card-desc">全球使用人数最多、信息最全的搜索引擎</div></div></a>
           <a class="card" href="https://mail.google.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="gmail" data-title="Gmail" data-desc="谷歌官方提供的安全电子邮箱服务" data-icon="✉️" data-href="https://mail.google.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">✉️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gmail</div><div class="card-desc">谷歌官方提供的安全电子邮箱服务</div></div></a>
@@ -802,7 +816,7 @@
       </div>
 
       <div class="section-block" id="sec-social" data-icon="ri-discuss-line">
-        <div class="section-header"><div class="section-title">影音</div><div class="section-count">Social & Media</div></div>
+        <div class="section-header"><div class="section-title">烟火</div><div class="section-count">Social & Media</div></div>
         <div class="grid">
           <a class="card" href="https://telegram.org/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="telegram" data-title="Telegram" data-desc="主打高度隐私保护与端到端加密的即时通讯软件" data-icon="✈️" data-href="https://telegram.org/" title="收藏">★</button><div class="card-head"><div class="icon-box">✈️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Telegram</div><div class="card-desc">主打高度隐私保护与端到端加密的即时通讯软件</div></div></a>
           <a class="card" href="https://x.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="twitter" data-title="X (Twitter)" data-desc="全球性的短信息社交网络与实时热点新闻讨论平台" data-icon="🕇" data-href="https://x.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🕇</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">X (Twitter)</div><div class="card-desc">全球性的短信息社交网络与实时热点新闻讨论平台</div></div></a>
@@ -820,9 +834,9 @@
       </div>
 
       <div class="section-block sensitive-zone locked" id="sec-abyss" data-icon="ri-eye-off-line">
-        <div class="sensitive-mask"><div class="mask-badge">Confidential / NSFW</div></div>
+        <div class="sensitive-mask"><div class="mask-badge">深 渊 卷 宗</div></div>
         <div class="sensitive-blur">
-          <div class="section-header"><div class="section-title">深海与私藏</div><span class="section-count">Abyss & Gentleman</span></div>
+          <div class="section-header"><div class="section-title">深海</div><span class="section-count">Abyss & Gentleman</span></div>
           <div class="grid">
             <a class="card" href="https://www.torproject.org/zh-CN/download/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🧅</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Tor 浏览器</div><div class="card-desc">实现高等级匿名访问与网络隐匿的洋葱路由浏览器</div></div></a>
             <a class="card" href="https://fanqianglu.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🪜</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">翻墙路</div><div class="card-desc">提供各类型虚拟专用网络（VPN）与代理加速器的导航指南</div></div></a>
@@ -854,22 +868,20 @@
     </main>
   </div>
 
-  <!-- 返回顶部 -->
   <div id="back-top" title="返回顶部"><i class="ri-arrow-up-line"></i></div>
 
-  <!-- 备忘录 -->
   <div id="ghost-memo">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border-color);">
-      <span style="font-size:15px;font-weight:700;letter-spacing:1px;">云端手记</span>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px dashed var(--border-color);">
+      <span style="font-family:var(--font-main);font-size:20px;letter-spacing:1px;">云端手记</span>
       <div style="display:flex;gap:14px;align-items:center;">
-        <span id="cloud-status" style="font-size:12px;font-family:var(--font-sys);font-weight:600;color:var(--accent);">待机中</span>
-        <span id="cloud-sync-btn" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">同步</span>
-        <span onclick="toggleMemo()" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">关闭</span>
+        <span id="cloud-status" style="font-size:12px;font-family:monospace;color:var(--accent);">待机中</span>
+        <span id="cloud-sync-btn" style="cursor:pointer;font-size:14px;opacity:0.7;transition:all var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1;this.style.color='var(--accent)'" onmouseout="this.style.opacity=0.7;this.style.color='inherit'">同步</span>
+        <span onclick="toggleMemo()" style="cursor:pointer;font-size:14px;opacity:0.7;transition:all var(--transition-fast);" onmouseover="this.style.opacity=1;this.style.color='var(--accent)'" onmouseout="this.style.opacity=0.7;this.style.color='inherit'">隐去</span>
       </div>
     </div>
     <div id="memo-content"></div>
     <div class="memo-input-wrap">
-      <input type="text" id="memo-new-record" placeholder="写入新记录，回车封存..." autocomplete="off" maxlength="200" />
+      <input type="text" id="memo-new-record" placeholder="落笔留痕，回车封存..." autocomplete="off" maxlength="200" />
       <span id="memo-char-count">0/200</span>
     </div>
   </div>
@@ -895,9 +907,9 @@
         return;
       }
       section.style.display = 'block';
-      countEl.textContent = `${ids.length} items`;
+      countEl.textContent = `${ids.length} 卷`;
 
-      // 清空并重建（保留 empty 节点）
+      // 清空并重建
       grid.innerHTML = '';
       ids.forEach(id => {
         const f = favs[id];
@@ -906,7 +918,7 @@
         a.href = f.href; a.target = '_blank'; a.rel = 'noopener noreferrer';
         a.style.opacity = '1'; a.style.animation = 'none';
         a.innerHTML = `
-          <button class="card-fav active" data-id="${id}" data-title="${f.title}" data-desc="${f.desc}" data-icon="${f.icon}" data-href="${f.href}" title="取消收藏">★</button>
+          <button class="card-fav active" data-id="${id}" data-title="${f.title}" data-desc="${f.desc}" data-icon="${f.icon}" data-href="${f.href}" title="取消珍藏">★</button>
           <div class="card-head"><div class="icon-box">${f.icon}</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
           <div class="card-body"><div class="card-title">${f.title}</div><div class="card-desc">${f.desc}</div></div>
         `;
@@ -924,14 +936,13 @@
           if (favs[id]) {
             delete favs[id];
             btn.classList.remove('active');
-            showToast(`已取消收藏：${title}`);
+            showToast(`已移出藏书：${title}`);
           } else {
             favs[id] = { title, desc, icon, href };
             btn.classList.add('active');
-            showToast(`已收藏：${title}`);
+            showToast(`已纳入珍藏：${title}`);
           }
           saveFavs(favs);
-          // 同步其他同id的按钮
           document.querySelectorAll(`.card-fav[data-id="${id}"]`).forEach(b => {
             b.classList.toggle('active', !!favs[id]);
           });
@@ -1021,7 +1032,6 @@
       bindFavBtns(document.getElementById('main-content'));
       renderFavSection();
 
-      // 恢复收藏按钮状态
       const favs = loadFavs();
       document.querySelectorAll('.card-fav').forEach(btn => {
         if (favs[btn.dataset.id]) btn.classList.add('active');
@@ -1037,7 +1047,7 @@
       const splash = document.getElementById('splash');
       if (splash) {
         splash.style.opacity = '0';
-        setTimeout(() => { splash.style.display = 'none'; }, 600);
+        setTimeout(() => { splash.style.display = 'none'; }, 1000);
         sessionStorage.setItem('archiveSplashSeen', 'true');
       }
     }
@@ -1056,7 +1066,7 @@
       if (datePill) datePill.textContent = now.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' });
       if (greeting) {
         const h = now.getHours();
-        greeting.textContent = h < 5 ? '夜深了' : h < 9 ? '早上好' : h < 12 ? '上午好' : h < 14 ? '中午好' : h < 19 ? '下午好' : '晚上好';
+        greeting.textContent = h < 5 ? '夜半' : h < 9 ? '晨光' : h < 12 ? '午前' : h < 14 ? '午霁' : h < 19 ? '日夕' : '掌灯';
       }
     }
     setInterval(updateTime, 1000);
@@ -1067,7 +1077,7 @@
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       toast.className = 'toast';
-      toast.textContent = `> ${message}`;
+      toast.textContent = `${message}`;
       container.appendChild(toast);
       setTimeout(() => { if (toast.parentNode) toast.remove(); }, 3000);
     }
@@ -1119,7 +1129,7 @@
 
       const hint = document.getElementById('search-hint');
       if (term && hint) {
-        hint.textContent = totalVisible > 0 ? `找到 ${totalVisible} 个结果` : '无结果';
+        hint.textContent = totalVisible > 0 ? `卷藏 ${totalVisible} 宗` : '卷宗无存';
         hint.classList.add('visible');
       } else if (hint) {
         hint.classList.remove('visible');
@@ -1148,7 +1158,6 @@
     }
     setupSearchClear('search-input', 'search-clear-desktop');
 
-    // 移动端清空
     const mobileSearchClear = document.getElementById('search-clear-mobile');
     const mobileSearchInput = document.querySelector('.mobile-header .search-input');
     if (mobileSearchClear && mobileSearchInput) {
@@ -1172,7 +1181,7 @@
         else { zone.classList.add('locked'); zone.classList.remove('unlocked'); zone.style.display = 'none'; }
       });
       if (isAbyssOpen) {
-        showToast("深海区域已解禁。");
+        showToast("深海卷宗已揭印。");
         if (window.innerWidth <= 768) {
           sidebar.classList.remove('open');
           mobileOverlay.classList.remove('open');
@@ -1183,7 +1192,7 @@
           if (zone) zone.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 300);
       } else {
-        showToast("连接已终止。");
+        showToast("卷宗已封存。");
       }
     }
 
@@ -1216,7 +1225,6 @@
       const isInput = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA');
 
       if (e.key === 'Escape') {
-        // 关闭快捷键面板优先
         const sp = document.getElementById('shortcut-panel');
         if (sp.classList.contains('active')) { sp.classList.remove('active'); return; }
         if (isInput) { activeEl.blur(); return; }
@@ -1236,7 +1244,6 @@
 
       if (isInput) return;
 
-      // 单键快捷键
       if (e.key === '?') { toggleShortcuts(); return; }
       if (e.key === 't' || e.key === 'T') { document.body.classList.toggle('dark-mode'); return; }
       if (e.key === 'm' || e.key === 'M') { toggleMemo(); return; }
@@ -1244,7 +1251,7 @@
         const favSec = document.getElementById('sec-favorites');
         if (favSec && favSec.style.display !== 'none') {
           favSec.scrollIntoView({ behavior: 'smooth' });
-        } else { showToast("暂无收藏内容"); }
+        } else { showToast("暂无珍藏之物"); }
         return;
       }
 
@@ -1267,7 +1274,6 @@
       }
     };
 
-    // ── 备忘录字数统计 ──
     const memoInput = document.getElementById('memo-new-record');
     const charCount = document.getElementById('memo-char-count');
     if (memoInput && charCount) {
@@ -1281,7 +1287,7 @@
   <script>
     const formatTime = (isoString) => {
       const d = new Date(isoString);
-      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+      return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
     };
 
     if (typeof window.supabase !== 'undefined') {
@@ -1297,19 +1303,19 @@
         statusText.textContent = text;
         statusText.style.color = color;
         if (autoReset) setTimeout(() => {
-          if (statusText.textContent === text) { statusText.textContent = '已连接'; statusText.style.color = 'var(--accent)'; }
+          if (statusText.textContent === text) { statusText.textContent = '已衔接'; statusText.style.color = 'var(--accent)'; }
         }, 1500);
       };
 
       window.copyMemo = async function (text) {
-        try { await navigator.clipboard.writeText(text); showToast('已复制到剪贴板'); }
+        try { await navigator.clipboard.writeText(text); showToast('手书已拓印'); }
         catch (err) { console.error('Failed to copy!', err); }
       };
 
       function renderMemos(data) {
         memoContent.innerHTML = '';
         if (!data || data.length === 0) {
-          memoContent.innerHTML = '<div style="opacity:.4;text-align:center;margin-top:40px;font-size:13px;font-family:var(--font-sys);">记忆之海干涸，输入点什么吧...</div>';
+          memoContent.innerHTML = '<div style="opacity:.4;text-align:center;margin-top:40px;font-size:13px;">记忆之海干涸，落笔留痕吧...</div>';
           return;
         }
         data.forEach(row => {
@@ -1320,9 +1326,9 @@
           item.innerHTML = `
             <div style="flex:1;">
               <span class="memo-time">${formatTime(row.created_at)}</span>
-              <div class="memo-text" title="点击复制" onclick="copyMemo('${safeContent}')">${row.content}</div>
+              <div class="memo-text" title="点击拓印" onclick="copyMemo('${safeContent}')">${row.content}</div>
             </div>
-            <span class="memo-delete" onclick="deleteMemo('${row.id}')" title="抹除此条记录">×</span>
+            <span class="memo-delete" onclick="deleteMemo('${row.id}')" title="抹除印记">×</span>
           `;
           memoContent.appendChild(item);
         });
@@ -1330,30 +1336,30 @@
       }
 
       window.loadFromCloud = async function () {
-        setStatus('同步中...', 'var(--text-main)', false);
+        setStatus('寻迹中...', 'var(--text-main)', false);
         try {
           const { data, error } = await supabase.from('memos').select('id, content, created_at').order('created_at', { ascending: true });
           if (error) throw error;
           renderMemos(data);
-          setStatus('已连接', 'var(--accent)', false);
+          setStatus('已衔接', 'var(--accent)', false);
         } catch (err) {
           console.error('[Data Load Error]:', err);
-          setStatus('连接失败', '#ff3b30', false);
+          setStatus('寻迹失败', 'var(--accent)', false);
         }
       };
 
       window.deleteMemo = async function (id) {
-        if (!confirm('数据消除确认：此操作不可逆。')) return;
-        setStatus('删除中...', 'var(--text-main)', false);
+        if (!confirm('印记抹除确认：此操作不可逆，将随风而散。')) return;
+        setStatus('抹除中...', 'var(--text-main)', false);
         try {
           const { error } = await supabase.from('memos').delete().eq('id', id);
           if (error) throw error;
           const target = document.getElementById(`memo-${id}`);
           if (target) { target.style.opacity = '0'; setTimeout(() => target.remove(), 200); }
-          setStatus('已删除', 'var(--text-main)');
+          setStatus('印记已去', 'var(--text-main)');
         } catch (err) {
           console.error('[Delete Error]:', err);
-          setStatus('删除被拦截', '#ff3b30', false);
+          setStatus('抹除被阻', 'var(--accent)', false);
         }
       };
 
@@ -1365,14 +1371,14 @@
           this.value = '';
           if (charCount) charCount.textContent = '0/200';
           this.disabled = true;
-          setStatus('发送中...', 'var(--text-main)', false);
+          setStatus('寄信中...', 'var(--text-main)', false);
           try {
             const { error } = await supabase.from('memos').insert([{ content: newText }]);
             if (error) throw error;
             setStatus('已封存', 'var(--text-main)');
           } catch (err) {
             console.error('[Save Error]:', err);
-            setStatus('保存失败', '#ff3b30', false);
+            setStatus('落笔失败', 'var(--accent)', false);
             this.value = newText;
           } finally {
             this.disabled = false;
@@ -1385,14 +1391,14 @@
       try {
         supabase.channel('public:memos')
           .on('postgres_changes', { event: '*', schema: 'public', table: 'memos' }, () => {
-            debouncedLoad(); setStatus('实时更新', 'var(--text-main)');
+            debouncedLoad(); setStatus('风云变幻', 'var(--text-main)');
           }).subscribe();
       } catch (err) { console.warn('Realtime disabled.'); }
 
       document.getElementById('cloud-sync-btn').addEventListener('click', window.loadFromCloud);
     } else {
-      document.getElementById('cloud-status').textContent = '离线状态';
-      document.getElementById('cloud-status').style.color = '#ff3b30';
+      document.getElementById('cloud-status').textContent = '断点孤岛';
+      document.getElementById('cloud-status').style.color = 'var(--accent)';
     }
   </script>
 </body>
