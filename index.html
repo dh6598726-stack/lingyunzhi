@@ -47,9 +47,7 @@
 
     body {
       font-family: var(--font-main);
-      background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb, #fbc2eb) fixed;
-      background-size: 400% 400%;
-      animation: fluidRainbow 15s ease infinite;
+      background: url('LL.jpg') center center / cover no-repeat fixed;
       color: var(--text-main);
       height: 100vh;
       overflow: hidden;
@@ -59,8 +57,7 @@
     }
 
     body.dark-mode {
-      background: linear-gradient(-45deg, #2A0845, #6441A5, #120E1F, #040914, #1D2671) fixed;
-      background-size: 400% 400%;
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('LL.jpg') center center / cover no-repeat fixed;
       --bg-sidebar: rgba(28, 28, 30, 0.68);
       --bg-card: rgba(44, 44, 46, 0.85);
       --border-color: rgba(255, 255, 255, 0.1);
@@ -353,9 +350,7 @@
     /* ── 闪屏 ── */
     #splash {
       position: fixed; inset: 0; z-index: 9999;
-      background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb, #fbc2eb);
-      background-size: 400% 400%;
-      animation: fluidRainbow 10s ease infinite;
+      background: url('LL.jpg') center center / cover no-repeat fixed;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       transition: opacity 0.6s ease, visibility 0.6s; user-select: none;
       will-change: opacity, visibility;
@@ -1312,7 +1307,7 @@
           item.className = 'memo-item';
           item.id = `memo-${row.id}`;
           // 【彻底修复】：增加反斜杠的转义预处理，彻底杜绝注入 JavaScript 单/双引号时的语法断层。
-          const safeContent = row.content.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+          const safeContent = row.content.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '"');
           item.innerHTML = `
             <div style="flex:1;">
               <span class="memo-time">${formatTime(row.created_at)}</span>
