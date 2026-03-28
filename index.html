@@ -213,18 +213,18 @@
     #back-top:hover { background: var(--text-main); color: #fff; transform: translateY(-3px); }
     body.dark-mode #back-top:hover { background: #fff; color: #000; }
 
+    /* 修复后的 Hero Quote */
     .hero-quote {
-      margin-bottom: 40px; padding: 56px;
-      background-color: #2c2c2e;
-      border-radius: var(--radius-lg);
+      margin-bottom: 40px; padding: 20px 0;
+      background-color: transparent;
       position: relative; overflow: hidden;
     }
     .quote-text, .quote-sub { position: relative; z-index: 2; }
-    .quote-text { font-size: 32px; line-height: 1.6; color: #ffffff; margin-bottom: 12px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-    .quote-sub { font-size: 16px; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-sys); }
+    .quote-text { font-size: 32px; line-height: 1.6; color: var(--text-main); margin-bottom: 12px; }
+    .quote-sub { font-size: 16px; color: var(--text-sub); letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-sys); }
 
     .secret-trigger { cursor: pointer; transition: all var(--transition-fast); display: inline-block; }
-    .secret-trigger:hover { color: #fff; text-shadow: 0 0 12px rgba(255,255,255,0.9); transform: translateY(-2px); }
+    .secret-trigger:hover { color: var(--accent); transform: translateY(-2px); }
 
     .section-block { margin-bottom: 56px; scroll-margin-top: 32px; }
     .section-header {
@@ -513,7 +513,7 @@
 
       main { padding: 24px 20px calc(80px + env(safe-area-inset-bottom)) 20px; }
       .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
-      .hero-quote { padding: 32px 24px; margin-bottom: 24px; }
+      .hero-quote { padding: 20px 0; margin-bottom: 24px; }
       .quote-text { font-size: 28px; }
       #ghost-memo { width: auto; left: 16px; right: 16px; bottom: calc(20px + env(safe-area-inset-bottom)); height: 65vh; }
       #back-top { bottom: calc(100px + env(safe-area-inset-bottom)); right: 20px; width: 38px; height: 38px; font-size: 16px; }
@@ -1311,7 +1311,8 @@
           const item = document.createElement('div');
           item.className = 'memo-item';
           item.id = `memo-${row.id}`;
-          const safeContent = row.content.replace(/"/g, '"').replace(/'/g, ''');
+          // 【修复记录】：此处修复了导致脚本崩溃的错误单引号转义，将 ''' 修改为 HTML 实体
+          const safeContent = row.content.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
           item.innerHTML = `
             <div style="flex:1;">
               <span class="memo-time">${formatTime(row.created_at)}</span>
