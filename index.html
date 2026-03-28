@@ -47,11 +47,12 @@
 
     body {
       font-family: var(--font-main);
-      background: url('LL.jpg') center center / cover no-repeat fixed;
+      /* 核心修复：增加 65% 不透明度的纯白遮罩，提升文字对比度 */
+      background: linear-gradient(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65)), url('LL.jpg') center center / cover no-repeat fixed;
       color: var(--text-main);
       height: 100vh;
       overflow: hidden;
-      transition: color var(--transition-fast);
+      transition: background var(--transition-smooth), color var(--transition-fast);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -350,7 +351,8 @@
     /* ── 闪屏 ── */
     #splash {
       position: fixed; inset: 0; z-index: 9999;
-      background: url('LL.jpg') center center / cover no-repeat fixed;
+      /* 核心修复：闪屏页同步增加纯白半透明遮罩 */
+      background: linear-gradient(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65)), url('LL.jpg') center center / cover no-repeat fixed;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       transition: opacity 0.6s ease, visibility 0.6s; user-select: none;
       will-change: opacity, visibility;
