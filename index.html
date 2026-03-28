@@ -246,9 +246,11 @@
     }
 
     .card {
-      background: var(--bg-card);
+      /* 修改一：彻底去掉卡片黑白底 */
+      background: transparent;
       border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;
-      cursor: pointer; display: flex; flex-direction: column; gap: 12px;
+      /* 修改二：还原整体光标手势，由图标承载交互感 */
+      cursor: default; display: flex; flex-direction: column; gap: 12px;
       transition: var(--transition-smooth);
       text-decoration: none; color: inherit;
       opacity: 0; animation: fadeUp 0.4s ease forwards;
@@ -258,7 +260,8 @@
     }
     .card:hover {
       border-color: var(--border-hover); transform: translateY(-5px) scale(1.02);
-      box-shadow: var(--shadow-hover); background: var(--bg-sidebar);
+      /* 修改一：悬浮时也保持背景透明 */
+      box-shadow: var(--shadow-hover); background: transparent;
     }
 
     /* ── 收藏角标 ── */
@@ -280,6 +283,8 @@
       display: flex; align-items: center; justify-content: center; font-size: 18px;
       color: var(--text-main); border: 1px solid var(--border-color);
       text-shadow: none; /* 图标不加阴影以免模糊 */
+      /* 修改二：为图标显式添加点击指针，暗示交互热区 */
+      cursor: pointer;
     }
     .link-arrow { font-size: 14px; color: var(--text-sub); transition: var(--transition-fast); }
     .card:hover .link-arrow { color: var(--accent); transform: translate(3px, -3px); }
@@ -287,7 +292,8 @@
     .card-body { display: flex; flex-direction: column; gap: 4px; }
     .card-title { font-size: 18px; font-weight: 600; color: var(--text-main); }
     .card-desc {
-      font-size: 14px; color: var(--text-sub); line-height: 1.4; font-family: var(--font-sys);
+      /* 修改三：将描述文字的颜色设定为与整体系统主色字一致 */
+      font-size: 14px; color: var(--text-main); line-height: 1.4; font-family: var(--font-sys);
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
     /* 搜索高亮 */
@@ -871,6 +877,22 @@
 
   <script>
     let isAbyssOpen = false;
+
+    // ── 修改四：限制卡片点击范围至图标，采用事件委托全局无损拦截 ──
+    function restrictCardClick(e) {
+      const card = e.target.closest('a.card');
+      if (card) {
+        // 放行收藏按钮的点击（其本身已有 preventDefault）
+        if (e.target.closest('.card-fav')) return;
+        // 如果点击的热区不是图标容器 .icon-box，则强制阻止A标签的原生跳转行为
+        if (!e.target.closest('.icon-box')) {
+          e.preventDefault();
+        }
+      }
+    }
+    document.addEventListener('click', restrictCardClick);
+    document.addEventListener('auxclick', restrictCardClick); // 涵盖鼠标滚轮中键点击
+
 
     // ── 收藏系统（localStorage）──
     const FAV_KEY = 'jintong_favorites';
