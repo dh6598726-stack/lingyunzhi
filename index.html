@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="robots" content="noindex, nofollow">
-  <title>JIN Tong｜锦麟</title>
+  <title>锦麟</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 
   <link rel="manifest" href="manifest.json">
@@ -23,7 +23,8 @@
       --bg-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1920&auto=format&fit=crop');
       --font-main: 'Long Cang', "Xingkai SC", "STXingkai", cursive;
       --font-sys: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --bg-sidebar: rgba(255, 255, 255, 0.62);
+      /* 修改：将浅色模式下的侧边栏背景改为完全透明 */
+      --bg-sidebar: transparent;
       --bg-card: rgba(255, 255, 255, 0.82);
       --border-color: rgba(255, 255, 255, 0.45);
       --border-hover: rgba(0, 122, 255, 0.6);
@@ -61,7 +62,8 @@
 
     body.dark-mode {
       background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), var(--bg-image) center center / cover no-repeat fixed;
-      --bg-sidebar: rgba(28, 28, 30, 0.68);
+      /* 修改：将深色模式下的侧边栏背景改为完全透明 */
+      --bg-sidebar: transparent;
       --bg-card: rgba(44, 44, 46, 0.85);
       --border-color: rgba(255, 255, 255, 0.1);
       --border-hover: rgba(10, 132, 255, 0.5);
@@ -628,7 +630,7 @@
 
       <div class="section-block" id="sec-favorites" style="display:none;">
         <div class="section-header">
-          <div class="section-title">⭐ 我的收藏</div>
+          <div class="section-title">⭐ 收藏</div>
           <div class="section-count" id="fav-count">0 items</div>
         </div>
         <div class="grid" id="fav-grid">
@@ -670,7 +672,7 @@
       </div>
 
       <div class="section-block" id="sec-ai" data-icon="ri-brain-line">
-        <div class="section-header"><div class="section-title">AI 与大模型</div><div class="section-count">Artificial Intelligence</div></div>
+        <div class="section-header"><div class="section-title">AI</div><div class="section-count">Artificial Intelligence</div></div>
         <div class="grid">
           <a class="card" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="chatgpt" data-title="ChatGPT" data-desc="全球最强大的AI人工智能文字对话助手" data-icon="🧠" data-href="https://chatgpt.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🧠</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">ChatGPT</div><div class="card-desc">全球最强大的AI人工智能文字对话助手</div></div></a>
           <a class="card" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="gemini" data-title="Gemini" data-desc="谷歌公司推出的官方智能AI模型助手" data-icon="✨" data-href="https://gemini.google.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gemini</div><div class="card-desc">谷歌公司推出的官方智能AI模型助手</div></div></a>
@@ -858,7 +860,7 @@
 
   <div id="ghost-memo">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border-color);">
-      <span style="font-size:15px;font-weight:700;letter-spacing:1px;">云端手记</span>
+      <span style="font-size:15px;font-weight:700;letter-spacing:1px;">备忘录</span>
       <div style="display:flex;gap:14px;align-items:center;">
         <span id="cloud-status" style="font-size:12px;font-family:var(--font-sys);font-weight:600;color:var(--accent);">待机中</span>
         <span id="cloud-sync-btn" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">同步</span>
