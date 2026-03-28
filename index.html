@@ -1311,7 +1311,8 @@
           const item = document.createElement('div');
           item.className = 'memo-item';
           item.id = `memo-${row.id}`;
-          const safeContent = row.content.replace(/"/g, '"').replace(/'/g, ''');
+          // 【彻底修复】：增加反斜杠的转义预处理，彻底杜绝注入 JavaScript 单/双引号时的语法断层。
+          const safeContent = row.content.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
           item.innerHTML = `
             <div style="flex:1;">
               <span class="memo-time">${formatTime(row.created_at)}</span>
