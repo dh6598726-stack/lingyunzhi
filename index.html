@@ -5,481 +5,430 @@
   <meta name="robots" content="noindex, nofollow">
   <title>JIN Tong｜锦麟</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-
   <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="JIN Tong">
 
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='red' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='20' height='20' x='2' y='2' fill='none' stroke='%23bf242a' stroke-width='2'/><path fill='%23bf242a' d='M12 18.35l-1.45-1.32C5.4 12.36 2 9.28 2 5.5 2 2.42 4.42 0 7.5 0c1.74 0 3.41.81 4.5 2.09C13.09 0.81 14.76 0 16.5 0 19.58 0 22 2.42 22 5.5c0 3.78-3.4 6.86-8.55 11.54L12 18.35z' transform='translate(0,3) scale(0.8)'/></svg>">
     
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Long+Cang&family=Noto+Serif+SC:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --font-main: 'Long Cang', "Xingkai SC", "STXingkai", cursive;
-      --font-sys: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --bg-sidebar: rgba(255, 255, 255, 0.62);
-      --bg-card: rgba(255, 255, 255, 0.82);
-      --border-color: rgba(255, 255, 255, 0.45);
-      --border-hover: rgba(0, 122, 255, 0.6);
-      --text-main: #1d1d1f;
-      --text-sub: #5a5a5e;
-      --accent: #007aff;
-      --shadow-card: 0 4px 12px rgba(0,0,0,0.04);
-      --shadow-hover: 0 10px 28px rgba(0,0,0,0.12);
-      --radius-sm: 10px;
-      --radius-md: 16px;
-      --radius-lg: 20px;
-      --blur-val: 24px;
-      --transition-fast: 0.2s ease;
-      --transition-smooth: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      --progress-height: 3px;
-    }
-
-    @keyframes fluidRainbow {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+      /* 水墨风色彩系统 */
+      --paper-bg: #f9f9f8;        /* 宣纸白 */
+      --ink-base: #222222;        /* 浓墨 */
+      --ink-light: #666666;       /* 淡墨 */
+      --ink-border: #e0e0e0;      /* 极淡墨（边框） */
+      --seal-red: #bf242a;        /* 朱砂红 */
+      --seal-red-hover: #8e151e;  /* 暗朱砂 */
+      
+      /* 字体系统 */
+      --font-calligraphy: 'Long Cang', "Xingkai SC", "STXingkai", cursive;
+      --font-serif: 'Noto Serif SC', "Songti SC", "SimSun", serif;
+      --font-sys: var(--font-serif); /* 全局替换为宋体/衬线体 */
+      
+      /* 布局参数 */
+      --border-thin: 1px solid var(--ink-border);
+      --transition-fast: 0.25s ease-out;
+      --transition-smooth: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
     body {
-      font-family: var(--font-main);
-      background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb, #fbc2eb) fixed;
-      background-size: 400% 400%;
-      animation: fluidRainbow 15s ease infinite;
-      color: var(--text-main);
+      font-family: var(--font-sys);
+      background-color: var(--paper-bg);
+      background-image: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.02) 1px, transparent 1px);
+      background-size: 20px 20px; /* 模拟极微弱的纸张肌理 */
+      color: var(--ink-base);
       height: 100vh;
       overflow: hidden;
-      transition: color var(--transition-fast);
+      transition: background-color var(--transition-smooth), color var(--transition-smooth);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
     body.dark-mode {
-      background: linear-gradient(-45deg, #2A0845, #6441A5, #120E1F, #040914, #1D2671) fixed;
-      background-size: 400% 400%;
-      --bg-sidebar: rgba(28, 28, 30, 0.68);
-      --bg-card: rgba(44, 44, 46, 0.85);
-      --border-color: rgba(255, 255, 255, 0.1);
-      --border-hover: rgba(10, 132, 255, 0.5);
-      --text-main: #f5f5f7;
-      --text-sub: #a1a1a6;
-      --accent: #0a84ff;
-      --shadow-card: 0 4px 12px rgba(0,0,0,0.4);
-      --shadow-hover: 0 10px 28px rgba(0,0,0,0.65);
+      --paper-bg: #121212;        /* 玄色 */
+      --ink-base: #dcdcdc;        /* 银灰 */
+      --ink-light: #888888;       /* 灰墨 */
+      --ink-border: #333333;      /* 深线 */
+      --seal-red: #c0392b;
+      background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02) 1px, transparent 1px);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.18); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(128,128,128,0.38); }
+    ::-webkit-scrollbar-thumb { background: var(--ink-border); border-radius: 0; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--ink-light); }
 
     input, textarea { font-family: var(--font-sys); }
     
-    /* ── 阅读进度条 ── */
+    /* ── 阅读进度条 (赤色墨迹) ── */
     #read-progress {
-      position: fixed; top: 0; left: 0; right: 0; height: var(--progress-height);
-      background: linear-gradient(90deg, #007aff, #af52de, #ff375f);
-      transform-origin: left;
-      transform: scaleX(0);
-      z-index: 9998;
-      transition: transform 0.1s linear;
-      border-radius: 0 2px 2px 0;
+      position: fixed; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--seal-red);
+      transform-origin: left; transform: scaleX(0);
+      z-index: 9998; transition: transform 0.1s linear;
     }
 
     #app { display: grid; grid-template-columns: 280px 1fr; height: 100%; }
 
+    /* ── 侧栏 (简牍) ── */
     aside {
-      background: var(--bg-sidebar);
-      backdrop-filter: blur(var(--blur-val));
-      -webkit-backdrop-filter: blur(var(--blur-val));
-      border-right: 1px solid var(--border-color);
-      padding: 32px 24px;
+      background: transparent;
+      border-right: var(--border-thin);
+      padding: 40px 24px;
       display: flex; flex-direction: column;
       z-index: 1000;
-      will-change: transform;
-      transform: translateZ(0);
     }
     
-    .brand { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; cursor: pointer; }
+    .brand { display: flex; align-items: center; gap: 16px; margin-bottom: 40px; cursor: pointer; }
     
     @keyframes heartbeat {
-      0%, 28%, 70% { transform: scale(1); }
-      14%, 42% { transform: scale(1.15); }
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.1); opacity: 1; }
     }
 
     .brand-logo {
-      width: 40px; height: 40px; color: #ff3b30;
+      width: 36px; height: 36px; color: var(--seal-red);
       display: flex; align-items: center; justify-content: center;
-      font-size: 28px; animation: heartbeat 1.5s infinite ease-in-out;
-      will-change: transform;
+      font-size: 26px; animation: heartbeat 3s infinite ease-in-out;
     }
     
-    .brand-text h1 { font-size: 26px; font-weight: 400; line-height: 1; letter-spacing: 0.5px; }
-    .brand-text span { font-size: 14px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 4px; font-family: var(--font-sys); }
+    .brand-text h1 { 
+      font-size: 28px; font-weight: normal; line-height: 1; 
+      font-family: var(--font-calligraphy); letter-spacing: 2px;
+    }
+    .brand-text span { 
+      font-size: 12px; color: var(--ink-light); text-transform: uppercase; 
+      letter-spacing: 2px; display: block; margin-top: 6px; 
+    }
 
-    /* ── 搜索框（含清除按钮）── */
-    .search-box { position: relative; margin-bottom: 24px; }
+    /* ── 搜索框 ── */
+    .search-box { position: relative; margin-bottom: 32px; }
     .search-input {
-      width: 100%; padding: 12px 36px 12px 40px;
-      background: rgba(128,128,128,0.08);
-      border: 1px solid var(--border-color); border-radius: var(--radius-sm);
-      color: var(--text-main); font-size: 16px; transition: all var(--transition-fast);
+      width: 100%; padding: 10px 32px;
+      background: transparent;
+      border: none; border-bottom: 1px solid var(--ink-border);
+      color: var(--ink-base); font-size: 15px; transition: all var(--transition-fast);
+      border-radius: 0;
     }
     .search-input:focus {
-      background: var(--bg-card); border-color: var(--accent); outline: none;
-      box-shadow: 0 0 0 3px rgba(0,122,255,0.15);
+      border-bottom-color: var(--ink-base); outline: none;
     }
-    .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-sub); pointer-events: none; }
+    .search-icon { position: absolute; left: 4px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--ink-light); pointer-events: none; }
     .search-clear {
-      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-      font-size: 16px; color: var(--text-sub); cursor: pointer; opacity: 0;
+      position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+      font-size: 16px; color: var(--ink-light); cursor: pointer; opacity: 0;
       transition: opacity var(--transition-fast), color var(--transition-fast);
-      padding: 4px;
     }
     .search-clear.visible { opacity: 1; }
-    .search-clear:hover { color: var(--text-main); }
+    .search-clear:hover { color: var(--seal-red); }
 
-    /* ── 搜索结果计数 ── */
     .search-hint {
-      font-size: 12px; color: var(--text-sub); font-family: var(--font-sys);
-      text-align: center; padding: 4px 0 8px; opacity: 0;
+      font-size: 12px; color: var(--ink-light);
+      text-align: left; padding: 0 0 12px 4px; opacity: 0;
       transition: opacity var(--transition-fast);
     }
     .search-hint.visible { opacity: 1; }
 
+    /* ── 导航条目 ── */
     .nav-scroll { flex: 1; overflow-y: auto; padding-right: 8px; }
     
     .nav-item {
-      padding: 12px 14px; border-radius: var(--radius-sm); font-size: 16px; font-weight: 500; color: var(--text-sub);
+      padding: 12px 14px; font-size: 15px; color: var(--ink-light);
       text-decoration: none; display: flex; align-items: center; gap: 12px;
       transition: all var(--transition-fast); cursor: pointer; margin-bottom: 4px;
-      will-change: transform, background-color; position: relative;
+      position: relative;
     }
-    .nav-item:hover { background: rgba(128,128,128,0.1); color: var(--text-main); transform: translateX(4px); }
-    .nav-item.active { background: var(--text-main); color: #fff; }
-    body.dark-mode .nav-item.active { color: #000; }
-    .nav-icon { font-size: 18px; opacity: 0.9; }
-    /* 侧边栏活跃指示点 */
-    .nav-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--accent); margin-left: auto; opacity: 0;
-      transition: opacity var(--transition-fast);
+    .nav-item::before {
+      content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+      width: 2px; height: 0; background: var(--seal-red); transition: height var(--transition-fast);
     }
-    .nav-item.active .nav-dot { opacity: 1; }
-    body.dark-mode .nav-item.active .nav-dot { background: #0a84ff; }
+    .nav-item:hover { color: var(--ink-base); transform: translateX(4px); }
+    .nav-item.active { color: var(--ink-base); font-weight: 600; }
+    .nav-item.active::before { height: 60%; }
+    .nav-icon { font-size: 18px; font-weight: normal; }
+    .nav-dot { display: none; /* 水墨风使用左侧竖线替代圆点 */ }
 
     .aside-footer {
-      margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color);
+      margin-top: 20px; padding-top: 20px; border-top: var(--border-thin);
       display: flex; justify-content: space-between; align-items: center;
     }
     .time-badge {
-      font-size: 14px; color: var(--text-sub); font-family: var(--font-sys);
-      background: rgba(128,128,128,0.08); padding: 6px 10px; border-radius: 6px; cursor: default;
-      display: flex; align-items: center; gap: 8px; border: 1px solid var(--border-color);
+      font-size: 13px; color: var(--ink-light); 
+      background: transparent; cursor: default;
+      display: flex; align-items: baseline; gap: 8px; 
     }
-    .time-greeting { font-size: 12px; opacity: 0.8; }
+    .time-greeting { font-size: 12px; }
 
-    /* ── 快捷键提示图标 ── */
     .shortcut-btn {
-      width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border-color);
-      background: rgba(128,128,128,0.08); cursor: pointer; display: flex; align-items: center;
-      justify-content: center; font-size: 14px; color: var(--text-sub);
+      width: 28px; height: 28px; border: var(--border-thin);
+      background: transparent; cursor: pointer; display: flex; align-items: center;
+      justify-content: center; font-size: 14px; color: var(--ink-light);
       transition: all var(--transition-fast);
     }
-    .shortcut-btn:hover { background: var(--bg-card); color: var(--text-main); border-color: var(--accent); }
+    .shortcut-btn:hover { color: var(--ink-base); border-color: var(--ink-base); }
 
-    main { padding: 48px 6vw; overflow-y: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; position: relative; }
+    /* ── 主内容区 ── */
+    main { padding: 48px 6vw; overflow-y: auto; scroll-behavior: smooth; position: relative; }
 
-    /* ── 返回顶部按钮 ── */
+    /* ── 返回顶部印章 ── */
     #back-top {
       position: fixed; bottom: 40px; right: 40px;
-      width: 44px; height: 44px; border-radius: 50%;
-      background: var(--bg-sidebar); border: 1px solid var(--border-color);
-      backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
-      box-shadow: var(--shadow-hover);
+      width: 40px; height: 40px; border: 1px solid var(--seal-red);
+      background: var(--paper-bg); color: var(--seal-red);
       display: flex; align-items: center; justify-content: center;
-      font-size: 20px; color: var(--text-main); cursor: pointer;
+      font-size: 20px; cursor: pointer;
       opacity: 0; transform: translateY(20px);
-      transition: all var(--transition-smooth);
-      z-index: 900;
+      transition: all var(--transition-smooth); z-index: 900;
     }
     #back-top.visible { opacity: 1; transform: translateY(0); }
-    #back-top:hover { background: var(--text-main); color: #fff; transform: translateY(-3px); }
-    body.dark-mode #back-top:hover { background: #fff; color: #000; }
+    #back-top:hover { background: var(--seal-red); color: var(--paper-bg); }
 
+    /* ── 引言区 (书法卷轴) ── */
     .hero-quote {
-      margin-bottom: 40px; padding: 56px;
-      background-color: #2c2c2e;
-      background-image: url('JIN.jpg'); background-size: cover; background-position: center;
-      border-radius: var(--radius-lg); border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-card); position: relative; overflow: hidden;
+      margin-bottom: 60px; padding: 40px 0;
+      background: transparent;
+      border-top: 2px solid var(--ink-base); border-bottom: 1px solid var(--ink-border);
+      position: relative; text-align: center;
     }
-    .hero-quote::before {
-      content: ""; position: absolute; inset: 0;
-      background: linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.2)); z-index: 1;
+    .quote-text { 
+      font-size: 36px; line-height: 1.8; color: var(--ink-base); 
+      font-family: var(--font-calligraphy); margin-bottom: 16px; 
     }
-    .quote-text, .quote-sub { position: relative; z-index: 2; }
-    .quote-text { font-size: 32px; line-height: 1.6; color: #ffffff; margin-bottom: 12px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-    .quote-sub { font-size: 16px; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-sys); }
+    .quote-sub { font-size: 13px; color: var(--ink-light); letter-spacing: 4px; text-transform: uppercase; }
+    .secret-trigger { cursor: pointer; transition: color var(--transition-fast); display: inline-block; position: relative; }
+    .secret-trigger::after {
+      content: ''; position: absolute; bottom: 2px; left: 0; width: 100%; height: 1px;
+      background: var(--seal-red); transform: scaleX(0); transition: transform var(--transition-fast);
+    }
+    .secret-trigger:hover { color: var(--seal-red); }
+    .secret-trigger:hover::after { transform: scaleX(1); }
 
-    .secret-trigger { cursor: pointer; transition: all var(--transition-fast); display: inline-block; }
-    .secret-trigger:hover { color: #fff; text-shadow: 0 0 12px rgba(255,255,255,0.9); transform: translateY(-2px); }
-
-    .section-block { margin-bottom: 56px; scroll-margin-top: 32px; }
+    /* ── 区块标题 ── */
+    .section-block { margin-bottom: 60px; scroll-margin-top: 40px; }
     .section-header {
       display: flex; align-items: baseline; justify-content: space-between;
-      margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);
+      margin-bottom: 30px; padding-bottom: 10px; border-bottom: 1px dashed var(--ink-border);
     }
-    .section-title { font-size: 22px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; }
-    .section-count { font-size: 14px; color: var(--text-sub); text-transform: uppercase; font-family: var(--font-sys); }
+    .section-title { font-size: 20px; font-weight: 600; color: var(--ink-base); display: flex; align-items: center; gap: 10px; letter-spacing: 2px; }
+    .section-count { font-size: 12px; color: var(--ink-light); text-transform: uppercase; letter-spacing: 1px; }
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
     .hidden { display: none !important; }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(15px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* ── 卡片 (书签形态) ── */
     .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;
-      cursor: pointer; display: flex; flex-direction: column; gap: 12px;
-      transition: var(--transition-smooth);
+      background: transparent;
+      border: 1px solid var(--ink-border); 
+      padding: 20px; cursor: pointer; display: flex; flex-direction: column; gap: 16px;
+      transition: border-color var(--transition-fast);
       text-decoration: none; color: inherit;
-      opacity: 0; animation: fadeUp 0.4s ease forwards;
-      will-change: transform, box-shadow, border-color;
-      transform: translateZ(0);
+      opacity: 0; animation: fadeUp 0.6s ease forwards;
       position: relative;
     }
-    .card:hover {
-      border-color: var(--border-hover); transform: translateY(-5px) scale(1.02);
-      box-shadow: var(--shadow-hover); background: var(--bg-sidebar);
+    .card::after {
+      content: ''; position: absolute; bottom: -1px; left: 0; width: 0; height: 2px;
+      background: var(--ink-base); transition: width var(--transition-smooth);
     }
+    .card:hover { border-color: var(--ink-light); }
+    .card:hover::after { width: 100%; }
 
-    /* ── 收藏角标 ── */
+    /* ── 收藏角标 (朱文印章) ── */
     .card-fav {
-      position: absolute; top: 10px; right: 10px;
-      font-size: 14px; opacity: 0; cursor: pointer;
-      transition: opacity var(--transition-fast), transform var(--transition-fast);
-      z-index: 5; color: #ff9500; padding: 4px;
-      background: none; border: none; line-height: 1;
+      position: absolute; top: 16px; right: 16px;
+      font-size: 12px; opacity: 0; cursor: pointer;
+      transition: all var(--transition-fast); z-index: 5; 
+      color: var(--seal-red); padding: 4px;
+      background: transparent; border: 1px solid var(--seal-red); line-height: 1;
+      font-family: var(--font-serif);
     }
-    .card:hover .card-fav { opacity: 0.5; }
-    .card-fav.active { opacity: 1 !important; }
-    .card-fav:hover { transform: scale(1.2); opacity: 1 !important; }
+    .card:hover .card-fav { opacity: 0.3; }
+    .card-fav.active { opacity: 1 !important; background: var(--seal-red); color: var(--paper-bg); }
+    .card-fav:hover { opacity: 1 !important; background: var(--seal-red); color: var(--paper-bg); }
 
     .card-head { display: flex; justify-content: space-between; align-items: flex-start; }
     .icon-box {
-      width: 36px; height: 36px; border-radius: 10px; background: rgba(128,128,128,0.1);
-      display: flex; align-items: center; justify-content: center; font-size: 18px;
-      color: var(--text-main); border: 1px solid var(--border-color);
+      font-size: 20px; color: var(--ink-base); font-style: normal;
     }
-    .link-arrow { font-size: 14px; color: var(--text-sub); transition: var(--transition-fast); }
-    .card:hover .link-arrow { color: var(--accent); transform: translate(3px, -3px); }
+    .link-arrow { font-size: 16px; color: var(--ink-light); transition: var(--transition-fast); opacity: 0; transform: translate(-5px, 5px); }
+    .card:hover .link-arrow { color: var(--ink-base); opacity: 1; transform: translate(0, 0); }
     
-    .card-body { display: flex; flex-direction: column; gap: 4px; }
-    .card-title { font-size: 18px; font-weight: 600; color: var(--text-main); }
+    .card-body { display: flex; flex-direction: column; gap: 6px; }
+    .card-title { font-size: 17px; font-weight: 600; color: var(--ink-base); letter-spacing: 1px; }
     .card-desc {
-      font-size: 14px; color: var(--text-sub); line-height: 1.4; font-family: var(--font-sys);
+      font-size: 13px; color: var(--ink-light); line-height: 1.6;
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
-    /* 搜索高亮 */
+    
+    /* 搜索高亮 (朱砂下划线) */
     mark {
-      background: rgba(0,122,255,0.2); color: var(--accent);
-      border-radius: 3px; padding: 0 2px;
+      background: transparent; color: var(--seal-red);
+      border-bottom: 1px dashed var(--seal-red); padding: 0 1px;
     }
-    body.dark-mode mark { background: rgba(10,132,255,0.25); }
 
-    #empty-state { text-align: center; padding: 60px 20px; opacity: 0.6; }
-    #empty-state i { font-size: 48px; color: var(--text-sub); margin-bottom: 16px; display: block; }
-    #empty-state p { font-size: 16px; color: var(--text-main); font-weight: 500; font-family: var(--font-sys); }
+    #empty-state { text-align: center; padding: 80px 20px; opacity: 0.8; }
+    #empty-state i { font-size: 40px; color: var(--ink-light); margin-bottom: 16px; display: block; }
+    #empty-state p { font-size: 15px; color: var(--ink-base); letter-spacing: 2px; }
 
+    /* ── 时光胶囊 ── */
     .time-capsule {
-      margin-bottom: 56px; padding: 24px 32px;
-      background: linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
-      border-radius: var(--radius-lg); cursor: pointer; display: flex; align-items: center; justify-content: space-between;
-      box-shadow: var(--shadow-hover); border: 1px solid rgba(255,255,255,0.15);
-      position: relative; overflow: hidden; color: #fff;
-      transition: transform var(--transition-fast); text-decoration: none;
-      will-change: transform;
+      margin-bottom: 60px; padding: 30px;
+      background: transparent; border: 1px solid var(--ink-base);
+      cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+      color: var(--ink-base); text-decoration: none; transition: background var(--transition-fast);
     }
-    .time-capsule:hover { transform: scale(1.01) translateY(-2px); border-color: rgba(255,255,255,0.4); }
-    .time-capsule::before {
-      content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-      transform: skewX(-20deg);
-    }
-    .time-capsule:hover::before { left: 200%; transition: 0.8s ease-in-out; }
-    .capsule-left { display: flex; align-items: center; gap: 20px; z-index: 2; }
-    .capsule-icon-box {
-      width: 48px; height: 48px; background: rgba(255,255,255,0.15); backdrop-filter: blur(5px);
-      border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px;
-    }
+    .time-capsule:hover { background: var(--ink-base); color: var(--paper-bg); }
+    .capsule-left { display: flex; align-items: center; gap: 20px; }
+    .capsule-icon-box { font-size: 28px; }
     .capsule-info { display: flex; flex-direction: column; }
-    .capsule-title { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
-    .capsule-desc { color: rgba(255,255,255,0.6); font-size: 14px; margin-top: 4px; font-family: var(--font-sys); }
-    .capsule-arrow {
-      width: 36px; height: 36px; border-radius: 50%; background: #fff; color: #000;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; opacity: 0; transform: translateX(-15px); transition: all var(--transition-fast);
-    }
-    .time-capsule:hover .capsule-arrow { opacity: 1; transform: translateX(0); }
+    .capsule-title { font-size: 18px; font-weight: 600; letter-spacing: 2px; }
+    .capsule-desc { font-size: 13px; margin-top: 6px; opacity: 0.8; }
+    .capsule-arrow { font-size: 20px; transition: transform var(--transition-fast); }
+    .time-capsule:hover .capsule-arrow { transform: translateX(5px); }
 
     /* ── 收藏区 ── */
     #sec-favorites .grid { min-height: 60px; }
-    #fav-empty {
-      font-size: 14px; color: var(--text-sub); font-family: var(--font-sys);
-      padding: 20px 0; text-align: center; opacity: 0.7;
-    }
+    #fav-empty { font-size: 14px; color: var(--ink-light); padding: 20px 0; letter-spacing: 1px; }
 
+    /* ── 敏感区域 (深海) ── */
     .sensitive-zone { position: relative; transition: all 0.5s ease; }
     .locked { display: none !important; }
-    .sensitive-blur { filter: blur(12px); opacity: 0.3; transition: 0.4s ease; will-change: filter, opacity; pointer-events: none; }
+    .sensitive-blur { filter: blur(10px); opacity: 0.2; transition: filter 0.6s ease, opacity 0.6s ease; pointer-events: none; }
     .sensitive-mask {
       position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5; pointer-events: none;
     }
     .mask-badge {
-      background: rgba(0,0,0,0.8); color: #fff; backdrop-filter: blur(4px);
-      padding: 8px 16px; border-radius: 8px; font-size: 14px; font-family: var(--font-sys);
-      font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-      transition: var(--transition-fast); box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      border: 1px solid var(--seal-red); color: var(--seal-red); background: var(--paper-bg);
+      padding: 10px 20px; font-size: 14px; letter-spacing: 4px; text-transform: uppercase;
     }
-    .sensitive-zone:hover .sensitive-blur { filter: blur(0); opacity: 1; }
+    .sensitive-zone:hover .sensitive-blur { filter: blur(2px); opacity: 0.6; }
     .sensitive-zone.unlocked .sensitive-blur { filter: blur(0); opacity: 1; pointer-events: auto; }
     .sensitive-zone.unlocked .sensitive-mask { display: none; }
 
-    /* ── 闪屏 ── */
+    /* ── 闪屏 (水墨淡出) ── */
     #splash {
       position: fixed; inset: 0; z-index: 9999;
-      background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb, #fbc2eb);
-      background-size: 400% 400%;
-      animation: fluidRainbow 10s ease infinite;
+      background: var(--paper-bg);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      transition: opacity 0.6s ease, visibility 0.6s; user-select: none;
-      will-change: opacity, visibility;
+      transition: opacity 1.5s ease, visibility 1.5s; user-select: none;
     }
     .splash-quote {
-      font-size: 32px; text-align: center; max-width: 600px; line-height: 1.6;
-      margin-bottom: 40px; padding: 0 20px; color: var(--text-main);
-      max-height: 75vh; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      font-size: 32px; text-align: center; max-width: 600px; line-height: 2;
+      color: var(--ink-base); font-family: var(--font-calligraphy);
+      max-height: 75vh; padding: 0 40px;
     }
 
     /* ── 快捷键面板 ── */
     #shortcut-panel {
       position: fixed; inset: 0; z-index: 9995;
-      background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center;
       opacity: 0; pointer-events: none; transition: opacity var(--transition-smooth);
     }
     #shortcut-panel.active { opacity: 1; pointer-events: auto; }
     .shortcut-card {
-      background: var(--bg-card); border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg); padding: 32px; min-width: 340px;
-      box-shadow: var(--shadow-hover);
-      transform: scale(0.95); transition: transform var(--transition-smooth);
+      background: var(--paper-bg); border: 2px solid var(--ink-base);
+      padding: 40px; min-width: 360px;
+      transform: translateY(20px); transition: transform var(--transition-smooth);
     }
-    #shortcut-panel.active .shortcut-card { transform: scale(1); }
-    .shortcut-card h3 { font-size: 18px; margin-bottom: 20px; color: var(--text-main); font-family: var(--font-main); }
+    #shortcut-panel.active .shortcut-card { transform: translateY(0); }
+    .shortcut-card h3 { font-size: 20px; margin-bottom: 24px; color: var(--ink-base); border-bottom: 1px solid var(--ink-border); padding-bottom: 10px; }
     .shortcut-row {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 0; border-bottom: 1px solid var(--border-color);
-      font-family: var(--font-sys); font-size: 14px; color: var(--text-sub);
+      padding: 12px 0; border-bottom: 1px dashed var(--ink-border);
+      font-size: 14px; color: var(--ink-light);
     }
     .shortcut-row:last-child { border-bottom: none; }
-    .shortcut-row span:first-child { color: var(--text-main); }
+    .shortcut-row span:first-child { color: var(--ink-base); letter-spacing: 1px; }
     kbd {
-      background: rgba(128,128,128,0.1); border: 1px solid var(--border-color);
-      border-radius: 5px; padding: 3px 8px; font-size: 12px; font-family: monospace;
-      color: var(--text-main); box-shadow: 0 1px 0 var(--border-color);
+      border: 1px solid var(--ink-border); border-radius: 2px; padding: 2px 6px; 
+      font-size: 12px; font-family: monospace; color: var(--ink-base);
     }
 
-    /* ── 备忘录 ── */
+    /* ── 备忘录 (云端手记) ── */
     #ghost-memo {
-      position: fixed; bottom: 40px; right: 40px; width: 340px; height: 460px;
-      background: var(--bg-sidebar); color: var(--text-main);
-      backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
-      border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 24px;
+      position: fixed; bottom: 40px; right: 40px; width: 360px; height: 500px;
+      background: var(--paper-bg); color: var(--ink-base);
+      border: 1px solid var(--ink-base); padding: 30px;
       display: flex; flex-direction: column;
-      box-shadow: var(--shadow-hover); transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none;
-      transition: var(--transition-smooth); z-index: 1000; font-family: var(--font-sys);
-      will-change: transform, opacity;
+      transform: translateY(40px); opacity: 0; pointer-events: none;
+      transition: all var(--transition-smooth); z-index: 1000;
     }
-    #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
+    #ghost-memo.active { transform: translateY(0); opacity: 1; pointer-events: auto; box-shadow: 20px 20px 0 rgba(0,0,0,0.05); }
 
     #memo-content {
-      flex: 1; background: rgba(128,128,128,0.05); border: none; outline: none; border-radius: 8px; padding: 14px;
-      margin-top: 12px; margin-bottom: 8px; overflow-y: auto; scroll-behavior: smooth;
+      flex: 1; background: transparent; border: none; outline: none; padding: 10px 0;
+      margin-top: 10px; margin-bottom: 10px; overflow-y: auto; scroll-behavior: smooth;
     }
     .memo-item {
       display: flex; justify-content: space-between; align-items: flex-start;
-      margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed rgba(128,128,128,0.15);
-      color: var(--text-main); font-size: 14px; line-height: 1.6;
+      margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px dashed var(--ink-border);
+      font-size: 14px; line-height: 1.8;
     }
-    .memo-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .memo-item:last-child { border-bottom: none; }
     .memo-text {
-      flex: 1; word-break: break-all; white-space: pre-wrap; font-family: inherit;
-      cursor: pointer; transition: opacity var(--transition-fast);
+      flex: 1; word-break: break-all; white-space: pre-wrap; cursor: pointer; transition: color var(--transition-fast);
     }
-    .memo-text:hover { opacity: 0.7; }
-    .memo-time { font-size: 11px; opacity: 0.5; display: block; margin-bottom: 4px; }
+    .memo-text:hover { color: var(--seal-red); }
+    .memo-time { font-size: 12px; color: var(--ink-light); display: block; margin-bottom: 6px; font-family: monospace; }
     .memo-delete {
-      cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity var(--transition-fast);
-      padding: 0 4px; margin-left: 8px; font-weight: bold; font-size: 16px; user-select: none;
+      cursor: pointer; color: var(--seal-red); opacity: 0; transition: opacity var(--transition-fast);
+      padding: 0 4px; margin-left: 12px; font-size: 18px; line-height: 1;
     }
-    .memo-item:hover .memo-delete { opacity: 0.6; }
-    .memo-delete:hover { opacity: 1 !important; transform: scale(1.1); }
-    @media (max-width: 768px) { .memo-delete { opacity: 0.8; } }
+    .memo-item:hover .memo-delete { opacity: 0.5; }
+    .memo-delete:hover { opacity: 1 !important; }
 
-    /* 字数统计 */
-    .memo-input-wrap { position: relative; }
+    .memo-input-wrap { position: relative; border-top: 1px solid var(--ink-base); padding-top: 16px; }
     #memo-new-record {
-      width: 100%; background: rgba(128,128,128,0.08); border: 1px solid var(--border-color);
-      outline: none; border-radius: 8px; padding: 12px 48px 12px 12px;
-      color: var(--text-main); font-size: 14px; transition: all var(--transition-fast); font-family: inherit;
+      width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--ink-border);
+      outline: none; padding: 10px 48px 10px 4px;
+      color: var(--ink-base); font-size: 14px; transition: border-color var(--transition-fast);
     }
-    #memo-new-record:focus { background: var(--bg-sidebar); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,122,255,0.15); }
+    #memo-new-record:focus { border-bottom-color: var(--ink-base); }
     #memo-char-count {
-      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-      font-size: 11px; color: var(--text-sub); pointer-events: none; opacity: 0;
-      transition: opacity var(--transition-fast);
+      position: absolute; right: 4px; top: 26px; font-size: 12px; color: var(--ink-light); pointer-events: none; opacity: 0;
     }
     #memo-new-record:focus ~ #memo-char-count { opacity: 1; }
 
-    /* ── 恐慌覆盖层 ── */
+    /* ── 恐慌覆盖层 (朱砂错位) ── */
     #panic-overlay {
-      position: fixed; inset: 0; background: #ffffff; z-index: 99999;
-      display: flex; align-items: center; justify-content: center;
-      text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; font-family: monospace;
+      position: fixed; inset: 0; background: var(--paper-bg); z-index: 99999;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.1s; font-family: monospace;
     }
     #panic-overlay.active { opacity: 1; pointer-events: auto; }
-    .glitch-wrapper { position: relative; }
-    .glitch { font-size: 100px; margin: 0; color: #333; position: relative; font-weight: bold; }
-    .glitch::before, .glitch::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8; }
-    .glitch::before { left: 2px; text-shadow: -2px 0 red; clip: rect(24px,550px,90px,0); animation: glitch-anim 2.5s infinite linear alternate-reverse; }
-    .glitch::after { left: -2px; text-shadow: -2px 0 blue; clip: rect(85px,550px,140px,0); animation: glitch-anim 3s infinite linear alternate-reverse; }
+    .glitch { font-size: 120px; color: var(--ink-base); position: relative; font-weight: bold; margin-bottom: 20px; }
+    .glitch::before, .glitch::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--paper-bg); }
+    .glitch::before { left: 3px; text-shadow: -2px 0 var(--seal-red); clip: rect(24px,550px,90px,0); animation: glitch-anim 2s infinite linear alternate-reverse; }
+    .glitch::after { left: -3px; text-shadow: -2px 0 var(--ink-base); clip: rect(85px,550px,140px,0); animation: glitch-anim 2.5s infinite linear alternate-reverse; }
     @keyframes glitch-anim {
       0%{clip:rect(11px,9999px,86px,0)} 20%{clip:rect(65px,9999px,13px,0)}
       40%{clip:rect(100px,9999px,10px,0)} 60%{clip:rect(3px,9999px,80px,0)}
       80%{clip:rect(40px,9999px,15px,0)} 100%{clip:rect(95px,9999px,50px,0)}
     }
 
-    /* ── Toast ── */
-    .toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+    /* ── Toast (底部提花) ── */
+    .toast-container { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 12px; pointer-events: none; }
     .toast {
-      background: rgba(0,0,0,0.85); color: #0f0; font-family: monospace; font-size: 14px;
-      padding: 12px 24px; border-radius: 8px; border: 1px solid #0f0; box-shadow: 0 0 15px rgba(0,255,0,0.3);
-      animation: toast-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards, toast-out 0.3s 2.5s forwards;
+      background: var(--ink-base); color: var(--paper-bg); font-size: 14px; letter-spacing: 1px;
+      padding: 12px 24px; border-left: 4px solid var(--seal-red);
+      animation: toast-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards, toast-out 0.4s 2.5s forwards;
     }
-    @keyframes toast-in { from{transform:translateY(100%);opacity:0} to{transform:translateY(0);opacity:1} }
-    @keyframes toast-out { from{transform:translateY(0);opacity:1} to{transform:translateY(-50%);opacity:0} }
-    
+    @keyframes toast-in { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+    @keyframes toast-out { from{transform:translateY(0);opacity:1} to{transform:translateY(-10px);opacity:0} }
+
     .mobile-header, .mobile-overlay { display: none; }
 
     @media (max-width: 768px) {
@@ -488,41 +437,40 @@
       
       .mobile-header {
         display: flex; align-items: center; justify-content: space-between; gap: 16px;
-        padding: 12px 20px; background: var(--bg-sidebar); backdrop-filter: blur(var(--blur-val));
-        -webkit-backdrop-filter: blur(var(--blur-val)); border-bottom: 1px solid var(--border-color);
+        padding: 12px 20px; background: var(--paper-bg); border-bottom: var(--border-thin);
         position: sticky; top: 0; z-index: 900; flex-shrink: 0;
       }
       .mh-left { display: flex; align-items: center; gap: 16px; flex: 1; }
-      .mh-logo { color: #ff3b30; font-size: 26px; animation: heartbeat 1.5s infinite; cursor: pointer; }
+      .mh-logo { color: var(--seal-red); font-size: 24px; cursor: pointer; }
       .mh-search-box { flex: 1; position: relative; }
       .mh-search-box input {
-        width: 100%; padding: 10px 36px 10px 36px; border-radius: var(--radius-sm); font-size: 16px;
-        background: rgba(128,128,128,0.08); border: 1px solid transparent; color: var(--text-main);
+        width: 100%; padding: 8px 30px; border: none; border-bottom: 1px solid var(--ink-border);
+        background: transparent; font-size: 15px; color: var(--ink-base); border-radius: 0;
       }
-      .mh-search-box .search-icon { left: 12px; }
-      .mh-search-box .search-clear { right: 8px; }
-      .mh-menu-btn { font-size: 26px; color: var(--text-main); cursor: pointer; }
+      .mh-search-box .search-icon { left: 4px; color: var(--ink-light); }
+      .mh-search-box .search-clear { right: 4px; color: var(--ink-light); }
+      .mh-menu-btn { font-size: 24px; color: var(--ink-base); cursor: pointer; }
 
       aside {
         position: fixed; top: 0; left: -100%; bottom: 0; width: 280px; height: 100dvh;
-        transition: left var(--transition-smooth); box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+        background: var(--paper-bg); border-right: none;
+        transition: left var(--transition-smooth); z-index: 1000;
       }
       aside.open { left: 0; }
       
       .mobile-overlay {
-        display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.4);
-        backdrop-filter: blur(2px); z-index: 990;
-        opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+        z-index: 990; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
       }
       .mobile-overlay.open { opacity: 1; pointer-events: auto; }
 
-      main { padding: 24px 20px calc(80px + env(safe-area-inset-bottom)) 20px; }
+      main { padding: 30px 20px calc(80px + env(safe-area-inset-bottom)) 20px; }
       .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
-      .hero-quote { padding: 32px 24px; margin-bottom: 24px; }
+      .hero-quote { padding: 30px 0; margin-bottom: 40px; }
       .quote-text { font-size: 28px; }
-      #ghost-memo { width: auto; left: 16px; right: 16px; bottom: calc(20px + env(safe-area-inset-bottom)); height: 65vh; }
-      #back-top { bottom: calc(100px + env(safe-area-inset-bottom)); right: 20px; width: 38px; height: 38px; font-size: 16px; }
-      #shortcut-panel .shortcut-card { margin: 20px; min-width: unset; }
+      #ghost-memo { width: auto; left: 16px; right: 16px; bottom: calc(20px + env(safe-area-inset-bottom)); height: 65vh; padding: 20px; }
+      #back-top { bottom: calc(100px + env(safe-area-inset-bottom)); right: 20px; width: 36px; height: 36px; font-size: 18px; }
+      #shortcut-panel .shortcut-card { margin: 20px; min-width: unset; padding: 24px; }
     }
   </style>
 </head>
@@ -533,30 +481,30 @@
   <div class="mobile-overlay" id="mobile-overlay"></div>
 
   <div id="panic-overlay">
-    <div class="glitch-wrapper">
+    <div>
       <h1 class="glitch" data-text="404">404</h1>
-      <p style="font-size:24px;color:#666;font-family:var(--font-sys);">Not Found</p>
-      <div style="margin-top:20px;color:#999;font-size:14px;">nginx/1.18.0 (Ubuntu)</div>
+      <p style="font-size:20px;color:var(--ink-light); letter-spacing: 2px;">此地空余黄鹤楼 / Not Found</p>
+      <div style="margin-top:20px;color:var(--ink-border);font-size:12px;">nginx/1.18.0 (Ubuntu)</div>
     </div>
   </div>
 
   <div id="shortcut-panel" onclick="if(event.target===this)toggleShortcuts()">
     <div class="shortcut-card">
-      <h3>⌨️ 快捷键一览</h3>
-      <div class="shortcut-row"><span>打开搜索</span><span><kbd>Ctrl</kbd>+<kbd>K</kbd></span></div>
-      <div class="shortcut-row"><span>查看收藏</span><span><kbd>F</kbd></span></div>
-      <div class="shortcut-row"><span>关闭此面板</span><span><kbd>?</kbd> 或点击背景</span></div>
+      <h3>⌨️ 键录指南</h3>
+      <div class="shortcut-row"><span>唤起索引</span><span><kbd>Ctrl</kbd>+<kbd>K</kbd></span></div>
+      <div class="shortcut-row"><span>观览珍藏</span><span><kbd>F</kbd></span></div>
+      <div class="shortcut-row"><span>隐却此轴</span><span><kbd>?</kbd> 或点击留白</span></div>
     </div>
   </div>
 
   <div id="splash">
     <div class="splash-quote">
-      <p style="font-size:28px;text-align:left;line-height:1.8;">
+      <p style="text-align:left;">
         走了很长的路，也见过很多风景。<br>
         唯独星空深处的那轮明月最不认生。<br>
         它在异乡的窗前，守着当年我在故乡没做完的梦。<br>
         <br><br>
-        回头看，<span onclick="closeSplash()" style="cursor:pointer;touch-action:manipulation;padding:10px 5px;margin:-10px -5px;position:relative;z-index:10;">轻舟</span>已过万重山；<br>
+        回头看，<span onclick="closeSplash()" style="cursor:pointer;touch-action:manipulation;position:relative;z-index:10;color:var(--seal-red);border-bottom:1px solid var(--seal-red);">轻舟</span>已过万重山；<br>
         向前看，长路漫漫亦灿烂。
       </p>
     </div>
@@ -568,15 +516,15 @@
         <div class="mh-logo" onclick="document.body.classList.toggle('dark-mode')"><i class="ri-heart-3-fill"></i></div>
         <div class="mh-search-box">
           <i class="ri-search-2-line search-icon"></i>
-          <input type="text" class="search-input" placeholder="搜点什么...">
-          <i class="ri-close-circle-fill search-clear" id="search-clear-mobile" title="清空"></i>
+          <input type="text" class="search-input" placeholder="寻真...">
+          <i class="ri-close-line search-clear" id="search-clear-mobile" title="清空"></i>
         </div>
       </div>
       <div class="mh-menu-btn" id="mobile-menu-btn"><i class="ri-menu-4-line"></i></div>
     </div>
 
     <aside id="sidebar">
-      <div class="brand" id="theme-toggle" title="切换主题 (T)">
+      <div class="brand" id="theme-toggle" title="明暗交替 (T)">
         <div class="brand-logo"><i class="ri-heart-3-fill"></i></div>
         <div class="brand-text">
           <h1>JIN Tong</h1>
@@ -586,8 +534,8 @@
         
       <div class="search-box">
         <i class="ri-search-2-line search-icon"></i>
-        <input type="text" class="search-input" id="search-input" placeholder="搜点什么 (Ctrl+K)">
-        <i class="ri-close-circle-fill search-clear" id="search-clear-desktop" title="清空"></i>
+        <input type="text" class="search-input" id="search-input" placeholder="寻真 (Ctrl+K)">
+        <i class="ri-close-line search-clear" id="search-clear-desktop" title="清空"></i>
       </div>
       <div class="search-hint" id="search-hint"></div>
 
@@ -595,11 +543,11 @@
 
       <div class="aside-footer">
         <div class="time-badge">
-          <span id="date-pill" style="margin-right:4px;"></span>
-          <span id="time-pill" style="font-weight:600;">00:00</span>
-          <span class="time-greeting" id="time-greeting">你好</span>
+          <span id="date-pill" style="margin-right:8px;font-weight:600;"></span>
+          <span id="time-pill">00:00</span>
+          <span class="time-greeting" id="time-greeting" style="margin-left:8px;">你好</span>
         </div>
-        <div class="shortcut-btn" onclick="toggleShortcuts()" title="快捷键 (?)">
+        <div class="shortcut-btn" onclick="toggleShortcuts()" title="键录 (?)">
           <i class="ri-keyboard-line"></i>
         </div>
       </div>
@@ -626,201 +574,201 @@
 
       <div class="section-block" id="sec-favorites" style="display:none;">
         <div class="section-header">
-          <div class="section-title">⭐ 我的收藏</div>
+          <div class="section-title">印记</div>
           <div class="section-count" id="fav-count">0 items</div>
         </div>
         <div class="grid" id="fav-grid">
-          <div id="fav-empty">还没有收藏，点击卡片右上角的 ★ 即可收藏</div>
+          <div id="fav-empty">暂无珍藏，点击卡片右上角即可落印</div>
         </div>
       </div>
 
       <div id="empty-state" class="hidden">
         <i class="ri-ghost-line"></i>
-        <p>当前象限未捕捉到相关信号...</p>
+        <p>万籁俱寂，未寻得相应线索...</p>
       </div>
 
       <div class="section-block" id="sec-daily" data-icon="ri-newspaper-line">
-        <div class="section-header"><div class="section-title">资讯</div><div class="section-count">Tech & Startup Feed</div></div>
+        <div class="section-header"><div class="section-title">见闻</div><div class="section-count">Tech & Startup Feed</div></div>
         <div class="grid">
-          <a class="card" href="https://36kr.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="36kr" data-title="36氪" data-desc="国内前沿的科技与商业创投新闻" data-icon="📰" data-href="https://36kr.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">📰</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">36氪</div><div class="card-desc">国内前沿的科技与商业创投新闻</div></div></a>
-          <a class="card" href="https://sspai.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="sspai" data-title="少数派" data-desc="提升工作效率的数码产品和软件教程" data-icon="📱" data-href="https://sspai.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">📱</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">少数派</div><div class="card-desc">提升工作效率的数码产品和软件教程</div></div></a>
-          <a class="card" href="https://www.v2ex.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="v2ex" data-title="V2EX" data-desc="程序员和技术爱好者的交流社区" data-icon="💬" data-href="https://www.v2ex.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">💬</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">V2EX</div><div class="card-desc">程序员和技术爱好者的交流社区</div></div></a>
-          <a class="card" href="https://www.producthunt.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="producthunt" data-title="Product Hunt" data-desc="每天发现并推荐全球最新发布的软件" data-icon="🚀" data-href="https://www.producthunt.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🚀</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Product Hunt</div><div class="card-desc">每天发现并推荐全球最新发布的软件</div></div></a>
-          <a class="card" href="https://www.topgear.com/car-news" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="topgear" data-title="TopGear" data-desc="全球顶尖的汽车资讯和专业评测" data-icon="🏎️" data-href="https://www.topgear.com/car-news" title="收藏">★</button><div class="card-head"><div class="icon-box">🏎️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">TopGear</div><div class="card-desc">全球顶尖的汽车资讯和专业评测</div></div></a>
-          <a class="card" href="https://thegadgetflow.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="gadgetflow" data-title="Gadget Flow" data-desc="浏览和购买全球各种新奇有趣的数码好物" data-icon="🧰" data-href="https://thegadgetflow.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🧰</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gadget Flow</div><div class="card-desc">浏览和购买全球各种新奇有趣的数码好物</div></div></a>
-          <a class="card" href="https://www.dudeiwantthat.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="dudewant" data-title="想买这个" data-desc="专门推荐各种奇特、少见的创意商品" data-icon="🛒" data-href="https://www.dudeiwantthat.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🛒</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">想买这个</div><div class="card-desc">专门推荐各种奇特、少见的创意商品</div></div></a>
-          <a class="card" href="https://www.cryptopanic.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="cryptopanic" data-title="CryptoPanic" data-desc="整合全网加密货币最新动态的新闻网站" data-icon="📉" data-href="https://www.cryptopanic.com" title="收藏">★</button><div class="card-head"><div class="icon-box">📉</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">CryptoPanic</div><div class="card-desc">整合全网加密货币最新动态的新闻网站</div></div></a>
+          <a class="card" href="https://36kr.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="36kr" data-title="36氪" data-desc="国内前沿的科技与商业创投新闻" data-icon="📰" data-href="https://36kr.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">📰</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">36氪</div><div class="card-desc">国内前沿的科技与商业创投新闻</div></div></a>
+          <a class="card" href="https://sspai.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="sspai" data-title="少数派" data-desc="提升工作效率的数码产品和软件教程" data-icon="📱" data-href="https://sspai.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">📱</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">少数派</div><div class="card-desc">提升工作效率的数码产品和软件教程</div></div></a>
+          <a class="card" href="https://www.v2ex.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="v2ex" data-title="V2EX" data-desc="程序员和技术爱好者的交流社区" data-icon="💬" data-href="https://www.v2ex.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">💬</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">V2EX</div><div class="card-desc">程序员和技术爱好者的交流社区</div></div></a>
+          <a class="card" href="https://www.producthunt.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="producthunt" data-title="Product Hunt" data-desc="每天发现并推荐全球最新发布的软件" data-icon="🚀" data-href="https://www.producthunt.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🚀</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Product Hunt</div><div class="card-desc">每天发现并推荐全球最新发布的软件</div></div></a>
+          <a class="card" href="https://www.topgear.com/car-news" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="topgear" data-title="TopGear" data-desc="全球顶尖的汽车资讯和专业评测" data-icon="🏎️" data-href="https://www.topgear.com/car-news" title="收藏">印</button><div class="card-head"><div class="icon-box">🏎️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">TopGear</div><div class="card-desc">全球顶尖的汽车资讯和专业评测</div></div></a>
+          <a class="card" href="https://thegadgetflow.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="gadgetflow" data-title="Gadget Flow" data-desc="浏览和购买全球各种新奇有趣的数码好物" data-icon="🧰" data-href="https://thegadgetflow.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🧰</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gadget Flow</div><div class="card-desc">浏览和购买全球各种新奇有趣的数码好物</div></div></a>
+          <a class="card" href="https://www.dudeiwantthat.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="dudewant" data-title="想买这个" data-desc="专门推荐各种奇特、少见的创意商品" data-icon="🛒" data-href="https://www.dudeiwantthat.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🛒</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">想买这个</div><div class="card-desc">专门推荐各种奇特、少见的创意商品</div></div></a>
+          <a class="card" href="https://www.cryptopanic.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="cryptopanic" data-title="CryptoPanic" data-desc="整合全网加密货币最新动态的新闻网站" data-icon="📉" data-href="https://www.cryptopanic.com" title="收藏">印</button><div class="card-head"><div class="icon-box">📉</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">CryptoPanic</div><div class="card-desc">整合全网加密货币最新动态的新闻网站</div></div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-news" data-icon="ri-global-line">
-        <div class="section-header"><div class="section-title">权威新闻</div><div class="section-count">Global & Authoritative News</div></div>
+        <div class="section-header"><div class="section-title">喉舌</div><div class="section-count">Global & Authoritative News</div></div>
         <div class="grid">
-          <a class="card" href="https://www.reuters.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="reuters" data-title="路透社" data-desc="全球领先的国际新闻与金融数据通讯社" data-icon="🌐" data-href="https://www.reuters.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">路透社</div><div class="card-desc">全球领先的国际新闻与金融数据通讯社</div></div></a>
-          <a class="card" href="https://apnews.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="apnews" data-title="美联社" data-desc="全球最大、历史最悠久的独立新闻通讯社之一" data-icon="📡" data-href="https://apnews.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">📡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">美联社</div><div class="card-desc">全球最大、历史最悠久的独立新闻通讯社之一</div></div></a>
-          <a class="card" href="https://www.bbc.com/news" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="bbc" data-title="BBC 新闻" data-desc="英国广播公司旗下的国际权威多媒体新闻播报" data-icon="🎙️" data-href="https://www.bbc.com/news" title="收藏">★</button><div class="card-head"><div class="icon-box">🎙️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">BBC 新闻</div><div class="card-desc">英国广播公司旗下的国际权威多媒体新闻播报</div></div></a>
-          <a class="card" href="https://www.bloomberg.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="bloomberg" data-title="彭博社" data-desc="全球商业、金融信息和财经新闻的权威提供商" data-icon="📈" data-href="https://www.bloomberg.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">📈</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">彭博社</div><div class="card-desc">全球商业、金融信息和财经新闻的权威提供商</div></div></a>
-          <a class="card" href="https://www.wsj.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="wsj" data-title="华尔街日报" data-desc="侧重金融与商业领域的全球顶尖财经报纸" data-icon="📰" data-href="https://www.wsj.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">📰</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">华尔街日报</div><div class="card-desc">侧重金融与商业领域的全球顶尖财经报纸</div></div></a>
-          <a class="card" href="https://www.nytimes.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="nytimes" data-title="纽约时报" data-desc="具有全球影响力的美国老牌权威综合性日报" data-icon="🗞️" data-href="https://www.nytimes.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🗞️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">纽约时报</div><div class="card-desc">具有全球影响力的美国老牌权威综合性日报</div></div></a>
-          <a class="card" href="https://www.zaobao.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="zaobao" data-title="联合早报" data-desc="新加坡领先的华文综合性客观新闻媒体" data-icon="🌏" data-href="https://www.zaobao.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🌏</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">联合早报</div><div class="card-desc">新加坡领先的华文综合性客观新闻媒体</div></div></a>
-          <a class="card" href="http://www.news.cn/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="xinhua" data-title="新华社" data-desc="中国国家通讯社及世界性通讯社" data-icon="🇨🇳" data-href="http://www.news.cn/" title="收藏">★</button><div class="card-head"><div class="icon-box">🇨🇳</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">新华社</div><div class="card-desc">中国国家通讯社及世界性通讯社</div></div></a>
+          <a class="card" href="https://www.reuters.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="reuters" data-title="路透社" data-desc="全球领先的国际新闻与金融数据通讯社" data-icon="🌐" data-href="https://www.reuters.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">路透社</div><div class="card-desc">全球领先的国际新闻与金融数据通讯社</div></div></a>
+          <a class="card" href="https://apnews.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="apnews" data-title="美联社" data-desc="全球最大、历史最悠久的独立新闻通讯社之一" data-icon="📡" data-href="https://apnews.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">📡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">美联社</div><div class="card-desc">全球最大、历史最悠久的独立新闻通讯社之一</div></div></a>
+          <a class="card" href="https://www.bbc.com/news" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="bbc" data-title="BBC 新闻" data-desc="英国广播公司旗下的国际权威多媒体新闻播报" data-icon="🎙️" data-href="https://www.bbc.com/news" title="收藏">印</button><div class="card-head"><div class="icon-box">🎙️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">BBC 新闻</div><div class="card-desc">英国广播公司旗下的国际权威多媒体新闻播报</div></div></a>
+          <a class="card" href="https://www.bloomberg.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="bloomberg" data-title="彭博社" data-desc="全球商业、金融信息和财经新闻的权威提供商" data-icon="📈" data-href="https://www.bloomberg.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">📈</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">彭博社</div><div class="card-desc">全球商业、金融信息和财经新闻的权威提供商</div></div></a>
+          <a class="card" href="https://www.wsj.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="wsj" data-title="华尔街日报" data-desc="侧重金融与商业领域的全球顶尖财经报纸" data-icon="📰" data-href="https://www.wsj.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">📰</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">华尔街日报</div><div class="card-desc">侧重金融与商业领域的全球顶尖财经报纸</div></div></a>
+          <a class="card" href="https://www.nytimes.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="nytimes" data-title="纽约时报" data-desc="具有全球影响力的美国老牌权威综合性日报" data-icon="🗞️" data-href="https://www.nytimes.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🗞️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">纽约时报</div><div class="card-desc">具有全球影响力的美国老牌权威综合性日报</div></div></a>
+          <a class="card" href="https://www.zaobao.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="zaobao" data-title="联合早报" data-desc="新加坡领先的华文综合性客观新闻媒体" data-icon="🌏" data-href="https://www.zaobao.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🌏</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">联合早报</div><div class="card-desc">新加坡领先的华文综合性客观新闻媒体</div></div></a>
+          <a class="card" href="http://www.news.cn/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="xinhua" data-title="新华社" data-desc="中国国家通讯社及世界性通讯社" data-icon="🇨🇳" data-href="http://www.news.cn/" title="收藏">印</button><div class="card-head"><div class="icon-box">🇨🇳</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">新华社</div><div class="card-desc">中国国家通讯社及世界性通讯社</div></div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-ai" data-icon="ri-brain-line">
-        <div class="section-header"><div class="section-title">AI 与大模型</div><div class="section-count">Artificial Intelligence</div></div>
+        <div class="section-header"><div class="section-title">智核</div><div class="section-count">Artificial Intelligence</div></div>
         <div class="grid">
-          <a class="card" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="chatgpt" data-title="ChatGPT" data-desc="全球最强大的AI人工智能文字对话助手" data-icon="🧠" data-href="https://chatgpt.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🧠</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">ChatGPT</div><div class="card-desc">全球最强大的AI人工智能文字对话助手</div></div></a>
-          <a class="card" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="gemini" data-title="Gemini" data-desc="谷歌公司推出的官方智能AI模型助手" data-icon="✨" data-href="https://gemini.google.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gemini</div><div class="card-desc">谷歌公司推出的官方智能AI模型助手</div></div></a>
-          <a class="card" href="https://grok.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="grok" data-title="Grok" data-desc="马斯克团队开发的能够实时联网分析的AI" data-icon="✖️" data-href="https://grok.com" title="收藏">★</button><div class="card-head"><div class="icon-box">✖️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Grok</div><div class="card-desc">马斯克团队开发的能够实时联网分析的AI</div></div></a>
-          <a class="card" href="https://www.perplexity.ai" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="perplexity" data-title="Perplexity" data-desc="通过AI直接帮你总结答案的智能搜索引擎" data-icon="🔎" data-href="https://www.perplexity.ai" title="收藏">★</button><div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Perplexity</div><div class="card-desc">通过AI直接帮你总结答案的智能搜索引擎</div></div></a>
-          <a class="card" href="https://www.midjourney.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="midjourney" data-title="Midjourney" data-desc="输入文字描述就能自动生成高质量图片的AI" data-icon="🖌️" data-href="https://www.midjourney.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🖌️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Midjourney</div><div class="card-desc">输入文字描述就能自动生成高质量图片的AI</div></div></a>
-          <a class="card" href="https://runwayml.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="runway" data-title="Runway" data-desc="专业的AI视频生成与特效剪辑工具平台" data-icon="🎥" data-href="https://runwayml.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🎥</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Runway</div><div class="card-desc">专业的AI视频生成与特效剪辑工具平台</div></div></a>
-          <a class="card" href="https://www.suno.ai" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="suno" data-title="Suno" data-desc="输入歌词就能自动生成带人声和伴奏的歌曲" data-icon="🎧" data-href="https://www.suno.ai" title="收藏">★</button><div class="card-head"><div class="icon-box">🎧</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Suno</div><div class="card-desc">输入歌词就能自动生成带人声和伴奏的歌曲</div></div></a>
-          <a class="card" href="https://elevenlabs.io" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="elevenlabs" data-title="ElevenLabs" data-desc="极其逼真的AI文字转语音与人声克隆技术" data-icon="🎙️" data-href="https://elevenlabs.io" title="收藏">★</button><div class="card-head"><div class="icon-box">🎙️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">ElevenLabs</div><div class="card-desc">极其逼真的AI文字转语音与人声克隆技术</div></div></a>
-          <a class="card" href="https://gamma.app" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="gamma" data-title="Gamma" data-desc="输入大纲或主题，AI一键自动生成排版精美的PPT" data-icon="📊" data-href="https://gamma.app" title="收藏">★</button><div class="card-head"><div class="icon-box">📊</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gamma</div><div class="card-desc">输入大纲或主题，AI一键自动生成排版精美的PPT</div></div></a>
-          <a class="card" href="https://www.nvidia.com/en-us/research/ai-playground" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="nvidiaai" data-title="Nvidia AI" data-desc="英伟达官方提供的前沿AI技术免费体验专区" data-icon="🟢" data-href="https://www.nvidia.com/en-us/research/ai-playground" title="收藏">★</button><div class="card-head"><div class="icon-box">🟢</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Nvidia AI</div><div class="card-desc">英伟达官方提供的前沿AI技术免费体验专区</div></div></a>
-          <a class="card" href="https://futurepedia.io" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="futurepedia" data-title="Futurepedia" data-desc="收录全球各种最新AI工具的分类导航网站" data-icon="🧭" data-href="https://futurepedia.io" title="收藏">★</button><div class="card-head"><div class="icon-box">🧭</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Futurepedia</div><div class="card-desc">收录全球各种最新AI工具的分类导航网站</div></div></a>
+          <a class="card" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="chatgpt" data-title="ChatGPT" data-desc="全球最强大的AI人工智能文字对话助手" data-icon="🧠" data-href="https://chatgpt.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🧠</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">ChatGPT</div><div class="card-desc">全球最强大的AI人工智能文字对话助手</div></div></a>
+          <a class="card" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="gemini" data-title="Gemini" data-desc="谷歌公司推出的官方智能AI模型助手" data-icon="✨" data-href="https://gemini.google.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gemini</div><div class="card-desc">谷歌公司推出的官方智能AI模型助手</div></div></a>
+          <a class="card" href="https://grok.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="grok" data-title="Grok" data-desc="马斯克团队开发的能够实时联网分析的AI" data-icon="✖️" data-href="https://grok.com" title="收藏">印</button><div class="card-head"><div class="icon-box">✖️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Grok</div><div class="card-desc">马斯克团队开发的能够实时联网分析的AI</div></div></a>
+          <a class="card" href="https://www.perplexity.ai" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="perplexity" data-title="Perplexity" data-desc="通过AI直接帮你总结答案的智能搜索引擎" data-icon="🔎" data-href="https://www.perplexity.ai" title="收藏">印</button><div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Perplexity</div><div class="card-desc">通过AI直接帮你总结答案的智能搜索引擎</div></div></a>
+          <a class="card" href="https://www.midjourney.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="midjourney" data-title="Midjourney" data-desc="输入文字描述就能自动生成高质量图片的AI" data-icon="🖌️" data-href="https://www.midjourney.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🖌️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Midjourney</div><div class="card-desc">输入文字描述就能自动生成高质量图片的AI</div></div></a>
+          <a class="card" href="https://runwayml.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="runway" data-title="Runway" data-desc="专业的AI视频生成与特效剪辑工具平台" data-icon="🎥" data-href="https://runwayml.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🎥</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Runway</div><div class="card-desc">专业的AI视频生成与特效剪辑工具平台</div></div></a>
+          <a class="card" href="https://www.suno.ai" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="suno" data-title="Suno" data-desc="输入歌词就能自动生成带人声和伴奏的歌曲" data-icon="🎧" data-href="https://www.suno.ai" title="收藏">印</button><div class="card-head"><div class="icon-box">🎧</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Suno</div><div class="card-desc">输入歌词就能自动生成带人声和伴奏的歌曲</div></div></a>
+          <a class="card" href="https://elevenlabs.io" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="elevenlabs" data-title="ElevenLabs" data-desc="极其逼真的AI文字转语音与人声克隆技术" data-icon="🎙️" data-href="https://elevenlabs.io" title="收藏">印</button><div class="card-head"><div class="icon-box">🎙️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">ElevenLabs</div><div class="card-desc">极其逼真的AI文字转语音与人声克隆技术</div></div></a>
+          <a class="card" href="https://gamma.app" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="gamma" data-title="Gamma" data-desc="输入大纲或主题，AI一键自动生成排版精美的PPT" data-icon="📊" data-href="https://gamma.app" title="收藏">印</button><div class="card-head"><div class="icon-box">📊</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gamma</div><div class="card-desc">输入大纲或主题，AI一键自动生成排版精美的PPT</div></div></a>
+          <a class="card" href="https://www.nvidia.com/en-us/research/ai-playground" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="nvidiaai" data-title="Nvidia AI" data-desc="英伟达官方提供的前沿AI技术免费体验专区" data-icon="🟢" data-href="https://www.nvidia.com/en-us/research/ai-playground" title="收藏">印</button><div class="card-head"><div class="icon-box">🟢</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Nvidia AI</div><div class="card-desc">英伟达官方提供的前沿AI技术免费体验专区</div></div></a>
+          <a class="card" href="https://futurepedia.io" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="futurepedia" data-title="Futurepedia" data-desc="收录全球各种最新AI工具的分类导航网站" data-icon="🧭" data-href="https://futurepedia.io" title="收藏">印</button><div class="card-head"><div class="icon-box">🧭</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Futurepedia</div><div class="card-desc">收录全球各种最新AI工具的分类导航网站</div></div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-webmaster" data-icon="ri-server-line">
-        <div class="section-header"><div class="section-title">站长</div><div class="section-count">Webmaster & Infrastructure</div></div>
+        <div class="section-header"><div class="section-title">基建</div><div class="section-count">Webmaster & Infrastructure</div></div>
         <div class="grid">
-          <a class="card" href="https://dashboard.decodo.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="decodo" data-title="Decodo" data-desc="提供高匿名性和高防安全保护的网络代理服务" data-icon="🎛️" data-href="https://dashboard.decodo.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🎛️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Decodo</div><div class="card-desc">提供高匿名性和高防安全保护的网络代理服务</div></div></a>
-          <a class="card" href="https://github.com/dh6598726-stack/woaibixia" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="github" data-title="GitHub" data-desc="全球程序员用来托管代码和开源软件的网站" data-icon="📦" data-href="https://github.com/dh6598726-stack/woaibixia" title="收藏">★</button><div class="card-head"><div class="icon-box">📦</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">GitHub</div><div class="card-desc">全球程序员用来托管代码和开源软件的网站</div></div></a>
-          <a class="card" href="https://porkbun.com/account/domainsSpeedy" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="porkbun" data-title="Porkbun" data-desc="价格便宜且界面好用的国外网站域名购买平台" data-icon="🐷" data-href="https://porkbun.com/account/domainsSpeedy" title="收藏">★</button><div class="card-head"><div class="icon-box">🐷</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Porkbun</div><div class="card-desc">价格便宜且界面好用的国外网站域名购买平台</div></div></a>
-          <a class="card" href="https://dash.cloudflare.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="cloudflare" data-title="Cloudflare" data-desc="为网站提供免费加速(CDN)和防黑客攻击的安全服务" data-icon="☁️" data-href="https://dash.cloudflare.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">☁️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Cloudflare</div><div class="card-desc">为网站提供免费加速(CDN)和防黑客攻击的安全服务</div></div></a>
-          <a class="card" href="https://dashboard.thordata.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="thordata" data-title="Thordata" data-desc="提供流量中转与网络加速的专业平台" data-icon="🌐" data-href="https://dashboard.thordata.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Thordata</div><div class="card-desc">提供流量中转与网络加速的专业平台</div></div></a>
-          <a class="card" href="https://app.ipfoxy.net/login?_bt=2" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="ipfoxy" data-title="IPFoxy" data-desc="提供干净无污染的独享IP代理服务" data-icon="🦊" data-href="https://app.ipfoxy.net/login?_bt=2" title="收藏">★</button><div class="card-head"><div class="icon-box">🦊</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">IPFoxy</div><div class="card-desc">提供干净无污染的独享IP代理服务</div></div></a>
-          <a class="card" href="https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="2fa" data-title="2FA 在线" data-desc="在线生成账号登录所需的动态双重验证码" data-icon="🛡️" data-href="https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq" title="收藏">★</button><div class="card-head"><div class="icon-box">🛡️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">2FA 在线</div><div class="card-desc">在线生成账号登录所需的动态双重验证码</div></div></a>
-          <a class="card" href="https://vercel.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="vercel" data-title="Vercel" data-desc="前端开发者可免费将网页代码一键部署上线的平台" data-icon="🚀" data-href="https://vercel.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🚀</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Vercel</div><div class="card-desc">前端开发者可免费将网页代码一键部署上线的平台</div></div></a>
-          <a class="card" href="https://cusdis.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="cusdis" data-title="Cusdis" data-desc="一款注重隐私、极简轻量的开源网站留言评论系统" data-icon="💬" data-href="https://cusdis.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">💬</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Cusdis</div><div class="card-desc">一款注重隐私、极简轻量的开源网站留言评论系统</div></div></a>
+          <a class="card" href="https://dashboard.decodo.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="decodo" data-title="Decodo" data-desc="提供高匿名性和高防安全保护的网络代理服务" data-icon="🎛️" data-href="https://dashboard.decodo.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🎛️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Decodo</div><div class="card-desc">提供高匿名性和高防安全保护的网络代理服务</div></div></a>
+          <a class="card" href="https://github.com/dh6598726-stack/woaibixia" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="github" data-title="GitHub" data-desc="全球程序员用来托管代码和开源软件的网站" data-icon="📦" data-href="https://github.com/dh6598726-stack/woaibixia" title="收藏">印</button><div class="card-head"><div class="icon-box">📦</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">GitHub</div><div class="card-desc">全球程序员用来托管代码和开源软件的网站</div></div></a>
+          <a class="card" href="https://porkbun.com/account/domainsSpeedy" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="porkbun" data-title="Porkbun" data-desc="价格便宜且界面好用的国外网站域名购买平台" data-icon="🐷" data-href="https://porkbun.com/account/domainsSpeedy" title="收藏">印</button><div class="card-head"><div class="icon-box">🐷</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Porkbun</div><div class="card-desc">价格便宜且界面好用的国外网站域名购买平台</div></div></a>
+          <a class="card" href="https://dash.cloudflare.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="cloudflare" data-title="Cloudflare" data-desc="为网站提供免费加速(CDN)和防黑客攻击的安全服务" data-icon="☁️" data-href="https://dash.cloudflare.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">☁️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Cloudflare</div><div class="card-desc">为网站提供免费加速(CDN)和防黑客攻击的安全服务</div></div></a>
+          <a class="card" href="https://dashboard.thordata.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="thordata" data-title="Thordata" data-desc="提供流量中转与网络加速的专业平台" data-icon="🌐" data-href="https://dashboard.thordata.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Thordata</div><div class="card-desc">提供流量中转与网络加速的专业平台</div></div></a>
+          <a class="card" href="https://app.ipfoxy.net/login?_bt=2" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="ipfoxy" data-title="IPFoxy" data-desc="提供干净无污染的独享IP代理服务" data-icon="🦊" data-href="https://app.ipfoxy.net/login?_bt=2" title="收藏">印</button><div class="card-head"><div class="icon-box">🦊</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">IPFoxy</div><div class="card-desc">提供干净无污染的独享IP代理服务</div></div></a>
+          <a class="card" href="https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="2fa" data-title="2FA 在线" data-desc="在线生成账号登录所需的动态双重验证码" data-icon="🛡️" data-href="https://2fa.live/tok/2oohq5ilcsuoni4nwxfs76c6asbclweq" title="收藏">印</button><div class="card-head"><div class="icon-box">🛡️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">2FA 在线</div><div class="card-desc">在线生成账号登录所需的动态双重验证码</div></div></a>
+          <a class="card" href="https://vercel.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="vercel" data-title="Vercel" data-desc="前端开发者可免费将网页代码一键部署上线的平台" data-icon="🚀" data-href="https://vercel.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🚀</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Vercel</div><div class="card-desc">前端开发者可免费将网页代码一键部署上线的平台</div></div></a>
+          <a class="card" href="https://cusdis.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="cusdis" data-title="Cusdis" data-desc="一款注重隐私、极简轻量的开源网站留言评论系统" data-icon="💬" data-href="https://cusdis.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">💬</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Cusdis</div><div class="card-desc">一款注重隐私、极简轻量的开源网站留言评论系统</div></div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-geek" data-icon="ri-shield-keyhole-line">
-        <div class="section-header"><div class="section-title">代码</div><div class="section-count">Development & Cybersecurity</div></div>
+        <div class="section-header"><div class="section-title">术数</div><div class="section-count">Development & Cybersecurity</div></div>
         <div class="grid">
-          <a class="card" href="https://stackoverflow.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="stackoverflow" data-title="StackOverflow" data-desc="全球最大的程序员代码报错与技术问答社区" data-icon="💡" data-href="https://stackoverflow.com" title="收藏">★</button><div class="card-head"><div class="icon-box">💡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">StackOverflow</div><div class="card-desc">全球最大的程序员代码报错与技术问答社区</div></div></a>
-          <a class="card" href="https://replit.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="replit" data-title="Replit" data-desc="无需本地环境配置，打开网页就能直接写代码的平台" data-icon="💻" data-href="https://replit.com" title="收藏">★</button><div class="card-head"><div class="icon-box">💻</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Replit</div><div class="card-desc">无需本地环境配置，打开网页就能直接写代码的平台</div></div></a>
-          <a class="card" href="https://codepen.io" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="codepen" data-title="CodePen" data-desc="前端网页开发者的代码在线测试与作品展示库" data-icon="🧪" data-href="https://codepen.io" title="收藏">★</button><div class="card-head"><div class="icon-box">🧪</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">CodePen</div><div class="card-desc">前端网页开发者的代码在线测试与作品展示库</div></div></a>
-          <a class="card" href="https://lusion.co/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="lusion" data-title="Lusion" data-desc="展示行业顶尖3D前端交互与视觉效果的网站" data-icon="✨" data-href="https://lusion.co/" title="收藏">★</button><div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Lusion</div><div class="card-desc">展示行业顶尖3D前端交互与视觉效果的网站</div></div></a>
-          <a class="card" href="https://geektyper.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="geektyper" data-title="Geektyper" data-desc="模拟影视剧中黑客敲击代码界面的娱乐工具" data-icon="⌨️" data-href="https://geektyper.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">⌨️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Geektyper</div><div class="card-desc">模拟影视剧中黑客敲击代码界面的娱乐工具</div></div></a>
-          <a class="card" href="https://ping.pe" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="pingpe" data-title="Ping.pe" data-desc="测试你的网站在世界各地网络连通性的工具" data-icon="📡" data-href="https://ping.pe" title="收藏">★</button><div class="card-head"><div class="icon-box">📡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Ping.pe</div><div class="card-desc">测试你的网站在世界各地网络连通性的工具</div></div></a>
-          <a class="card" href="https://www.hackerone.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="hackerone" data-title="HackerOne" data-desc="帮大型企业寻找系统安全漏洞并获取合法奖金的平台" data-icon="🛡️" data-href="https://www.hackerone.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🛡️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">HackerOne</div><div class="card-desc">帮大型企业寻找系统安全漏洞并获取合法奖金的平台</div></div></a>
-          <a class="card" href="https://www.bugcrowd.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="bugcrowd" data-title="Bugcrowd" data-desc="网络安全专家的线上安全众测与漏洞赏金平台" data-icon="🏢" data-href="https://www.bugcrowd.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🏢</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Bugcrowd</div><div class="card-desc">网络安全专家的线上安全众测与漏洞赏金平台</div></div></a>
-          <a class="card" href="https://tryhackme.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="tryhackme" data-title="TryHackMe" data-desc="适合初学者的网络安全渗透测试学习与实践网站" data-icon="🎓" data-href="https://tryhackme.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🎓</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">TryHackMe</div><div class="card-desc">适合初学者的网络安全渗透测试学习与实践网站</div></div></a>
-          <a class="card" href="https://www.hackthebox.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="hackthebox" data-title="HackTheBox" data-desc="专业黑客用来进行攻防实战模拟的虚拟训练场" data-icon="🧨" data-href="https://www.hackthebox.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🧨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">HackTheBox</div><div class="card-desc">专业黑客用来进行攻防实战模拟的虚拟训练场</div></div></a>
-          <a class="card" href="https://www.exploit-db.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="exploitdb" data-title="Exploit-DB" data-desc="收录最新公开系统漏洞与攻击测试代码的权威数据库" data-icon="📂" data-href="https://www.exploit-db.com" title="收藏">★</button><div class="card-head"><div class="icon-box">📂</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Exploit-DB</div><div class="card-desc">收录最新公开系统漏洞与攻击测试代码的权威数据库</div></div></a>
-          <a class="card" href="https://owasp.org" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="owasp" data-title="OWASP" data-desc="提供Web应用程序安全开发标准与规范的组织" data-icon="📜" data-href="https://owasp.org" title="收藏">★</button><div class="card-head"><div class="icon-box">📜</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">OWASP</div><div class="card-desc">提供Web应用程序安全开发标准与规范的组织</div></div></a>
-          <a class="card" href="https://www.kali.org" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="kali" data-title="Kali Linux" data-desc="专用于渗透测试和安全审计的Linux操作系统官网" data-icon="🐉" data-href="https://www.kali.org" title="收藏">★</button><div class="card-head"><div class="icon-box">🐉</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Kali Linux</div><div class="card-desc">专用于渗透测试和安全审计的Linux操作系统官网</div></div></a>
-          <a class="card" href="https://www.reddit.com/r/netsec/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="netsec" data-title="Netsec" data-desc="讨论最新网络安全漏洞与行业情报的活跃社区" data-icon="🧬" data-href="https://www.reddit.com/r/netsec/" title="收藏">★</button><div class="card-head"><div class="icon-box">🧬</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Netsec</div><div class="card-desc">讨论最新网络安全漏洞与行业情报的活跃社区</div></div></a>
-          <a class="card" href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="virustotal" data-title="VirusTotal" data-desc="上传可疑文件或网址，集合几十家杀毒引擎免费查毒" data-icon="🧫" data-href="https://www.virustotal.com/gui/home/upload" title="收藏">★</button><div class="card-head"><div class="icon-box">🧫</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">VirusTotal</div><div class="card-desc">上传可疑文件或网址，集合几十家杀毒引擎免费查毒</div></div></a>
-          <a class="card" href="https://www.shodan.io/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="shodan" data-title="Shodan" data-desc="专门用来检索全球联网智能设备的搜索引擎" data-icon="🛰️" data-href="https://www.shodan.io/" title="收藏">★</button><div class="card-head"><div class="icon-box">🛰️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Shodan</div><div class="card-desc">专门用来检索全球联网智能设备的搜索引擎</div></div></a>
-          <a class="card" href="https://cybermap.kaspersky.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="kaspersky" data-title="卡巴斯基图" data-desc="在3D地球仪上实时动态展示全球发生的网络攻击情况" data-icon="☣️" data-href="https://cybermap.kaspersky.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">☣️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">卡巴斯基图</div><div class="card-desc">在3D地球仪上实时动态展示全球发生的网络攻击情况</div></div></a>
+          <a class="card" href="https://stackoverflow.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="stackoverflow" data-title="StackOverflow" data-desc="全球最大的程序员代码报错与技术问答社区" data-icon="💡" data-href="https://stackoverflow.com" title="收藏">印</button><div class="card-head"><div class="icon-box">💡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">StackOverflow</div><div class="card-desc">全球最大的程序员代码报错与技术问答社区</div></div></a>
+          <a class="card" href="https://replit.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="replit" data-title="Replit" data-desc="无需本地环境配置，打开网页就能直接写代码的平台" data-icon="💻" data-href="https://replit.com" title="收藏">印</button><div class="card-head"><div class="icon-box">💻</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Replit</div><div class="card-desc">无需本地环境配置，打开网页就能直接写代码的平台</div></div></a>
+          <a class="card" href="https://codepen.io" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="codepen" data-title="CodePen" data-desc="前端网页开发者的代码在线测试与作品展示库" data-icon="🧪" data-href="https://codepen.io" title="收藏">印</button><div class="card-head"><div class="icon-box">🧪</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">CodePen</div><div class="card-desc">前端网页开发者的代码在线测试与作品展示库</div></div></a>
+          <a class="card" href="https://lusion.co/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="lusion" data-title="Lusion" data-desc="展示行业顶尖3D前端交互与视觉效果的网站" data-icon="✨" data-href="https://lusion.co/" title="收藏">印</button><div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Lusion</div><div class="card-desc">展示行业顶尖3D前端交互与视觉效果的网站</div></div></a>
+          <a class="card" href="https://geektyper.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="geektyper" data-title="Geektyper" data-desc="模拟影视剧中黑客敲击代码界面的娱乐工具" data-icon="⌨️" data-href="https://geektyper.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">⌨️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Geektyper</div><div class="card-desc">模拟影视剧中黑客敲击代码界面的娱乐工具</div></div></a>
+          <a class="card" href="https://ping.pe" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="pingpe" data-title="Ping.pe" data-desc="测试你的网站在世界各地网络连通性的工具" data-icon="📡" data-href="https://ping.pe" title="收藏">印</button><div class="card-head"><div class="icon-box">📡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Ping.pe</div><div class="card-desc">测试你的网站在世界各地网络连通性的工具</div></div></a>
+          <a class="card" href="https://www.hackerone.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="hackerone" data-title="HackerOne" data-desc="帮大型企业寻找系统安全漏洞并获取合法奖金的平台" data-icon="🛡️" data-href="https://www.hackerone.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🛡️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">HackerOne</div><div class="card-desc">帮大型企业寻找系统安全漏洞并获取合法奖金的平台</div></div></a>
+          <a class="card" href="https://www.bugcrowd.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="bugcrowd" data-title="Bugcrowd" data-desc="网络安全专家的线上安全众测与漏洞赏金平台" data-icon="🏢" data-href="https://www.bugcrowd.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🏢</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Bugcrowd</div><div class="card-desc">网络安全专家的线上安全众测与漏洞赏金平台</div></div></a>
+          <a class="card" href="https://tryhackme.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="tryhackme" data-title="TryHackMe" data-desc="适合初学者的网络安全渗透测试学习与实践网站" data-icon="🎓" data-href="https://tryhackme.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🎓</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">TryHackMe</div><div class="card-desc">适合初学者的网络安全渗透测试学习与实践网站</div></div></a>
+          <a class="card" href="https://www.hackthebox.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="hackthebox" data-title="HackTheBox" data-desc="专业黑客用来进行攻防实战模拟的虚拟训练场" data-icon="🧨" data-href="https://www.hackthebox.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🧨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">HackTheBox</div><div class="card-desc">专业黑客用来进行攻防实战模拟的虚拟训练场</div></div></a>
+          <a class="card" href="https://www.exploit-db.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="exploitdb" data-title="Exploit-DB" data-desc="收录最新公开系统漏洞与攻击测试代码的权威数据库" data-icon="📂" data-href="https://www.exploit-db.com" title="收藏">印</button><div class="card-head"><div class="icon-box">📂</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Exploit-DB</div><div class="card-desc">收录最新公开系统漏洞与攻击测试代码的权威数据库</div></div></a>
+          <a class="card" href="https://owasp.org" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="owasp" data-title="OWASP" data-desc="提供Web应用程序安全开发标准与规范的组织" data-icon="📜" data-href="https://owasp.org" title="收藏">印</button><div class="card-head"><div class="icon-box">📜</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">OWASP</div><div class="card-desc">提供Web应用程序安全开发标准与规范的组织</div></div></a>
+          <a class="card" href="https://www.kali.org" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="kali" data-title="Kali Linux" data-desc="专用于渗透测试和安全审计的Linux操作系统官网" data-icon="🐉" data-href="https://www.kali.org" title="收藏">印</button><div class="card-head"><div class="icon-box">🐉</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Kali Linux</div><div class="card-desc">专用于渗透测试和安全审计的Linux操作系统官网</div></div></a>
+          <a class="card" href="https://www.reddit.com/r/netsec/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="netsec" data-title="Netsec" data-desc="讨论最新网络安全漏洞与行业情报的活跃社区" data-icon="🧬" data-href="https://www.reddit.com/r/netsec/" title="收藏">印</button><div class="card-head"><div class="icon-box">🧬</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Netsec</div><div class="card-desc">讨论最新网络安全漏洞与行业情报的活跃社区</div></div></a>
+          <a class="card" href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="virustotal" data-title="VirusTotal" data-desc="上传可疑文件或网址，集合几十家杀毒引擎免费查毒" data-icon="🧫" data-href="https://www.virustotal.com/gui/home/upload" title="收藏">印</button><div class="card-head"><div class="icon-box">🧫</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">VirusTotal</div><div class="card-desc">上传可疑文件或网址，集合几十家杀毒引擎免费查毒</div></div></a>
+          <a class="card" href="https://www.shodan.io/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="shodan" data-title="Shodan" data-desc="专门用来检索全球联网智能设备的搜索引擎" data-icon="🛰️" data-href="https://www.shodan.io/" title="收藏">印</button><div class="card-head"><div class="icon-box">🛰️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Shodan</div><div class="card-desc">专门用来检索全球联网智能设备的搜索引擎</div></div></a>
+          <a class="card" href="https://cybermap.kaspersky.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="kaspersky" data-title="卡巴斯基图" data-desc="在3D地球仪上实时动态展示全球发生的网络攻击情况" data-icon="☣️" data-href="https://cybermap.kaspersky.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">☣️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">卡巴斯基图</div><div class="card-desc">在3D地球仪上实时动态展示全球发生的网络攻击情况</div></div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-design" data-icon="ri-palette-line">
-        <div class="section-header"><div class="section-title">视觉</div><div class="section-count">Design & Assets</div></div>
+        <div class="section-header"><div class="section-title">丹青</div><div class="section-count">Design & Assets</div></div>
         <div class="grid">
-          <a class="card" href="https://www.pinterest.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="pinterest" data-title="Pinterest" data-desc="全球知名的瀑布流图片分享与设计灵感采集网站" data-icon="🖼️" data-href="https://www.pinterest.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Pinterest</div><div class="card-desc">全球知名的瀑布流图片分享与设计灵感采集网站</div></div></a>
-          <a class="card" href="https://www.behance.net" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="behance" data-title="Behance" data-desc="Adobe旗下的全球顶尖设计师原创作品展示平台" data-icon="🎨" data-href="https://www.behance.net" title="收藏">★</button><div class="card-head"><div class="icon-box">🎨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Behance</div><div class="card-desc">Adobe旗下的全球顶尖设计师原创作品展示平台</div></div></a>
-          <a class="card" href="https://huaban.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="huaban" data-title="花瓣网" data-desc="国内主流的设计师素材采集与灵感管理平台" data-icon="🌸" data-href="https://huaban.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🌸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">花瓣网</div><div class="card-desc">国内主流的设计师素材采集与灵感管理平台</div></div></a>
-          <a class="card" href="https://unsplash.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="unsplash" data-title="Unsplash" data-desc="提供完全免费、且可自由商用的高质量摄影图片库" data-icon="📷" data-href="https://unsplash.com" title="收藏">★</button><div class="card-head"><div class="icon-box">📷</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Unsplash</div><div class="card-desc">提供完全免费、且可自由商用的高质量摄影图片库</div></div></a>
-          <a class="card" href="https://www.pexels.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="pexels" data-title="Pexels" data-desc="免费且支持高质量商业用途的图库与视频素材库" data-icon="📸" data-href="https://www.pexels.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Pexels</div><div class="card-desc">免费且支持高质量商业用途的图库与视频素材库</div></div></a>
-          <a class="card" href="https://pixabay.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="pixabay" data-title="Pixabay" data-desc="提供海量无版权限制的免费插画、矢量图与配图库" data-icon="🌄" data-href="https://pixabay.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🌄</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Pixabay</div><div class="card-desc">提供海量无版权限制的免费插画、矢量图与配图库</div></div></a>
-          <a class="card" href="https://wallhaven.cc/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="wallhaven" data-title="Wallhaven" data-desc="公认质量最高的电脑高清桌面壁纸下载网站" data-icon="🖼️" data-href="https://wallhaven.cc/" title="收藏">★</button><div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Wallhaven</div><div class="card-desc">公认质量最高的电脑高清桌面壁纸下载网站</div></div></a>
-          <a class="card" href="https://wallpaperswide.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="wallpaperswide" data-title="高清壁纸" data-desc="提供支持各种宽屏与高分辨率显示器的电脑壁纸" data-icon="🖥️" data-href="https://wallpaperswide.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🖥️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">高清壁纸</div><div class="card-desc">提供支持各种宽屏与高分辨率显示器的电脑壁纸</div></div></a>
-          <a class="card" href="https://pic.netbian.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="netbian" data-title="彼岸图网" data-desc="国内提供原生4K极清画质电脑桌面壁纸的网站" data-icon="🌉" data-href="https://pic.netbian.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🌉</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">彼岸图网</div><div class="card-desc">国内提供原生4K极清画质电脑桌面壁纸的网站</div></div></a>
-          <a class="card" href="https://coolbackgrounds.io/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="coolbg" data-title="Cool BG" data-desc="专门生成极简主义的纯色、渐变与几何图案背景" data-icon="🟦" data-href="https://coolbackgrounds.io/" title="收藏">★</button><div class="card-head"><div class="icon-box">🟦</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Cool BG</div><div class="card-desc">专门生成极简主义的纯色、渐变与几何图案背景</div></div></a>
-          <a class="card" href="https://www.photopea.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="photopea" data-title="Photopea" data-desc="无需安装，界面和功能高度类似Photoshop的在线修图工具" data-icon="🖊️" data-href="https://www.photopea.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🖊️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Photopea</div><div class="card-desc">无需安装，界面和功能高度类似Photoshop的在线修图工具</div></div></a>
-          <a class="card" href="https://www.remove.bg" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="removebg" data-title="Remove.bg" data-desc="上传图片即可利用AI精准去除背景并生成透明底图" data-icon="✂️" data-href="https://www.remove.bg" title="收藏">★</button><div class="card-head"><div class="icon-box">✂️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Remove.bg</div><div class="card-desc">上传图片即可利用AI精准去除背景并生成透明底图</div></div></a>
-          <a class="card" href="https://www.canva.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="canva" data-title="Canva" data-desc="提供海量预设模板的在线平面设计与海报制作工具" data-icon="🎨" data-href="https://www.canva.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🎨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Canva</div><div class="card-desc">提供海量预设模板的在线平面设计与海报制作工具</div></div></a>
-          <a class="card" href="https://informationisbeautiful.net" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="infobeautiful" data-title="美丽数据" data-desc="将枯燥的数据转化为直观、精美的数据可视化图表" data-icon="📈" data-href="https://informationisbeautiful.net" title="收藏">★</button><div class="card-head"><div class="icon-box">📈</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">美丽数据</div><div class="card-desc">将枯燥的数据转化为直观、精美的数据可视化图表</div></div></a>
+          <a class="card" href="https://www.pinterest.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="pinterest" data-title="Pinterest" data-desc="全球知名的瀑布流图片分享与设计灵感采集网站" data-icon="🖼️" data-href="https://www.pinterest.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Pinterest</div><div class="card-desc">全球知名的瀑布流图片分享与设计灵感采集网站</div></div></a>
+          <a class="card" href="https://www.behance.net" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="behance" data-title="Behance" data-desc="Adobe旗下的全球顶尖设计师原创作品展示平台" data-icon="🎨" data-href="https://www.behance.net" title="收藏">印</button><div class="card-head"><div class="icon-box">🎨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Behance</div><div class="card-desc">Adobe旗下的全球顶尖设计师原创作品展示平台</div></div></a>
+          <a class="card" href="https://huaban.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="huaban" data-title="花瓣网" data-desc="国内主流的设计师素材采集与灵感管理平台" data-icon="🌸" data-href="https://huaban.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🌸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">花瓣网</div><div class="card-desc">国内主流的设计师素材采集与灵感管理平台</div></div></a>
+          <a class="card" href="https://unsplash.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="unsplash" data-title="Unsplash" data-desc="提供完全免费、且可自由商用的高质量摄影图片库" data-icon="📷" data-href="https://unsplash.com" title="收藏">印</button><div class="card-head"><div class="icon-box">📷</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Unsplash</div><div class="card-desc">提供完全免费、且可自由商用的高质量摄影图片库</div></div></a>
+          <a class="card" href="https://www.pexels.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="pexels" data-title="Pexels" data-desc="免费且支持高质量商业用途的图库与视频素材库" data-icon="📸" data-href="https://www.pexels.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Pexels</div><div class="card-desc">免费且支持高质量商业用途的图库与视频素材库</div></div></a>
+          <a class="card" href="https://pixabay.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="pixabay" data-title="Pixabay" data-desc="提供海量无版权限制的免费插画、矢量图与配图库" data-icon="🌄" data-href="https://pixabay.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🌄</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Pixabay</div><div class="card-desc">提供海量无版权限制的免费插画、矢量图与配图库</div></div></a>
+          <a class="card" href="https://wallhaven.cc/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="wallhaven" data-title="Wallhaven" data-desc="公认质量最高的电脑高清桌面壁纸下载网站" data-icon="🖼️" data-href="https://wallhaven.cc/" title="收藏">印</button><div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Wallhaven</div><div class="card-desc">公认质量最高的电脑高清桌面壁纸下载网站</div></div></a>
+          <a class="card" href="https://wallpaperswide.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="wallpaperswide" data-title="高清壁纸" data-desc="提供支持各种宽屏与高分辨率显示器的电脑壁纸" data-icon="🖥️" data-href="https://wallpaperswide.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🖥️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">高清壁纸</div><div class="card-desc">提供支持各种宽屏与高分辨率显示器的电脑壁纸</div></div></a>
+          <a class="card" href="https://pic.netbian.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="netbian" data-title="彼岸图网" data-desc="国内提供原生4K极清画质电脑桌面壁纸的网站" data-icon="🌉" data-href="https://pic.netbian.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🌉</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">彼岸图网</div><div class="card-desc">国内提供原生4K极清画质电脑桌面壁纸的网站</div></div></a>
+          <a class="card" href="https://coolbackgrounds.io/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="coolbg" data-title="Cool BG" data-desc="专门生成极简主义的纯色、渐变与几何图案背景" data-icon="🟦" data-href="https://coolbackgrounds.io/" title="收藏">印</button><div class="card-head"><div class="icon-box">🟦</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Cool BG</div><div class="card-desc">专门生成极简主义的纯色、渐变与几何图案背景</div></div></a>
+          <a class="card" href="https://www.photopea.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="photopea" data-title="Photopea" data-desc="无需安装，界面和功能高度类似Photoshop的在线修图工具" data-icon="🖊️" data-href="https://www.photopea.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🖊️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Photopea</div><div class="card-desc">无需安装，界面和功能高度类似Photoshop的在线修图工具</div></div></a>
+          <a class="card" href="https://www.remove.bg" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="removebg" data-title="Remove.bg" data-desc="上传图片即可利用AI精准去除背景并生成透明底图" data-icon="✂️" data-href="https://www.remove.bg" title="收藏">印</button><div class="card-head"><div class="icon-box">✂️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Remove.bg</div><div class="card-desc">上传图片即可利用AI精准去除背景并生成透明底图</div></div></a>
+          <a class="card" href="https://www.canva.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="canva" data-title="Canva" data-desc="提供海量预设模板的在线平面设计与海报制作工具" data-icon="🎨" data-href="https://www.canva.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🎨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Canva</div><div class="card-desc">提供海量预设模板的在线平面设计与海报制作工具</div></div></a>
+          <a class="card" href="https://informationisbeautiful.net" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="infobeautiful" data-title="美丽数据" data-desc="将枯燥的数据转化为直观、精美的数据可视化图表" data-icon="📈" data-href="https://informationisbeautiful.net" title="收藏">印</button><div class="card-head"><div class="icon-box">📈</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">美丽数据</div><div class="card-desc">将枯燥的数据转化为直观、精美的数据可视化图表</div></div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-explore" data-icon="ri-earth-line">
-        <div class="section-header"><div class="section-title">探索</div><div class="section-count">Explore & Global Monitor</div></div>
+        <div class="section-header"><div class="section-title">行纪</div><div class="section-count">Explore & Global Monitor</div></div>
         <div class="grid">
-          <a class="card" href="https://earth.google.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="googleearth" data-title="谷歌地球" data-desc="提供全球高分辨率卫星图像的3D虚拟地球仪" data-icon="🌎" data-href="https://earth.google.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🌎</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌地球</div><div class="card-desc">提供全球高分辨率卫星图像的3D虚拟地球仪</div></div></a>
-          <a class="card" href="https://www.skyscanner.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="skyscanner" data-title="天巡" data-desc="全球性的廉价航空与国际航班比价预订平台" data-icon="🎫" data-href="https://www.skyscanner.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🎫</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">天巡</div><div class="card-desc">全球性的廉价航空与国际航班比价预订平台</div></div></a>
-          <a class="card" href="https://www.flightconnections.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="flightconn" data-title="全球航线图" data-desc="直观展示全球所有民航机场之间的直飞航线地图" data-icon="🛫" data-href="https://www.flightconnections.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🛫</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">全球航线图</div><div class="card-desc">直观展示全球所有民航机场之间的直飞航线地图</div></div></a>
-          <a class="card" href="https://www.atlasobscura.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="atlasobscura" data-title="奇趣地图" data-desc="收录全球罕见、猎奇、小众探险景点的旅行指南" data-icon="🗺️" data-href="https://www.atlasobscura.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🗺️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">奇趣地图</div><div class="card-desc">收录全球罕见、猎奇、小众探险景点的旅行指南</div></div></a>
-          <a class="card" href="https://www.earthcam.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="earthcam" data-title="EarthCam" data-desc="汇集全球知名地标建筑与公共区域的实时直播摄像头" data-icon="📹" data-href="https://www.earthcam.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">📹</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">EarthCam</div><div class="card-desc">汇集全球知名地标建筑与公共区域的实时直播摄像头</div></div></a>
-          <a class="card" href="https://www.webcams.travel/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="webcamstravel" data-title="旅游镜头" data-desc="提供全球各大风景区、沙滩及自然景观的实时快照" data-icon="🔭" data-href="https://www.webcams.travel/" title="收藏">★</button><div class="card-head"><div class="icon-box">🔭</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">旅游镜头</div><div class="card-desc">提供全球各大风景区、沙滩及自然景观的实时快照</div></div></a>
-          <a class="card" href="http://www.window-swap.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="windowswap" data-title="WindowSwap" data-desc="随机向你展示世界各地陌生人窗外的视频风景" data-icon="🪟" data-href="http://www.window-swap.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🪟</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">WindowSwap</div><div class="card-desc">随机向你展示世界各地陌生人窗外的视频风景</div></div></a>
-          <a class="card" href="http://www.window-swap-japan.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="windowjapan" data-title="日本窗景" data-desc="专门收集并展示日本各地家庭窗外的静谧风景" data-icon="🗾" data-href="http://www.window-swap-japan.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🗾</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">日本窗景</div><div class="card-desc">专门收集并展示日本各地家庭窗外的静谧风景</div></div></a>
-          <a class="card" href="https://www.mapcrunch.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="mapcrunch" data-title="MapCrunch" data-desc="随机将你传送到全球某个角落的谷歌街景中" data-icon="🧭" data-href="https://www.mapcrunch.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🧭</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">MapCrunch</div><div class="card-desc">随机将你传送到全球某个角落的谷歌街景中</div></div></a>
-          <a class="card" href="https://www.thesecretdoor.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="secretdoor" data-title="任意门" data-desc="点击门把手，随机带你参观世界各地的奇异场景" data-icon="🚪" data-href="https://www.thesecretdoor.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🚪</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">任意门</div><div class="card-desc">点击门把手，随机带你参观世界各地的奇异场景</div></div></a>
-          <a class="card" href="https://explore.org/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="exploreorg" data-title="自然生态" data-desc="提供全球野生动物和自然保护区的高清实时直播" data-icon="🐼" data-href="https://explore.org/" title="收藏">★</button><div class="card-head"><div class="icon-box">🐼</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">自然生态</div><div class="card-desc">提供全球野生动物和自然保护区的高高清实时直播</div></div></a>
-          <a class="card" href="http://www.virtualwindow.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="virtualwindow" data-title="虚拟视窗" data-desc="提供用于放松身心的循环自然风景视频画面" data-icon="🖼️" data-href="http://www.virtualwindow.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">虚拟视窗</div><div class="card-desc">提供用于放松身心的循环自然风景视频画面</div></div></a>
-          <a class="card" href="https://apod.nasa.gov/apod/astropix.html" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="nasa" data-title="NASA每日图" data-desc="美国国家航空航天局每日更新的一张天文摄影图片" data-icon="🚀" data-href="https://apod.nasa.gov/apod/astropix.html" title="收藏">★</button><div class="card-head"><div class="icon-box">🚀</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">NASA每日图</div><div class="card-desc">美国国家航空航天局每日更新的一张天文摄影图片</div></div></a>
-          <a class="card" href="https://pointerpointer.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="pointer" data-title="看手指" data-desc="鼠标停在哪里，就会显示一张指着该处的照片" data-icon="👉" data-href="https://pointerpointer.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">👉</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">看手指</div><div class="card-desc">鼠标停在哪里，就会显示一张指着该处的照片</div></div></a>
-          <a class="card" href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="cframdar" data-title="流量雷达" data-desc="从宏观视角展示全球互联网流量趋势与网络拥堵情况" data-icon="🌐" data-href="https://radar.cloudflare.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">流量雷达</div><div class="card-desc">从宏观视角展示全球互联网流量趋势与网络拥堵情况</div></div></a>
-          <a class="card" href="https://www.flightradar24.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="flightradar" data-title="实时航班" data-desc="在地图上实时追踪全球正在飞行的客机动态" data-icon="🛫" data-href="https://www.flightradar24.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🛫</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">实时航班</div><div class="card-desc">在地图上实时追踪全球正在飞行的客机动态</div></div></a>
-          <a class="card" href="https://www.marinetraffic.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="marinetraffic" data-title="实时货轮" data-desc="实时监控全球海域商船与货轮的航行轨迹与位置" data-icon="🚢" data-href="https://www.marinetraffic.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🚢</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">实时货轮</div><div class="card-desc">实时监控全球海域商船与货轮的航行轨迹与位置</div></div></a>
-          <a class="card" href="https://www.submarinecablemap.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="cablemap" data-title="海底光缆图" data-desc="展示连接全球互联网的物理海底电缆分布图" data-icon="🌊" data-href="https://www.submarinecablemap.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🌊</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">海底光缆图</div><div class="card-desc">展示连接全球互联网的物理海底电缆分布图</div></div></a>
-          <a class="card" href="https://stat.ripe.net/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="ripe" data-title="BGP 数据站" data-desc="提供底层网络IP路由信息的专业数据查询平台" data-icon="🧷" data-href="https://stat.ripe.net/" title="收藏">★</button><div class="card-head"><div class="icon-box">🧷</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">BGP 数据站</div><div class="card-desc">提供底层网络IP路由信息的专业数据查询平台</div></div></a>
-          <a class="card" href="https://ourworldindata.org/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="ourworld" data-title="宏观数据" data-desc="用严谨的图表展示人类社会在人口、经济等领域的宏观变化" data-icon="📊" data-href="https://ourworldindata.org/" title="收藏">★</button><div class="card-head"><div class="icon-box">📊</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">宏观数据</div><div class="card-desc">用严谨的图表展示人类社会在人口、经济等领域的宏观变化</div></div></a>
-          <a class="card" href="https://earthquake.usgs.gov/earthquakes/map/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="earthquake" data-title="实时地震" data-desc="美国地质调查局提供的全球最新地震动态监测" data-icon="🌋" data-href="https://earthquake.usgs.gov/earthquakes/map/" title="收藏">★</button><div class="card-head"><div class="icon-box">🌋</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">实时地震</div><div class="card-desc">美国地质调查局提供的全球最新地震动态监测</div></div></a>
-          <a class="card" href="https://firms.modaps.eosdis.nasa.gov/map/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="nasafires" data-title="全球火灾" data-desc="利用NASA卫星数据实时标记全球发生火灾的区域" data-icon="🔥" data-href="https://firms.modaps.eosdis.nasa.gov/map/" title="收藏">★</button><div class="card-head"><div class="icon-box">🔥</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">全球火灾</div><div class="card-desc">利用NASA卫星数据实时标记全球发生火灾的区域</div></div></a>
-          <a class="card" href="https://www.swpc.noaa.gov/products/aurora-30-minute-forecast" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="aurora" data-title="极光预测" data-desc="提供全球极光出现概率的预测图表与太空天气报告" data-icon="🌌" data-href="https://www.swpc.noaa.gov/products/aurora-30-minute-forecast" title="收藏">★</button><div class="card-head"><div class="icon-box">🌌</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">极光预测</div><div class="card-desc">提供全球极光出现概率的预测图表与太空天气报告</div></div></a>
+          <a class="card" href="https://earth.google.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="googleearth" data-title="谷歌地球" data-desc="提供全球高分辨率卫星图像的3D虚拟地球仪" data-icon="🌎" data-href="https://earth.google.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🌎</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌地球</div><div class="card-desc">提供全球高分辨率卫星图像的3D虚拟地球仪</div></div></a>
+          <a class="card" href="https://www.skyscanner.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="skyscanner" data-title="天巡" data-desc="全球性的廉价航空与国际航班比价预订平台" data-icon="🎫" data-href="https://www.skyscanner.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🎫</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">天巡</div><div class="card-desc">全球性的廉价航空与国际航班比价预订平台</div></div></a>
+          <a class="card" href="https://www.flightconnections.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="flightconn" data-title="全球航线图" data-desc="直观展示全球所有民航机场之间的直飞航线地图" data-icon="🛫" data-href="https://www.flightconnections.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🛫</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">全球航线图</div><div class="card-desc">直观展示全球所有民航机场之间的直飞航线地图</div></div></a>
+          <a class="card" href="https://www.atlasobscura.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="atlasobscura" data-title="奇趣地图" data-desc="收录全球罕见、猎奇、小众探险景点的旅行指南" data-icon="🗺️" data-href="https://www.atlasobscura.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🗺️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">奇趣地图</div><div class="card-desc">收录全球罕见、猎奇、小众探险景点的旅行指南</div></div></a>
+          <a class="card" href="https://www.earthcam.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="earthcam" data-title="EarthCam" data-desc="汇集全球知名地标建筑与公共区域的实时直播摄像头" data-icon="📹" data-href="https://www.earthcam.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">📹</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">EarthCam</div><div class="card-desc">汇集全球知名地标建筑与公共区域的实时直播摄像头</div></div></a>
+          <a class="card" href="https://www.webcams.travel/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="webcamstravel" data-title="旅游镜头" data-desc="提供全球各大风景区、沙滩及自然景观的实时快照" data-icon="🔭" data-href="https://www.webcams.travel/" title="收藏">印</button><div class="card-head"><div class="icon-box">🔭</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">旅游镜头</div><div class="card-desc">提供全球各大风景区、沙滩及自然景观的实时快照</div></div></a>
+          <a class="card" href="http://www.window-swap.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="windowswap" data-title="WindowSwap" data-desc="随机向你展示世界各地陌生人窗外的视频风景" data-icon="🪟" data-href="http://www.window-swap.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🪟</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">WindowSwap</div><div class="card-desc">随机向你展示世界各地陌生人窗外的视频风景</div></div></a>
+          <a class="card" href="http://www.window-swap-japan.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="windowjapan" data-title="日本窗景" data-desc="专门收集并展示日本各地家庭窗外的静谧风景" data-icon="🗾" data-href="http://www.window-swap-japan.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🗾</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">日本窗景</div><div class="card-desc">专门收集并展示日本各地家庭窗外的静谧风景</div></div></a>
+          <a class="card" href="https://www.mapcrunch.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="mapcrunch" data-title="MapCrunch" data-desc="随机将你传送到全球某个角落的谷歌街景中" data-icon="🧭" data-href="https://www.mapcrunch.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🧭</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">MapCrunch</div><div class="card-desc">随机将你传送到全球某个角落的谷歌街景中</div></div></a>
+          <a class="card" href="https://www.thesecretdoor.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="secretdoor" data-title="任意门" data-desc="点击门把手，随机带你参观世界各地的奇异场景" data-icon="🚪" data-href="https://www.thesecretdoor.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🚪</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">任意门</div><div class="card-desc">点击门把手，随机带你参观世界各地的奇异场景</div></div></a>
+          <a class="card" href="https://explore.org/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="exploreorg" data-title="自然生态" data-desc="提供全球野生动物和自然保护区的高清实时直播" data-icon="🐼" data-href="https://explore.org/" title="收藏">印</button><div class="card-head"><div class="icon-box">🐼</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">自然生态</div><div class="card-desc">提供全球野生动物和自然保护区的高高清实时直播</div></div></a>
+          <a class="card" href="http://www.virtualwindow.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="virtualwindow" data-title="虚拟视窗" data-desc="提供用于放松身心的循环自然风景视频画面" data-icon="🖼️" data-href="http://www.virtualwindow.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">虚拟视窗</div><div class="card-desc">提供用于放松身心的循环自然风景视频画面</div></div></a>
+          <a class="card" href="https://apod.nasa.gov/apod/astropix.html" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="nasa" data-title="NASA每日图" data-desc="美国国家航空航天局每日更新的一张天文摄影图片" data-icon="🚀" data-href="https://apod.nasa.gov/apod/astropix.html" title="收藏">印</button><div class="card-head"><div class="icon-box">🚀</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">NASA每日图</div><div class="card-desc">美国国家航空航天局每日更新的一张天文摄影图片</div></div></a>
+          <a class="card" href="https://pointerpointer.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="pointer" data-title="看手指" data-desc="鼠标停在哪里，就会显示一张指着该处的照片" data-icon="👉" data-href="https://pointerpointer.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">👉</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">看手指</div><div class="card-desc">鼠标停在哪里，就会显示一张指着该处的照片</div></div></a>
+          <a class="card" href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="cframdar" data-title="流量雷达" data-desc="从宏观视角展示全球互联网流量趋势与网络拥堵情况" data-icon="🌐" data-href="https://radar.cloudflare.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">流量雷达</div><div class="card-desc">从宏观视角展示全球互联网流量趋势与网络拥堵情况</div></div></a>
+          <a class="card" href="https://www.flightradar24.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="flightradar" data-title="实时航班" data-desc="在地图上实时追踪全球正在飞行的客机动态" data-icon="🛫" data-href="https://www.flightradar24.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🛫</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">实时航班</div><div class="card-desc">在地图上实时追踪全球正在飞行的客机动态</div></div></a>
+          <a class="card" href="https://www.marinetraffic.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="marinetraffic" data-title="实时货轮" data-desc="实时监控全球海域商船与货轮的航行轨迹与位置" data-icon="🚢" data-href="https://www.marinetraffic.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🚢</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">实时货轮</div><div class="card-desc">实时监控全球海域商船与货轮的航行轨迹与位置</div></div></a>
+          <a class="card" href="https://www.submarinecablemap.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="cablemap" data-title="海底光缆图" data-desc="展示连接全球互联网的物理海底电缆分布图" data-icon="🌊" data-href="https://www.submarinecablemap.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🌊</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">海底光缆图</div><div class="card-desc">展示连接全球互联网的物理海底电缆分布图</div></div></a>
+          <a class="card" href="https://stat.ripe.net/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="ripe" data-title="BGP 数据站" data-desc="提供底层网络IP路由信息的专业数据查询平台" data-icon="🧷" data-href="https://stat.ripe.net/" title="收藏">印</button><div class="card-head"><div class="icon-box">🧷</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">BGP 数据站</div><div class="card-desc">提供底层网络IP路由信息的专业数据查询平台</div></div></a>
+          <a class="card" href="https://ourworldindata.org/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="ourworld" data-title="宏观数据" data-desc="用严谨的图表展示人类社会在人口、经济等领域的宏观变化" data-icon="📊" data-href="https://ourworldindata.org/" title="收藏">印</button><div class="card-head"><div class="icon-box">📊</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">宏观数据</div><div class="card-desc">用严谨的图表展示人类社会在人口、经济等领域的宏观变化</div></div></a>
+          <a class="card" href="https://earthquake.usgs.gov/earthquakes/map/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="earthquake" data-title="实时地震" data-desc="美国地质调查局提供的全球最新地震动态监测" data-icon="🌋" data-href="https://earthquake.usgs.gov/earthquakes/map/" title="收藏">印</button><div class="card-head"><div class="icon-box">🌋</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">实时地震</div><div class="card-desc">美国地质调查局提供的全球最新地震动态监测</div></div></a>
+          <a class="card" href="https://firms.modaps.eosdis.nasa.gov/map/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="nasafires" data-title="全球火灾" data-desc="利用NASA卫星数据实时标记全球发生火灾的区域" data-icon="🔥" data-href="https://firms.modaps.eosdis.nasa.gov/map/" title="收藏">印</button><div class="card-head"><div class="icon-box">🔥</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">全球火灾</div><div class="card-desc">利用NASA卫星数据实时标记全球发生火灾的区域</div></div></a>
+          <a class="card" href="https://www.swpc.noaa.gov/products/aurora-30-minute-forecast" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="aurora" data-title="极光预测" data-desc="提供全球极光出现概率的预测图表与太空天气报告" data-icon="🌌" data-href="https://www.swpc.noaa.gov/products/aurora-30-minute-forecast" title="收藏">印</button><div class="card-head"><div class="icon-box">🌌</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">极光预测</div><div class="card-desc">提供全球极光出现概率的预测图表与太空天气报告</div></div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-utils" data-icon="ri-hammer-line">
-        <div class="section-header"><div class="section-title">工具</div><div class="section-count">Tools, Search & Crypto</div></div>
+        <div class="section-header"><div class="section-title">器物</div><div class="section-count">Tools, Search & Crypto</div></div>
         <div class="grid">
-          <a class="card" href="https://www.google.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="google" data-title="谷歌搜索" data-desc="全球使用人数最多、信息最全的搜索引擎" data-icon="🔎" data-href="https://www.google.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌搜索</div><div class="card-desc">全球使用人数最多、信息最全的搜索引擎</div></div></a>
-          <a class="card" href="https://mail.google.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="gmail" data-title="Gmail" data-desc="谷歌官方提供的安全电子邮箱服务" data-icon="✉️" data-href="https://mail.google.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">✉️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gmail</div><div class="card-desc">谷歌官方提供的安全电子邮箱服务</div></div></a>
-          <a class="card" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="googledrive" data-title="Google云盘" data-desc="谷歌官方提供的高效在线文件存储与同步网盘" data-icon="☁️" data-href="https://drive.google.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">☁️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Google云盘</div><div class="card-desc">谷歌官方提供的高效在线文件存储与同步网盘</div></div></a>
-          <a class="card" href="https://maps.google.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="googlemaps" data-title="谷歌地图" data-desc="提供详细路线规划与实景街景的全球地图导航服务" data-icon="🗺️" data-href="https://maps.google.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🗺️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌地图</div><div class="card-desc">提供详细路线规划与实景街景的全球地图导航服务</div></div></a>
-          <a class="card" href="https://www.wikipedia.org/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="wikipedia" data-title="维基百科" data-desc="自由开放、内容详实的全球多语言在线百科全书" data-icon="📚" data-href="https://www.wikipedia.org/" title="收藏">★</button><div class="card-head"><div class="icon-box">📚</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">维基百科</div><div class="card-desc">自由开放、内容详实的全球多语言在线百科全书</div></div></a>
-          <a class="card" href="https://images.google.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="googleimages" data-title="谷歌识图" data-desc="上传图片或网址即可查找图片来源的官方检索工具" data-icon="🖼️" data-href="https://images.google.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌识图</div><div class="card-desc">上传图片或网址即可查找图片来源的官方检索工具</div></div></a>
-          <a class="card" href="https://yandex.com/images" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="yandex" data-title="Yandex搜图" data-desc="俄罗斯Yandex搜索引擎提供的高精度反向图像查找引擎" data-icon="🔍" data-href="https://yandex.com/images" title="收藏">★</button><div class="card-head"><div class="icon-box">🔍</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Yandex搜图</div><div class="card-desc">俄罗斯Yandex搜索引擎提供的高精度反向图像查找引擎</div></div></a>
-          <a class="card" href="https://pindown.io/en1" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="pindown" data-title="Pin 下载器" data-desc="无水印提取并下载Pinterest平台图片与视频的工具" data-icon="📌" data-href="https://pindown.io/en1" title="收藏">★</button><div class="card-head"><div class="icon-box">📌</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Pin 下载器</div><div class="card-desc">无水印提取并下载Pinterest平台图片与视频的工具</div></div></a>
-          <a class="card" href="https://trace.moe" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="tracemoe" data-title="Trace.moe" data-desc="上传动漫截图即可精确检索该画面出自哪一部动画及集数" data-icon="🔎" data-href="https://trace.moe" title="收藏">★</button><div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Trace.moe</div><div class="card-desc">上传动漫截图即可精确检索该画面出自哪一部动画及集数</div></div></a>
-          <a class="card" href="https://www.wikihow.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="wikihow" data-title="WikiHow" data-desc="提供各类生活常识与实用技能操作步骤指南的百科网站" data-icon="📘" data-href="https://www.wikihow.com" title="收藏">★</button><div class="card-head"><div class="icon-box">📘</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">WikiHow</div><div class="card-desc">提供各类生活常识与实用技能操作步骤指南的百科网站</div></div></a>
-          <a class="card" href="https://www.speedtest.net" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="speedtest" data-title="Speedtest" data-desc="测试当前网络连接速度及宽带延迟的在线工具" data-icon="⚡" data-href="https://www.speedtest.net" title="收藏">★</button><div class="card-head"><div class="icon-box">⚡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Speedtest</div><div class="card-desc">测试当前网络连接速度及宽带延迟的在线工具</div></div></a>
-          <a class="card" href="https://tinywow.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="tinywow" data-title="TinyWow" data-desc="免费的在线多功能工具箱，支持各种文件与媒体格式转换" data-icon="🧰" data-href="https://tinywow.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🧰</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">TinyWow</div><div class="card-desc">免费的在线多功能工具箱，支持各种文件与媒体格式转换</div></div></a>
-          <a class="card" href="https://www.ilovepdf.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="ilovepdf" data-title="iLovePDF" data-desc="提供PDF合并、拆分、压缩及格式互转的在线办公处理平台" data-icon="📄" data-href="https://www.ilovepdf.com" title="收藏">★</button><div class="card-head"><div class="icon-box">📄</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">iLovePDF</div><div class="card-desc">提供PDF合并、拆分、压缩及格式互转的在线办公处理平台</div></div></a>
-          <a class="card" href="https://gumroad.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="gumroad" data-title="Gumroad" data-desc="面向独立创作者的数字产品销售与交易平台" data-icon="💸" data-href="https://gumroad.com" title="收藏">★</button><div class="card-head"><div class="icon-box">💸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gumroad</div><div class="card-desc">面向独立创作者的数字产品销售与交易平台</div></div></a>
-          <a class="card" href="https://www.suijidaquan.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="randcc" data-title="随机信用卡" data-desc="用于注册测试目的的随机身份信息与信用卡号生成工具" data-icon="🎲" data-href="https://www.suijidaquan.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🎲</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">随机信用卡</div><div class="card-desc">用于注册测试目的的随机身份信息与信用卡号生成工具</div></div></a>
-          <a class="card" href="https://www.coinepay.net" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="coinepay" data-title="Coinepay" data-desc="提供海外虚拟信用卡服务，方便订阅境外网络服务" data-icon="💳" data-href="https://www.coinepay.net" title="收藏">★</button><div class="card-head"><div class="icon-box">💳</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Coinepay</div><div class="card-desc">提供海外虚拟信用卡服务，方便订阅境外网络服务</div></div></a>
-          <a class="card" href="https://www.buyaacc.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="buyacc" data-title="BuyAcc" data-desc="提供各类海外社交媒体及数字服务成品账号的购买平台" data-icon="🛒" data-href="https://www.buyaacc.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🛒</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">BuyAcc</div><div class="card-desc">提供各类海外社交媒体及数字服务成品账号的购买平台</div></div></a>
-          <a class="card" href="https://www.10minutemail.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="10minmail" data-title="10分钟邮箱" data-desc="提供临时匿名电子邮箱地址，防止垃圾邮件骚扰" data-icon="⌛" data-href="https://www.10minutemail.com" title="收藏">★</button><div class="card-head"><div class="icon-box">⌛</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">10分钟邮箱</div><div class="card-desc">提供临时匿名电子邮箱地址，防止垃圾邮件骚扰</div></div></a>
-          <a class="card" href="https://mjjfaka.net/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="mjjfaka" data-title="MJJ发卡" data-desc="支持24小时自动化处理订单的虚拟数字商品交易平台" data-icon="🏪" data-href="https://mjjfaka.net/" title="收藏">★</button><div class="card-head"><div class="icon-box">🏪</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">MJJ发卡</div><div class="card-desc">支持24小时自动化处理订单的虚拟数字商品交易平台</div></div></a>
-          <a class="card" href="https://www.binance.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="binance" data-title="币安" data-desc="全球交易量最大、用户最多的综合性加密货币交易所" data-icon="💰" data-href="https://www.binance.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">💰</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">币安</div><div class="card-desc">全球交易量最大、用户最多的综合性加密货币交易所</div></div></a>
-          <a class="card" href="https://www.okx.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="okx" data-title="欧易 (OKX)" data-desc="全球主流的加密货币与Web3资产交易及衍生品服务平台" data-icon="🟢" data-href="https://www.okx.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🟢</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">欧易 (OKX)</div><div class="card-desc">全球主流的加密货币与Web3资产交易及衍生品服务平台</div></div></a>
-          <a class="card" href="https://metamask.io/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="metamask" data-title="小狐狸钱包" data-desc="基于浏览器扩展程序的去中心化加密数字资产管理钱包" data-icon="🦊" data-href="https://metamask.io/" title="收藏">★</button><div class="card-head"><div class="icon-box">🦊</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">小狐狸钱包</div><div class="card-desc">基于浏览器扩展程序的去中心化加密数字资产管理钱包</div></div></a>
+          <a class="card" href="https://www.google.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="google" data-title="谷歌搜索" data-desc="全球使用人数最多、信息最全的搜索引擎" data-icon="🔎" data-href="https://www.google.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌搜索</div><div class="card-desc">全球使用人数最多、信息最全的搜索引擎</div></div></a>
+          <a class="card" href="https://mail.google.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="gmail" data-title="Gmail" data-desc="谷歌官方提供的安全电子邮箱服务" data-icon="✉️" data-href="https://mail.google.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">✉️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gmail</div><div class="card-desc">谷歌官方提供的安全电子邮箱服务</div></div></a>
+          <a class="card" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="googledrive" data-title="Google云盘" data-desc="谷歌官方提供的高效在线文件存储与同步网盘" data-icon="☁️" data-href="https://drive.google.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">☁️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Google云盘</div><div class="card-desc">谷歌官方提供的高效在线文件存储与同步网盘</div></div></a>
+          <a class="card" href="https://maps.google.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="googlemaps" data-title="谷歌地图" data-desc="提供详细路线规划与实景街景的全球地图导航服务" data-icon="🗺️" data-href="https://maps.google.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🗺️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌地图</div><div class="card-desc">提供详细路线规划与实景街景的全球地图导航服务</div></div></a>
+          <a class="card" href="https://www.wikipedia.org/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="wikipedia" data-title="维基百科" data-desc="自由开放、内容详实的全球多语言在线百科全书" data-icon="📚" data-href="https://www.wikipedia.org/" title="收藏">印</button><div class="card-head"><div class="icon-box">📚</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">维基百科</div><div class="card-desc">自由开放、内容详实的全球多语言在线百科全书</div></div></a>
+          <a class="card" href="https://images.google.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="googleimages" data-title="谷歌识图" data-desc="上传图片或网址即可查找图片来源的官方检索工具" data-icon="🖼️" data-href="https://images.google.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌识图</div><div class="card-desc">上传图片或网址即可查找图片来源的官方检索工具</div></div></a>
+          <a class="card" href="https://yandex.com/images" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="yandex" data-title="Yandex搜图" data-desc="俄罗斯Yandex搜索引擎提供的高精度反向图像查找引擎" data-icon="🔍" data-href="https://yandex.com/images" title="收藏">印</button><div class="card-head"><div class="icon-box">🔍</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Yandex搜图</div><div class="card-desc">俄罗斯Yandex搜索引擎提供的高精度反向图像查找引擎</div></div></a>
+          <a class="card" href="https://pindown.io/en1" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="pindown" data-title="Pin 下载器" data-desc="无水印提取并下载Pinterest平台图片与视频的工具" data-icon="📌" data-href="https://pindown.io/en1" title="收藏">印</button><div class="card-head"><div class="icon-box">📌</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Pin 下载器</div><div class="card-desc">无水印提取并下载Pinterest平台图片与视频的工具</div></div></a>
+          <a class="card" href="https://trace.moe" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="tracemoe" data-title="Trace.moe" data-desc="上传动漫截图即可精确检索该画面出自哪一部动画及集数" data-icon="🔎" data-href="https://trace.moe" title="收藏">印</button><div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Trace.moe</div><div class="card-desc">上传动漫截图即可精确检索该画面出自哪一部动画及集数</div></div></a>
+          <a class="card" href="https://www.wikihow.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="wikihow" data-title="WikiHow" data-desc="提供各类生活常识与实用技能操作步骤指南的百科网站" data-icon="📘" data-href="https://www.wikihow.com" title="收藏">印</button><div class="card-head"><div class="icon-box">📘</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">WikiHow</div><div class="card-desc">提供各类生活常识与实用技能操作步骤指南的百科网站</div></div></a>
+          <a class="card" href="https://www.speedtest.net" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="speedtest" data-title="Speedtest" data-desc="测试当前网络连接速度及宽带延迟的在线工具" data-icon="⚡" data-href="https://www.speedtest.net" title="收藏">印</button><div class="card-head"><div class="icon-box">⚡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Speedtest</div><div class="card-desc">测试当前网络连接速度及宽带延迟的在线工具</div></div></a>
+          <a class="card" href="https://tinywow.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="tinywow" data-title="TinyWow" data-desc="免费的在线多功能工具箱，支持各种文件与媒体格式转换" data-icon="🧰" data-href="https://tinywow.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🧰</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">TinyWow</div><div class="card-desc">免费的在线多功能工具箱，支持各种文件与媒体格式转换</div></div></a>
+          <a class="card" href="https://www.ilovepdf.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="ilovepdf" data-title="iLovePDF" data-desc="提供PDF合并、拆分、压缩及格式互转的在线办公处理平台" data-icon="📄" data-href="https://www.ilovepdf.com" title="收藏">印</button><div class="card-head"><div class="icon-box">📄</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">iLovePDF</div><div class="card-desc">提供PDF合并、拆分、压缩及格式互转的在线办公处理平台</div></div></a>
+          <a class="card" href="https://gumroad.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="gumroad" data-title="Gumroad" data-desc="面向独立创作者的数字产品销售与交易平台" data-icon="💸" data-href="https://gumroad.com" title="收藏">印</button><div class="card-head"><div class="icon-box">💸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gumroad</div><div class="card-desc">面向独立创作者的数字产品销售与交易平台</div></div></a>
+          <a class="card" href="https://www.suijidaquan.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="randcc" data-title="随机信用卡" data-desc="用于注册测试目的的随机身份信息与信用卡号生成工具" data-icon="🎲" data-href="https://www.suijidaquan.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🎲</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">随机信用卡</div><div class="card-desc">用于注册测试目的的随机身份信息与信用卡号生成工具</div></div></a>
+          <a class="card" href="https://www.coinepay.net" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="coinepay" data-title="Coinepay" data-desc="提供海外虚拟信用卡服务，方便订阅境外网络服务" data-icon="💳" data-href="https://www.coinepay.net" title="收藏">印</button><div class="card-head"><div class="icon-box">💳</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Coinepay</div><div class="card-desc">提供海外虚拟信用卡服务，方便订阅境外网络服务</div></div></a>
+          <a class="card" href="https://www.buyaacc.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="buyacc" data-title="BuyAcc" data-desc="提供各类海外社交媒体及数字服务成品账号的购买平台" data-icon="🛒" data-href="https://www.buyaacc.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🛒</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">BuyAcc</div><div class="card-desc">提供各类海外社交媒体及数字服务成品账号的购买平台</div></div></a>
+          <a class="card" href="https://www.10minutemail.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="10minmail" data-title="10分钟邮箱" data-desc="提供临时匿名电子邮箱地址，防止垃圾邮件骚扰" data-icon="⌛" data-href="https://www.10minutemail.com" title="收藏">印</button><div class="card-head"><div class="icon-box">⌛</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">10分钟邮箱</div><div class="card-desc">提供临时匿名电子邮箱地址，防止垃圾邮件骚扰</div></div></a>
+          <a class="card" href="https://mjjfaka.net/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="mjjfaka" data-title="MJJ发卡" data-desc="支持24小时自动化处理订单的虚拟数字商品交易平台" data-icon="🏪" data-href="https://mjjfaka.net/" title="收藏">印</button><div class="card-head"><div class="icon-box">🏪</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">MJJ发卡</div><div class="card-desc">支持24小时自动化处理订单的虚拟数字商品交易平台</div></div></a>
+          <a class="card" href="https://www.binance.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="binance" data-title="币安" data-desc="全球交易量最大、用户最多的综合性加密货币交易所" data-icon="💰" data-href="https://www.binance.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">💰</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">币安</div><div class="card-desc">全球交易量最大、用户最多的综合性加密货币交易所</div></div></a>
+          <a class="card" href="https://www.okx.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="okx" data-title="欧易 (OKX)" data-desc="全球主流的加密货币与Web3资产交易及衍生品服务平台" data-icon="🟢" data-href="https://www.okx.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🟢</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">欧易 (OKX)</div><div class="card-desc">全球主流的加密货币与Web3资产交易及衍生品服务平台</div></div></a>
+          <a class="card" href="https://metamask.io/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="metamask" data-title="小狐狸钱包" data-desc="基于浏览器扩展程序的去中心化加密数字资产管理钱包" data-icon="🦊" data-href="https://metamask.io/" title="收藏">印</button><div class="card-head"><div class="icon-box">🦊</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">小狐狸钱包</div><div class="card-desc">基于浏览器扩展程序的去中心化加密数字资产管理钱包</div></div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-social" data-icon="ri-discuss-line">
-        <div class="section-header"><div class="section-title">影音</div><div class="section-count">Social & Media</div></div>
+        <div class="section-header"><div class="section-title">声色</div><div class="section-count">Social & Media</div></div>
         <div class="grid">
-          <a class="card" href="https://telegram.org/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="telegram" data-title="Telegram" data-desc="主打高度隐私保护与端到端加密的即时通讯软件" data-icon="✈️" data-href="https://telegram.org/" title="收藏">★</button><div class="card-head"><div class="icon-box">✈️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Telegram</div><div class="card-desc">主打高度隐私保护与端到端加密的即时通讯软件</div></div></a>
-          <a class="card" href="https://x.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="twitter" data-title="X (Twitter)" data-desc="全球性的短信息社交网络与实时热点新闻讨论平台" data-icon="🕇" data-href="https://x.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🕇</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">X (Twitter)</div><div class="card-desc">全球性的短信息社交网络与实时热点新闻讨论平台</div></div></a>
-          <a class="card" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="facebook" data-title="Facebook" data-desc="全球注册用户数量最多的综合性社交媒体平台" data-icon="📘" data-href="https://www.facebook.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">📘</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Facebook</div><div class="card-desc">全球注册用户数量最多的综合性社交媒体平台</div></div></a>
-          <a class="card" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="instagram" data-title="Instagram" data-desc="以高质量照片与短视频分享为核心的视觉社交应用" data-icon="📸" data-href="https://www.instagram.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Instagram</div><div class="card-desc">以高质量照片与短视频分享为核心的视觉社交应用</div></div></a>
-          <a class="card" href="https://signal.org/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="signal" data-title="Signal" data-desc="采用最高规格开源加密技术的跨平台安全通讯软件" data-icon="📨" data-href="https://signal.org/" title="收藏">★</button><div class="card-head"><div class="icon-box">📨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Signal</div><div class="card-desc">采用最高规格开源加密技术的跨平台安全通讯软件</div></div></a>
-          <a class="card" href="https://www.reddit.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="reddit" data-title="Reddit" data-desc="涵盖各类细分话题讨论与新闻聚合的综合性网络论坛" data-icon="🍊" data-href="https://www.reddit.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🍊</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Reddit</div><div class="card-desc">涵盖各类细分话题讨论与新闻聚合的综合性网络论坛</div></div></a>
-          <a class="card" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="youtube" data-title="YouTube" data-desc="全球最大、内容最丰富的视频分享与在线观看平台" data-icon="▶️" data-href="https://www.youtube.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">▶️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">YouTube</div><div class="card-desc">全球最大、内容最丰富的视频分享与在线观看平台</div></div></a>
-          <a class="card" href="https://www.netflix.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="netflix" data-title="Netflix" data-desc="全球领先的提供高质量独家影视剧的正版流媒体播放平台" data-icon="🎞️" data-href="https://www.netflix.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🎞️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Netflix</div><div class="card-desc">全球领先的提供高质量独家影视剧的正版流媒体播放平台</div></div></a>
-          <a class="card" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="spotify" data-title="Spotify" data-desc="提供海量曲库与个性化推荐的全球主流流媒体音乐服务" data-icon="🎵" data-href="https://open.spotify.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">🎵</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Spotify</div><div class="card-desc">提供海量曲库与个性化推荐的全球主流流媒体音乐服务</div></div></a>
-          <a class="card" href="https://everynoise.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="everynoise" data-title="音乐地图" data-desc="呈现全球所有音乐流派分类与演变关系的可视化数据地图" data-icon="🎶" data-href="https://everynoise.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🎶</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">音乐地图</div><div class="card-desc">呈现全球所有音乐流派分类与演变关系的可视化数据地图</div></div></a>
-          <a class="card" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="tiktok" data-title="TikTok" data-desc="面向国际市场的短视频分享与音乐创意社交应用平台" data-icon="📱" data-href="https://www.tiktok.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">📱</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">TikTok</div><div class="card-desc">面向国际市场的短视频分享与音乐创意社交应用平台</div></div></a>
-          <a class="card" href="https://nf.video/银河录像局" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="yinhejuxiang" data-title="银河录像局" data-desc="提供Netflix等各大海外流媒体平台付费账号的合租共享服务" data-icon="🎬" data-href="https://nf.video/银河录像局" title="收藏">★</button><div class="card-head"><div class="icon-box">🎬</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">银河录像局</div><div class="card-desc">提供Netflix等各大海外流媒体平台付费账号的合租共享服务</div></div></a>
+          <a class="card" href="https://telegram.org/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="telegram" data-title="Telegram" data-desc="主打高度隐私保护与端到端加密的即时通讯软件" data-icon="✈️" data-href="https://telegram.org/" title="收藏">印</button><div class="card-head"><div class="icon-box">✈️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Telegram</div><div class="card-desc">主打高度隐私保护与端到端加密的即时通讯软件</div></div></a>
+          <a class="card" href="https://x.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="twitter" data-title="X (Twitter)" data-desc="全球性的短信息社交网络与实时热点新闻讨论平台" data-icon="🕇" data-href="https://x.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🕇</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">X (Twitter)</div><div class="card-desc">全球性的短信息社交网络与实时热点新闻讨论平台</div></div></a>
+          <a class="card" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="facebook" data-title="Facebook" data-desc="全球注册用户数量最多的综合性社交媒体平台" data-icon="📘" data-href="https://www.facebook.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">📘</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Facebook</div><div class="card-desc">全球注册用户数量最多的综合性社交媒体平台</div></div></a>
+          <a class="card" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="instagram" data-title="Instagram" data-desc="以高质量照片与短视频分享为核心的视觉社交应用" data-icon="📸" data-href="https://www.instagram.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Instagram</div><div class="card-desc">以高质量照片与短视频分享为核心的视觉社交应用</div></div></a>
+          <a class="card" href="https://signal.org/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="signal" data-title="Signal" data-desc="采用最高规格开源加密技术的跨平台安全通讯软件" data-icon="📨" data-href="https://signal.org/" title="收藏">印</button><div class="card-head"><div class="icon-box">📨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Signal</div><div class="card-desc">采用最高规格开源加密技术的跨平台安全通讯软件</div></div></a>
+          <a class="card" href="https://www.reddit.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="reddit" data-title="Reddit" data-desc="涵盖各类细分话题讨论与新闻聚合的综合性网络论坛" data-icon="🍊" data-href="https://www.reddit.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🍊</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Reddit</div><div class="card-desc">涵盖各类细分话题讨论与新闻聚合的综合性网络论坛</div></div></a>
+          <a class="card" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="youtube" data-title="YouTube" data-desc="全球最大、内容最丰富的视频分享与在线观看平台" data-icon="▶️" data-href="https://www.youtube.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">▶️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">YouTube</div><div class="card-desc">全球最大、内容最丰富的视频分享与在线观看平台</div></div></a>
+          <a class="card" href="https://www.netflix.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="netflix" data-title="Netflix" data-desc="全球领先的提供高质量独家影视剧的正版流媒体播放平台" data-icon="🎞️" data-href="https://www.netflix.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🎞️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Netflix</div><div class="card-desc">全球领先的提供高质量独家影视剧的正版流媒体播放平台</div></div></a>
+          <a class="card" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="spotify" data-title="Spotify" data-desc="提供海量曲库与个性化推荐的全球主流流媒体音乐服务" data-icon="🎵" data-href="https://open.spotify.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">🎵</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Spotify</div><div class="card-desc">提供海量曲库与个性化推荐的全球主流流媒体音乐服务</div></div></a>
+          <a class="card" href="https://everynoise.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="everynoise" data-title="音乐地图" data-desc="呈现全球所有音乐流派分类与演变关系的可视化数据地图" data-icon="🎶" data-href="https://everynoise.com" title="收藏">印</button><div class="card-head"><div class="icon-box">🎶</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">音乐地图</div><div class="card-desc">呈现全球所有音乐流派分类与演变关系的可视化数据地图</div></div></a>
+          <a class="card" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="tiktok" data-title="TikTok" data-desc="面向国际市场的短视频分享与音乐创意社交应用平台" data-icon="📱" data-href="https://www.tiktok.com/" title="收藏">印</button><div class="card-head"><div class="icon-box">📱</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">TikTok</div><div class="card-desc">面向国际市场的短视频分享与音乐创意社交应用平台</div></div></a>
+          <a class="card" href="https://nf.video/银河录像局" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="yinhejuxiang" data-title="银河录像局" data-desc="提供Netflix等各大海外流媒体平台付费账号的合租共享服务" data-icon="🎬" data-href="https://nf.video/银河录像局" title="收藏">印</button><div class="card-head"><div class="icon-box">🎬</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">银河录像局</div><div class="card-desc">提供Netflix等各大海外流媒体平台付费账号的合租共享服务</div></div></a>
         </div>
       </div>
 
       <div class="section-block sensitive-zone locked" id="sec-abyss" data-icon="ri-eye-off-line">
-        <div class="sensitive-mask"><div class="mask-badge">Confidential / NSFW</div></div>
+        <div class="sensitive-mask"><div class="mask-badge">曲径通幽 / Abyss</div></div>
         <div class="sensitive-blur">
-          <div class="section-header"><div class="section-title">深海与私藏</div><span class="section-count">Abyss & Gentleman</span></div>
+          <div class="section-header"><div class="section-title">深渊</div><span class="section-count">Abyss & Gentleman</span></div>
           <div class="grid">
             <a class="card" href="https://www.torproject.org/zh-CN/download/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🧅</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Tor 浏览器</div><div class="card-desc">实现高等级匿名访问与网络隐匿的洋葱路由浏览器</div></div></a>
             <a class="card" href="https://fanqianglu.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🪜</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">翻墙路</div><div class="card-desc">提供各类型虚拟专用网络（VPN）与代理加速器的导航指南</div></div></a>
@@ -855,17 +803,17 @@
   <div id="back-top" title="返回顶部"><i class="ri-arrow-up-line"></i></div>
 
   <div id="ghost-memo">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border-color);">
-      <span style="font-size:15px;font-weight:700;letter-spacing:1px;">云端手记</span>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--ink-border);">
+      <span style="font-size:16px;font-weight:600;letter-spacing:2px;">卷轴手记</span>
       <div style="display:flex;gap:14px;align-items:center;">
-        <span id="cloud-status" style="font-size:12px;font-family:var(--font-sys);font-weight:600;color:var(--accent);">待机中</span>
-        <span id="cloud-sync-btn" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">同步</span>
-        <span onclick="toggleMemo()" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">关闭</span>
+        <span id="cloud-status" style="font-size:12px;font-family:var(--font-sys);color:var(--seal-red);">待机中</span>
+        <span id="cloud-sync-btn" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">研墨</span>
+        <span onclick="toggleMemo()" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">收卷</span>
       </div>
     </div>
     <div id="memo-content"></div>
     <div class="memo-input-wrap">
-      <input type="text" id="memo-new-record" placeholder="写入新记录，回车封存..." autocomplete="off" maxlength="200" />
+      <input type="text" id="memo-new-record" placeholder="提笔留痕，回车封存..." autocomplete="off" maxlength="200" />
       <span id="memo-char-count">0/200</span>
     </div>
   </div>
@@ -899,7 +847,6 @@
       section.style.display = 'block';
       countEl.textContent = `${ids.length} items`;
 
-      // 清空并重建（保留 empty 节点）
       grid.innerHTML = '';
       ids.forEach(id => {
         const f = favs[id];
@@ -908,7 +855,7 @@
         a.href = f.href; a.target = '_blank'; a.rel = 'noopener noreferrer';
         a.style.opacity = '1'; a.style.animation = 'none';
         a.innerHTML = `
-          <button class="card-fav active" data-id="${id}" data-title="${f.title}" data-desc="${f.desc}" data-icon="${f.icon}" data-href="${f.href}" title="取消收藏">★</button>
+          <button class="card-fav active" data-id="${id}" data-title="${f.title}" data-desc="${f.desc}" data-icon="${f.icon}" data-href="${f.href}" title="取消收藏">印</button>
           <div class="card-head"><div class="icon-box">${f.icon}</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
           <div class="card-body"><div class="card-title">${f.title}</div><div class="card-desc">${f.desc}</div></div>
         `;
@@ -926,14 +873,13 @@
           if (favs[id]) {
             delete favs[id];
             btn.classList.remove('active');
-            showToast(`已取消收藏：${title}`);
+            showToast(`已抹除：${title}`);
           } else {
             favs[id] = { title, desc, icon, href };
             btn.classList.add('active');
-            showToast(`已收藏：${title}`);
+            showToast(`已落印：${title}`);
           }
           saveFavs(favs);
-          // 同步其他同id的按钮
           document.querySelectorAll(`.card-fav[data-id="${id}"]`).forEach(b => {
             b.classList.toggle('active', !!favs[id]);
           });
@@ -1023,7 +969,6 @@
       bindFavBtns(document.getElementById('main-content'));
       renderFavSection();
 
-      // 恢复收藏按钮状态
       const favs = loadFavs();
       document.querySelectorAll('.card-fav').forEach(btn => {
         if (favs[btn.dataset.id]) btn.classList.add('active');
@@ -1039,7 +984,7 @@
       const splash = document.getElementById('splash');
       if (splash) {
         splash.style.opacity = '0';
-        setTimeout(() => { splash.style.display = 'none'; }, 600);
+        setTimeout(() => { splash.style.display = 'none'; }, 1500);
         sessionStorage.setItem('archiveSplashSeen', 'true');
       }
     }
@@ -1052,13 +997,16 @@
     const timePill = document.getElementById('time-pill');
     const datePill = document.getElementById('date-pill');
     const greeting = document.getElementById('time-greeting');
+    const lunarMap = ['子时','丑时','寅时','卯时','辰时','巳时','午时','未时','申时','酉时','戌时','亥时'];
     function updateTime() {
       const now = new Date();
       if (timePill) timePill.textContent = now.toLocaleTimeString('zh-CN', { hour12: false });
       if (datePill) datePill.textContent = now.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' });
       if (greeting) {
         const h = now.getHours();
-        greeting.textContent = h < 5 ? '夜深了' : h < 9 ? '早上好' : h < 12 ? '上午好' : h < 14 ? '中午好' : h < 19 ? '下午好' : '晚上好';
+        // 水墨风可配合时辰展示
+        const lunarIndex = Math.floor((h + 1) % 24 / 2);
+        greeting.textContent = lunarMap[lunarIndex];
       }
     }
     setInterval(updateTime, 1000);
@@ -1069,7 +1017,7 @@
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       toast.className = 'toast';
-      toast.textContent = `> ${message}`;
+      toast.textContent = `${message}`;
       container.appendChild(toast);
       setTimeout(() => { if (toast.parentNode) toast.remove(); }, 3000);
     }
@@ -1121,7 +1069,7 @@
 
       const hint = document.getElementById('search-hint');
       if (term && hint) {
-        hint.textContent = totalVisible > 0 ? `找到 ${totalVisible} 个结果` : '无结果';
+        hint.textContent = totalVisible > 0 ? `寻得 ${totalVisible} 卷` : '无果';
         hint.classList.add('visible');
       } else if (hint) {
         hint.classList.remove('visible');
@@ -1150,7 +1098,6 @@
     }
     setupSearchClear('search-input', 'search-clear-desktop');
 
-    // 移动端清空
     const mobileSearchClear = document.getElementById('search-clear-mobile');
     const mobileSearchInput = document.querySelector('.mobile-header .search-input');
     if (mobileSearchClear && mobileSearchInput) {
@@ -1174,7 +1121,7 @@
         else { zone.classList.add('locked'); zone.classList.remove('unlocked'); zone.style.display = 'none'; }
       });
       if (isAbyssOpen) {
-        showToast("深海区域已解禁。");
+        showToast("禁制已解。");
         if (window.innerWidth <= 768) {
           sidebar.classList.remove('open');
           mobileOverlay.classList.remove('open');
@@ -1185,7 +1132,7 @@
           if (zone) zone.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 300);
       } else {
-        showToast("连接已终止。");
+        showToast("通道已绝。");
       }
     }
 
@@ -1194,7 +1141,7 @@
       document.getElementById('shortcut-panel').classList.toggle('active');
     }
 
-    // ── 搜索输入同步（桌面+移动端）──
+    // ── 搜索输入同步 ──
     const searchInputs = document.querySelectorAll('.search-input');
     searchInputs.forEach(input => {
       input.addEventListener('input', e => {
@@ -1244,7 +1191,7 @@
         const favSec = document.getElementById('sec-favorites');
         if (favSec && favSec.style.display !== 'none') {
           favSec.scrollIntoView({ behavior: 'smooth' });
-        } else { showToast("暂无收藏内容"); }
+        } else { showToast("尚未留印"); }
         return;
       }
 
@@ -1293,36 +1240,36 @@
       const memoNewRecord = document.getElementById('memo-new-record');
       const statusText = document.getElementById('cloud-status');
 
-      const setStatus = (text, color = 'var(--text-main)', autoReset = true) => {
+      const setStatus = (text, color = 'var(--ink-base)', autoReset = true) => {
         statusText.textContent = text;
         statusText.style.color = color;
         if (autoReset) setTimeout(() => {
-          if (statusText.textContent === text) { statusText.textContent = '已连接'; statusText.style.color = 'var(--accent)'; }
+          if (statusText.textContent === text) { statusText.textContent = '天地通'; statusText.style.color = 'var(--seal-red)'; }
         }, 1500);
       };
 
       window.copyMemo = async function (text) {
-        try { await navigator.clipboard.writeText(text); showToast('已复制到剪贴板'); }
+        try { await navigator.clipboard.writeText(text); showToast('墨迹已拓印'); }
         catch (err) { console.error('Failed to copy!', err); }
       };
 
       function renderMemos(data) {
         memoContent.innerHTML = '';
         if (!data || data.length === 0) {
-          memoContent.innerHTML = '<div style="opacity:.4;text-align:center;margin-top:40px;font-size:13px;font-family:var(--font-sys);">记忆之海干涸，输入点什么吧...</div>';
+          memoContent.innerHTML = '<div style="opacity:.6;text-align:center;margin-top:40px;font-size:14px;">笔墨干涸，落字生花...</div>';
           return;
         }
         data.forEach(row => {
           const item = document.createElement('div');
           item.className = 'memo-item';
           item.id = `memo-${row.id}`;
-          const safeContent = row.content.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+          const safeContent = row.content.replace(/"/g, '"').replace(/'/g, ''');
           item.innerHTML = `
             <div style="flex:1;">
               <span class="memo-time">${formatTime(row.created_at)}</span>
-              <div class="memo-text" title="点击复制" onclick="copyMemo('${safeContent}')">${row.content}</div>
+              <div class="memo-text" title="点击拓印" onclick="copyMemo('${safeContent}')">${row.content}</div>
             </div>
-            <span class="memo-delete" onclick="deleteMemo('${row.id}')" title="抹除此条记录">×</span>
+            <span class="memo-delete" onclick="deleteMemo('${row.id}')" title="抹除墨迹">×</span>
           `;
           memoContent.appendChild(item);
         });
@@ -1330,30 +1277,30 @@
       }
 
       window.loadFromCloud = async function () {
-        setStatus('同步中...', 'var(--text-main)', false);
+        setStatus('研墨中...', 'var(--ink-base)', false);
         try {
           const { data, error } = await supabase.from('memos').select('id, content, created_at').order('created_at', { ascending: true });
           if (error) throw error;
           renderMemos(data);
-          setStatus('已连接', 'var(--accent)', false);
+          setStatus('天地通', 'var(--seal-red)', false);
         } catch (err) {
           console.error('[Data Load Error]:', err);
-          setStatus('连接失败', '#ff3b30', false);
+          setStatus('联系中断', 'var(--seal-red)', false);
         }
       };
 
       window.deleteMemo = async function (id) {
-        if (!confirm('数据消除确认：此操作不可逆。')) return;
-        setStatus('删除中...', 'var(--text-main)', false);
+        if (!confirm('墨迹一旦洗去，便不可复原。确认抹除？')) return;
+        setStatus('拭去中...', 'var(--ink-base)', false);
         try {
           const { error } = await supabase.from('memos').delete().eq('id', id);
           if (error) throw error;
           const target = document.getElementById(`memo-${id}`);
           if (target) { target.style.opacity = '0'; setTimeout(() => target.remove(), 200); }
-          setStatus('已删除', 'var(--text-main)');
+          setStatus('已拭去', 'var(--ink-base)');
         } catch (err) {
           console.error('[Delete Error]:', err);
-          setStatus('删除被拦截', '#ff3b30', false);
+          setStatus('拭除失败', 'var(--seal-red)', false);
         }
       };
 
@@ -1365,14 +1312,14 @@
           this.value = '';
           if (charCount) charCount.textContent = '0/200';
           this.disabled = true;
-          setStatus('发送中...', 'var(--text-main)', false);
+          setStatus('走笔中...', 'var(--ink-base)', false);
           try {
             const { error } = await supabase.from('memos').insert([{ content: newText }]);
             if (error) throw error;
-            setStatus('已封存', 'var(--text-main)');
+            setStatus('已入卷', 'var(--ink-base)');
           } catch (err) {
             console.error('[Save Error]:', err);
-            setStatus('保存失败', '#ff3b30', false);
+            setStatus('落笔失败', 'var(--seal-red)', false);
             this.value = newText;
           } finally {
             this.disabled = false;
@@ -1385,14 +1332,14 @@
       try {
         supabase.channel('public:memos')
           .on('postgres_changes', { event: '*', schema: 'public', table: 'memos' }, () => {
-            debouncedLoad(); setStatus('实时更新', 'var(--text-main)');
+            debouncedLoad(); setStatus('风雷变', 'var(--ink-base)');
           }).subscribe();
       } catch (err) { console.warn('Realtime disabled.'); }
 
       document.getElementById('cloud-sync-btn').addEventListener('click', window.loadFromCloud);
     } else {
-      document.getElementById('cloud-status').textContent = '离线状态';
-      document.getElementById('cloud-status').style.color = '#ff3b30';
+      document.getElementById('cloud-status').textContent = '形单影只';
+      document.getElementById('cloud-status').style.color = 'var(--seal-red)';
     }
   </script>
 </body>
