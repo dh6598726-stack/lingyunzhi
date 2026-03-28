@@ -26,8 +26,10 @@
       --bg-card: rgba(255, 255, 255, 0.82);
       --border-color: rgba(255, 255, 255, 0.45);
       --border-hover: rgba(0, 122, 255, 0.6);
-      --text-main: #1d1d1f;
-      --text-sub: #5a5a5e;
+      /* 修改：加深浅色模式下的文字颜色，并引入环境光晕隔离背景 */
+      --text-main: #000000; 
+      --text-sub: #333333; 
+      --text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8), 0 0 5px rgba(255, 255, 255, 0.5);
       --accent: #007aff;
       --shadow-card: 0 4px 12px rgba(0,0,0,0.04);
       --shadow-hover: 0 10px 28px rgba(0,0,0,0.12);
@@ -47,12 +49,13 @@
 
     body {
       font-family: var(--font-main);
-      /* 核心修复：增加 65% 不透明度的纯白遮罩，提升文字对比度 */
-      background: linear-gradient(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65)), url('LL.jpg') center center / cover no-repeat fixed;
+      background: url('LL.jpg') center center / cover no-repeat fixed;
       color: var(--text-main);
+      /* 修改：全局应用文字阴影，增强可见度 */
+      text-shadow: var(--text-shadow);
       height: 100vh;
       overflow: hidden;
-      transition: background var(--transition-smooth), color var(--transition-fast);
+      transition: color var(--transition-fast);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -63,8 +66,10 @@
       --bg-card: rgba(44, 44, 46, 0.85);
       --border-color: rgba(255, 255, 255, 0.1);
       --border-hover: rgba(10, 132, 255, 0.5);
-      --text-main: #f5f5f7;
-      --text-sub: #a1a1a6;
+      /* 修改：提亮深色模式下的文字颜色，并引入黑色阴影隔离背景 */
+      --text-main: #ffffff;
+      --text-sub: #cccccc;
+      --text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 5px rgba(0, 0, 0, 0.6);
       --accent: #0a84ff;
       --shadow-card: 0 4px 12px rgba(0,0,0,0.4);
       --shadow-hover: 0 10px 28px rgba(0,0,0,0.65);
@@ -77,7 +82,7 @@
     ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.18); border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(128,128,128,0.38); }
 
-    input, textarea { font-family: var(--font-sys); }
+    input, textarea { font-family: var(--font-sys); text-shadow: none; /* 保持输入框内文字不加阴影 */ }
     
     /* ── 阅读进度条 ── */
     #read-progress {
@@ -160,8 +165,8 @@
       will-change: transform, background-color; position: relative;
     }
     .nav-item:hover { background: rgba(128,128,128,0.1); color: var(--text-main); transform: translateX(4px); }
-    .nav-item.active { background: var(--text-main); color: #fff; }
-    body.dark-mode .nav-item.active { color: #000; }
+    .nav-item.active { background: var(--text-main); color: #fff; text-shadow: none; }
+    body.dark-mode .nav-item.active { color: #000; text-shadow: none; }
     .nav-icon { font-size: 18px; opacity: 0.9; }
     /* 侧边栏活跃指示点 */
     .nav-dot {
@@ -263,6 +268,7 @@
       transition: opacity var(--transition-fast), transform var(--transition-fast);
       z-index: 5; color: #ff9500; padding: 4px;
       background: none; border: none; line-height: 1;
+      text-shadow: none;
     }
     .card:hover .card-fav { opacity: 0.5; }
     .card-fav.active { opacity: 1 !important; }
@@ -273,6 +279,7 @@
       width: 36px; height: 36px; border-radius: 10px; background: rgba(128,128,128,0.1);
       display: flex; align-items: center; justify-content: center; font-size: 18px;
       color: var(--text-main); border: 1px solid var(--border-color);
+      text-shadow: none; /* 图标不加阴影以免模糊 */
     }
     .link-arrow { font-size: 14px; color: var(--text-sub); transition: var(--transition-fast); }
     .card:hover .link-arrow { color: var(--accent); transform: translate(3px, -3px); }
@@ -302,6 +309,7 @@
       position: relative; overflow: hidden; color: #fff;
       transition: transform var(--transition-fast); text-decoration: none;
       will-change: transform;
+      text-shadow: none; /* 深色胶囊本身已有较强对比度，无需额外阴影 */
     }
     .time-capsule:hover { transform: scale(1.01) translateY(-2px); border-color: rgba(255,255,255,0.4); }
     .time-capsule::before {
@@ -342,7 +350,7 @@
       background: rgba(0,0,0,0.8); color: #fff; backdrop-filter: blur(4px);
       padding: 8px 16px; border-radius: 8px; font-size: 14px; font-family: var(--font-sys);
       font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-      transition: var(--transition-fast); box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      transition: var(--transition-fast); box-shadow: 0 0 20px rgba(0,0,0,0.5); text-shadow: none;
     }
     .sensitive-zone:hover .sensitive-blur { filter: blur(0); opacity: 1; }
     .sensitive-zone.unlocked .sensitive-blur { filter: blur(0); opacity: 1; pointer-events: auto; }
@@ -351,8 +359,7 @@
     /* ── 闪屏 ── */
     #splash {
       position: fixed; inset: 0; z-index: 9999;
-      /* 核心修复：闪屏页同步增加纯白半透明遮罩 */
-      background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url('LL.jpg') center center / cover no-repeat fixed;
+      background: url('LL.jpg') center center / cover no-repeat fixed;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       transition: opacity 0.6s ease, visibility 0.6s; user-select: none;
       will-change: opacity, visibility;
@@ -389,7 +396,7 @@
     kbd {
       background: rgba(128,128,128,0.1); border: 1px solid var(--border-color);
       border-radius: 5px; padding: 3px 8px; font-size: 12px; font-family: monospace;
-      color: var(--text-main); box-shadow: 0 1px 0 var(--border-color);
+      color: var(--text-main); box-shadow: 0 1px 0 var(--border-color); text-shadow: none;
     }
 
     /* ── 备忘录 ── */
@@ -423,7 +430,7 @@
     .memo-time { font-size: 11px; opacity: 0.5; display: block; margin-bottom: 4px; }
     .memo-delete {
       cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity var(--transition-fast);
-      padding: 0 4px; margin-left: 8px; font-weight: bold; font-size: 16px; user-select: none;
+      padding: 0 4px; margin-left: 8px; font-weight: bold; font-size: 16px; user-select: none; text-shadow: none;
     }
     .memo-item:hover .memo-delete { opacity: 0.6; }
     .memo-delete:hover { opacity: 1 !important; transform: scale(1.1); }
@@ -452,7 +459,7 @@
     }
     #panic-overlay.active { opacity: 1; pointer-events: auto; }
     .glitch-wrapper { position: relative; }
-    .glitch { font-size: 100px; margin: 0; color: #333; position: relative; font-weight: bold; }
+    .glitch { font-size: 100px; margin: 0; color: #333; position: relative; font-weight: bold; text-shadow: none; }
     .glitch::before, .glitch::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8; }
     .glitch::before { left: 2px; text-shadow: -2px 0 red; clip: rect(24px,550px,90px,0); animation: glitch-anim 2.5s infinite linear alternate-reverse; }
     .glitch::after { left: -2px; text-shadow: -2px 0 blue; clip: rect(85px,550px,140px,0); animation: glitch-anim 3s infinite linear alternate-reverse; }
@@ -466,7 +473,7 @@
     .toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
     .toast {
       background: rgba(0,0,0,0.85); color: #0f0; font-family: monospace; font-size: 14px;
-      padding: 12px 24px; border-radius: 8px; border: 1px solid #0f0; box-shadow: 0 0 15px rgba(0,255,0,0.3);
+      padding: 12px 24px; border-radius: 8px; border: 1px solid #0f0; box-shadow: 0 0 15px rgba(0,255,0,0.3); text-shadow: none;
       animation: toast-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards, toast-out 0.3s 2.5s forwards;
     }
     @keyframes toast-in { from{transform:translateY(100%);opacity:0} to{transform:translateY(0);opacity:1} }
@@ -485,7 +492,7 @@
         position: sticky; top: 0; z-index: 900; flex-shrink: 0;
       }
       .mh-left { display: flex; align-items: center; gap: 16px; flex: 1; }
-      .mh-logo { color: #ff3b30; font-size: 26px; animation: heartbeat 1.5s infinite; cursor: pointer; }
+      .mh-logo { color: #ff3b30; font-size: 26px; animation: heartbeat 1.5s infinite; cursor: pointer; text-shadow: none; }
       .mh-search-box { flex: 1; position: relative; }
       .mh-search-box input {
         width: 100%; padding: 10px 36px 10px 36px; border-radius: var(--radius-sm); font-size: 16px;
