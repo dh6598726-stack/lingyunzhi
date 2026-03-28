@@ -223,8 +223,8 @@
     .quote-text { font-size: 32px; line-height: 1.6; color: var(--text-main); margin-bottom: 12px; }
     .quote-sub { font-size: 16px; color: var(--text-sub); letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-sys); }
 
-    .secret-trigger { cursor: pointer; transition: all var(--transition-fast); display: inline-block; }
-    .secret-trigger:hover { color: var(--accent); transform: translateY(-2px); }
+    /* 完全伪装的触发器 */
+    .secret-trigger { cursor: text; }
 
     .section-block { margin-bottom: 56px; scroll-margin-top: 32px; }
     .section-header {
@@ -1311,8 +1311,7 @@
           const item = document.createElement('div');
           item.className = 'memo-item';
           item.id = `memo-${row.id}`;
-          // 【修复记录】：此处修复了导致脚本崩溃的错误单引号转义，将 ''' 修改为 HTML 实体
-          const safeContent = row.content.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+          const safeContent = row.content.replace(/"/g, '"').replace(/'/g, ''');
           item.innerHTML = `
             <div style="flex:1;">
               <span class="memo-time">${formatTime(row.created_at)}</span>
