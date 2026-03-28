@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="robots" content="noindex, nofollow">
-  <title>锦麟</title>
+  <title>JIN Tong｜锦麟</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 
   <link rel="manifest" href="manifest.json">
@@ -20,13 +20,13 @@
 
   <style>
     :root {
+      --bg-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1920&auto=format&fit=crop');
       --font-main: 'Long Cang', "Xingkai SC", "STXingkai", cursive;
       --font-sys: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       --bg-sidebar: rgba(255, 255, 255, 0.62);
       --bg-card: rgba(255, 255, 255, 0.82);
       --border-color: rgba(255, 255, 255, 0.45);
       --border-hover: rgba(0, 122, 255, 0.6);
-      /* 修改：加深浅色模式下的文字颜色，并引入环境光晕隔离背景 */
       --text-main: #000000; 
       --text-sub: #333333; 
       --text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8), 0 0 5px rgba(255, 255, 255, 0.5);
@@ -49,24 +49,22 @@
 
     body {
       font-family: var(--font-main);
-      background: url('LL.jpg') center center / cover no-repeat fixed;
+      background: var(--bg-image) center center / cover no-repeat fixed;
       color: var(--text-main);
-      /* 修改：全局应用文字阴影，增强可见度 */
       text-shadow: var(--text-shadow);
       height: 100vh;
       overflow: hidden;
-      transition: color var(--transition-fast);
+      transition: color var(--transition-fast), background-image 0.5s ease-in-out;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
     body.dark-mode {
-      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('LL.jpg') center center / cover no-repeat fixed;
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), var(--bg-image) center center / cover no-repeat fixed;
       --bg-sidebar: rgba(28, 28, 30, 0.68);
       --bg-card: rgba(44, 44, 46, 0.85);
       --border-color: rgba(255, 255, 255, 0.1);
       --border-hover: rgba(10, 132, 255, 0.5);
-      /* 修改：提亮深色模式下的文字颜色，并引入黑色阴影隔离背景 */
       --text-main: #ffffff;
       --text-sub: #cccccc;
       --text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 5px rgba(0, 0, 0, 0.6);
@@ -82,7 +80,7 @@
     ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.18); border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(128,128,128,0.38); }
 
-    input, textarea { font-family: var(--font-sys); text-shadow: none; /* 保持输入框内文字不加阴影 */ }
+    input, textarea { font-family: var(--font-sys); text-shadow: none; }
     
     /* ── 阅读进度条 ── */
     #read-progress {
@@ -216,7 +214,6 @@
     #back-top:hover { background: var(--text-main); color: #fff; transform: translateY(-3px); }
     body.dark-mode #back-top:hover { background: #fff; color: #000; }
 
-    /* 修复后的 Hero Quote */
     .hero-quote {
       margin-bottom: 40px; padding: 20px 0;
       background-color: transparent;
@@ -226,7 +223,6 @@
     .quote-text { font-size: 32px; line-height: 1.6; color: var(--text-main); margin-bottom: 12px; }
     .quote-sub { font-size: 16px; color: var(--text-sub); letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-sys); }
 
-    /* 完全伪装的触发器 */
     .secret-trigger { cursor: text; }
 
     .section-block { margin-bottom: 56px; scroll-margin-top: 32px; }
@@ -246,10 +242,8 @@
     }
 
     .card {
-      /* 修改一：彻底去掉卡片黑白底 */
       background: transparent;
       border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;
-      /* 修改二：还原整体光标手势，由图标承载交互感 */
       cursor: default; display: flex; flex-direction: column; gap: 12px;
       transition: var(--transition-smooth);
       text-decoration: none; color: inherit;
@@ -260,7 +254,6 @@
     }
     .card:hover {
       border-color: var(--border-hover); transform: translateY(-5px) scale(1.02);
-      /* 修改一：悬浮时也保持背景透明 */
       box-shadow: var(--shadow-hover); background: transparent;
     }
 
@@ -282,8 +275,7 @@
       width: 36px; height: 36px; border-radius: 10px; background: rgba(128,128,128,0.1);
       display: flex; align-items: center; justify-content: center; font-size: 18px;
       color: var(--text-main); border: 1px solid var(--border-color);
-      text-shadow: none; /* 图标不加阴影以免模糊 */
-      /* 修改二：为图标显式添加点击指针，暗示交互热区 */
+      text-shadow: none;
       cursor: pointer;
     }
     .link-arrow { font-size: 14px; color: var(--text-sub); transition: var(--transition-fast); }
@@ -292,7 +284,6 @@
     .card-body { display: flex; flex-direction: column; gap: 4px; }
     .card-title { font-size: 18px; font-weight: 600; color: var(--text-main); }
     .card-desc {
-      /* 修改三：将描述文字的颜色设定为与整体系统主色字一致 */
       font-size: 14px; color: var(--text-main); line-height: 1.4; font-family: var(--font-sys);
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
@@ -315,7 +306,7 @@
       position: relative; overflow: hidden; color: #fff;
       transition: transform var(--transition-fast); text-decoration: none;
       will-change: transform;
-      text-shadow: none; /* 深色胶囊本身已有较强对比度，无需额外阴影 */
+      text-shadow: none;
     }
     .time-capsule:hover { transform: scale(1.01) translateY(-2px); border-color: rgba(255,255,255,0.4); }
     .time-capsule::before {
@@ -365,7 +356,7 @@
     /* ── 闪屏 ── */
     #splash {
       position: fixed; inset: 0; z-index: 9999;
-      background: url('LL.jpg') center center / cover no-repeat fixed;
+      background: var(--bg-image) center center / cover no-repeat fixed;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       transition: opacity 0.6s ease, visibility 0.6s; user-select: none;
       will-change: opacity, visibility;
@@ -550,6 +541,7 @@
       <h3>⌨️ 快捷键一览</h3>
       <div class="shortcut-row"><span>打开搜索</span><span><kbd>Ctrl</kbd>+<kbd>K</kbd></span></div>
       <div class="shortcut-row"><span>查看收藏</span><span><kbd>F</kbd></span></div>
+      <div class="shortcut-row"><span>随机壁纸</span><span><kbd>B</kbd></span></div>
       <div class="shortcut-row"><span>关闭此面板</span><span><kbd>?</kbd> 或点击背景</span></div>
     </div>
   </div>
@@ -604,8 +596,13 @@
           <span id="time-pill" style="font-weight:600;">00:00</span>
           <span class="time-greeting" id="time-greeting">你好</span>
         </div>
-        <div class="shortcut-btn" onclick="toggleShortcuts()" title="快捷键 (?)">
-          <i class="ri-keyboard-line"></i>
+        <div style="display: flex; gap: 8px;">
+          <div class="shortcut-btn" onclick="changeWallpaper()" title="随机壁纸 (B)">
+            <i class="ri-image-edit-line"></i>
+          </div>
+          <div class="shortcut-btn" onclick="toggleShortcuts()" title="快捷键 (?)">
+            <i class="ri-keyboard-line"></i>
+          </div>
         </div>
       </div>
     </aside>
@@ -673,7 +670,7 @@
       </div>
 
       <div class="section-block" id="sec-ai" data-icon="ri-brain-line">
-        <div class="section-header"><div class="section-title">AI</div><div class="section-count">Artificial Intelligence</div></div>
+        <div class="section-header"><div class="section-title">AI 与大模型</div><div class="section-count">Artificial Intelligence</div></div>
         <div class="grid">
           <a class="card" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="chatgpt" data-title="ChatGPT" data-desc="全球最强大的AI人工智能文字对话助手" data-icon="🧠" data-href="https://chatgpt.com" title="收藏">★</button><div class="card-head"><div class="icon-box">🧠</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">ChatGPT</div><div class="card-desc">全球最强大的AI人工智能文字对话助手</div></div></a>
           <a class="card" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer"><button class="card-fav" data-id="gemini" data-title="Gemini" data-desc="谷歌公司推出的官方智能AI模型助手" data-icon="✨" data-href="https://gemini.google.com/" title="收藏">★</button><div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gemini</div><div class="card-desc">谷歌公司推出的官方智能AI模型助手</div></div></a>
@@ -878,23 +875,18 @@
   <script>
     let isAbyssOpen = false;
 
-    // ── 修改四：限制卡片点击范围至图标，采用事件委托全局无损拦截 ──
     function restrictCardClick(e) {
       const card = e.target.closest('a.card');
       if (card) {
-        // 放行收藏按钮的点击（其本身已有 preventDefault）
         if (e.target.closest('.card-fav')) return;
-        // 如果点击的热区不是图标容器 .icon-box，则强制阻止A标签的原生跳转行为
         if (!e.target.closest('.icon-box')) {
           e.preventDefault();
         }
       }
     }
     document.addEventListener('click', restrictCardClick);
-    document.addEventListener('auxclick', restrictCardClick); // 涵盖鼠标滚轮中键点击
+    document.addEventListener('auxclick', restrictCardClick); 
 
-
-    // ── 收藏系统（localStorage）──
     const FAV_KEY = 'jintong_favorites';
     function loadFavs() {
       try { return JSON.parse(localStorage.getItem(FAV_KEY)) || {}; }
@@ -920,7 +912,6 @@
       section.style.display = 'block';
       countEl.textContent = `${ids.length} items`;
 
-      // 清空并重建（保留 empty 节点）
       grid.innerHTML = '';
       ids.forEach(id => {
         const f = favs[id];
@@ -954,7 +945,6 @@
             showToast(`已收藏：${title}`);
           }
           saveFavs(favs);
-          // 同步其他同id的按钮
           document.querySelectorAll(`.card-fav[data-id="${id}"]`).forEach(b => {
             b.classList.toggle('active', !!favs[id]);
           });
@@ -963,7 +953,6 @@
       });
     }
 
-    // ── 移动端侧边栏 ──
     const sidebar = document.getElementById('sidebar');
     const mobileOverlay = document.getElementById('mobile-overlay');
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -979,14 +968,12 @@
       mobileOverlay.addEventListener('click', toggleMobileMenu);
     }
 
-    // ── 卡片动画 ──
     function animateCards() {
       document.querySelectorAll('.card').forEach((card, index) => {
         if (card.style.animation !== 'none') card.style.animationDelay = `${(index % 12) * 0.05}s`;
       });
     }
 
-    // ── 阅读进度条 ──
     const readProgress = document.getElementById('read-progress');
     const mainEl = document.getElementById('main-content');
     const backTop = document.getElementById('back-top');
@@ -998,7 +985,6 @@
     }, { passive: true });
     backTop.addEventListener('click', () => mainEl.scrollTo({ top: 0, behavior: 'smooth' }));
 
-    // ── Intersection Observer：侧栏活跃状态 ──
     let navLinks = {};
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => {
@@ -1044,7 +1030,6 @@
       bindFavBtns(document.getElementById('main-content'));
       renderFavSection();
 
-      // 恢复收藏按钮状态
       const favs = loadFavs();
       document.querySelectorAll('.card-fav').forEach(btn => {
         if (favs[btn.dataset.id]) btn.classList.add('active');
@@ -1055,7 +1040,6 @@
       }
     });
 
-    // ── 闪屏 ──
     function closeSplash() {
       const splash = document.getElementById('splash');
       if (splash) {
@@ -1069,7 +1053,6 @@
       if (splash) splash.style.display = 'none';
     }
 
-    // ── 时钟 ──
     const timePill = document.getElementById('time-pill');
     const datePill = document.getElementById('date-pill');
     const greeting = document.getElementById('time-greeting');
@@ -1085,7 +1068,6 @@
     setInterval(updateTime, 1000);
     updateTime();
 
-    // ── Toast ──
     function showToast(message) {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
@@ -1095,7 +1077,6 @@
       setTimeout(() => { if (toast.parentNode) toast.remove(); }, 3000);
     }
 
-    // ── 防抖 ──
     function debounce(func, wait) {
       let timeout;
       return function (...args) {
@@ -1104,14 +1085,12 @@
       };
     }
 
-    // ── 搜索高亮 ──
     function highlightText(el, term) {
       if (!term) { el.innerHTML = el.textContent; return; }
       const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       el.innerHTML = el.textContent.replace(new RegExp(escaped, 'gi'), m => `<mark>${m}</mark>`);
     }
 
-    // ── 过滤卡片 ──
     function filterCards(term) {
       let totalVisible = 0;
       document.querySelectorAll('.section-block').forEach(sec => {
@@ -1155,7 +1134,6 @@
 
     const debouncedFilter = debounce(filterCards, 150);
 
-    // ── 搜索框清空按钮 ──
     function setupSearchClear(inputId, clearId) {
       const inp = document.getElementById(inputId);
       const btn = document.getElementById(clearId);
@@ -1171,7 +1149,6 @@
     }
     setupSearchClear('search-input', 'search-clear-desktop');
 
-    // 移动端清空
     const mobileSearchClear = document.getElementById('search-clear-mobile');
     const mobileSearchInput = document.querySelector('.mobile-header .search-input');
     if (mobileSearchClear && mobileSearchInput) {
@@ -1187,7 +1164,6 @@
       });
     }
 
-    // ── 切换深海区 ──
     function toggleAbyss() {
       isAbyssOpen = !isAbyssOpen;
       document.querySelectorAll('.sensitive-zone').forEach(zone => {
@@ -1210,12 +1186,10 @@
       }
     }
 
-    // ── 快捷键面板 ──
     function toggleShortcuts() {
       document.getElementById('shortcut-panel').classList.toggle('active');
     }
 
-    // ── 搜索输入同步（桌面+移动端）──
     const searchInputs = document.querySelectorAll('.search-input');
     searchInputs.forEach(input => {
       input.addEventListener('input', e => {
@@ -1232,7 +1206,32 @@
       });
     });
 
-    // ── 键盘快捷键 ──
+    // ── 随机壁纸系统 ──
+    const WALLPAPER_KEY = 'jintong_wallpaper';
+    function initWallpaper() {
+      const savedBg = localStorage.getItem(WALLPAPER_KEY);
+      if (savedBg) {
+        document.documentElement.style.setProperty('--bg-image', `url('${savedBg}')`);
+      }
+    }
+    initWallpaper();
+
+    function changeWallpaper() {
+      showToast("正在建立信道...获取高维图像");
+      const timestamp = new Date().getTime();
+      const newBgUrl = `https://picsum.photos/1920/1080?random=${timestamp}`;
+      const img = new Image();
+      img.onload = () => {
+        document.documentElement.style.setProperty('--bg-image', `url('${newBgUrl}')`);
+        localStorage.setItem(WALLPAPER_KEY, newBgUrl);
+        showToast("视觉协议更新完毕");
+      };
+      img.onerror = () => {
+        showToast("图像捕获失败，请检查网络节点");
+      };
+      img.src = newBgUrl;
+    }
+
     let secretCode = '';
     document.addEventListener('keydown', e => {
       const activeEl = document.activeElement;
@@ -1260,6 +1259,7 @@
 
       if (e.key === '?') { toggleShortcuts(); return; }
       if (e.key === 't' || e.key === 'T') { document.body.classList.toggle('dark-mode'); return; }
+      if (e.key === 'b' || e.key === 'B') { changeWallpaper(); return; }
       if (e.key === 'm' || e.key === 'M') { toggleMemo(); return; }
       if (e.key === 'f' || e.key === 'F') {
         const favSec = document.getElementById('sec-favorites');
@@ -1278,7 +1278,6 @@
       document.body.classList.toggle('dark-mode');
     });
 
-    // ── 备忘录开关 ──
     window.toggleMemo = function () {
       const ghostMemo = document.getElementById('ghost-memo');
       const isActive = ghostMemo.classList.toggle('active');
@@ -1288,7 +1287,6 @@
       }
     };
 
-    // ── 备忘录字数统计 ──
     const memoInput = document.getElementById('memo-new-record');
     const charCount = document.getElementById('memo-char-count');
     if (memoInput && charCount) {
@@ -1337,7 +1335,6 @@
           const item = document.createElement('div');
           item.className = 'memo-item';
           item.id = `memo-${row.id}`;
-          // 【彻底修复】：增加反斜杠的转义预处理，彻底杜绝注入 JavaScript 单/双引号时的语法断层。
           const safeContent = row.content.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '"');
           item.innerHTML = `
             <div style="flex:1;">
