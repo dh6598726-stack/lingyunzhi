@@ -1201,13 +1201,14 @@
       });
     });
 
-    // ── 随机壁纸系统 (Wallhaven 顶级视觉源接入) ──
+    // ── 随机壁纸系统 (极客黑魔法：动态具现化信道) ──
     const WALLPAPER_KEY = 'jintong_wallpaper';
     const WALLPAPER_TIME_KEY = 'jintong_wallpaper_time';
     const REFRESH_INTERVAL = 60 * 60 * 1000; // 更新周期：1小时
 
-    // 【美学配置】你可以改成 "anime", "landscape", "dark" 等 Wallhaven 支持的任意关键词
-    const searchQuery = "cyberpunk"; 
+    // 【终极美学控制器】在这里用英文写下你想要的任何画面，越详细，出来的图越像 Pinterest 上的神作
+    // 当前设定：赛博朋克夜之城，霓虹灯，大雨，极高画质，电影级光影
+    const prompt = "cyberpunk night city, neon lights, raining, dark aesthetic, masterpiece, highly detailed, 8k resolution, cinematic lighting";
 
     function initWallpaper() {
       const savedBg = localStorage.getItem(WALLPAPER_KEY);
@@ -1228,41 +1229,30 @@
     }
 
     function changeWallpaper(isSilent = false) {
-      if (!isSilent) showToast("正在入侵 Wallhaven 数据库...提取顶级数字资产");
+      if (!isSilent) showToast("正在建立信道...高维矩阵具现化中 (Rendering...)");
       
-      // 构造 Wallhaven API 请求：q=关键词, sorting=random(随机), purity=100(确保是安全内容)
-      const url = `https://wallhaven.cc/api/v1/search?q=${searchQuery}&sorting=random&purity=100&seed=${new Date().getTime()}`;
+      // 使用时间戳作为随机种子，确保每次生成的画面绝对不同
+      const seed = new Date().getTime();
+      
+      // 直接通过 URL 返回图像流，彻底绕过 fetch 和跨域拦截
+      // 参数说明：width/height 控制分辨率，nologo=true 移除平台水印
+      const targetUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1920&height=1080&nologo=true&seed=${seed}`;
 
-      // 使用 fetch 抓取 JSON 数据
-      fetch(url)
-        .then(response => {
-          if (!response.ok) throw new Error('网络防御墙拦截');
-          return response.json();
-        })
-        .then(data => {
-          if (data && data.data && data.data.length > 0) {
-            // 成功拿到 Wallhaven 的原图直链
-            const targetUrl = data.data[0].path;
-
-            const img = new Image();
-            img.onload = () => {
-              document.documentElement.style.setProperty('--bg-image', `url('${targetUrl}')`);
-              localStorage.setItem(WALLPAPER_KEY, targetUrl);
-              localStorage.setItem(WALLPAPER_TIME_KEY, new Date().getTime().toString());
-              if (!isSilent) showToast("视觉协议更新完毕：Wallhaven 级资产已接入");
-            };
-            img.onerror = () => {
-              if (!isSilent) showToast("图像解析失败，请检查网络连通性...");
-            };
-            img.src = targetUrl;
-          } else {
-             throw new Error('未检索到匹配的资产');
-          }
-        })
-        .catch(error => {
-          console.error("Wallhaven API Error:", error);
-          if (!isSilent) showToast("信道阻塞，Wallhaven 节点无响应...");
-        });
+      const img = new Image();
+      
+      img.onload = () => {
+        document.documentElement.style.setProperty('--bg-image', `url('${targetUrl}')`);
+        localStorage.setItem(WALLPAPER_KEY, targetUrl);
+        localStorage.setItem(WALLPAPER_TIME_KEY, seed.toString());
+        if (!isSilent) showToast("视觉协议更新完毕：赛博空间已就绪");
+      };
+      
+      img.onerror = () => {
+        if (!isSilent) showToast("信道拥堵，正在维持现有画面...");
+      };
+      
+      // 直接触发图片加载
+      img.src = targetUrl;
     }
 
     initWallpaper();
