@@ -1201,31 +1201,67 @@
       });
     });
 
-    // ── 随机壁纸系统 ──
+    // ── 随机壁纸系统 (含自动轮询与灾备机制) ──
     const WALLPAPER_KEY = 'jintong_wallpaper';
+    const WALLPAPER_TIME_KEY = 'jintong_wallpaper_time';
+    const REFRESH_INTERVAL = 60 * 60 * 1000; // 更新周期：1小时 (以毫秒为单位)
+
+    // 【美学配置区】已锁定为极客暗黑/赛博朋克风格
+    const keywords = "cyberpunk,nightcity"; 
+
     function initWallpaper() {
       const savedBg = localStorage.getItem(WALLPAPER_KEY);
+      const savedTime = localStorage.getItem(WALLPAPER_TIME_KEY);
+      const now = new Date().getTime();
+
+      // 1. 若本地有缓存，优先渲染缓存，保证开屏渲染性能
       if (savedBg) {
         document.documentElement.style.setProperty('--bg-image', `url('${savedBg}')`);
       }
-    }
-    initWallpaper();
 
-    function changeWallpaper() {
-      showToast("正在建立信道...获取高维图像");
-      const timestamp = new Date().getTime();
-      const newBgUrl = `https://picsum.photos/1920/1080?random=${timestamp}`;
-      const img = new Image();
-      img.onload = () => {
-        document.documentElement.style.setProperty('--bg-image', `url('${newBgUrl}')`);
-        localStorage.setItem(WALLPAPER_KEY, newBgUrl);
-        showToast("视觉协议更新完毕");
-      };
-      img.onerror = () => {
-        showToast("图像捕获失败，请检查网络节点");
-      };
-      img.src = newBgUrl;
+      // 2. 校验生命周期：如果从未记录过时间，或已超过设定的刷新周期，则触发静默更新
+      if (!savedTime || (now - parseInt(savedTime)) > REFRESH_INTERVAL) {
+        changeWallpaper(true); // 传入 true 表示静默更新，不打断用户
+      }
+
+      // 3. 建立后台守护进程，按周期定时执行
+      setInterval(() => {
+        changeWallpaper(true);
+      }, REFRESH_INTERVAL);
     }
+
+    // 主力更新函数，isSilent 用于控制是否向用户播报状态
+    function changeWallpaper(isSilent = false) {
+      if (!isSilent) showToast("正在建立信道...获取高维图像 (Cyberpunk)");
+      
+      const timestamp = new Date().getTime();
+      // 使用精确标签匹配 Flickr 图库
+      const targetUrl = `https://loremflickr.com/1920/1080/${keywords}/all?lock=${timestamp}`;
+
+      const img = new Image();
+      
+      img.onload = () => {
+        document.documentElement.style.setProperty('--bg-image', `url('${targetUrl}')`);
+        // 更新缓存与时间戳
+        localStorage.setItem(WALLPAPER_KEY, targetUrl);
+        localStorage.setItem(WALLPAPER_TIME_KEY, timestamp.toString());
+        if (!isSilent) showToast("视觉协议更新完毕");
+      };
+      
+      img.onerror = () => {
+        if (!isSilent) showToast("目标信道波动，正在回退至备用节点...");
+        // 灾备降级：回退至基础随机图源，保障页面不出现视觉断层
+        const fallbackUrl = `https://picsum.photos/1920/1080?random=${timestamp}`;
+        document.documentElement.style.setProperty('--bg-image', `url('${fallbackUrl}')`);
+        localStorage.setItem(WALLPAPER_KEY, fallbackUrl);
+        localStorage.setItem(WALLPAPER_TIME_KEY, timestamp.toString());
+      };
+      
+      img.src = targetUrl;
+    }
+
+    // 初始化启动
+    initWallpaper();
 
     let secretCode = '';
     document.addEventListener('keydown', e => {
