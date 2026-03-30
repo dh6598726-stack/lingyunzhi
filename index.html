@@ -1201,14 +1201,41 @@
       });
     });
 
-    // ── 随机壁纸系统 (极客黑魔法：动态具现化信道) ──
+    // ── 随机壁纸系统 (工业级静态高定版：24小时时间轴映射) ──
     const WALLPAPER_KEY = 'jintong_wallpaper';
     const WALLPAPER_TIME_KEY = 'jintong_wallpaper_time';
     const REFRESH_INTERVAL = 60 * 60 * 1000; // 更新周期：1小时
 
-    // 【终极美学控制器】在这里用英文写下你想要的任何画面，越详细，出来的图越像 Pinterest 上的神作
-    // 当前设定：赛博朋克夜之城，霓虹灯，大雨，极高画质，电影级光影
-    const prompt = "cyberpunk night city, neon lights, raining, dark aesthetic, masterpiece, highly detailed, 8k resolution, cinematic lighting";
+    // 专属私藏图库池 (直连 Pinterest 核心节点，精选 24 张满编)
+    const premiumCyberpunkWallpapers = [
+      // 基础批次 (10)
+      "https://i.pinimg.com/736x/05/c9/4b/05c94b85d058a0b9df6071972e37e220.jpg",
+      "https://i.pinimg.com/736x/fb/d3/9d/fbd39d1c5bd94969952c70fffd5660ae.jpg",
+      "https://i.pinimg.com/736x/d6/36/cf/d636cf8a207a3f99e6e6254889a0cb2b.jpg",
+      "https://i.pinimg.com/1200x/a8/cb/f0/a8cbf07b2fed48916b7399feb14e42ef.jpg",
+      "https://i.pinimg.com/736x/f0/29/d7/f029d7762188b0d1b5790115c434d0bf.jpg",
+      "https://i.pinimg.com/1200x/e5/72/c5/e572c5bfaabb9559d805923d23fba656.jpg",
+      "https://i.pinimg.com/736x/15/dc/e2/15dce28e9351294479a395f7d959a12a.jpg",
+      "https://i.pinimg.com/736x/f2/fd/c5/f2fdc528fef1d13c8fddc587e88535fe.jpg",
+      "https://i.pinimg.com/736x/a2/58/22/a258221271e326586f9e2546213ed131.jpg",
+      "https://i.pinimg.com/736x/83/a2/3d/83a23d3e06938a26a6e12e83a85ce2fc.jpg",
+      // 扩充批次 (8)
+      "https://i.pinimg.com/736x/8c/44/cb/8c44cb227794cc97cbaf8c71b433b4ce.jpg",
+      "https://i.pinimg.com/736x/dc/a9/17/dca917cf25d609d951207c9543eebeb8.jpg",
+      "https://i.pinimg.com/736x/84/cd/9d/84cd9dc6ee636f90d959f827c8dae469.jpg",
+      "https://i.pinimg.com/736x/be/9d/92/be9d923620b58d7dc9254b708ef1863a.jpg",
+      "https://i.pinimg.com/736x/05/7f/b3/057fb36a209cfaa17f876c6124e0c659.jpg",
+      "https://i.pinimg.com/1200x/1c/39/a4/1c39a41fec2bacb24cc7929fc954d11d.jpg",
+      "https://i.pinimg.com/736x/4d/53/88/4d5388908cf778d0385d80fa5977ca24.jpg",
+      "https://i.pinimg.com/736x/48/39/4a/48394a78581dd30124a06b8337bd4bd3.jpg",
+      // 终极批次 (6)
+      "https://i.pinimg.com/736x/6c/0a/d7/6c0ad7b69bccbcc7e710224247ec31d7.jpg",
+      "https://i.pinimg.com/736x/bf/ff/24/bfff24ea60b8c1207489b2d590b38d23.jpg",
+      "https://i.pinimg.com/1200x/47/aa/0a/47aa0ad1c7d96bdc0e74286967b75f9f.jpg",
+      "https://i.pinimg.com/1200x/e4/aa/45/e4aa45a1bdd9b6015b38900deacf62b1.jpg",
+      "https://i.pinimg.com/736x/df/f7/60/dff7600f306858044d25a7f9085dfb10.jpg",
+      "https://i.pinimg.com/736x/f0/e2/23/f0e223a5e30d9ee60ba569e43bdfa33f.jpg"
+    ];
 
     function initWallpaper() {
       const savedBg = localStorage.getItem(WALLPAPER_KEY);
@@ -1229,29 +1256,40 @@
     }
 
     function changeWallpaper(isSilent = false) {
-      if (!isSilent) showToast("正在建立信道...高维矩阵具现化中 (Rendering...)");
+      if (!isSilent) showToast("正在建立信道...加载私有数字资产");
       
-      // 使用时间戳作为随机种子，确保每次生成的画面绝对不同
-      const seed = new Date().getTime();
-      
-      // 直接通过 URL 返回图像流，彻底绕过 fetch 和跨域拦截
-      // 参数说明：width/height 控制分辨率，nologo=true 移除平台水印
-      const targetUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1920&height=1080&nologo=true&seed=${seed}`;
+      const timestamp = new Date().getTime();
+      let targetUrl;
+
+      if (isSilent) {
+        // 自动轮询模式：严格执行 24 小时时间轴映射
+        // 根据当前物理时间（0-23点）提取对应序列的图像，形成完美的日夜闭环
+        const currentHour = new Date().getHours();
+        targetUrl = premiumCyberpunkWallpapers[currentHour];
+      } else {
+        // 手动干预模式 (快捷键 B)：维持高维随机提取，且防止连续重复
+        let randomIndex = Math.floor(Math.random() * premiumCyberpunkWallpapers.length);
+        targetUrl = premiumCyberpunkWallpapers[randomIndex];
+        const currentBg = localStorage.getItem(WALLPAPER_KEY);
+        if (currentBg === targetUrl) {
+            randomIndex = (randomIndex + 1) % premiumCyberpunkWallpapers.length;
+            targetUrl = premiumCyberpunkWallpapers[randomIndex];
+        }
+      }
 
       const img = new Image();
       
       img.onload = () => {
         document.documentElement.style.setProperty('--bg-image', `url('${targetUrl}')`);
         localStorage.setItem(WALLPAPER_KEY, targetUrl);
-        localStorage.setItem(WALLPAPER_TIME_KEY, seed.toString());
-        if (!isSilent) showToast("视觉协议更新完毕：赛博空间已就绪");
+        localStorage.setItem(WALLPAPER_TIME_KEY, timestamp.toString());
+        if (!isSilent) showToast("视觉协议更新完毕：专属空间已接入");
       };
       
       img.onerror = () => {
-        if (!isSilent) showToast("信道拥堵，正在维持现有画面...");
+        if (!isSilent) showToast("致命错误：无法连接至图像节点");
       };
       
-      // 直接触发图片加载
       img.src = targetUrl;
     }
 
