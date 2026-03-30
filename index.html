@@ -1201,70 +1201,70 @@
       });
     });
 
-    // ── 随机壁纸系统 (终极版：专业精选代理信道 + 定时轮询 + 灾备回退) ──
+    // ── 随机壁纸系统 (Wallhaven 顶级视觉源接入) ──
     const WALLPAPER_KEY = 'jintong_wallpaper';
     const WALLPAPER_TIME_KEY = 'jintong_wallpaper_time';
-    const REFRESH_INTERVAL = 60 * 60 * 1000; // 更新周期：1小时 (以毫秒为单位)
+    const REFRESH_INTERVAL = 60 * 60 * 1000; // 更新周期：1小时
 
-    // 【视觉协议：赛博朋克审美锁定】
-    // 严谨提示：原 LoremFlickr 由于图库质量极弱且无精选机制，导致视觉失效。
-    // 我们已将信道切换为专业的代理接口，其后台直连 Unsplash/Wallhaven 精选出的高质量赛博朋克和夜之城图片，完美符合您的审美诉求。
-    // 该信道无需API密钥，无需处理跨域，视觉质量相比 picusm 提升 500% 以上。
-    // 风格关键词（已包含在代理检索逻辑中）：Cyberpunk, NightCity, Neon, Highly Curated
-    const targetUrl = `https://curated-random-image.net/api/v1/cyberpunk/nightcity/`;
+    // 【美学配置】你可以改成 "anime", "landscape", "dark" 等 Wallhaven 支持的任意关键词
+    const searchQuery = "cyberpunk"; 
 
     function initWallpaper() {
       const savedBg = localStorage.getItem(WALLPAPER_KEY);
       const savedTime = localStorage.getItem(WALLPAPER_TIME_KEY);
       const now = new Date().getTime();
 
-      // 1. 若本地有缓存，优先渲染缓存，保证开屏渲染性能
       if (savedBg) {
         document.documentElement.style.setProperty('--bg-image', `url('${savedBg}')`);
       }
 
-      // 2. 校验生命周期：如果从未记录过时间，或已超过设定的刷新周期，则触发静默更新
       if (!savedTime || (now - parseInt(savedTime)) > REFRESH_INTERVAL) {
-        changeWallpaper(true); // 传入 true 表示静默更新，不打打断用户
+        changeWallpaper(true);
       }
 
-      // 3. 建立后台守护进程，按周期定时执行
       setInterval(() => {
         changeWallpaper(true);
       }, REFRESH_INTERVAL);
     }
 
-    // 主力更新函数，isSilent 用于控制是否向用户播报状态
     function changeWallpaper(isSilent = false) {
-      if (!isSilent) showToast("正在建立信道...获取高维图像 (Aesthetic Cyberpunk Locked)");
+      if (!isSilent) showToast("正在入侵 Wallhaven 数据库...提取顶级数字资产");
       
-      const timestamp = new Date().getTime();
-      const newUrl = `${targetUrl}?lock=${timestamp}`; // 添加防缓存锁
+      // 构造 Wallhaven API 请求：q=关键词, sorting=random(随机), purity=100(确保是安全内容)
+      const url = `https://wallhaven.cc/api/v1/search?q=${searchQuery}&sorting=random&purity=100&seed=${new Date().getTime()}`;
 
-      const img = new Image();
-      
-      img.onload = () => {
-        document.documentElement.style.setProperty('--bg-image', `url('${newUrl}')`);
-        // 更新缓存与时间戳
-        localStorage.setItem(WALLPAPER_KEY, newUrl);
-        localStorage.setItem(WALLPAPER_TIME_KEY, timestamp.toString());
-        if (!isSilent) showToast("视觉协议更新完毕");
-      };
-      
-      img.onerror = () => {
-        if (!isSilent) showToast("目标信道波动，正在回退至备用节点...");
-        // 灾备降级：回退至基础占位图 API (picusm)，保障页面不出现视觉断层
-        // 虽然其风格不可控，但服务本身极其稳定，可作为最基础的容错层
-        const fallbackUrl = `https://picsum.photos/1920/1080?random=${timestamp}`;
-        document.documentElement.style.setProperty('--bg-image', `url('${fallbackUrl}')`);
-        localStorage.setItem(WALLPAPER_KEY, fallbackUrl);
-        localStorage.setItem(WALLPAPER_TIME_KEY, timestamp.toString());
-      };
-      
-      img.src = newUrl;
+      // 使用 fetch 抓取 JSON 数据
+      fetch(url)
+        .then(response => {
+          if (!response.ok) throw new Error('网络防御墙拦截');
+          return response.json();
+        })
+        .then(data => {
+          if (data && data.data && data.data.length > 0) {
+            // 成功拿到 Wallhaven 的原图直链
+            const targetUrl = data.data[0].path;
+
+            const img = new Image();
+            img.onload = () => {
+              document.documentElement.style.setProperty('--bg-image', `url('${targetUrl}')`);
+              localStorage.setItem(WALLPAPER_KEY, targetUrl);
+              localStorage.setItem(WALLPAPER_TIME_KEY, new Date().getTime().toString());
+              if (!isSilent) showToast("视觉协议更新完毕：Wallhaven 级资产已接入");
+            };
+            img.onerror = () => {
+              if (!isSilent) showToast("图像解析失败，请检查网络连通性...");
+            };
+            img.src = targetUrl;
+          } else {
+             throw new Error('未检索到匹配的资产');
+          }
+        })
+        .catch(error => {
+          console.error("Wallhaven API Error:", error);
+          if (!isSilent) showToast("信道阻塞，Wallhaven 节点无响应...");
+        });
     }
 
-    // 初始化启动
     initWallpaper();
     
     let secretCode = '';
