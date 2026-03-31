@@ -20,6 +20,7 @@
 
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
 
   <style>
     :root {
@@ -46,8 +47,7 @@
 
     body {
       font-family: var(--font-main);
-      /* 修改为透明背景以显示 WebGL 容器 */
-      background-color: transparent; 
+      background-color: #080808; /* 3D加载前的深色底垫 */
       color: var(--text-main);
       text-shadow: var(--text-shadow);
       height: 100vh;
@@ -159,7 +159,7 @@
 
     .aside-footer {
       margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color);
-      display: flex; justify(Content: space-between; align-items: center;
+      display: flex; justify-content: space-between; align-items: center;
     }
     .time-badge {
       font-size: 14px; color: var(--text-sub); font-family: var(--font-sys);
@@ -224,7 +224,8 @@
     }
 
     .card {
-      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;
+      background: transparent;
+      border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;
       cursor: default; display: flex; flex-direction: column; gap: 12px;
       transition: var(--transition-smooth);
       text-decoration: none; color: inherit;
@@ -234,7 +235,7 @@
     }
     .card:hover {
       border-color: var(--border-hover); transform: translateY(-5px) scale(1.02);
-      box-shadow: var(--shadow-hover); background: var(--bg-card);
+      box-shadow: var(--shadow-hover); background: transparent;
     }
 
     /* ── 收藏角标 ── */
@@ -392,7 +393,7 @@
       margin-top: 12px; margin-bottom: 8px; overflow-y: auto; scroll-behavior: smooth;
     }
     .memo-item {
-      display: flex; justify(Content: space-between; align-items: flex-start;
+      display: flex; justify-content: space-between; align-items: flex-start;
       margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed rgba(128,128,128,0.15);
       color: var(--text-main); font-size: 14px; line-height: 1.6;
     }
@@ -429,7 +430,7 @@
     /* ── 恐慌覆盖层 ── */
     #panic-overlay {
       position: fixed; inset: 0; background: #ffffff; z-index: 99999;
-      display: flex; align-items: center; justify(Content: center;
+      display: flex; align-items: center; justify-content: center;
       text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; font-family: monospace;
     }
     #panic-overlay.active { opacity: 1; pointer-events: auto; }
@@ -461,7 +462,7 @@
       #app { display: flex; flex-direction: column; }
       
       .mobile-header {
-        display: flex; align-items: center; justify(Content: space-between; gap: 16px;
+        display: flex; align-items: center; justify-content: space-between; gap: 16px;
         padding: 12px 20px; background: var(--bg-sidebar); backdrop-filter: blur(var(--blur-val));
         -webkit-backdrop-filter: blur(var(--blur-val)); border-bottom: 1px solid var(--border-color);
         position: sticky; top: 0; z-index: 900; flex-shrink: 0;
@@ -501,8 +502,6 @@
   </style>
 </head>
 <body class="dark-mode">
-
-  <div id="webgl-container" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; background: #030305; pointer-events: none;"></div>
 
   <div id="read-progress"></div>
   <div class="toast-container" id="toast-container"></div>
@@ -561,7 +560,7 @@
     </div>
 
     <aside id="sidebar">
-      <div class="brand" id="theme-toggle" title="切换主题 (T)" style="justify(Content: center; margin-bottom: 20px;">
+      <div class="brand" id="theme-toggle" title="切换主题 (T)" style="justify-content: center; margin-bottom: 20px;">
         <model-viewer 
           src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
           alt="3D 宇航员 Logo" 
@@ -600,19 +599,17 @@
     <main id="main-content">
       <div class="hero-quote">
         <div class="quote-text">
-          走了很长的路，也见过很多风景。<br>
-          唯独星空深处的那轮明月最不认生。<br>
-          它在异乡的窗前，守着当年我在故乡没做完的梦。
+          天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo()">凌云</span>之志。
         </div>
-        <div class="quote-sub">The Visual Diary / Long long long long</div>
+        <div class="quote-sub">Long live freedom / The Visual Archive</div>
       </div>
 
       <a class="time-capsule" href="https://archive.org/" target="_blank" rel="noopener noreferrer">
         <div class="capsule-left">
           <div class="capsule-icon-box"><i class="ri-bank-line"></i></div>
           <div class="capsule-info">
-            <span class="capsule-title">档案馆</span>
-            <span class="capsule-desc">时光胶囊 / 数据中心</span>
+            <span class="capsule-title">互联网档案馆</span>
+            <span class="capsule-desc">历史数据库</span>
           </div>
         </div>
         <div class="capsule-arrow"><i class="ri-arrow-right-line"></i></div>
@@ -630,11 +627,11 @@
 
       <div id="empty-state" class="hidden">
         <i class="ri-ghost-line"></i>
-        <p>这里空空如也...</p>
+        <p>当前象限未捕捉到相关信号...</p>
       </div>
 
       <div class="section-block" id="sec-daily" data-icon="ri-newspaper-line">
-        <div class="section-header"><div class="section-title">资讯</div><div class="section-count">Tech & Feed</div></div>
+        <div class="section-header"><div class="section-title">资讯</div><div class="section-count">Tech & Startup Feed</div></div>
         <div class="grid">
           <a class="card" href="https://36kr.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="36kr" data-title="36氪" data-desc="科技创投" data-icon="📰" data-href="https://36kr.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">📰</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">36氪</div><div class="card-desc">科技创投</div></div></a>
           <a class="card" href="https://sspai.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="sspai" data-title="少数派" data-desc="高效数码" data-icon="📱" data-href="https://sspai.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">📱</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">少数派</div><div class="card-desc">高效数码</div></div></a>
@@ -648,7 +645,7 @@
       </div>
 
       <div class="section-block" id="sec-news" data-icon="ri-global-line">
-        <div class="section-header"><div class="section-title">权威新闻</div><div class="section-count">Daily News</div></div>
+        <div class="section-header"><div class="section-title">权威新闻</div><div class="section-count">Global & Authoritative News</div></div>
         <div class="grid">
           <a class="card" href="https://www.reuters.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="reuters" data-title="路透社" data-desc="国际新闻" data-icon="🌐" data-href="https://www.reuters.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">路透社</div><div class="card-desc">国际新闻</div></div></a>
           <a class="card" href="https://apnews.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="apnews" data-title="美联社" data-desc="权威新闻" data-icon="📡" data-href="https://apnews.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">📡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">美联社</div><div class="card-desc">权威新闻</div></div></a>
@@ -662,7 +659,7 @@
       </div>
 
       <div class="section-block" id="sec-ai" data-icon="ri-brain-line">
-        <div class="section-header"><div class="section-title">AI</div><div class="section-count">Daily AI</div></div>
+        <div class="section-header"><div class="section-title">AI</div><div class="section-count">Artificial Intelligence</div></div>
         <div class="grid">
           <a class="card" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="chatgpt" data-title="ChatGPT" data-desc="AI对话" data-icon="🧠" data-href="https://chatgpt.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🧠</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">ChatGPT</div><div class="card-desc">AI对话</div></div></a>
           <a class="card" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="gemini" data-title="Gemini" data-desc="谷歌AI" data-icon="✨" data-href="https://gemini.google.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gemini</div><div class="card-desc">谷歌AI</div></div></a>
@@ -679,7 +676,7 @@
       </div>
 
       <div class="section-block" id="sec-webmaster" data-icon="ri-server-line">
-        <div class="section-header"><div class="section-title">站长</div><div class="section-count">Daily Webmaster</div></div>
+        <div class="section-header"><div class="section-title">站长</div><div class="section-count">Webmaster & Infrastructure</div></div>
         <div class="grid">
           <a class="card" href="https://dashboard.decodo.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="decodo" data-title="Decodo" data-desc="高匿代理" data-icon="🎛️" data-href="https://dashboard.decodo.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🎛️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Decodo</div><div class="card-desc">高匿代理</div></div></a>
           <a class="card" href="https://github.com/dh6598726-stack/woaibixia" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="github" data-title="GitHub" data-desc="代码托管" data-icon="📦" data-href="https://github.com/dh6598726-stack/woaibixia" title="收藏">★</div><div class="card-head"><div class="icon-box">📦</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">GitHub</div><div class="card-desc">代码托管</div></div></a>
@@ -694,7 +691,7 @@
       </div>
 
       <div class="section-block" id="sec-geek" data-icon="ri-shield-keyhole-line">
-        <div class="section-header"><div class="section-title">代码</div><div class="section-count">Daily Geek</div></div>
+        <div class="section-header"><div class="section-title">代码</div><div class="section-count">Development & Cybersecurity</div></div>
         <div class="grid">
           <a class="card" href="https://stackoverflow.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="stackoverflow" data-title="StackOverflow" data-desc="技术问答" data-icon="💡" data-href="https://stackoverflow.com" title="收藏">★</div><div class="card-head"><div class="icon-box">💡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">StackOverflow</div><div class="card-desc">技术问答</div></div></a>
           <a class="card" href="https://replit.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="replit" data-title="Replit" data-desc="在线写代码" data-icon="💻" data-href="https://replit.com" title="收藏">★</div><div class="card-head"><div class="icon-box">💻</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Replit</div><div class="card-desc">在线写代码</div></div></a>
@@ -717,7 +714,7 @@
       </div>
 
       <div class="section-block" id="sec-design" data-icon="ri-palette-line">
-        <div class="section-header"><div class="section-title">视觉</div><div class="section-count">Daily Design</div></div>
+        <div class="section-header"><div class="section-title">视觉</div><div class="section-count">Design & Assets</div></div>
         <div class="grid">
           <a class="card" href="https://www.pinterest.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="pinterest" data-title="Pinterest" data-desc="图片分享" data-icon="🖼️" data-href="https://www.pinterest.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Pinterest</div><div class="card-desc">图片分享</div></div></a>
           <a class="card" href="https://www.behance.net" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="behance" data-title="Behance" data-desc="作品展示" data-icon="🎨" data-href="https://www.behance.net" title="收藏">★</div><div class="card-head"><div class="icon-box">🎨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Behance</div><div class="card-desc">作品展示</div></div></a>
@@ -737,7 +734,7 @@
       </div>
 
       <div class="section-block" id="sec-explore" data-icon="ri-earth-line">
-        <div class="section-header"><div class="section-title">探索</div><div class="section-count">Daily Explore</div></div>
+        <div class="section-header"><div class="section-title">探索</div><div class="section-count">Explore & Global Monitor</div></div>
         <div class="grid">
           <a class="card" href="https://earth.google.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="googleearth" data-title="谷歌地球" data-desc="3D地球仪" data-icon="🌎" data-href="https://earth.google.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🌎</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌地球</div><div class="card-desc">3D地球仪</div></div></a>
           <a class="card" href="https://www.skyscanner.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="skyscanner" data-title="天巡" data-desc="航班比价" data-icon="🎫" data-href="https://www.skyscanner.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🎫</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">天巡</div><div class="card-desc">航班比价</div></div></a>
@@ -766,7 +763,7 @@
       </div>
 
       <div class="section-block" id="sec-utils" data-icon="ri-hammer-line">
-        <div class="section-header"><div class="section-title">工具</div><div class="section-count">Daily Utils</div></div>
+        <div class="section-header"><div class="section-title">工具</div><div class="section-count">Tools, Search & Crypto</div></div>
         <div class="grid">
           <a class="card" href="https://www.google.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="google" data-title="谷歌搜索" data-desc="搜索引擎" data-icon="🔎" data-href="https://www.google.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌搜索</div><div class="card-desc">搜索引擎</div></div></a>
           <a class="card" href="https://mail.google.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="gmail" data-title="Gmail" data-desc="谷歌邮箱" data-icon="✉️" data-href="https://mail.google.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">✉️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gmail</div><div class="card-desc">谷歌邮箱</div></div></a>
@@ -794,7 +791,7 @@
       </div>
 
       <div class="section-block" id="sec-social" data-icon="ri-discuss-line">
-        <div class="section-header"><div class="section-title">影音</div><div class="section-count">Daily Social</div></div>
+        <div class="section-header"><div class="section-title">影音</div><div class="section-count">Social & Media</div></div>
         <div class="grid">
           <a class="card" href="https://telegram.org/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="telegram" data-title="Telegram" data-desc="加密通讯" data-icon="✈️" data-href="https://telegram.org/" title="收藏">★</div><div class="card-head"><div class="icon-box">✈️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Telegram</div><div class="card-desc">加密通讯</div></div></a>
           <a class="card" href="https://x.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="twitter" data-title="X (Twitter)" data-desc="社交网络" data-icon="🕇" data-href="https://x.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🕇</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">X (Twitter)</div><div class="card-desc">社交网络</div></div></a>
@@ -814,7 +811,7 @@
       <div class="section-block sensitive-zone locked" id="sec-abyss" data-icon="ri-eye-off-line">
         <div class="sensitive-mask"><div class="mask-badge">Confidential / NSFW</div></div>
         <div class="sensitive-blur">
-          <div class="section-header"><div class="section-title">深海与私藏</div><span class="section-count">Daily Abyss</span></div>
+          <div class="section-header"><div class="section-title">深海与私藏</div><span class="section-count">Abyss & Gentleman</span></div>
           <div class="grid">
             <a class="card" href="https://www.torproject.org/zh-CN/download/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🧅</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Tor 浏览器</div><div class="card-desc">洋葱路由</div></div></a>
             <a class="card" href="https://fanqianglu.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🪜</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">翻墙路</div><div class="card-desc">VPN导航</div></div></a>
@@ -823,7 +820,7 @@
             <a class="card" href="https://www.pornpics.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">👱‍♀️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">欧美图库</div><div class="card-desc">成人套图</div></div></a>
             <a class="card" href="https://www.junmeitu.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">💃</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">俊美图</div><div class="card-desc">女性写真</div></div></a>
             <a class="card" href="https://www.91tulu.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🚗</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">91图鲁</div><div class="card-desc">成人图片</div></div></a>
-            <a class="card" href="https://www.v2ph.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="v2ph" data-title="微图" data-desc="私房写真" data-icon="📸" data-href="https://www.v2ph.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">微图</div><div class="card-desc">私房写真</div></div></a>
+            <a class="card" href="https://www.v2ph.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">微图</div><div class="card-desc">私房写真</div></div></a>
             <a class="card" href="https://www.tblop.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📜</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">绅士列表</div><div class="card-desc">纯文本导航</div></div></a>
             <a class="card" href="https://theporndude.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🤠</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">色情向导</div><div class="card-desc">色情导航</div></div></a>
             <a class="card" href="https://pornhub.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🟧</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Pornhub</div><div class="card-desc">成人视频</div></div></a>
@@ -849,128 +846,22 @@
   <div id="back-top" title="返回顶部"><i class="ri-arrow-up-line"></i></div>
 
   <div id="ghost-memo">
-    <div style="display:flex;justify(Content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border-color);">
-      <span style="font-size:15px;font-weight:700;letter-spacing:1px;">Memo</span>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border-color);">
+      <span style="font-size:15px;font-weight:700;letter-spacing:1px;">备忘录</span>
       <div style="display:flex;gap:14px;align-items:center;">
-        <span id="cloud-status" style="font-size:12px;font-family:var(--font-sys);font-weight:600;color:var(--accent);">wait</span>
-        <span id="cloud-sync-btn" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">sync</span>
-        <span onclick="toggleMemo()" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">close</span>
+        <span id="cloud-status" style="font-size:12px;font-family:var(--font-sys);font-weight:600;color:var(--accent);">待机中</span>
+        <span id="cloud-sync-btn" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">同步</span>
+        <span onclick="toggleMemo()" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">关闭</span>
       </div>
     </div>
     <div id="memo-content"></div>
     <div class="memo-input-wrap">
-      <input type="text" id="memo-new-record" placeholder="write memory..." autocomplete="off" maxlength="200" />
+      <input type="text" id="memo-new-record" placeholder="写入新记录，回车封存..." autocomplete="off" maxlength="200" />
       <span id="memo-char-count">0/200</span>
     </div>
   </div>
 
   <script>
-    // ── ★ 修正变动：全屏 WebGL 多彩律动深空渲染引擎 ──
-    window.addEventListener('DOMContentLoaded', () => {
-      const container = document.getElementById('webgl-container');
-      if (!container || typeof THREE === 'undefined') return;
-
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.z = 30;
-
-      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // 限制像素比以压榨性能
-      container.appendChild(renderer.domElement);
-
-      // 创建多彩粒子群
-      const particlesCount = 15000; // 粒子数量，营造丰富度
-      const positions = new Float32Array(particlesCount * 3);
-      const colors = new Float32Array(particlesCount * 3); // 为每个粒子设置颜色
-
-      // 定义多彩霓虹色调
-      const palette = [
-        new THREE.Color(0x00f3ff), // 霓虹青
-        new THREE.Color(0xff007f), // 霓虹粉
-        new THREE.Color(0xaf52de), // 霓虹紫
-        new THREE.Color(0xff9500), // 夕阳橙
-        new THREE.Color(0x00ff00)  // 极光绿
-      ];
-
-      for (let i = 0; i < particlesCount; i++) {
-        // 随机分布在深空
-        positions[i * 3] = (Math.random() - 0.5) * 100;
-        positions[i * 3 + 1] = (Math.random() - 0.5) * 100;
-        positions[i * 3 + 2] = (Math.random() - 0.5) * 100;
-
-        // 随机分配多彩色
-        const color = palette[Math.floor(Math.random() * palette.length)];
-        colors[i * 3] = color.r;
-        colors[i * 3 + 1] = color.g;
-        colors[i * 3 + 2] = color.b;
-      }
-
-      const geometry = new THREE.BufferGeometry();
-      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3)); // 启用顶点颜色
-
-      // 使用自定义材质让粒子呈现星光发光效果，且不单调
-      const material = new THREE.PointsMaterial({
-        size: 0.15,
-        vertexColors: true, // 启用顶点颜色
-        blending: THREE.AdditiveBlending, // 混合模式，让光线交织
-        transparent: true,
-        depthWrite: false, // 优化透明度渲染
-        sizeAttenuation: true // 开启尺寸衰减，增加立体感
-      });
-
-      const points = new THREE.Points(geometry, material);
-      scene.add(points);
-
-      // 鼠标交互视差计算
-      let mouseX = 0;
-      let mouseY = 0;
-      document.addEventListener('mousemove', (event) => {
-          mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-          mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-      });
-
-      // 高性能动画循环
-      const clock = new THREE.Clock();
-      function animate() {
-          requestAnimationFrame(animate);
-          const delta = clock.getDelta();
-          const time = clock.getElapsedTime();
-
-          // 核心多彩律动逻辑
-          points.rotation.y += 0.02 * delta;
-          points.rotation.x += 0.01 * delta;
-
-          // 模拟粒子律动流动（多彩能量带）
-          for (let i = 0; i < particlesCount; i++) {
-              const x = geometry.attributes.position.getX(i);
-              const y = geometry.attributes.position.getY(i);
-              const z = geometry.attributes.position.getZ(i);
-
-              // 使用正弦函数模拟波动
-              geometry.attributes.position.setY(i, y + Math.sin(time + x * 0.1) * 0.01);
-              geometry.attributes.position.setX(i, x + Math.cos(time + y * 0.1) * 0.005);
-          }
-          geometry.attributes.position.needsUpdate = true; // 强制 Three.js 更新顶点位置
-
-          // 摄像机镜头缓动跟随鼠标，增加立体纵深感
-          camera.position.x += (mouseX * 5 - camera.position.x) * 0.02;
-          camera.position.y += (mouseY * 5 - camera.position.y) * 0.02;
-          camera.lookAt(scene.position);
-
-          renderer.render(scene, camera);
-      }
-      animate();
-
-      // 窗口自适应
-      window.addEventListener('resize', () => {
-          camera.aspect = window.innerWidth / window.innerHeight;
-          camera.updateProjectionMatrix();
-          renderer.setSize(window.innerWidth, window.innerHeight);
-      });
-    });
-
     let isAbyssOpen = false;
 
     const FAV_KEY = 'jintong_favorites';
@@ -1349,6 +1240,28 @@
         charCount.textContent = `${memoInput.value.length}/200`;
       });
     }
+
+    // ── 核心变动：初始化 Vanta.js 3D 赛博朋克神经网 WebGL 背景 ──
+    window.addEventListener('DOMContentLoaded', () => {
+      if (typeof VANTA !== 'undefined') {
+        VANTA.NET({
+          el: "body",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0xff003c, // 赛博朋克霓虹粉
+          backgroundColor: 0x080808, // 深渊黑底层
+          points: 12.00, // 3D 节点密度
+          maxDistance: 22.00, // 连接线渲染距离
+          spacing: 16.00,
+          showDots: true
+        });
+      }
+    });
   </script>
 
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
