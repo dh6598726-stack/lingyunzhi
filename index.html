@@ -19,10 +19,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap" rel="stylesheet">
 
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
 
   <style>
     :root {
-      --bg-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1920&auto=format&fit=crop');
       --font-main: 'Long Cang', "Xingkai SC", "STXingkai", cursive;
       --font-sys: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       --bg-sidebar: transparent;
@@ -44,25 +45,19 @@
       --progress-height: 3px;
     }
 
-    @keyframes fluidRainbow {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-
     body {
       font-family: var(--font-main);
-      background: var(--bg-image) center center / cover no-repeat fixed;
+      background-color: #080808; /* 3D加载前的深色底垫 */
       color: var(--text-main);
       text-shadow: var(--text-shadow);
       height: 100vh;
       overflow: hidden;
-      transition: color var(--transition-fast), background-image 0.5s ease-in-out;
+      transition: color var(--transition-fast);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
     body.dark-mode {
-      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), var(--bg-image) center center / cover no-repeat fixed;
       --bg-sidebar: transparent;
       --bg-card: rgba(44, 44, 46, 0.85);
       --border-color: rgba(255, 255, 255, 0.1);
@@ -95,7 +90,8 @@
       border-radius: 0 2px 2px 0;
     }
 
-    #app { display: grid; grid-template-columns: 280px 1fr; height: 100%; }
+    /* 确保主应用层覆盖在 3D 背景之上 */
+    #app { display: grid; grid-template-columns: 280px 1fr; height: 100%; position: relative; z-index: 10; }
 
     aside {
       background: var(--bg-sidebar);
@@ -109,20 +105,6 @@
     }
     
     .brand { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; cursor: pointer; }
-    
-    @keyframes heartbeat {
-      0%, 28%, 70% { transform: scale(1); }
-      14%, 42% { transform: scale(1.15); }
-    }
-
-    .brand-logo {
-      width: 40px; height: 40px; color: #ff3b30;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 28px; animation: heartbeat 1.5s infinite ease-in-out;
-    }
-    
-    .brand-text h1 { font-size: 26px; font-weight: 400; line-height: 1; letter-spacing: 0.5px; }
-    .brand-text span { font-size: 14px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 4px; font-family: var(--font-sys); }
 
     /* ── 搜索框（含清除按钮）── */
     .search-box { position: relative; margin-bottom: 24px; }
@@ -354,9 +336,10 @@
     /* ── 闪屏 ── */
     #splash {
       position: fixed; inset: 0; z-index: 9999;
-      background: var(--bg-image) center center / cover no-repeat fixed;
+      background: transparent;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       transition: opacity 0.6s ease, visibility 0.6s; user-select: none;
+      backdrop-filter: blur(10px);
     }
     .splash-quote {
       font-size: 32px; text-align: center; max-width: 600px; line-height: 1.6;
@@ -518,7 +501,7 @@
     }
   </style>
 </head>
-<body>
+<body class="dark-mode">
 
   <div id="read-progress"></div>
   <div class="toast-container" id="toast-container"></div>
@@ -537,7 +520,6 @@
       <h3>⌨️ 快捷键一览</h3>
       <div class="shortcut-row"><span>打开搜索</span><span><kbd>Ctrl</kbd>+<kbd>K</kbd></span></div>
       <div class="shortcut-row"><span>查看收藏</span><span><kbd>F</kbd></span></div>
-      <div class="shortcut-row"><span>随机壁纸</span><span><kbd>B</kbd></span></div>
       <div class="shortcut-row"><span>关闭此面板</span><span><kbd>?</kbd> 或点击背景</span></div>
     </div>
   </div>
@@ -607,9 +589,6 @@
           <span class="time-greeting" id="time-greeting">你好</span>
         </div>
         <div style="display: flex; gap: 8px;">
-          <div class="shortcut-btn" onclick="changeWallpaper()" title="随机壁纸 (B)">
-            <i class="ri-image-edit-line"></i>
-          </div>
           <div class="shortcut-btn" onclick="toggleShortcuts()" title="快捷键 (?)">
             <i class="ri-keyboard-line"></i>
           </div>
@@ -885,8 +864,6 @@
   <script>
     let isAbyssOpen = false;
 
-    // [已移除反直觉的 restrictCardClick，恢复卡片正常的全局链接跳转功能]
-
     const FAV_KEY = 'jintong_favorites';
     function loadFavs() {
       try { return JSON.parse(localStorage.getItem(FAV_KEY)) || {}; }
@@ -1034,10 +1011,6 @@
       document.querySelectorAll('.card-fav').forEach(btn => {
         if (favs[btn.dataset.id]) btn.classList.add('active');
       });
-
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark-mode');
-      }
     });
 
     function closeSplash() {
@@ -1205,109 +1178,6 @@
         debouncedFilter(term);
       });
     });
-
-    // ── 随机壁纸系统 (工业级静态高定版：24小时时间轴映射) ──
-    const WALLPAPER_KEY = 'jintong_wallpaper';
-    const WALLPAPER_TIME_KEY = 'jintong_wallpaper_time';
-    const REFRESH_INTERVAL = 60 * 60 * 1000; // 更新周期：1小时
-
-    const premiumCyberpunkWallpapers = [
-      "https://i.pinimg.com/736x/05/c9/4b/05c94b85d058a0b9df6071972e37e220.jpg",
-      "https://i.pinimg.com/736x/fb/d3/9d/fbd39d1c5bd94969952c70fffd5660ae.jpg",
-      "https://i.pinimg.com/736x/d6/36/cf/d636cf8a207a3f99e6e6254889a0cb2b.jpg",
-      "https://i.pinimg.com/1200x/a8/cb/f0/a8cbf07b2fed48916b7399feb14e42ef.jpg",
-      "https://i.pinimg.com/736x/f0/29/d7/f029d7762188b0d1b5790115c434d0bf.jpg",
-      "https://i.pinimg.com/1200x/e5/72/c5/e572c5bfaabb9559d805923d23fba656.jpg",
-      "https://i.pinimg.com/736x/15/dc/e2/15dce28e9351294479a395f7d959a12a.jpg",
-      "https://i.pinimg.com/736x/f2/fd/c5/f2fdc528fef1d13c8fddc587e88535fe.jpg",
-      "https://i.pinimg.com/736x/a2/58/22/a258221271e326586f9e2546213ed131.jpg",
-      "https://i.pinimg.com/736x/83/a2/3d/83a23d3e06938a26a6e12e83a85ce2fc.jpg",
-      "https://i.pinimg.com/736x/8c/44/cb/8c44cb227794cc97cbaf8c71b433b4ce.jpg",
-      "https://i.pinimg.com/736x/dc/a9/17/dca917cf25d609d951207c9543eebeb8.jpg",
-      "https://i.pinimg.com/736x/84/cd/9d/84cd9dc6ee636f90d959f827c8dae469.jpg",
-      "https://i.pinimg.com/736x/be/9d/92/be9d923620b58d7dc9254b708ef1863a.jpg",
-      "https://i.pinimg.com/736x/05/7f/b3/057fb36a209cfaa17f876c6124e0c659.jpg",
-      "https://i.pinimg.com/1200x/1c/39/a4/1c39a41fec2bacb24cc7929fc954d11d.jpg",
-      "https://i.pinimg.com/736x/4d/53/88/4d5388908cf778d0385d80fa5977ca24.jpg",
-      "https://i.pinimg.com/736x/48/39/4a/48394a78581dd30124a06b8337bd4bd3.jpg",
-      "https://i.pinimg.com/736x/6c/0a/d7/6c0ad7b69bccbcc7e710224247ec31d7.jpg",
-      "https://i.pinimg.com/736x/bf/ff/24/bfff24ea60b8c1207489b2d590b38d23.jpg",
-      "https://i.pinimg.com/1200x/47/aa/0a/47aa0ad1c7d96bdc0e74286967b75f9f.jpg",
-      "https://i.pinimg.com/1200x/e4/aa/45/e4aa45a1bdd9b6015b38900deacf62b1.jpg",
-      "https://i.pinimg.com/736x/df/f7/60/dff7600f306858044d25a7f9085dfb10.jpg",
-      "https://i.pinimg.com/736x/f0/e2/23/f0e223a5e30d9ee60ba569e43bdfa33f.jpg"
-    ];
-
-    function initWallpaper() {
-      let savedBg = null;
-      let savedTime = null;
-      
-      // [安全加固：防止严格模式或无痕模式下的 Storage 异常引发主进程崩溃]
-      try {
-        savedBg = localStorage.getItem(WALLPAPER_KEY);
-        savedTime = localStorage.getItem(WALLPAPER_TIME_KEY);
-      } catch (e) {
-        console.warn("Storage API 被禁用或受限:", e);
-      }
-      
-      const now = new Date().getTime();
-
-      if (savedBg) {
-        document.documentElement.style.setProperty('--bg-image', `url('${savedBg}')`);
-      }
-
-      if (!savedTime || (now - parseInt(savedTime)) > REFRESH_INTERVAL) {
-        changeWallpaper(true);
-      }
-
-      setInterval(() => {
-        changeWallpaper(true);
-      }, REFRESH_INTERVAL);
-    }
-
-    function changeWallpaper(isSilent = false) {
-      if (!isSilent) showToast("正在建立信道...加载私有数字资产");
-      
-      const timestamp = new Date().getTime();
-      let targetUrl;
-
-      if (isSilent) {
-        const currentHour = new Date().getHours();
-        targetUrl = premiumCyberpunkWallpapers[currentHour];
-      } else {
-        let randomIndex = Math.floor(Math.random() * premiumCyberpunkWallpapers.length);
-        targetUrl = premiumCyberpunkWallpapers[randomIndex];
-        
-        let currentBg = null;
-        try { currentBg = localStorage.getItem(WALLPAPER_KEY); } catch(e) {}
-        
-        if (currentBg === targetUrl) {
-            randomIndex = (randomIndex + 1) % premiumCyberpunkWallpapers.length;
-            targetUrl = premiumCyberpunkWallpapers[randomIndex];
-        }
-      }
-
-      const img = new Image();
-      img.onload = () => {
-        document.documentElement.style.setProperty('--bg-image', `url('${targetUrl}')`);
-        // [安全加固：写入 Storage 时进行异常捕获]
-        try {
-          localStorage.setItem(WALLPAPER_KEY, targetUrl);
-          localStorage.setItem(WALLPAPER_TIME_KEY, timestamp.toString());
-        } catch(e) {
-          console.warn("无法将壁纸数据写入本地缓存");
-        }
-        if (!isSilent) showToast("视觉协议更新完毕：专属空间已接入");
-      };
-      
-      img.onerror = () => {
-        if (!isSilent) showToast("致命错误：无法连接至图像节点");
-      };
-      
-      img.src = targetUrl;
-    }
-
-    initWallpaper();
     
     let secretCode = '';
     document.addEventListener('keydown', e => {
@@ -1336,7 +1206,6 @@
 
       if (e.key === '?') { toggleShortcuts(); return; }
       if (e.key === 't' || e.key === 'T') { document.body.classList.toggle('dark-mode'); return; }
-      if (e.key === 'b' || e.key === 'B') { changeWallpaper(); return; }
       if (e.key === 'm' || e.key === 'M') { toggleMemo(); return; }
       if (e.key === 'f' || e.key === 'F') {
         const favSec = document.getElementById('sec-favorites');
@@ -1371,6 +1240,28 @@
         charCount.textContent = `${memoInput.value.length}/200`;
       });
     }
+
+    // ── 核心变动：初始化 Vanta.js 3D 赛博朋克神经网 WebGL 背景 ──
+    window.addEventListener('DOMContentLoaded', () => {
+      if (typeof VANTA !== 'undefined') {
+        VANTA.NET({
+          el: "body",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0xff003c, // 赛博朋克霓虹粉
+          backgroundColor: 0x080808, // 深渊黑底层
+          points: 12.00, // 3D 节点密度
+          maxDistance: 22.00, // 连接线渲染距离
+          spacing: 16.00,
+          showDots: true
+        });
+      }
+    });
   </script>
 
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
@@ -1402,7 +1293,6 @@
         catch (err) { console.error('Failed to copy!', err); }
       };
 
-      // [安全加固：完全摒弃 innerHTML 拼接，彻底防御 XSS 与换行符断裂漏洞]
       function renderMemos(data) {
         memoContent.innerHTML = '';
         if (!data || data.length === 0) {
@@ -1425,9 +1315,8 @@
           const textDiv = document.createElement('div');
           textDiv.className = 'memo-text';
           textDiv.title = '点击复制';
-          textDiv.textContent = row.content; // 利用 textContent 自动转义防御 XSS
+          textDiv.textContent = row.content;
           
-          // 动态事件绑定，避免拼接字符串产生的单双引号及换行符语法错误
           textDiv.onclick = () => window.copyMemo(row.content);
 
           leftDiv.appendChild(timeSpan);
