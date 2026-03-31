@@ -18,6 +18,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap" rel="stylesheet">
 
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js"></script>
+
   <style>
     :root {
       --bg-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1920&auto=format&fit=crop');
@@ -556,7 +558,16 @@
   <div id="app">
     <div class="mobile-header" id="mobile-header">
       <div class="mh-left">
-        <div class="mh-logo" onclick="document.body.classList.toggle('dark-mode')"><i class="ri-heart-3-fill"></i></div>
+        <div class="mh-logo" onclick="document.body.classList.toggle('dark-mode')" style="animation: none; margin-top: 5px;">
+          <model-viewer 
+            src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+            alt="3D 宇航员 Logo" 
+            auto-rotate 
+            disable-zoom
+            environment-image="neutral"
+            style="width: 44px; height: 44px; background: transparent; outline: none;">
+          </model-viewer>
+        </div>
         <div class="mh-search-box">
           <i class="ri-search-2-line search-icon"></i>
           <input type="text" class="search-input" placeholder="搜点什么...">
@@ -567,12 +578,17 @@
     </div>
 
     <aside id="sidebar">
-      <div class="brand" id="theme-toggle" title="切换主题 (T)">
-        <div class="brand-logo"><i class="ri-heart-3-fill"></i></div>
-        <div class="brand-text">
-          <h1>JIN Tong</h1>
-          <span>ARCHIVE</span>
-        </div>
+      <div class="brand" id="theme-toggle" title="切换主题 (T)" style="justify-content: center; margin-bottom: 20px;">
+        <model-viewer 
+          src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+          alt="3D 宇航员 Logo" 
+          auto-rotate 
+          rotation-per-second="30deg"
+          camera-controls
+          disable-zoom
+          environment-image="neutral"
+          style="width: 140px; height: 140px; background: transparent; outline: none; cursor: grab;">
+        </model-viewer>
       </div>
         
       <div class="search-box">
