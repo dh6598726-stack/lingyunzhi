@@ -19,8 +19,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap" rel="stylesheet">
 
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <style>
     :root {
@@ -45,9 +44,10 @@
       --progress-height: 3px;
     }
 
+    /* 移除了原有的壁纸逻辑，背景改为全透明以显示底层 WebGL 容器 */
     body {
       font-family: var(--font-main);
-      background-color: #080808; /* 3D加载前的深色底垫 */
+      background-color: transparent; 
       color: var(--text-main);
       text-shadow: var(--text-shadow);
       height: 100vh;
@@ -58,16 +58,17 @@
     }
 
     body.dark-mode {
+      background-color: transparent;
       --bg-sidebar: transparent;
-      --bg-card: rgba(44, 44, 46, 0.85);
+      --bg-card: rgba(15, 15, 18, 0.65); /* 赛博朋克深色磨砂玻璃 */
       --border-color: rgba(255, 255, 255, 0.1);
-      --border-hover: rgba(10, 132, 255, 0.5);
+      --border-hover: rgba(0, 243, 255, 0.7); /* 边框高亮改为赛博青 */
       --text-main: #ffffff;
       --text-sub: #cccccc;
       --text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 5px rgba(0, 0, 0, 0.6);
-      --accent: #0a84ff;
+      --accent: #00f3ff; /* 主题色改为赛博青 */
       --shadow-card: 0 4px 12px rgba(0,0,0,0.4);
-      --shadow-hover: 0 10px 28px rgba(0,0,0,0.65);
+      --shadow-hover: 0 0 20px rgba(0,243,255,0.3); /* 霓虹发光阴影 */
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -79,10 +80,9 @@
 
     input, textarea { font-family: var(--font-sys); text-shadow: none; }
     
-    /* ── 阅读进度条 ── */
     #read-progress {
       position: fixed; top: 0; left: 0; right: 0; height: var(--progress-height);
-      background: linear-gradient(90deg, #007aff, #af52de, #ff375f);
+      background: linear-gradient(90deg, #00f3ff, #ff007f); /* 赛博霓虹渐变 */
       transform-origin: left;
       transform: scaleX(0);
       z-index: 9998;
@@ -90,7 +90,6 @@
       border-radius: 0 2px 2px 0;
     }
 
-    /* 确保主应用层覆盖在 3D 背景之上 */
     #app { display: grid; grid-template-columns: 280px 1fr; height: 100%; position: relative; z-index: 10; }
 
     aside {
@@ -106,7 +105,6 @@
     
     .brand { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; cursor: pointer; }
 
-    /* ── 搜索框（含清除按钮）── */
     .search-box { position: relative; margin-bottom: 24px; }
     .search-input {
       width: 100%; padding: 12px 36px 12px 40px;
@@ -116,7 +114,7 @@
     }
     .search-input:focus {
       background: var(--bg-card); border-color: var(--accent); outline: none;
-      box-shadow: 0 0 0 3px rgba(0,122,255,0.15);
+      box-shadow: 0 0 0 3px rgba(0,243,255,0.2);
     }
     .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-sub); pointer-events: none; }
     .search-clear {
@@ -128,7 +126,6 @@
     .search-clear.visible { opacity: 1; }
     .search-clear:hover { color: var(--text-main); }
 
-    /* ── 搜索结果计数 ── */
     .search-hint {
       font-size: 12px; color: var(--text-sub); font-family: var(--font-sys);
       text-align: center; padding: 4px 0 8px; opacity: 0;
@@ -148,14 +145,13 @@
     .nav-item.active { background: var(--text-main); color: #fff; text-shadow: none; }
     body.dark-mode .nav-item.active { color: #000; text-shadow: none; }
     .nav-icon { font-size: 18px; opacity: 0.9; }
-    /* 侧边栏活跃指示点 */
     .nav-dot {
       width: 6px; height: 6px; border-radius: 50%;
       background: var(--accent); margin-left: auto; opacity: 0;
       transition: opacity var(--transition-fast);
+      box-shadow: 0 0 8px var(--accent);
     }
     .nav-item.active .nav-dot { opacity: 1; }
-    body.dark-mode .nav-item.active .nav-dot { background: #0a84ff; }
 
     .aside-footer {
       margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color);
@@ -168,7 +164,6 @@
     }
     .time-greeting { font-size: 12px; opacity: 0.8; }
 
-    /* ── 快捷键提示图标 ── */
     .shortcut-btn {
       width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border-color);
       background: rgba(128,128,128,0.08); cursor: pointer; display: flex; align-items: center;
@@ -179,7 +174,6 @@
 
     main { padding: 48px 6vw; overflow-y: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; position: relative; }
 
-    /* ── 返回顶部按钮 ── */
     #back-top {
       position: fixed; bottom: 40px; right: 40px;
       width: 44px; height: 44px; border-radius: 50%;
@@ -224,7 +218,9 @@
     }
 
     .card {
-      background: transparent;
+      background: var(--bg-card); /* 修改为半透明玻璃底，提升赛博朋克风质感 */
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;
       cursor: default; display: flex; flex-direction: column; gap: 12px;
       transition: var(--transition-smooth);
@@ -235,17 +231,16 @@
     }
     .card:hover {
       border-color: var(--border-hover); transform: translateY(-5px) scale(1.02);
-      box-shadow: var(--shadow-hover); background: transparent;
+      box-shadow: var(--shadow-hover); background: rgba(0,0,0,0.4);
     }
 
-    /* ── 收藏角标 ── */
     .card-fav {
       position: absolute; top: 10px; right: 10px;
       font-size: 14px; opacity: 0; cursor: pointer;
       transition: opacity var(--transition-fast), transform var(--transition-fast);
-      z-index: 5; color: #ff9500; padding: 4px;
+      z-index: 5; color: #ff007f; padding: 4px; /* 修改星星为霓虹粉 */
       background: none; border: none; line-height: 1;
-      text-shadow: none;
+      text-shadow: 0 0 10px rgba(255,0,127,0.5);
     }
     .card:hover .card-fav { opacity: 0.5; }
     .card-fav.active { opacity: 1 !important; }
@@ -268,12 +263,10 @@
       font-size: 14px; color: var(--text-main); line-height: 1.4; font-family: var(--font-sys);
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
-    /* 搜索高亮 */
     mark {
-      background: rgba(0,122,255,0.2); color: var(--accent);
+      background: rgba(0,243,255,0.2); color: var(--accent);
       border-radius: 3px; padding: 0 2px;
     }
-    body.dark-mode mark { background: rgba(10,132,255,0.25); }
 
     #empty-state { text-align: center; padding: 60px 20px; opacity: 0.6; }
     #empty-state i { font-size: 48px; color: var(--text-sub); margin-bottom: 16px; display: block; }
@@ -281,36 +274,38 @@
 
     .time-capsule {
       margin-bottom: 56px; padding: 24px 32px;
-      background: linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
+      background: linear-gradient(135deg, rgba(20,20,20,0.8) 0%, rgba(5,5,5,0.9) 100%);
+      backdrop-filter: blur(12px);
       border-radius: var(--radius-lg); cursor: pointer; display: flex; align-items: center; justify-content: space-between;
-      box-shadow: var(--shadow-hover); border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 10px 30px rgba(0,243,255,0.1); border: 1px solid rgba(0,243,255,0.2);
       position: relative; overflow: hidden; color: #fff;
       transition: transform var(--transition-fast); text-decoration: none;
       text-shadow: none;
     }
-    .time-capsule:hover { transform: scale(1.01) translateY(-2px); border-color: rgba(255,255,255,0.4); }
+    .time-capsule:hover { transform: scale(1.01) translateY(-2px); border-color: #00f3ff; }
     .time-capsule::before {
       content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      background: linear-gradient(90deg, transparent, rgba(0,243,255,0.1), transparent);
       transform: skewX(-20deg);
     }
     .time-capsule:hover::before { left: 200%; transition: 0.8s ease-in-out; }
     .capsule-left { display: flex; align-items: center; gap: 20px; z-index: 2; }
     .capsule-icon-box {
-      width: 48px; height: 48px; background: rgba(255,255,255,0.15); backdrop-filter: blur(5px);
+      width: 48px; height: 48px; background: rgba(0,243,255,0.1); backdrop-filter: blur(5px);
       border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px;
+      color: #00f3ff;
     }
     .capsule-info { display: flex; flex-direction: column; }
     .capsule-title { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
     .capsule-desc { color: rgba(255,255,255,0.6); font-size: 14px; margin-top: 4px; font-family: var(--font-sys); }
     .capsule-arrow {
-      width: 36px; height: 36px; border-radius: 50%; background: #fff; color: #000;
+      width: 36px; height: 36px; border-radius: 50%; background: #00f3ff; color: #000;
       display: flex; align-items: center; justify-content: center;
       font-size: 18px; opacity: 0; transform: translateX(-15px); transition: all var(--transition-fast);
+      box-shadow: 0 0 15px #00f3ff;
     }
     .time-capsule:hover .capsule-arrow { opacity: 1; transform: translateX(0); }
 
-    /* ── 收藏区 ── */
     #sec-favorites .grid { min-height: 60px; }
     #fav-empty {
       font-size: 14px; color: var(--text-sub); font-family: var(--font-sys);
@@ -324,45 +319,44 @@
       position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5; pointer-events: none;
     }
     .mask-badge {
-      background: rgba(0,0,0,0.8); color: #fff; backdrop-filter: blur(4px);
+      background: rgba(0,0,0,0.8); color: #ff007f; backdrop-filter: blur(4px);
       padding: 8px 16px; border-radius: 8px; font-size: 14px; font-family: var(--font-sys);
-      font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-      transition: var(--transition-fast); box-shadow: 0 0 20px rgba(0,0,0,0.5); text-shadow: none;
+      font-weight: 600; letter-spacing: 1px; text-transform: uppercase; border: 1px solid #ff007f;
+      transition: var(--transition-fast); box-shadow: 0 0 20px rgba(255,0,127,0.5); text-shadow: none;
     }
     .sensitive-zone:hover .sensitive-blur { filter: blur(0); opacity: 1; }
     .sensitive-zone.unlocked .sensitive-blur { filter: blur(0); opacity: 1; pointer-events: auto; }
     .sensitive-zone.unlocked .sensitive-mask { display: none; }
 
-    /* ── 闪屏 ── */
     #splash {
       position: fixed; inset: 0; z-index: 9999;
-      background: transparent;
+      background: rgba(8,8,8,0.9);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       transition: opacity 0.6s ease, visibility 0.6s; user-select: none;
       backdrop-filter: blur(10px);
     }
     .splash-quote {
       font-size: 32px; text-align: center; max-width: 600px; line-height: 1.6;
-      margin-bottom: 40px; padding: 0 20px; color: var(--text-main);
+      margin-bottom: 40px; padding: 0 20px; color: #fff;
       max-height: 75vh; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      text-shadow: 0 0 10px #00f3ff;
     }
 
-    /* ── 快捷键面板 ── */
     #shortcut-panel {
       position: fixed; inset: 0; z-index: 9995;
-      background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       display: flex; align-items: center; justify-content: center;
       opacity: 0; pointer-events: none; transition: opacity var(--transition-smooth);
     }
     #shortcut-panel.active { opacity: 1; pointer-events: auto; }
     .shortcut-card {
-      background: var(--bg-card); border: 1px solid var(--border-color);
+      background: var(--bg-card); border: 1px solid var(--accent);
       border-radius: var(--radius-lg); padding: 32px; min-width: 340px;
-      box-shadow: var(--shadow-hover);
+      box-shadow: 0 0 30px rgba(0,243,255,0.2);
       transform: scale(0.95); transition: transform var(--transition-smooth);
     }
     #shortcut-panel.active .shortcut-card { transform: scale(1); }
-    .shortcut-card h3 { font-size: 18px; margin-bottom: 20px; color: var(--text-main); font-family: var(--font-main); }
+    .shortcut-card h3 { font-size: 18px; margin-bottom: 20px; color: var(--accent); font-family: var(--font-main); text-shadow: 0 0 5px rgba(0,243,255,0.5); }
     .shortcut-row {
       display: flex; justify-content: space-between; align-items: center;
       padding: 10px 0; border-bottom: 1px solid var(--border-color);
@@ -376,34 +370,33 @@
       color: var(--text-main); box-shadow: 0 1px 0 var(--border-color); text-shadow: none;
     }
 
-    /* ── 备忘录 ── */
     #ghost-memo {
       position: fixed; bottom: 40px; right: 40px; width: 340px; height: 460px;
-      background: var(--bg-sidebar); color: var(--text-main);
+      background: rgba(15,15,18,0.85); color: #fff;
       backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
-      border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 24px;
+      border: 1px solid #ff007f; border-radius: var(--radius-md); padding: 24px;
       display: flex; flex-direction: column;
-      box-shadow: var(--shadow-hover); transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none;
+      box-shadow: 0 0 30px rgba(255,0,127,0.2); transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none;
       transition: var(--transition-smooth); z-index: 1000; font-family: var(--font-sys);
     }
     #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
 
     #memo-content {
-      flex: 1; background: rgba(128,128,128,0.05); border: none; outline: none; border-radius: 8px; padding: 14px;
+      flex: 1; background: rgba(0,0,0,0.3); border: none; outline: none; border-radius: 8px; padding: 14px;
       margin-top: 12px; margin-bottom: 8px; overflow-y: auto; scroll-behavior: smooth;
     }
     .memo-item {
       display: flex; justify-content: space-between; align-items: flex-start;
-      margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed rgba(128,128,128,0.15);
-      color: var(--text-main); font-size: 14px; line-height: 1.6;
+      margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed rgba(255,255,255,0.15);
+      color: #fff; font-size: 14px; line-height: 1.6;
     }
     .memo-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
     .memo-text {
       flex: 1; word-break: break-all; white-space: pre-wrap; font-family: inherit;
       cursor: pointer; transition: opacity var(--transition-fast);
     }
-    .memo-text:hover { opacity: 0.7; }
-    .memo-time { font-size: 11px; opacity: 0.5; display: block; margin-bottom: 4px; }
+    .memo-text:hover { opacity: 0.7; color: #ff007f; text-shadow: 0 0 5px #ff007f; }
+    .memo-time { font-size: 11px; opacity: 0.5; display: block; margin-bottom: 4px; color: #00f3ff; }
     .memo-delete {
       cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity var(--transition-fast);
       padding: 0 4px; margin-left: 8px; font-weight: bold; font-size: 16px; user-select: none; text-shadow: none;
@@ -412,44 +405,41 @@
     .memo-delete:hover { opacity: 1 !important; transform: scale(1.1); }
     @media (max-width: 768px) { .memo-delete { opacity: 0.8; } }
 
-    /* 字数统计 */
     .memo-input-wrap { position: relative; }
     #memo-new-record {
-      width: 100%; background: rgba(128,128,128,0.08); border: 1px solid var(--border-color);
+      width: 100%; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,0,127,0.5);
       outline: none; border-radius: 8px; padding: 12px 48px 12px 12px;
-      color: var(--text-main); font-size: 14px; transition: all var(--transition-fast); font-family: inherit;
+      color: #fff; font-size: 14px; transition: all var(--transition-fast); font-family: inherit;
     }
-    #memo-new-record:focus { background: var(--bg-sidebar); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,122,255,0.15); }
+    #memo-new-record:focus { border-color: #ff007f; box-shadow: 0 0 0 3px rgba(255,0,127,0.2); }
     #memo-char-count {
       position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-      font-size: 11px; color: var(--text-sub); pointer-events: none; opacity: 0;
+      font-size: 11px; color: rgba(255,255,255,0.5); pointer-events: none; opacity: 0;
       transition: opacity var(--transition-fast);
     }
     #memo-new-record:focus ~ #memo-char-count { opacity: 1; }
 
-    /* ── 恐慌覆盖层 ── */
     #panic-overlay {
-      position: fixed; inset: 0; background: #ffffff; z-index: 99999;
+      position: fixed; inset: 0; background: #000; z-index: 99999;
       display: flex; align-items: center; justify-content: center;
       text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; font-family: monospace;
     }
     #panic-overlay.active { opacity: 1; pointer-events: auto; }
     .glitch-wrapper { position: relative; }
-    .glitch { font-size: 100px; margin: 0; color: #333; position: relative; font-weight: bold; text-shadow: none; }
+    .glitch { font-size: 100px; margin: 0; color: #fff; position: relative; font-weight: bold; text-shadow: none; }
     .glitch::before, .glitch::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8; }
-    .glitch::before { left: 2px; text-shadow: -2px 0 red; clip: rect(24px,550px,90px,0); animation: glitch-anim 2.5s infinite linear alternate-reverse; }
-    .glitch::after { left: -2px; text-shadow: -2px 0 blue; clip: rect(85px,550px,140px,0); animation: glitch-anim 3s infinite linear alternate-reverse; }
+    .glitch::before { left: 2px; text-shadow: -2px 0 #ff007f; clip: rect(24px,550px,90px,0); animation: glitch-anim 2.5s infinite linear alternate-reverse; }
+    .glitch::after { left: -2px; text-shadow: -2px 0 #00f3ff; clip: rect(85px,550px,140px,0); animation: glitch-anim 3s infinite linear alternate-reverse; }
     @keyframes glitch-anim {
       0%{clip:rect(11px,9999px,86px,0)} 20%{clip:rect(65px,9999px,13px,0)}
       40%{clip:rect(100px,9999px,10px,0)} 60%{clip:rect(3px,9999px,80px,0)}
       80%{clip:rect(40px,9999px,15px,0)} 100%{clip:rect(95px,9999px,50px,0)}
     }
 
-    /* ── Toast ── */
     .toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
     .toast {
-      background: rgba(0,0,0,0.85); color: #0f0; font-family: monospace; font-size: 14px;
-      padding: 12px 24px; border-radius: 8px; border: 1px solid #0f0; box-shadow: 0 0 15px rgba(0,255,0,0.3); text-shadow: none;
+      background: rgba(0,0,0,0.85); color: #00f3ff; font-family: monospace; font-size: 14px;
+      padding: 12px 24px; border-radius: 8px; border: 1px solid #00f3ff; box-shadow: 0 0 15px rgba(0,243,255,0.3); text-shadow: none;
       animation: toast-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards, toast-out 0.3s 2.5s forwards;
     }
     @keyframes toast-in { from{transform:translateY(100%);opacity:0} to{transform:translateY(0);opacity:1} }
@@ -468,7 +458,7 @@
         position: sticky; top: 0; z-index: 900; flex-shrink: 0;
       }
       .mh-left { display: flex; align-items: center; gap: 16px; flex: 1; }
-      .mh-logo { color: #ff3b30; font-size: 26px; animation: heartbeat 1.5s infinite; cursor: pointer; text-shadow: none; }
+      .mh-logo { color: #ff007f; font-size: 26px; cursor: pointer; text-shadow: 0 0 10px #ff007f; }
       .mh-search-box { flex: 1; position: relative; }
       .mh-search-box input {
         width: 100%; padding: 10px 36px 10px 36px; border-radius: var(--radius-sm); font-size: 16px;
@@ -480,13 +470,13 @@
 
       aside {
         position: fixed; top: 0; left: -100%; bottom: 0; width: 280px; height: 100dvh;
-        transition: left var(--transition-smooth); box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+        transition: left var(--transition-smooth); box-shadow: 10px 0 30px rgba(0,0,0,0.5);
       }
       aside.open { left: 0; }
       
       .mobile-overlay {
-        display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.4);
-        backdrop-filter: blur(2px); z-index: 990;
+        display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+        backdrop-filter: blur(4px); z-index: 990;
         opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
       }
       .mobile-overlay.open { opacity: 1; pointer-events: auto; }
@@ -501,7 +491,10 @@
     }
   </style>
 </head>
+
 <body class="dark-mode">
+
+  <div id="webgl-container" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; background: #030305; pointer-events: none;"></div>
 
   <div id="read-progress"></div>
   <div class="toast-container" id="toast-container"></div>
@@ -517,22 +510,21 @@
 
   <div id="shortcut-panel" onclick="if(event.target===this)toggleShortcuts()">
     <div class="shortcut-card">
-      <h3>⌨️ 快捷键一览</h3>
-      <div class="shortcut-row"><span>打开搜索</span><span><kbd>Ctrl</kbd>+<kbd>K</kbd></span></div>
-      <div class="shortcut-row"><span>查看收藏</span><span><kbd>F</kbd></span></div>
-      <div class="shortcut-row"><span>关闭此面板</span><span><kbd>?</kbd> 或点击背景</span></div>
+      <h3>⌨️ 系统控制终端</h3>
+      <div class="shortcut-row"><span>开启全局检索</span><span><kbd>Ctrl</kbd>+<kbd>K</kbd></span></div>
+      <div class="shortcut-row"><span>定位星标档案</span><span><kbd>F</kbd></span></div>
+      <div class="shortcut-row"><span>终止此面板</span><span><kbd>?</kbd> 或 单击虚空</span></div>
     </div>
   </div>
 
   <div id="splash">
     <div class="splash-quote">
       <p style="font-size:28px;text-align:left;line-height:1.8;">
-        走了很长的路，也见过很多风景。<br>
-        唯独星空深处的那轮明月最不认生。<br>
-        它在异乡的窗前，守着当年我在故乡没做完的梦。<br>
+        系统初始化协议已注入...<br>
+        赛博神经网格构建完成。<br>
         <br><br>
-        回头看，<span onclick="closeSplash()" style="cursor:pointer;touch-action:manipulation;padding:10px 5px;margin:-10px -5px;position:relative;z-index:10;">轻舟</span>已过万重山；<br>
-        向前看，长路漫漫亦灿烂。
+        向下潜入，<span onclick="closeSplash()" style="cursor:pointer;touch-action:manipulation;padding:10px 5px;margin:-10px -5px;position:relative;z-index:10;color:#00f3ff;border-bottom:1px solid #00f3ff;">建立连接</span>；<br>
+        欢迎来到深空档案库。
       </p>
     </div>
   </div>
@@ -552,7 +544,7 @@
         </div>
         <div class="mh-search-box">
           <i class="ri-search-2-line search-icon"></i>
-          <input type="text" class="search-input" placeholder="搜点什么...">
+          <input type="text" class="search-input" placeholder="输入指令信号...">
           <i class="ri-close-circle-fill search-clear" id="search-clear-mobile" title="清空"></i>
         </div>
       </div>
@@ -560,7 +552,7 @@
     </div>
 
     <aside id="sidebar">
-      <div class="brand" id="theme-toggle" title="切换主题 (T)" style="justify-content: center; margin-bottom: 20px;">
+      <div class="brand" id="theme-toggle" title="切换模式 (T)" style="justify-content: center; margin-bottom: 20px;">
         <model-viewer 
           src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
           alt="3D 宇航员 Logo" 
@@ -575,7 +567,7 @@
         
       <div class="search-box">
         <i class="ri-search-2-line search-icon"></i>
-        <input type="text" class="search-input" id="search-input" placeholder="搜点什么 (Ctrl+K)">
+        <input type="text" class="search-input" id="search-input" placeholder="输入指令信号 (Ctrl+K)">
         <i class="ri-close-circle-fill search-clear" id="search-clear-desktop" title="清空"></i>
       </div>
       <div class="search-hint" id="search-hint"></div>
@@ -583,14 +575,14 @@
       <div class="nav-scroll" id="nav-container"></div>
 
       <div class="aside-footer">
-        <div class="time-badge">
+        <div class="time-badge" style="border-color:#00f3ff; box-shadow:0 0 10px rgba(0,243,255,0.2);">
           <span id="date-pill" style="margin-right:4px;"></span>
-          <span id="time-pill" style="font-weight:600;">00:00</span>
-          <span class="time-greeting" id="time-greeting">你好</span>
+          <span id="time-pill" style="font-weight:600;color:#00f3ff;">00:00</span>
+          <span class="time-greeting" id="time-greeting">在线</span>
         </div>
         <div style="display: flex; gap: 8px;">
-          <div class="shortcut-btn" onclick="toggleShortcuts()" title="快捷键 (?)">
-            <i class="ri-keyboard-line"></i>
+          <div class="shortcut-btn" onclick="toggleShortcuts()" title="控制终端 (?)">
+            <i class="ri-terminal-box-line"></i>
           </div>
         </div>
       </div>
@@ -599,17 +591,17 @@
     <main id="main-content">
       <div class="hero-quote">
         <div class="quote-text">
-          天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo()">凌云</span>之志。
+          肉体苦弱，机械飞升。<br>我在深渊底层的网络节点里，<br>植入了这颗<span class="secret-trigger" onclick="toggleMemo()" style="color:#ff007f;text-shadow:0 0 8px #ff007f;">幽灵</span>的种子。
         </div>
-        <div class="quote-sub">Long live freedom / The Visual Archive</div>
+        <div class="quote-sub" style="color:#00f3ff;">Cyber-Archive / Neural Network Initialized</div>
       </div>
 
       <a class="time-capsule" href="https://archive.org/" target="_blank" rel="noopener noreferrer">
         <div class="capsule-left">
-          <div class="capsule-icon-box"><i class="ri-bank-line"></i></div>
+          <div class="capsule-icon-box"><i class="ri-database-2-line"></i></div>
           <div class="capsule-info">
             <span class="capsule-title">互联网档案馆</span>
-            <span class="capsule-desc">历史数据库</span>
+            <span class="capsule-desc">上个纪元的人类历史备份</span>
           </div>
         </div>
         <div class="capsule-arrow"><i class="ri-arrow-right-line"></i></div>
@@ -617,21 +609,21 @@
 
       <div class="section-block" id="sec-favorites" style="display:none;">
         <div class="section-header">
-          <div class="section-title">⭐ 收藏</div>
-          <div class="section-count" id="fav-count">0 items</div>
+          <div class="section-title">⭐ 星标核心</div>
+          <div class="section-count" id="fav-count">0 nodes</div>
         </div>
         <div class="grid" id="fav-grid">
-          <div id="fav-empty">还没有收藏，点击卡片右上角的 ★ 即可收藏</div>
+          <div id="fav-empty">尚未捕获任何高优先级的锚点信号...</div>
         </div>
       </div>
 
       <div id="empty-state" class="hidden">
-        <i class="ri-ghost-line"></i>
-        <p>当前象限未捕捉到相关信号...</p>
+        <i class="ri-radar-line" style="color:#00f3ff;"></i>
+        <p>雷达扫描结束...当前象限未发现匹配节点</p>
       </div>
 
       <div class="section-block" id="sec-daily" data-icon="ri-newspaper-line">
-        <div class="section-header"><div class="section-title">资讯</div><div class="section-count">Tech & Startup Feed</div></div>
+        <div class="section-header"><div class="section-title">资讯</div><div class="section-count">Tech Feed</div></div>
         <div class="grid">
           <a class="card" href="https://36kr.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="36kr" data-title="36氪" data-desc="科技创投" data-icon="📰" data-href="https://36kr.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">📰</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">36氪</div><div class="card-desc">科技创投</div></div></a>
           <a class="card" href="https://sspai.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="sspai" data-title="少数派" data-desc="高效数码" data-icon="📱" data-href="https://sspai.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">📱</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">少数派</div><div class="card-desc">高效数码</div></div></a>
@@ -645,7 +637,7 @@
       </div>
 
       <div class="section-block" id="sec-news" data-icon="ri-global-line">
-        <div class="section-header"><div class="section-title">权威新闻</div><div class="section-count">Global & Authoritative News</div></div>
+        <div class="section-header"><div class="section-title">权威新闻</div><div class="section-count">Global Matrix</div></div>
         <div class="grid">
           <a class="card" href="https://www.reuters.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="reuters" data-title="路透社" data-desc="国际新闻" data-icon="🌐" data-href="https://www.reuters.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">路透社</div><div class="card-desc">国际新闻</div></div></a>
           <a class="card" href="https://apnews.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="apnews" data-title="美联社" data-desc="权威新闻" data-icon="📡" data-href="https://apnews.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">📡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">美联社</div><div class="card-desc">权威新闻</div></div></a>
@@ -659,7 +651,7 @@
       </div>
 
       <div class="section-block" id="sec-ai" data-icon="ri-brain-line">
-        <div class="section-header"><div class="section-title">AI</div><div class="section-count">Artificial Intelligence</div></div>
+        <div class="section-header"><div class="section-title">AI 集群</div><div class="section-count">Neural Network Cores</div></div>
         <div class="grid">
           <a class="card" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="chatgpt" data-title="ChatGPT" data-desc="AI对话" data-icon="🧠" data-href="https://chatgpt.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🧠</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">ChatGPT</div><div class="card-desc">AI对话</div></div></a>
           <a class="card" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="gemini" data-title="Gemini" data-desc="谷歌AI" data-icon="✨" data-href="https://gemini.google.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gemini</div><div class="card-desc">谷歌AI</div></div></a>
@@ -671,12 +663,11 @@
           <a class="card" href="https://elevenlabs.io" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="elevenlabs" data-title="ElevenLabs" data-desc="AI配音" data-icon="🎙️" data-href="https://elevenlabs.io" title="收藏">★</div><div class="card-head"><div class="icon-box">🎙️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">ElevenLabs</div><div class="card-desc">AI配音</div></div></a>
           <a class="card" href="https://gamma.app" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="gamma" data-title="Gamma" data-desc="AI做PPT" data-icon="📊" data-href="https://gamma.app" title="收藏">★</div><div class="card-head"><div class="icon-box">📊</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gamma</div><div class="card-desc">AI做PPT</div></div></a>
           <a class="card" href="https://www.nvidia.com/en-us/research/ai-playground" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="nvidiaai" data-title="Nvidia AI" data-desc="英伟达AI" data-icon="🟢" data-href="https://www.nvidia.com/en-us/research/ai-playground" title="收藏">★</div><div class="card-head"><div class="icon-box">🟢</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Nvidia AI</div><div class="card-desc">英伟达AI</div></div></a>
-          <a class="card" href="https://futurepedia.io" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="futurepedia" data-title="Futurepedia" data-desc="AI导航" data-icon="🧭" data-href="https://futurepedia.io" title="收藏">★</div><div class="card-head"><div class="icon-box">🧭</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Futurepedia</div><div class="card-desc">AI导航</div></div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-webmaster" data-icon="ri-server-line">
-        <div class="section-header"><div class="section-title">站长</div><div class="section-count">Webmaster & Infrastructure</div></div>
+        <div class="section-header"><div class="section-title">基建</div><div class="section-count">Infrastructure & Network</div></div>
         <div class="grid">
           <a class="card" href="https://dashboard.decodo.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="decodo" data-title="Decodo" data-desc="高匿代理" data-icon="🎛️" data-href="https://dashboard.decodo.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🎛️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Decodo</div><div class="card-desc">高匿代理</div></div></a>
           <a class="card" href="https://github.com/dh6598726-stack/woaibixia" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="github" data-title="GitHub" data-desc="代码托管" data-icon="📦" data-href="https://github.com/dh6598726-stack/woaibixia" title="收藏">★</div><div class="card-head"><div class="icon-box">📦</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">GitHub</div><div class="card-desc">代码托管</div></div></a>
@@ -691,20 +682,17 @@
       </div>
 
       <div class="section-block" id="sec-geek" data-icon="ri-shield-keyhole-line">
-        <div class="section-header"><div class="section-title">代码</div><div class="section-count">Development & Cybersecurity</div></div>
+        <div class="section-header"><div class="section-title">黑客</div><div class="section-count">Cybersecurity & Terminal</div></div>
         <div class="grid">
           <a class="card" href="https://stackoverflow.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="stackoverflow" data-title="StackOverflow" data-desc="技术问答" data-icon="💡" data-href="https://stackoverflow.com" title="收藏">★</div><div class="card-head"><div class="icon-box">💡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">StackOverflow</div><div class="card-desc">技术问答</div></div></a>
           <a class="card" href="https://replit.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="replit" data-title="Replit" data-desc="在线写代码" data-icon="💻" data-href="https://replit.com" title="收藏">★</div><div class="card-head"><div class="icon-box">💻</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Replit</div><div class="card-desc">在线写代码</div></div></a>
           <a class="card" href="https://codepen.io" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="codepen" data-title="CodePen" data-desc="前端代码" data-icon="🧪" data-href="https://codepen.io" title="收藏">★</div><div class="card-head"><div class="icon-box">🧪</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">CodePen</div><div class="card-desc">前端代码</div></div></a>
-          <a class="card" href="https://lusion.co/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="lusion" data-title="Lusion" data-desc="3D前端" data-icon="✨" data-href="https://lusion.co/" title="收藏">★</div><div class="card-head"><div class="icon-box">✨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Lusion</div><div class="card-desc">3D前端</div></div></a>
-          <a class="card" href="https://geektyper.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="geektyper" data-title="Geektyper" data-desc="KVD" data-icon="⌨️" data-href="https://geektyper.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">⌨️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Geektyper</div><div class="card-desc">KIH</div></div></a>
+          <a class="card" href="https://geektyper.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="geektyper" data-title="Geektyper" data-desc="KVD" data-icon="⌨️" data-href="https://geektyper.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">⌨️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Geektyper</div><div class="card-desc">装X终端</div></div></a>
           <a class="card" href="https://ping.pe" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="pingpe" data-title="Ping.pe" data-desc="连通测试" data-icon="📡" data-href="https://ping.pe" title="收藏">★</div><div class="card-head"><div class="icon-box">📡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Ping.pe</div><div class="card-desc">连通测试</div></div></a>
           <a class="card" href="https://www.hackerone.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="hackerone" data-title="HackerOne" data-desc="漏洞悬赏" data-icon="🛡️" data-href="https://www.hackerone.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🛡️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">HackerOne</div><div class="card-desc">漏洞悬赏</div></div></a>
           <a class="card" href="https://www.bugcrowd.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="bugcrowd" data-title="Bugcrowd" data-desc="安全众测" data-icon="🏢" data-href="https://www.bugcrowd.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🏢</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Bugcrowd</div><div class="card-desc">安全众测</div></div></a>
-          <a class="card" href="https://tryhackme.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="tryhackme" data-title="TryHackMe" data-desc="网安学习" data-icon="🎓" data-href="https://tryhackme.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🎓</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">TryHackMe</div><div class="card-desc">网安</div></div></a>
-          <a class="card" href="https://www.hackthebox.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="hackthebox" data-title="HackTheBox" data-desc="攻防演练" data-icon="🧨" data-href="https://www.hackthebox.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🧨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">HackTheBox</div><div class="card-desc">攻防</div></div></a>
+          <a class="card" href="https://tryhackme.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="tryhackme" data-title="TryHackMe" data-desc="网安学习" data-icon="🎓" data-href="https://tryhackme.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🎓</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">TryHackMe</div><div class="card-desc">网安攻防</div></div></a>
           <a class="card" href="https://www.exploit-db.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="exploitdb" data-title="Exploit-DB" data-desc="漏洞库" data-icon="📂" data-href="https://www.exploit-db.com" title="收藏">★</div><div class="card-head"><div class="icon-box">📂</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Exploit-DB</div><div class="card-desc">漏洞库</div></div></a>
-          <a class="card" href="https://owasp.org" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="owasp" data-title="OWASP" data-desc="安全规范" data-icon="📜" data-href="https://owasp.org" title="收藏">★</div><div class="card-head"><div class="icon-box">📜</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">OWASP</div><div class="card-desc">安全规范</div></div></a>
           <a class="card" href="https://www.kali.org" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="kali" data-title="Kali Linux" data-desc="渗透系统" data-icon="🐉" data-href="https://www.kali.org" title="收藏">★</div><div class="card-head"><div class="icon-box">🐉</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Kali Linux</div><div class="card-desc">渗透系统</div></div></a>
           <a class="card" href="https://www.reddit.com/r/netsec/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="netsec" data-title="Netsec" data-desc="网安社区" data-icon="🧬" data-href="https://www.reddit.com/r/netsec/" title="收藏">★</div><div class="card-head"><div class="icon-box">🧬</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Netsec</div><div class="card-desc">网安社区</div></div></a>
           <a class="card" href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="virustotal" data-title="VirusTotal" data-desc="免费查毒" data-icon="🧫" data-href="https://www.virustotal.com/gui/home/upload" title="收藏">★</div><div class="card-head"><div class="icon-box">🧫</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">VirusTotal</div><div class="card-desc">免费查毒</div></div></a>
@@ -714,76 +702,45 @@
       </div>
 
       <div class="section-block" id="sec-design" data-icon="ri-palette-line">
-        <div class="section-header"><div class="section-title">视觉</div><div class="section-count">Design & Assets</div></div>
+        <div class="section-header"><div class="section-title">视觉</div><div class="section-count">Design Assets</div></div>
         <div class="grid">
           <a class="card" href="https://www.pinterest.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="pinterest" data-title="Pinterest" data-desc="图片分享" data-icon="🖼️" data-href="https://www.pinterest.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Pinterest</div><div class="card-desc">图片分享</div></div></a>
           <a class="card" href="https://www.behance.net" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="behance" data-title="Behance" data-desc="作品展示" data-icon="🎨" data-href="https://www.behance.net" title="收藏">★</div><div class="card-head"><div class="icon-box">🎨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Behance</div><div class="card-desc">作品展示</div></div></a>
           <a class="card" href="https://huaban.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="huaban" data-title="花瓣网" data-desc="素材采集" data-icon="🌸" data-href="https://huaban.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🌸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">花瓣网</div><div class="card-desc">素材采集</div></div></a>
           <a class="card" href="https://unsplash.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="unsplash" data-title="Unsplash" data-desc="免费图库" data-icon="📷" data-href="https://unsplash.com" title="收藏">★</div><div class="card-head"><div class="icon-box">📷</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Unsplash</div><div class="card-desc">免费图库</div></div></a>
           <a class="card" href="https://www.pexels.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="pexels" data-title="Pexels" data-desc="免费素材" data-icon="📸" data-href="https://www.pexels.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Pexels</div><div class="card-desc">免费素材</div></div></a>
-          <a class="card" href="https://pixabay.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="pixabay" data-title="Pixabay" data-desc="无版权图" data-icon="🌄" data-href="https://pixabay.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🌄</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Pixabay</div><div class="card-desc">无版权图</div></div></a>
-          <a class="card" href="https://wallhaven.cc/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="wallhaven" data-title="Wallhaven" data-desc="高清壁纸" data-icon="🖼️" data-href="https://wallhaven.cc/" title="收藏">★</div><div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Wallhaven</div><div class="card-desc">高清壁纸</div></div></a>
-          <a class="card" href="https://wallpaperswide.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="wallpaperswide" data-title="高清壁纸" data-desc="电脑壁纸" data-icon="🖥️" data-href="https://wallpaperswide.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🖥️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">高清壁纸</div><div class="card-desc">电脑壁纸</div></div></a>
-          <a class="card" href="https://pic.netbian.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="netbian" data-title="彼岸图网" data-desc="4K壁纸" data-icon="🌉" data-href="https://pic.netbian.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🌉</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">彼岸图网</div><div class="card-desc">4K壁纸</div></div></a>
           <a class="card" href="https://coolbackgrounds.io/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="coolbg" data-title="Cool BG" data-desc="生成背景" data-icon="🟦" data-href="https://coolbackgrounds.io/" title="收藏">★</div><div class="card-head"><div class="icon-box">🟦</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Cool BG</div><div class="card-desc">生成背景</div></div></a>
           <a class="card" href="https://www.photopea.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="photopea" data-title="Photopea" data-desc="在线PS" data-icon="🖊️" data-href="https://www.photopea.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🖊️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Photopea</div><div class="card-desc">在线PS</div></div></a>
           <a class="card" href="https://www.remove.bg" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="removebg" data-title="Remove.bg" data-desc="智能抠图" data-icon="✂️" data-href="https://www.remove.bg" title="收藏">★</div><div class="card-head"><div class="icon-box">✂️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Remove.bg</div><div class="card-desc">智能抠图</div></div></a>
-          <a class="card" href="https://www.canva.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="canva" data-title="Canva" data-desc="在线设计" data-icon="🎨" data-href="https://www.canva.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🎨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Canva</div><div class="card-desc">在线设计</div></div></a>
-          <a class="card" href="https://informationisbeautiful.net" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="infobeautiful" data-title="美丽数据" data-desc="数据可视化" data-icon="📈" data-href="https://informationisbeautiful.net" title="收藏">★</div><div class="card-head"><div class="icon-box">📈</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">美丽数据</div><div class="card-desc">数据可视化</div></div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-explore" data-icon="ri-earth-line">
-        <div class="section-header"><div class="section-title">探索</div><div class="section-count">Explore & Global Monitor</div></div>
+        <div class="section-header"><div class="section-title">监界</div><div class="section-count">Global Monitor</div></div>
         <div class="grid">
           <a class="card" href="https://earth.google.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="googleearth" data-title="谷歌地球" data-desc="3D地球仪" data-icon="🌎" data-href="https://earth.google.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🌎</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌地球</div><div class="card-desc">3D地球仪</div></div></a>
-          <a class="card" href="https://www.skyscanner.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="skyscanner" data-title="天巡" data-desc="航班比价" data-icon="🎫" data-href="https://www.skyscanner.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🎫</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">天巡</div><div class="card-desc">航班比价</div></div></a>
-          <a class="card" href="https://www.flightconnections.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="flightconn" data-title="全球航线图" data-desc="直飞航线" data-icon="🛫" data-href="https://www.flightconnections.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🛫</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">全球航线图</div><div class="card-desc">直飞航线</div></div></a>
-          <a class="card" href="https://www.atlasobscura.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="atlasobscura" data-title="奇趣地图" data-desc="小众景点" data-icon="🗺️" data-href="https://www.atlasobscura.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🗺️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">奇趣地图</div><div class="card-desc">小众景点</div></div></a>
           <a class="card" href="https://www.earthcam.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="earthcam" data-title="EarthCam" data-desc="实况监控" data-icon="📹" data-href="https://www.earthcam.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">📹</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">EarthCam</div><div class="card-desc">实况监控</div></div></a>
           <a class="card" href="https://www.webcams.travel/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="webcamstravel" data-title="旅游镜头" data-desc="风景快照" data-icon="🔭" data-href="https://www.webcams.travel/" title="收藏">★</div><div class="card-head"><div class="icon-box">🔭</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">旅游镜头</div><div class="card-desc">风景快照</div></div></a>
-          <a class="card" href="http://www.window-swap.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="windowswap" data-title="WindowSwap" data-desc="全球窗景" data-icon="🪟" data-href="http://www.window-swap.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🪟</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">WindowSwap</div><div class="card-desc">全球窗景</div></div></a>
-          <a class="card" href="http://www.window-swap-japan.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="windowjapan" data-title="日本窗景" data-desc="日本窗景" data-icon="🗾" data-href="http://www.window-swap-japan.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🗾</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">日本窗景</div><div class="card-desc">日本窗景</div></div></a>
-          <a class="card" href="https://www.mapcrunch.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="mapcrunch" data-title="MapCrunch" data-desc="随机街景" data-icon="🧭" data-href="https://www.mapcrunch.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🧭</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">MapCrunch</div><div class="card-desc">随机街景</div></div></a>
-          <a class="card" href="https://www.thesecretdoor.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="secretdoor" data-title="任意门" data-desc="随机场景" data-icon="🚪" data-href="https://www.thesecretdoor.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🚪</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">任意门</div><div class="card-desc">随机场景</div></div></a>
-          <a class="card" href="https://explore.org/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="exploreorg" data-title="自然生态" data-desc="生态直播" data-icon="🐼" data-href="https://explore.org/" title="收藏">★</div><div class="card-head"><div class="icon-box">🐼</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">自然生态</div><div class="card-desc">生态直播</div></div></a>
-          <a class="card" href="http://www.virtualwindow.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="virtualwindow" data-title="虚拟视窗" data-desc="虚拟风景" data-icon="🖼️" data-href="http://www.virtualwindow.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">虚拟视窗</div><div class="card-desc">虚拟风景</div></div></a>
-          <a class="card" href="https://apod.nasa.gov/apod/astropix.html" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="nasa" data-title="NASA每日图" data-desc="每日天文图" data-icon="🚀" data-href="https://apod.nasa.gov/apod/astropix.html" title="收藏">★</div><div class="card-head"><div class="icon-box">🚀</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">NASA每日图</div><div class="card-desc">每日天文图</div></div></a>
-          <a class="card" href="https://pointerpointer.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="pointer" data-title="看手指" data-desc="指尖照片" data-icon="👉" data-href="https://pointerpointer.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">👉</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">看手指</div><div class="card-desc">指尖照片</div></div></a>
           <a class="card" href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="cframdar" data-title="流量雷达" data-desc="流量趋势" data-icon="🌐" data-href="https://radar.cloudflare.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🌐</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">流量雷达</div><div class="card-desc">流量趋势</div></div></a>
           <a class="card" href="https://www.flightradar24.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="flightradar" data-title="实时航班" data-desc="追踪客机" data-icon="🛫" data-href="https://www.flightradar24.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🛫</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">实时航班</div><div class="card-desc">追踪客机</div></div></a>
           <a class="card" href="https://www.marinetraffic.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="marinetraffic" data-title="实时货轮" data-desc="监控货轮" data-icon="🚢" data-href="https://www.marinetraffic.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🚢</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">实时货轮</div><div class="card-desc">监控货轮</div></div></a>
           <a class="card" href="https://www.submarinecablemap.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="cablemap" data-title="海底光缆图" data-desc="海底电缆" data-icon="🌊" data-href="https://www.submarinecablemap.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🌊</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">海底光缆图</div><div class="card-desc">海底电缆</div></div></a>
-          <a class="card" href="https://stat.ripe.net/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="ripe" data-title="BGP 数据站" data-desc="路由查询" data-icon="🧷" data-href="https://stat.ripe.net/" title="收藏">★</div><div class="card-head"><div class="icon-box">🧷</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">BGP 数据站</div><div class="card-desc">路由查询</div></div></a>
-          <a class="card" href="https://ourworldindata.org/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="ourworld" data-title="宏观数据" data-desc="宏观图表" data-icon="📊" data-href="https://ourworldindata.org/" title="收藏">★</div><div class="card-head"><div class="icon-box">📊</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">宏观数据</div><div class="card-desc">宏观图表</div></div></a>
           <a class="card" href="https://earthquake.usgs.gov/earthquakes/map/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="earthquake" data-title="实时地震" data-desc="地震监测" data-icon="🌋" data-href="https://earthquake.usgs.gov/earthquakes/map/" title="收藏">★</div><div class="card-head"><div class="icon-box">🌋</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">实时地震</div><div class="card-desc">地震监测</div></div></a>
           <a class="card" href="https://firms.modaps.eosdis.nasa.gov/map/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="nasafires" data-title="全球火灾" data-desc="火灾监控" data-icon="🔥" data-href="https://firms.modaps.eosdis.nasa.gov/map/" title="收藏">★</div><div class="card-head"><div class="icon-box">🔥</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">全球火灾</div><div class="card-desc">火灾监控</div></div></a>
-          <a class="card" href="https://www.swpc.noaa.gov/products/aurora-30-minute-forecast" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="aurora" data-title="极光预测" data-desc="极光预测" data-icon="🌌" data-href="https://www.swpc.noaa.gov/products/aurora-30-minute-forecast" title="收藏">★</div><div class="card-head"><div class="icon-box">🌌</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">极光预测</div><div class="card-desc">极光预测</div></div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-utils" data-icon="ri-hammer-line">
-        <div class="section-header"><div class="section-title">工具</div><div class="section-count">Tools, Search & Crypto</div></div>
+        <div class="section-header"><div class="section-title">挂载组件</div><div class="section-count">Tools & Addons</div></div>
         <div class="grid">
           <a class="card" href="https://www.google.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="google" data-title="谷歌搜索" data-desc="搜索引擎" data-icon="🔎" data-href="https://www.google.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌搜索</div><div class="card-desc">搜索引擎</div></div></a>
           <a class="card" href="https://mail.google.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="gmail" data-title="Gmail" data-desc="谷歌邮箱" data-icon="✉️" data-href="https://mail.google.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">✉️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gmail</div><div class="card-desc">谷歌邮箱</div></div></a>
-          <a class="card" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="googledrive" data-title="Google云盘" data-desc="谷歌网盘" data-icon="☁️" data-href="https://drive.google.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">☁️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Google云盘</div><div class="card-desc">谷歌网盘</div></div></a>
-          <a class="card" href="https://maps.google.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="googlemaps" data-title="谷歌地图" data-desc="地图导航" data-icon="🗺️" data-href="https://maps.google.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🗺️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌地图</div><div class="card-desc">地图导航</div></div></a>
-          <a class="card" href="https://www.wikipedia.org/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="wikipedia" data-title="维基百科" data-desc="百科全书" data-icon="📚" data-href="https://www.wikipedia.org/" title="收藏">★</div><div class="card-head"><div class="icon-box">📚</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">维基百科</div><div class="card-desc">百科全书</div></div></a>
-          <a class="card" href="https://images.google.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="googleimages" data-title="谷歌识图" data-desc="官方搜图" data-icon="🖼️" data-href="https://images.google.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🖼️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">谷歌识图</div><div class="card-desc">官方搜图</div></div></a>
           <a class="card" href="https://yandex.com/images" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="yandex" data-title="Yandex搜图" data-desc="高精搜图" data-icon="🔍" data-href="https://yandex.com/images" title="收藏">★</div><div class="card-head"><div class="icon-box">🔍</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Yandex搜图</div><div class="card-desc">高精搜图</div></div></a>
-          <a class="card" href="https://pindown.io/en1" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="pindown" data-title="Pin 下载器" data-desc="无水印下载" data-icon="📌" data-href="https://pindown.io/en1" title="收藏">★</div><div class="card-head"><div class="icon-box">📌</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Pin 下载器</div><div class="card-desc">无水印下载</div></div></a>
           <a class="card" href="https://trace.moe" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="tracemoe" data-title="Trace.moe" data-desc="动漫搜图" data-icon="🔎" data-href="https://trace.moe" title="收藏">★</div><div class="card-head"><div class="icon-box">🔎</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Trace.moe</div><div class="card-desc">动漫搜图</div></div></a>
-          <a class="card" href="https://www.wikihow.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="wikihow" data-title="WikiHow" data-desc="生活指南" data-icon="📘" data-href="https://www.wikihow.com" title="收藏">★</div><div class="card-head"><div class="icon-box">📘</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">WikiHow</div><div class="card-desc">生活指南</div></div></a>
           <a class="card" href="https://www.speedtest.net" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="speedtest" data-title="Speedtest" data-desc="网速测试" data-icon="⚡" data-href="https://www.speedtest.net" title="收藏">★</div><div class="card-head"><div class="icon-box">⚡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Speedtest</div><div class="card-desc">网速测试</div></div></a>
           <a class="card" href="https://tinywow.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="tinywow" data-title="TinyWow" data-desc="多功能工具" data-icon="🧰" data-href="https://tinywow.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🧰</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">TinyWow</div><div class="card-desc">多功能工具</div></div></a>
-          <a class="card" href="https://www.ilovepdf.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="ilovepdf" data-title="iLovePDF" data-desc="PDF工具" data-icon="📄" data-href="https://www.ilovepdf.com" title="收藏">★</div><div class="card-head"><div class="icon-box">📄</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">iLovePDF</div><div class="card-desc">PDF工具</div></div></a>
-          <a class="card" href="https://gumroad.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="gumroad" data-title="Gumroad" data-desc="数字交易" data-icon="💸" data-href="https://gumroad.com" title="收藏">★</div><div class="card-head"><div class="icon-box">💸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Gumroad</div><div class="card-desc">数字交易</div></div></a>
           <a class="card" href="https://www.suijidaquan.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="randcc" data-title="随机信用卡" data-desc="随机信息" data-icon="🎲" data-href="https://www.suijidaquan.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🎲</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">随机信用卡</div><div class="card-desc">随机信息</div></div></a>
-          <a class="card" href="https://www.coinepay.net" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="coinepay" data-title="Coinepay" data-desc="海外虚拟卡" data-icon="💳" data-href="https://www.coinepay.net" title="收藏">★</div><div class="card-head"><div class="icon-box">💳</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Coinepay</div><div class="card-desc">海外虚拟卡</div></div></a>
-          <a class="card" href="https://www.buyaacc.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="buyacc" data-title="BuyAcc" data-desc="账号购买" data-icon="🛒" data-href="https://www.buyaacc.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🛒</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">BuyAcc</div><div class="card-desc">账号购买</div></div></a>
           <a class="card" href="https://www.10minutemail.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="10minmail" data-title="10分钟邮箱" data-desc="临时邮箱" data-icon="⌛" data-href="https://www.10minutemail.com" title="收藏">★</div><div class="card-head"><div class="icon-box">⌛</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">10分钟邮箱</div><div class="card-desc">临时邮箱</div></div></a>
-          <a class="card" href="https://mjjfaka.net/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="mjjfaka" data-title="MJJ发卡" data-desc="发卡平台" data-icon="🏪" data-href="https://mjjfaka.net/" title="收藏">★</div><div class="card-head"><div class="icon-box">🏪</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">MJJ发卡</div><div class="card-desc">发卡平台</div></div></a>
           <a class="card" href="https://www.binance.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="binance" data-title="币安" data-desc="加密交易所" data-icon="💰" data-href="https://www.binance.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">💰</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">币安</div><div class="card-desc">加密交易所</div></div></a>
           <a class="card" href="https://www.okx.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="okx" data-title="欧易 (OKX)" data-desc="加密交易" data-icon="🟢" data-href="https://www.okx.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🟢</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">欧易 (OKX)</div><div class="card-desc">加密交易</div></div></a>
           <a class="card" href="https://metamask.io/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="metamask" data-title="小狐狸钱包" data-desc="数字钱包" data-icon="🦊" data-href="https://metamask.io/" title="收藏">★</div><div class="card-head"><div class="icon-box">🦊</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">小狐狸钱包</div><div class="card-desc">数字钱包</div></div></a>
@@ -791,27 +748,22 @@
       </div>
 
       <div class="section-block" id="sec-social" data-icon="ri-discuss-line">
-        <div class="section-header"><div class="section-title">影音</div><div class="section-count">Social & Media</div></div>
+        <div class="section-header"><div class="section-title">信号</div><div class="section-count">Social Signals</div></div>
         <div class="grid">
           <a class="card" href="https://telegram.org/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="telegram" data-title="Telegram" data-desc="加密通讯" data-icon="✈️" data-href="https://telegram.org/" title="收藏">★</div><div class="card-head"><div class="icon-box">✈️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Telegram</div><div class="card-desc">加密通讯</div></div></a>
           <a class="card" href="https://x.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="twitter" data-title="X (Twitter)" data-desc="社交网络" data-icon="🕇" data-href="https://x.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🕇</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">X (Twitter)</div><div class="card-desc">社交网络</div></div></a>
-          <a class="card" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="facebook" data-title="Facebook" data-desc="社交媒体" data-icon="📘" data-href="https://www.facebook.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">📘</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Facebook</div><div class="card-desc">社交媒体</div></div></a>
-          <a class="card" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="instagram" data-title="Instagram" data-desc="视觉社交" data-icon="📸" data-href="https://www.instagram.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Instagram</div><div class="card-desc">视觉社交</div></div></a>
           <a class="card" href="https://signal.org/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="signal" data-title="Signal" data-desc="安全通讯" data-icon="📨" data-href="https://signal.org/" title="收藏">★</div><div class="card-head"><div class="icon-box">📨</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Signal</div><div class="card-desc">安全通讯</div></div></a>
-          <a class="card" href="https://www.reddit.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="reddit" data-title="Reddit" data-desc="网络论坛" data-icon="🍊" data-href="https://www.reddit.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🍊</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Reddit</div><div class="card-desc">网络论坛</div></div></a>
           <a class="card" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="youtube" data-title="YouTube" data-desc="视频分享" data-icon="▶️" data-href="https://www.youtube.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">▶️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">YouTube</div><div class="card-desc">视频分享</div></div></a>
           <a class="card" href="https://www.netflix.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="netflix" data-title="Netflix" data-desc="流媒体播放" data-icon="🎞️" data-href="https://www.netflix.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🎞️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Netflix</div><div class="card-desc">流媒体播放</div></div></a>
           <a class="card" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="spotify" data-title="Spotify" data-desc="流媒体音乐" data-icon="🎵" data-href="https://open.spotify.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">🎵</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Spotify</div><div class="card-desc">流媒体音乐</div></div></a>
           <a class="card" href="https://everynoise.com" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="everynoise" data-title="音乐地图" data-desc="音乐流派" data-icon="🎶" data-href="https://everynoise.com" title="收藏">★</div><div class="card-head"><div class="icon-box">🎶</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">音乐地图</div><div class="card-desc">音乐流派</div></div></a>
-          <a class="card" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="tiktok" data-title="TikTok" data-desc="短视频社交" data-icon="📱" data-href="https://www.tiktok.com/" title="收藏">★</div><div class="card-head"><div class="icon-box">📱</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">TikTok</div><div class="card-desc">短视频社交</div></div></a>
-          <a class="card" href="https://nf.video/银河录像局" target="_blank" rel="noopener noreferrer"><div class="card-fav" data-id="yinhejuxiang" data-title="银河录像局" data-desc="流媒体合租" data-icon="🎬" data-href="https://nf.video/银河录像局" title="收藏">★</div><div class="card-head"><div class="icon-box">🎬</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">银河录像局</div><div class="card-desc">流媒体合租</div></div></a>
         </div>
       </div>
 
       <div class="section-block sensitive-zone locked" id="sec-abyss" data-icon="ri-eye-off-line">
-        <div class="sensitive-mask"><div class="mask-badge">Confidential / NSFW</div></div>
+        <div class="sensitive-mask"><div class="mask-badge">Confidential / Darkweb</div></div>
         <div class="sensitive-blur">
-          <div class="section-header"><div class="section-title">深海与私藏</div><span class="section-count">Abyss & Gentleman</span></div>
+          <div class="section-header"><div class="section-title">深海</div><span class="section-count">Abyss Subnet</span></div>
           <div class="grid">
             <a class="card" href="https://www.torproject.org/zh-CN/download/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🧅</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Tor 浏览器</div><div class="card-desc">洋葱路由</div></div></a>
             <a class="card" href="https://fanqianglu.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🪜</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">翻墙路</div><div class="card-desc">VPN导航</div></div></a>
@@ -819,20 +771,14 @@
             <a class="card" href="https://fuun.fun/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🎡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Fuun.fun</div><div class="card-desc">两性社区</div></div></a>
             <a class="card" href="https://www.pornpics.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">👱‍♀️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">欧美图库</div><div class="card-desc">成人套图</div></div></a>
             <a class="card" href="https://www.junmeitu.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">💃</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">俊美图</div><div class="card-desc">女性写真</div></div></a>
-            <a class="card" href="https://www.91tulu.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🚗</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">91图鲁</div><div class="card-desc">成人图片</div></div></a>
             <a class="card" href="https://www.v2ph.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">微图</div><div class="card-desc">私房写真</div></div></a>
-            <a class="card" href="https://www.tblop.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📜</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">绅士列表</div><div class="card-desc">纯文本导航</div></div></a>
             <a class="card" href="https://theporndude.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🤠</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">色情向导</div><div class="card-desc">色情导航</div></div></a>
             <a class="card" href="https://pornhub.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🟧</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Pornhub</div><div class="card-desc">成人视频</div></div></a>
             <a class="card" href="https://www.xvideos.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">❌</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Xvideos</div><div class="card-desc">免费视频</div></div></a>
-            <a class="card" href="https://xhamster.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🐹</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">xHamster</div><div class="card-desc">视频社区</div></div></a>
-            <a class="card" href="https://www.eporner.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📺</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Eporner</div><div class="card-desc">高清视频</div></div></a>
             <a class="card" href="https://stripchat.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">👙</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Stripchat</div><div class="card-desc">成人直播</div></div></a>
             <a class="card" href="https://onlyfans.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🔵</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">OnlyFans</div><div class="card-desc">私密订阅</div></div></a>
-            <a class="card" href="https://netflav.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">N</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Netflav</div><div class="card-desc">视频聚合</div></div></a>
             <a class="card" href="https://hanime1.me/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🌸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Hanime1</div><div class="card-desc">成人动漫</div></div></a>
             <a class="card" href="https://supjav.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">S</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">SupJAV</div><div class="card-desc">日本影视</div></div></a>
-            <a class="card" href="https://sukebei.nyaa.si/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🧲</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Sukebei</div><div class="card-desc">磁力聚合</div></div></a>
             <a class="card" href="https://nyaa.si/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">N</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Nyaa</div><div class="card-desc">二次元磁力</div></div></a>
             <a class="card" href="https://btsow.motorcycles/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">⚡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">BTSOW</div><div class="card-desc">磁力搜索</div></div></a>
             <a class="card" href="https://www.erome.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📂</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Erome</div><div class="card-desc">成人社区</div></div></a>
@@ -845,23 +791,95 @@
 
   <div id="back-top" title="返回顶部"><i class="ri-arrow-up-line"></i></div>
 
-  <div id="ghost-memo">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border-color);">
-      <span style="font-size:15px;font-weight:700;letter-spacing:1px;">备忘录</span>
-      <div style="display:flex;gap:14px;align-items:center;">
-        <span id="cloud-status" style="font-size:12px;font-family:var(--font-sys);font-weight:600;color:var(--accent);">待机中</span>
-        <span id="cloud-sync-btn" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">同步</span>
-        <span onclick="toggleMemo()" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">关闭</span>
-      </div>
-    </div>
-    <div id="memo-content"></div>
-    <div class="memo-input-wrap">
-      <input type="text" id="memo-new-record" placeholder="写入新记录，回车封存..." autocomplete="off" maxlength="200" />
-      <span id="memo-char-count">0/200</span>
-    </div>
-  </div>
-
   <script>
+    // ── 核心变动：纯 WebGL 赛博朋克深空矩阵城市渲染系统 ──
+    window.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('webgl-container');
+      if (!container || typeof THREE === 'undefined') return;
+
+      const scene = new THREE.Scene();
+      // 深度雾化，营造赛博朋克的深渊感
+      scene.fog = new THREE.FogExp2(0x050505, 0.025);
+
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 5, 20);
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // 限制像素比以压榨性能
+      container.appendChild(renderer.domElement);
+
+      // 1. 无尽霓虹网格 (Neon Matrix Grid)
+      // 使用荧光粉与赛博青交织
+      const gridHelper = new THREE.GridHelper(200, 100, 0xff007f, 0x00f3ff);
+      gridHelper.position.y = -5;
+      scene.add(gridHelper);
+
+      // 2. 赛博建筑群落 (Neon Cyber-City Wireframes)
+      const cityGroup = new THREE.Group();
+      const geometry = new THREE.BoxGeometry(1, 1, 1);
+      const edges = new THREE.EdgesGeometry(geometry);
+      // 霓虹青与霓虹粉材质
+      const cyanMat = new THREE.LineBasicMaterial({ color: 0x00f3ff, transparent: true, opacity: 0.4 });
+      const pinkMat = new THREE.LineBasicMaterial({ color: 0xff007f, transparent: true, opacity: 0.6 });
+
+      // 动态生成 300 栋线框建筑
+      for (let i = 0; i < 300; i++) {
+          const isPink = Math.random() > 0.8; // 20%的粉色高亮建筑
+          const building = new THREE.LineSegments(edges, isPink ? pinkMat : cyanMat);
+          
+          const x = (Math.random() - 0.5) * 120;
+          const z = (Math.random() - 0.5) * 120;
+          const height = Math.random() * 20 + 5;
+          
+          // 在中央留出一条虚拟的高速公路
+          if (Math.abs(x) < 12) continue; 
+
+          building.position.set(x, height / 2 - 5, z);
+          building.scale.set(Math.random() * 4 + 2, height, Math.random() * 4 + 2);
+          cityGroup.add(building);
+      }
+      scene.add(cityGroup);
+
+      // 3. 鼠标交互视差计算 (Mouse Parallax Controls)
+      let mouseX = 0;
+      let mouseY = 0;
+      document.addEventListener('mousemove', (event) => {
+          mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+          mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+      });
+
+      // 4. 高性能动画循环 (Render Loop)
+      const clock = new THREE.Clock();
+      function animate() {
+          requestAnimationFrame(animate);
+          const delta = clock.getDelta();
+
+          // 物理级推进，模拟赛博空间的极速穿梭
+          cityGroup.position.z += 10 * delta;
+          gridHelper.position.z += 10 * delta;
+
+          // 无缝空间重置循环
+          if (cityGroup.position.z > 20) cityGroup.position.z -= 20;
+          if (gridHelper.position.z > 2) gridHelper.position.z -= 2;
+
+          // 摄像机镜头缓动跟随鼠标，营造极强的 3D 纵深感
+          camera.position.x += (mouseX * 8 - camera.position.x) * 0.05;
+          camera.position.y += (mouseY * 3 + 6 - camera.position.y) * 0.05;
+          camera.lookAt(0, 5, 0);
+
+          renderer.render(scene, camera);
+      }
+      animate();
+
+      // 窗口自适应
+      window.addEventListener('resize', () => {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    });
+
     let isAbyssOpen = false;
 
     const FAV_KEY = 'jintong_favorites';
@@ -887,7 +905,7 @@
         return;
       }
       section.style.display = 'block';
-      countEl.textContent = `${ids.length} items`;
+      countEl.textContent = `${ids.length} nodes`;
 
       grid.innerHTML = '';
       ids.forEach(id => {
@@ -897,7 +915,7 @@
         a.href = f.href; a.target = '_blank'; a.rel = 'noopener noreferrer';
         a.style.opacity = '1'; a.style.animation = 'none';
         a.innerHTML = `
-          <div class="card-fav active" data-id="${id}" data-title="${f.title}" data-desc="${f.desc}" data-icon="${f.icon}" data-href="${f.href}" title="取消收藏">★</div>
+          <div class="card-fav active" data-id="${id}" data-title="${f.title}" data-desc="${f.desc}" data-icon="${f.icon}" data-href="${f.href}" title="切断连接">★</div>
           <div class="card-head"><div class="icon-box">${f.icon}</div><i class="ri-arrow-right-up-line link-arrow"></i></div>
           <div class="card-body"><div class="card-title">${f.title}</div><div class="card-desc">${f.desc}</div></div>
         `;
@@ -915,11 +933,11 @@
           if (favs[id]) {
             delete favs[id];
             btn.classList.remove('active');
-            showToast(`已取消收藏：${title}`);
+            showToast(`连接切断：${title}`);
           } else {
             favs[id] = { title, desc, icon, href };
             btn.classList.add('active');
-            showToast(`已收藏：${title}`);
+            showToast(`节点锚定：${title}`);
           }
           saveFavs(favs);
           document.querySelectorAll(`.card-fav[data-id="${id}"]`).forEach(b => {
@@ -1033,10 +1051,6 @@
       const now = new Date();
       if (timePill) timePill.textContent = now.toLocaleTimeString('zh-CN', { hour12: false });
       if (datePill) datePill.textContent = now.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' });
-      if (greeting) {
-        const h = now.getHours();
-        greeting.textContent = h < 5 ? '夜深了' : h < 9 ? '早上好' : h < 12 ? '上午好' : h < 14 ? '中午好' : h < 19 ? '下午好' : '晚上好';
-      }
     }
     setInterval(updateTime, 1000);
     updateTime();
@@ -1094,7 +1108,7 @@
 
       const hint = document.getElementById('search-hint');
       if (term && hint) {
-        hint.textContent = totalVisible > 0 ? `找到 ${totalVisible} 个结果` : '无结果';
+        hint.textContent = totalVisible > 0 ? `扫描到 ${totalVisible} 个离散节点` : '信道丢失';
         hint.classList.add('visible');
       } else if (hint) {
         hint.classList.remove('visible');
@@ -1144,7 +1158,7 @@
         else { zone.classList.add('locked'); zone.classList.remove('unlocked'); zone.style.display = 'none'; }
       });
       if (isAbyssOpen) {
-        showToast("深海区域已解禁。");
+        showToast("深层网络协议已解锁。");
         if (window.innerWidth <= 768) {
           sidebar.classList.remove('open');
           mobileOverlay.classList.remove('open');
@@ -1155,7 +1169,7 @@
           if (zone) zone.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 300);
       } else {
-        showToast("连接已终止。");
+        showToast("网关已强制关闭。");
       }
     }
 
@@ -1205,23 +1219,18 @@
       if (isInput) return;
 
       if (e.key === '?') { toggleShortcuts(); return; }
-      if (e.key === 't' || e.key === 'T') { document.body.classList.toggle('dark-mode'); return; }
       if (e.key === 'm' || e.key === 'M') { toggleMemo(); return; }
       if (e.key === 'f' || e.key === 'F') {
         const favSec = document.getElementById('sec-favorites');
         if (favSec && favSec.style.display !== 'none') {
           favSec.scrollIntoView({ behavior: 'smooth' });
-        } else { showToast("暂无收藏内容"); }
+        } else { showToast("未探测到星标节点"); }
         return;
       }
 
       secretCode += e.key.toLowerCase();
       if (secretCode.length > 4) secretCode = secretCode.slice(-4);
       if (secretCode === 'open') { toggleAbyss(); secretCode = ''; }
-    });
-
-    document.getElementById('theme-toggle').addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
     });
 
     window.toggleMemo = function () {
@@ -1240,28 +1249,6 @@
         charCount.textContent = `${memoInput.value.length}/200`;
       });
     }
-
-    // ── 核心变动：初始化 Vanta.js 3D 赛博朋克神经网 WebGL 背景 ──
-    window.addEventListener('DOMContentLoaded', () => {
-      if (typeof VANTA !== 'undefined') {
-        VANTA.NET({
-          el: "body",
-          mouseControls: true,
-          touchControls: true,
-          gyroControls: false,
-          minHeight: 200.00,
-          minWidth: 200.00,
-          scale: 1.00,
-          scaleMobile: 1.00,
-          color: 0xff003c, // 赛博朋克霓虹粉
-          backgroundColor: 0x080808, // 深渊黑底层
-          points: 12.00, // 3D 节点密度
-          maxDistance: 22.00, // 连接线渲染距离
-          spacing: 16.00,
-          showDots: true
-        });
-      }
-    });
   </script>
 
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
@@ -1284,19 +1271,19 @@
         statusText.textContent = text;
         statusText.style.color = color;
         if (autoReset) setTimeout(() => {
-          if (statusText.textContent === text) { statusText.textContent = '已连接'; statusText.style.color = 'var(--accent)'; }
+          if (statusText.textContent === text) { statusText.textContent = '已接入'; statusText.style.color = '#00f3ff'; }
         }, 1500);
       };
 
       window.copyMemo = async function (text) {
-        try { await navigator.clipboard.writeText(text); showToast('已复制到剪贴板'); }
+        try { await navigator.clipboard.writeText(text); showToast('数据已写入剪贴板'); }
         catch (err) { console.error('Failed to copy!', err); }
       };
 
       function renderMemos(data) {
         memoContent.innerHTML = '';
         if (!data || data.length === 0) {
-          memoContent.innerHTML = '<div style="opacity:.4;text-align:center;margin-top:40px;font-size:13px;font-family:var(--font-sys);">记忆之海干涸，输入点什么吧...</div>';
+          memoContent.innerHTML = '<div style="opacity:.4;text-align:center;margin-top:40px;font-size:13px;font-family:var(--font-sys);">记忆扇区为空...</div>';
           return;
         }
         
@@ -1314,7 +1301,7 @@
 
           const textDiv = document.createElement('div');
           textDiv.className = 'memo-text';
-          textDiv.title = '点击复制';
+          textDiv.title = '提取数据';
           textDiv.textContent = row.content;
           
           textDiv.onclick = () => window.copyMemo(row.content);
@@ -1324,7 +1311,7 @@
 
           const delSpan = document.createElement('span');
           delSpan.className = 'memo-delete';
-          delSpan.title = '抹除此条记录';
+          delSpan.title = '擦除痕迹';
           delSpan.textContent = '×';
           delSpan.onclick = () => window.deleteMemo(row.id);
 
@@ -1337,30 +1324,30 @@
       }
 
       window.loadFromCloud = async function () {
-        setStatus('同步中...', 'var(--text-main)', false);
+        setStatus('同步中...', '#00f3ff', false);
         try {
           const { data, error } = await supabase.from('memos').select('id, content, created_at').order('created_at', { ascending: true });
           if (error) throw error;
           renderMemos(data);
-          setStatus('已连接', 'var(--accent)', false);
+          setStatus('已接入', '#00f3ff', false);
         } catch (err) {
           console.error('[Data Load Error]:', err);
-          setStatus('连接失败', '#ff3b30', false);
+          setStatus('握手失败', '#ff3b30', false);
         }
       };
 
       window.deleteMemo = async function (id) {
-        if (!confirm('数据消除确认：此操作不可逆。')) return;
-        setStatus('删除中...', 'var(--text-main)', false);
+        if (!confirm('协议确认：擦除此条物理记录？')) return;
+        setStatus('覆写中...', '#00f3ff', false);
         try {
           const { error } = await supabase.from('memos').delete().eq('id', id);
           if (error) throw error;
           const target = document.getElementById(`memo-${id}`);
           if (target) { target.style.opacity = '0'; setTimeout(() => target.remove(), 200); }
-          setStatus('已删除', 'var(--text-main)');
+          setStatus('已擦除', '#ff007f');
         } catch (err) {
           console.error('[Delete Error]:', err);
-          setStatus('删除被拦截', '#ff3b30', false);
+          setStatus('权限拒绝', '#ff3b30', false);
         }
       };
 
@@ -1372,14 +1359,14 @@
           this.value = '';
           if (charCount) charCount.textContent = '0/200';
           this.disabled = true;
-          setStatus('发送中...', 'var(--text-main)', false);
+          setStatus('上传中...', '#00f3ff', false);
           try {
             const { error } = await supabase.from('memos').insert([{ content: newText }]);
             if (error) throw error;
-            setStatus('已封存', 'var(--text-main)');
+            setStatus('封存完毕', '#00f3ff');
           } catch (err) {
             console.error('[Save Error]:', err);
-            setStatus('保存失败', '#ff3b30', false);
+            setStatus('数据溢出', '#ff3b30', false);
             this.value = newText;
           } finally {
             this.disabled = false;
@@ -1392,13 +1379,13 @@
       try {
         supabase.channel('public:memos')
           .on('postgres_changes', { event: '*', schema: 'public', table: 'memos' }, () => {
-            debouncedLoad(); setStatus('实时更新', 'var(--text-main)');
+            debouncedLoad(); setStatus('热更新', '#00f3ff');
           }).subscribe();
       } catch (err) { console.warn('Realtime disabled.'); }
 
       document.getElementById('cloud-sync-btn').addEventListener('click', window.loadFromCloud);
     } else {
-      document.getElementById('cloud-status').textContent = '离线状态';
+      document.getElementById('cloud-status').textContent = '断线模式';
       document.getElementById('cloud-status').style.color = '#ff3b30';
     }
   </script>
