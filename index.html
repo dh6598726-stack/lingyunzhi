@@ -205,7 +205,33 @@
     .quote-text { font-size: 32px; line-height: 1.6; color: var(--text-main); margin-bottom: 12px; }
     .quote-sub { font-size: 16px; color: var(--text-sub); letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-sys); }
 
-    .secret-trigger { cursor: text; }
+    .secret-trigger { cursor: pointer; }
+
+    /* ── 隐藏字符专属物理隔离舱样式 ── */
+    .hidden-secret-box {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      margin-top: 0;
+      padding: 0 16px;
+      background: rgba(128, 128, 128, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+      font-family: var(--font-sys);
+      font-size: 14px;
+      color: var(--accent);
+      letter-spacing: 1px;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      pointer-events: none;
+    }
+    .hidden-secret-box.revealed {
+      max-height: 200px;
+      opacity: 1;
+      margin-top: 16px;
+      padding: 12px 16px;
+      pointer-events: auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
 
     .section-block { margin-bottom: 56px; scroll-margin-top: 32px; }
     .section-header {
@@ -604,9 +630,13 @@
     <main id="main-content">
       <div class="hero-quote">
         <div class="quote-text">
-          天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo()">凌云</span>之志。
+          天下英雄如过江之鲫，人中<span class="secret-trigger" id="dragon-phoenix-trigger">龙凤</span>尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo()">凌云</span>之志。
         </div>
         <div class="quote-sub">Long live freedom / The Visual Archive</div>
+        
+        <div id="hidden-secret-string" class="hidden-secret-box">
+          <span id="secret-text-content" style="font-weight: bold; white-space: pre-wrap;"></span>
+        </div>
       </div>
 
       <a class="time-capsule" href="https://archive.org/" target="_blank" rel="noopener noreferrer">
@@ -1016,6 +1046,40 @@
       document.querySelectorAll('.card-fav').forEach(btn => {
         if (favs[btn.dataset.id]) btn.classList.add('active');
       });
+
+      // --- 隐秘字符云端触发逻辑 ---
+      const dpTrigger = document.getElementById('dragon-phoenix-trigger');
+      const secretBox = document.getElementById('hidden-secret-string');
+      const secretTextContent = document.getElementById('secret-text-content');
+      const CLOUD_SECRET_URL = 'https://gist.githubusercontent.com/dh6598726-stack/bf6199d5b482d1e47464bf8ff0a15192/raw/7f54fe0fd232775a732d3c56a9dd1f23d530a476/%25E9%25AA%258C%25E8%25AF%2581';
+
+      if (dpTrigger && secretBox) {
+        dpTrigger.addEventListener('click', async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          const isRevealed = secretBox.classList.toggle('revealed');
+          
+          if (isRevealed) {
+            secretTextContent.textContent = '读取中...';
+            secretTextContent.style.color = 'var(--text-sub)';
+            try {
+              const response = await fetch(CLOUD_SECRET_URL, { cache: 'no-store' }); 
+              if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+              const cloudText = await response.text();
+              secretTextContent.textContent = cloudText.trim();
+              secretTextContent.style.color = 'var(--text-main)';
+            } catch (error) {
+              secretTextContent.textContent = '读取失败';
+              secretTextContent.style.color = '#ff3b30';
+            }
+          } else {
+            setTimeout(() => {
+              secretTextContent.textContent = '';
+            }, 400);
+          }
+        });
+      }
     });
 
     function closeSplash() {
@@ -1063,7 +1127,6 @@
       };
     }
 
-    // 高效且安全的文本高亮，返回纯 HTML 字符串，不直接操作 DOM 对象
     function highlightTextReturn(text, term) {
       if (!term) return text;
       const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -1082,7 +1145,6 @@
           const titleEl = card.querySelector('.card-title');
           const descEl = card.querySelector('.card-desc');
           
-          // 【核心修复】：将原始文本存入 dataset 缓存，避免反复读取含 HTML 标签的 textContent 导致死循环或格式破坏
           if (titleEl && !titleEl.dataset.orig) titleEl.dataset.orig = titleEl.textContent;
           if (descEl && !descEl.dataset.orig) descEl.dataset.orig = descEl.textContent;
 
@@ -1257,7 +1319,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       if (typeof VANTA !== 'undefined') {
         VANTA.NET({
-          el: "#vanta-bg", // 【核心修复】：从 "body" 改为底部的独立 DIV
+          el: "#vanta-bg",
           mouseControls: true,
           touchControls: true,
           gyroControls: false,
@@ -1279,7 +1341,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
   <script>
-    // 修复核心2：强化旧版浏览器的 Date 解析兼容性
     const formatTime = (isoString) => {
       try {
         const d = new Date(isoString);
@@ -1290,7 +1351,6 @@
       }
     };
 
-    // 修复核心3：加入本地缓存机制，防断网白屏
     const LOCAL_CACHE_KEY = 'jintong_memos_cache';
     function saveMemoCache(data) {
       try { localStorage.setItem(LOCAL_CACHE_KEY, JSON.stringify(data)); } catch(e){}
@@ -1370,12 +1430,11 @@
           const { data, error } = await supabase.from('memos').select('id, content, created_at').order('created_at', { ascending: true });
           if (error) throw error;
           renderMemos(data);
-          saveMemoCache(data); // 成功拉取后，覆盖本地缓存
+          saveMemoCache(data);
           setStatus('已连接', 'var(--accent)', false);
         } catch (err) {
           console.error('[Data Load Error]:', err);
           
-          // 遭遇断网或限制时，自动降级为读取本地缓存
           const cachedData = getMemoCache();
           if (cachedData && cachedData.length > 0) {
             renderMemos(cachedData);
@@ -1415,7 +1474,6 @@
             if (error) throw error;
             setStatus('已封存', 'var(--text-main)');
             
-            // 修复核心4：绝不将 UI 刷新指望在移动端极其容易断流的 WebSocket 上，主动再拉一次数据
             window.loadFromCloud();
             
           } catch (err) {
