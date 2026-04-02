@@ -461,7 +461,13 @@
     .mobile-header, .mobile-overlay { display: none; }
 
     @media (max-width: 768px) {
-      body { height: 100dvh; }
+      body {
+        height: 100dvh;
+        --bg-sidebar: rgba(245, 245, 245, 0.88); /* 新增亮色模式移动端实体底色 */
+      }
+      body.dark-mode {
+        --bg-sidebar: rgba(28, 28, 30, 0.88); /* 新增暗色模式移动端实体底色 */
+      }
       #app { display: flex; flex-direction: column; }
       
       .mobile-header {
@@ -481,11 +487,14 @@
       .mh-search-box .search-clear { right: 8px; }
       .mh-menu-btn { font-size: 26px; color: var(--text-main); cursor: pointer; padding: 4px; }
 
+      /* 替换这里的 aside 代码为 GPU 加速 */
       aside {
-        position: fixed; top: 0; left: -100%; bottom: 0; width: 280px; height: 100dvh;
-        transition: left var(--transition-smooth); box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+        position: fixed; top: 0; left: 0; bottom: 0; width: 280px; height: 100dvh;
+        transform: translateX(-100%);
+        transition: transform var(--transition-smooth); 
+        box-shadow: 10px 0 30px rgba(0,0,0,0.5);
       }
-      aside.open { left: 0; }
+      aside.open { transform: translateX(0); }
       
       .mobile-overlay {
         display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.4);
