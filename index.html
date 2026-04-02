@@ -461,13 +461,7 @@
     .mobile-header, .mobile-overlay { display: none; }
 
     @media (max-width: 768px) {
-      body {
-        height: 100dvh;
-        --bg-sidebar: rgba(245, 245, 245, 0.88); /* 新增亮色模式移动端实体底色 */
-      }
-      body.dark-mode {
-        --bg-sidebar: rgba(28, 28, 30, 0.88); /* 新增暗色模式移动端实体底色 */
-      }
+      body { height: 100dvh; }
       #app { display: flex; flex-direction: column; }
       
       .mobile-header {
@@ -487,12 +481,18 @@
       .mh-search-box .search-clear { right: 8px; }
       .mh-menu-btn { font-size: 26px; color: var(--text-main); cursor: pointer; padding: 4px; }
 
-      /* 替换这里的 aside 代码为 GPU 加速 */
+      /* 暴力干掉移动端侧边栏毛玻璃，改用纯色和硬件加速，彻底解决滑动发虚 */
       aside {
         position: fixed; top: 0; left: 0; bottom: 0; width: 280px; height: 100dvh;
         transform: translateX(-100%);
         transition: transform var(--transition-smooth); 
         box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: #f5f5f5 !important;
+      }
+      body.dark-mode aside {
+        background: #1c1c1e !important;
       }
       aside.open { transform: translateX(0); }
       
@@ -504,7 +504,6 @@
       .mobile-overlay.open { opacity: 1; pointer-events: auto; }
 
       main { padding: 24px 20px calc(80px + env(safe-area-inset-bottom)) 20px; }
-      /* 缩小移动端卡片最小宽度，保证小屏幕下也能双列排布 */
       .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
       .hero-quote { padding: 20px 0; margin-bottom: 24px; }
       .quote-text { font-size: 26px; }
