@@ -459,15 +459,18 @@
     @keyframes toast-out { from{transform:translateY(0);opacity:1} to{transform:translateY(-50%);opacity:0} }
     
     .mobile-header, .mobile-overlay { display: none; }
-
     @media (max-width: 768px) {
       body { height: 100dvh; }
       #app { display: flex; flex-direction: column; }
       
+      /* 1. 顶部 Header 彻底禁用毛玻璃，改用纯色背景 */
       .mobile-header {
         display: flex; align-items: center; justify-content: space-between; gap: 16px;
-        padding: 12px 20px; background: var(--bg-sidebar); backdrop-filter: blur(var(--blur-val));
-        -webkit-backdrop-filter: blur(var(--blur-val)); border-bottom: 1px solid var(--border-color);
+        padding: 12px 20px; 
+        background: var(--bg-card) !important; 
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important; 
+        border-bottom: 1px solid var(--border-color);
         position: sticky; top: 0; z-index: 900; flex-shrink: 0;
       }
       .mh-left { display: flex; align-items: center; gap: 16px; flex: 1; }
@@ -481,24 +484,27 @@
       .mh-search-box .search-clear { right: 8px; }
       .mh-menu-btn { font-size: 26px; color: var(--text-main); cursor: pointer; padding: 4px; }
 
-      /* 暴力干掉移动端侧边栏毛玻璃，改用纯色和硬件加速，彻底解决滑动发虚 */
+      /* 2. 侧边栏退回 left 动画（避开 transform 导致的字体光栅化发虚），开启 3D 硬件加速但不用于位移 */
       aside {
-        position: fixed; top: 0; left: 0; bottom: 0; width: 280px; height: 100dvh;
-        transform: translateX(-100%);
-        transition: transform var(--transition-smooth); 
+        position: fixed; top: 0; left: -100%; bottom: 0; width: 280px; height: 100dvh;
+        transition: left var(--transition-smooth); 
         box-shadow: 10px 0 30px rgba(0,0,0,0.5);
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
         background: #f5f5f5 !important;
+        -webkit-font-smoothing: antialiased !important; /* 强制开启抗锯齿 */
+        transform: translateZ(0); /* 强制分配独立渲染层 */
       }
-      body.dark-mode aside {
-        background: #1c1c1e !important;
-      }
-      aside.open { transform: translateX(0); }
+      body.dark-mode aside { background: #1c1c1e !important; }
+      aside.open { left: 0; }
       
+      /* 3. 遮罩层必须干掉 blur，这是导致上层侧边栏跟着变糊的罪魁祸首 */
       .mobile-overlay {
-        display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.4);
-        backdrop-filter: blur(2px); z-index: 990;
+        display: block; position: fixed; inset: 0; 
+        background: rgba(0,0,0,0.65) !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        z-index: 990;
         opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
       }
       .mobile-overlay.open { opacity: 1; pointer-events: auto; }
