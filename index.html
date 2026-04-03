@@ -14,6 +14,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='red' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>">
     
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
+  
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js"></script>
 
   <style>
@@ -37,7 +38,7 @@
       --radius-sm: 10px;
       --radius-md: 16px;
       --radius-lg: 24px;
-      --radius-app: 22%;
+      --radius-app: 22%; 
       
       --blur-val: 24px;
       --transition-fast: 0.2s ease;
@@ -85,9 +86,7 @@
         radial-gradient(circle at 85% 20%, rgba(94, 92, 230, 0.15) 0%, transparent 40%),
         radial-gradient(circle at 50% 80%, rgba(255, 55, 95, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 10% 90%, rgba(50, 173, 230, 0.15) 0%, transparent 40%);
-      background-size: cover;
-      filter: blur(40px);
-      transition: all 1s ease;
+      background-size: cover; filter: blur(40px); transition: all 1s ease;
     }
     body.dark-mode #vanta-bg {
       background: 
@@ -96,125 +95,113 @@
         radial-gradient(circle at 60% 100%, rgba(255, 55, 95, 0.15) 0%, transparent 50%);
     }
 
+    /* ── 闪屏 ── */
+    #splash {
+      position: fixed; inset: 0; z-index: 9999;
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                  url('https://i.pinimg.com/736x/2a/8b/1a/2a8b1a9e6cfd057effd62bda202acd70.jpg') center/cover no-repeat;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s; user-select: none;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    }
+    .splash-quote {
+      font-size: 28px; text-align: left; max-width: 600px; line-height: 1.8;
+      padding: 0 20px; color: #ffffff !important; text-shadow: 0 4px 12px rgba(0,0,0,0.5); font-weight: 500;
+    }
+
     #app { display: grid; grid-template-columns: 280px 1fr; height: 100%; position: relative; z-index: 10; }
 
     aside {
       background: var(--bg-sidebar);
-      backdrop-filter: blur(var(--blur-val)) saturate(180%);
-      -webkit-backdrop-filter: blur(var(--blur-val)) saturate(180%);
-      border-right: 1px solid var(--border-glass);
-      padding: 32px 20px;
-      display: flex; flex-direction: column;
-      z-index: 1000;
+      backdrop-filter: blur(var(--blur-val)) saturate(180%); -webkit-backdrop-filter: blur(var(--blur-val)) saturate(180%);
+      border-right: 1px solid var(--border-glass); padding: 32px 20px; display: flex; flex-direction: column; z-index: 1000;
     }
     
     .brand { display: flex; align-items: center; justify-content: center; margin-bottom: 24px; cursor: pointer; }
 
     .search-box { position: relative; margin-bottom: 24px; }
     .search-input {
-      width: 100%; padding: 10px 36px 10px 36px;
-      background: var(--bg-app);
-      border: 1px solid var(--border-glass); 
-      border-radius: var(--radius-sm);
-      color: var(--text-main); font-size: 15px; 
-      box-shadow: var(--shadow-widget);
-      transition: all var(--transition-fast);
+      width: 100%; padding: 10px 36px 10px 36px; background: var(--bg-app); border: 1px solid var(--border-glass); 
+      border-radius: var(--radius-sm); color: var(--text-main); font-size: 15px; box-shadow: var(--shadow-widget); transition: all var(--transition-fast);
     }
     .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,122,255,0.2); }
     .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-sub); }
-    .search-clear {
-      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-      font-size: 16px; color: var(--text-sub); cursor: pointer; opacity: 0; padding: 4px;
-    }
+    .search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-sub); cursor: pointer; opacity: 0; padding: 4px; }
     .search-clear.visible { opacity: 1; }
 
     .search-hint { font-size: 12px; color: var(--text-sub); text-align: center; padding: 4px 0 12px; opacity: 0; }
     .search-hint.visible { opacity: 1; }
 
     .nav-scroll { flex: 1; overflow-y: auto; padding-right: 8px; }
-    
     .nav-item {
       padding: 10px 14px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 500; color: var(--text-sub);
-      text-decoration: none; display: flex; align-items: center; gap: 12px;
-      transition: all var(--transition-fast); cursor: pointer; margin-bottom: 6px;
+      text-decoration: none; display: flex; align-items: center; gap: 12px; transition: all var(--transition-fast); cursor: pointer; margin-bottom: 6px;
     }
     .nav-item:hover { background: rgba(128,128,128,0.1); color: var(--text-main); }
     .nav-item.active { background: var(--accent); color: #fff; }
     .nav-icon { font-size: 18px; }
 
-    .aside-footer {
-      margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-glass);
-      display: flex; justify-content: space-between; align-items: center;
-    }
+    .aside-footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-glass); display: flex; justify-content: space-between; align-items: center; }
     .time-badge { font-size: 13px; color: var(--text-main); font-weight: 600; display: flex; align-items: center; gap: 6px; }
     .time-greeting { font-size: 12px; color: var(--text-sub); font-weight: normal; }
 
     main { padding: 40px 5vw; overflow-y: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
 
-    .section-block {
-      background: var(--bg-widget);
-      backdrop-filter: blur(30px) saturate(200%);
-      -webkit-backdrop-filter: blur(30px) saturate(200%);
-      border: 1px solid var(--border-glass);
-      border-radius: var(--radius-lg);
-      padding: 24px 32px;
-      margin-bottom: 40px;
-      box-shadow: var(--shadow-widget);
-      scroll-margin-top: 32px;
-    }
-    
-    .section-header {
+    /* ── 顶部引言 & 凌云触发器 ── */
+    .hero-quote { margin-bottom: 32px; padding: 0 10px; }
+    .quote-text { font-size: 22px; font-weight: 600; line-height: 1.6; color: var(--text-main); margin-bottom: 8px; letter-spacing: 0.5px; }
+    .quote-sub { font-size: 13px; color: var(--text-sub); letter-spacing: 1px; text-transform: uppercase; }
+    .secret-trigger { cursor: pointer; color: var(--accent); position: relative; z-index: 10; padding: 0 2px; transition: opacity 0.2s; }
+    .secret-trigger:hover { opacity: 0.7; }
+
+    /* ── 互联网档案馆 (Time Capsule) ── */
+    .time-capsule {
+      margin-bottom: 40px; padding: 20px 24px;
+      background: var(--bg-widget); border: 1px solid var(--border-glass); border-radius: var(--radius-lg);
       display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border-glass);
+      backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%);
+      box-shadow: var(--shadow-widget); text-decoration: none; color: var(--text-main); transition: transform 0.2s; cursor: pointer;
     }
+    .time-capsule:hover { transform: scale(1.01); box-shadow: var(--shadow-hover); }
+    .capsule-left { display: flex; align-items: center; gap: 16px; }
+    .capsule-icon-box {
+      width: 44px; height: 44px; background: var(--bg-app); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: var(--shadow-app);
+    }
+    .capsule-info { display: flex; flex-direction: column; }
+    .capsule-title { font-size: 17px; font-weight: 600; }
+    .capsule-desc { font-size: 13px; color: var(--text-sub); margin-top: 2px; }
+    .capsule-arrow { font-size: 20px; color: var(--text-sub); }
+
+    /* ── Section & Grid ── */
+    .section-block {
+      background: var(--bg-widget); backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%);
+      border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 24px 32px; margin-bottom: 40px;
+      box-shadow: var(--shadow-widget); scroll-margin-top: 32px;
+    }
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border-glass); }
     .section-title { font-size: 20px; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
     .section-count { font-size: 12px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.5px; }
 
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 28px 16px; justify-items: center; }
     .hidden { display: none !important; }
 
-    .app-card {
-      display: flex; flex-direction: column; align-items: center;
-      text-decoration: none; color: inherit; cursor: pointer;
-      width: 72px;
-      opacity: 0; animation: fadeUp 0.4s ease forwards;
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    
+    /* ── App 卡片样式 ── */
+    .app-card { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: inherit; cursor: pointer; width: 72px; opacity: 0; animation: fadeUp 0.4s ease forwards; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
     .app-icon-wrap { position: relative; width: 64px; height: 64px; margin-bottom: 8px; }
-    
     .app-icon {
-      width: 100%; height: 100%;
-      background: var(--bg-app);
-      border: 1px solid var(--border-app);
-      border-radius: var(--radius-app);
-      display: flex; justify-content: center; align-items: center;
-      font-size: 30px;
-      box-shadow: var(--shadow-app);
-      transition: all var(--transition-fast);
-      color: var(--text-main);
+      width: 100%; height: 100%; background: var(--bg-app); border: 1px solid var(--border-app); border-radius: var(--radius-app);
+      display: flex; justify-content: center; align-items: center; font-size: 30px; box-shadow: var(--shadow-app); transition: all var(--transition-fast); color: var(--text-main);
     }
-    
     .app-card:hover .app-icon { transform: scale(1.05); box-shadow: var(--shadow-hover); }
     .app-card:active .app-icon { transform: scale(0.92); opacity: 0.8; }
-
-    .app-name {
-      font-size: 12px; font-weight: 500; text-align: center;
-      width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-      color: var(--text-main);
-    }
+    .app-name { font-size: 12px; font-weight: 500; text-align: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-main); }
     
     .card-fav {
-      position: absolute; top: -6px; right: -6px;
-      width: 22px; height: 22px; border-radius: 50%;
-      background: rgba(200,200,200,0.8); backdrop-filter: blur(4px);
-      color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center;
-      border: 2px solid var(--bg-base);
-      opacity: 0; transform: scale(0.8); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-      z-index: 5;
+      position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(200,200,200,0.8); backdrop-filter: blur(4px); color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--bg-base); opacity: 0; transform: scale(0.8); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 5;
     }
     .app-card:hover .card-fav { opacity: 1; transform: scale(1); }
     .card-fav.active { background: #ff9500; opacity: 1; transform: scale(1); }
@@ -230,131 +217,73 @@
     .sensitive-mask { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5; }
     .mask-badge {
       background: rgba(0,0,0,0.6); color: #fff; backdrop-filter: blur(10px);
-      padding: 10px 20px; border-radius: 20px; font-size: 14px; font-weight: 600;
-      letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      padding: 10px 20px; border-radius: 20px; font-size: 14px; font-weight: 600; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     .sensitive-zone.unlocked .sensitive-blur { filter: blur(0); opacity: 1; pointer-events: auto; }
     .sensitive-zone.unlocked .sensitive-mask { display: none; }
 
     #panic-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); z-index: 99999;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none; transition: opacity 0.3s;
+      display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s;
     }
     #panic-overlay.active { opacity: 1; pointer-events: auto; }
-    .alert-box {
-      background: var(--bg-app); width: 280px; border-radius: 14px;
-      text-align: center; display: flex; flex-direction: column; overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    }
+    .alert-box { background: var(--bg-app); width: 280px; border-radius: 14px; text-align: center; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
     .alert-content { padding: 20px; border-bottom: 1px solid var(--border-glass); }
     .alert-title { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
     .alert-msg { font-size: 13px; color: var(--text-sub); }
     .alert-btn { padding: 12px; font-size: 17px; color: var(--accent); font-weight: 500; cursor: pointer; }
     .alert-btn:hover { background: rgba(128,128,128,0.1); }
 
-    /* ── iOS 风格备忘录 ── */
+    /* ── 备忘录 (Ghost Memo) ── */
     #ghost-memo {
       position: fixed; bottom: 40px; right: 40px; width: 340px; height: 460px;
       background: var(--bg-widget); color: var(--text-main);
       backdrop-filter: blur(var(--blur-val)) saturate(180%); -webkit-backdrop-filter: blur(var(--blur-val)) saturate(180%);
       border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 24px;
-      display: flex; flex-direction: column;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-      transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none;
-      transition: var(--transition-smooth); z-index: 1000; font-family: var(--font-sys);
+      display: flex; flex-direction: column; box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none; transition: var(--transition-smooth); z-index: 1000; font-family: var(--font-sys);
     }
     #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
-
     #memo-content {
       flex: 1; background: var(--bg-app); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px;
-      margin-top: 12px; margin-bottom: 12px; overflow-y: auto; scroll-behavior: smooth;
-      box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+      margin-top: 12px; margin-bottom: 12px; overflow-y: auto; scroll-behavior: smooth; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
     }
-    .memo-item {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border-glass);
-      color: var(--text-main); font-size: 14px; line-height: 1.5;
-    }
+    .memo-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border-glass); color: var(--text-main); font-size: 14px; line-height: 1.5; }
     .memo-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .memo-text {
-      flex: 1; word-break: break-all; white-space: pre-wrap;
-      cursor: pointer; transition: opacity var(--transition-fast);
-    }
+    .memo-text { flex: 1; word-break: break-all; white-space: pre-wrap; cursor: pointer; transition: opacity var(--transition-fast); }
     .memo-text:hover { opacity: 0.7; }
     .memo-time { font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 4px; }
-    .memo-delete {
-      cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity var(--transition-fast);
-      padding: 0 4px; margin-left: 8px; font-weight: bold; font-size: 16px; user-select: none;
-    }
+    .memo-delete { cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity var(--transition-fast); padding: 0 4px; margin-left: 8px; font-weight: bold; font-size: 16px; user-select: none; }
     .memo-item:hover .memo-delete { opacity: 0.8; }
     .memo-delete:hover { opacity: 1 !important; transform: scale(1.1); }
-    @media (max-width: 768px) { .memo-delete { opacity: 0.8; } }
-
     .memo-input-wrap { position: relative; }
     #memo-new-record {
-      width: 100%; background: var(--bg-app); border: 1px solid var(--border-glass);
-      outline: none; border-radius: 10px; padding: 12px 48px 12px 14px;
-      color: var(--text-main); font-size: 14px; transition: all var(--transition-fast);
-      box-shadow: var(--shadow-app);
+      width: 100%; background: var(--bg-app); border: 1px solid var(--border-glass); outline: none; border-radius: 10px; padding: 12px 48px 12px 14px;
+      color: var(--text-main); font-size: 14px; transition: all var(--transition-fast); box-shadow: var(--shadow-app);
     }
     #memo-new-record:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,122,255,0.2); }
-    #memo-char-count {
-      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-      font-size: 11px; color: var(--text-sub); pointer-events: none; opacity: 0;
-      transition: opacity var(--transition-fast);
-    }
+    #memo-char-count { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--text-sub); pointer-events: none; opacity: 0; transition: opacity var(--transition-fast); }
     #memo-new-record:focus ~ #memo-char-count { opacity: 1; }
 
     .toast-container { position: fixed; top: 40px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
     .toast {
-      background: var(--bg-widget); color: var(--text-main); font-size: 14px; font-weight: 500;
-      padding: 12px 24px; border-radius: 30px; border: 1px solid var(--border-glass);
-      backdrop-filter: blur(20px) saturate(180%); box-shadow: var(--shadow-hover);
-      animation: toast-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, toast-out 0.3s 2.5s forwards;
+      background: var(--bg-widget); color: var(--text-main); font-size: 14px; font-weight: 500; padding: 12px 24px; border-radius: 30px; border: 1px solid var(--border-glass);
+      backdrop-filter: blur(20px) saturate(180%); box-shadow: var(--shadow-hover); animation: toast-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, toast-out 0.3s 2.5s forwards;
     }
     @keyframes toast-in { from{transform:translateY(-100%);opacity:0} to{transform:translateY(0);opacity:1} }
     @keyframes toast-out { from{transform:translateY(0);opacity:1} to{transform:translateY(-50%);opacity:0} }
-    
+
     .mobile-header, .mobile-overlay { display: none; }
-
     @media (max-width: 768px) {
-      body { height: 100dvh; }
-      #app { display: flex; flex-direction: column; }
-      
-      .mobile-header {
-        display: flex; align-items: center; justify-content: space-between; gap: 16px;
-        padding: 12px 20px; background: var(--bg-sidebar); border-bottom: 1px solid var(--border-glass);
-        backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 900;
-      }
-      .mh-left { display: flex; align-items: center; gap: 12px; flex: 1; }
-      .mh-logo { font-size: 24px; cursor: pointer; }
-      .mh-search-box { flex: 1; position: relative; }
-      .mh-search-box input {
-        width: 100%; padding: 8px 30px; border-radius: 10px; font-size: 15px;
-        background: var(--bg-app); border: 1px solid var(--border-glass); color: var(--text-main);
-      }
-      .mh-search-box .search-icon { left: 10px; }
-      .mh-menu-btn { font-size: 24px; color: var(--text-main); cursor: pointer; }
-
-      aside {
-        position: fixed; top: 0; left: -100%; bottom: 0; width: 280px; height: 100dvh;
-        transition: left var(--transition-smooth); box-shadow: 10px 0 30px rgba(0,0,0,0.2); z-index: 1000;
-      }
-      aside.open { left: 0; } 
-      
-      .mobile-overlay {
-        display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 990;
-        opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-      }
-      .mobile-overlay.open { opacity: 1; pointer-events: auto; }
-
-      main { padding: 24px 16px calc(80px + env(safe-area-inset-bottom)) 16px; }
-      .section-block { padding: 20px 16px; margin-bottom: 24px; border-radius: 20px; }
-      .grid { grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 20px 12px; }
-      .app-icon-wrap { width: 56px; height: 56px; }
-      .app-icon { font-size: 26px; border-radius: 20%; }
-
+      body { height: 100dvh; } #app { display: flex; flex-direction: column; }
+      .mobile-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: var(--bg-sidebar); border-bottom: 1px solid var(--border-glass); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 900; }
+      .mh-left { display: flex; align-items: center; gap: 12px; flex: 1; } .mh-logo { font-size: 24px; cursor: pointer; }
+      .mh-search-box { flex: 1; position: relative; } .mh-search-box input { width: 100%; padding: 8px 30px; border-radius: 10px; font-size: 15px; background: var(--bg-app); border: 1px solid var(--border-glass); color: var(--text-main); }
+      .mh-search-box .search-icon { left: 10px; } .mh-menu-btn { font-size: 24px; color: var(--text-main); cursor: pointer; }
+      aside { position: fixed; top: 0; left: -100%; bottom: 0; width: 280px; height: 100dvh; transition: left var(--transition-smooth); box-shadow: 10px 0 30px rgba(0,0,0,0.2); z-index: 1000; } aside.open { left: 0; } 
+      .mobile-overlay { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 990; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; } .mobile-overlay.open { opacity: 1; pointer-events: auto; }
+      main { padding: 24px 16px calc(80px + env(safe-area-inset-bottom)) 16px; } .section-block { padding: 20px 16px; margin-bottom: 24px; border-radius: 20px; }
+      .grid { grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 20px 12px; } .app-icon-wrap { width: 56px; height: 56px; } .app-icon { font-size: 26px; border-radius: 20%; }
       #ghost-memo { width: auto; left: 16px; right: 16px; bottom: calc(20px + env(safe-area-inset-bottom)); height: 65vh; }
     }
   </style>
@@ -364,6 +293,19 @@
   <div id="vanta-bg"></div>
   <div class="toast-container" id="toast-container"></div>
   <div class="mobile-overlay" id="mobile-overlay"></div>
+
+  <div id="splash">
+    <div class="splash-quote">
+      <p style="font-size:28px;text-align:left;line-height:1.8;">
+        走了很长的路，也见过很多风景。<br>
+        唯独星空深处的那轮明月最不认生。<br>
+        它在异乡的窗前，守着当年我在故乡没做完的梦。<br>
+        <br><br>
+        回头看，<span onclick="closeSplash()" style="cursor:pointer;touch-action:manipulation;padding:10px 5px;margin:-10px -5px;position:relative;z-index:10;color:#0a84ff;">轻舟</span>已过万重山；<br>
+        向前看，长路漫漫亦灿烂。
+      </p>
+    </div>
+  </div>
 
   <div id="panic-overlay" onclick="closePanic()">
     <div class="alert-box" onclick="event.stopPropagation()">
@@ -404,27 +346,37 @@
       <div class="nav-scroll" id="nav-container"></div>
 
       <div class="aside-footer">
-        <div class="time-badge">
-          <span id="date-pill"></span>
-          <span id="time-pill"></span>
-        </div>
+        <div class="time-badge"><span id="date-pill"></span><span id="time-pill"></span></div>
         <span class="time-greeting" id="time-greeting">你好</span>
       </div>
     </aside>
 
     <main id="main-content">
-      <div class="section-block" id="sec-favorites" style="display:none;">
-        <div class="section-header">
-          <div class="section-title">收藏夹</div>
-          <div class="section-count" id="fav-count">0 Apps</div>
+      
+      <div class="hero-quote">
+        <div class="quote-text">
+          天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo()">凌云</span>之志。
         </div>
+        <div class="quote-sub">Long live freedom / The Visual Archive</div>
+      </div>
+
+      <a class="time-capsule" href="https://archive.org/" target="_blank" rel="noopener noreferrer">
+        <div class="capsule-left">
+          <div class="capsule-icon-box"><i class="ri-bank-line"></i></div>
+          <div class="capsule-info">
+            <span class="capsule-title">互联网档案馆</span>
+            <span class="capsule-desc">数据局</span>
+          </div>
+        </div>
+        <div class="capsule-arrow"><i class="ri-arrow-right-s-line"></i></div>
+      </a>
+
+      <div class="section-block" id="sec-favorites" style="display:none;">
+        <div class="section-header"><div class="section-title">收藏夹</div><div class="section-count" id="fav-count">0 Apps</div></div>
         <div class="grid" id="fav-grid"></div>
       </div>
 
-      <div id="empty-state" class="hidden">
-        <i class="ri-search-line"></i>
-        <p>未找到匹配的 App</p>
-      </div>
+      <div id="empty-state" class="hidden"><i class="ri-search-line"></i><p>未找到匹配的 App</p></div>
 
       <div class="section-block" id="sec-daily" data-icon="ri-newspaper-line">
         <div class="section-header"><div class="section-title">资讯</div><div class="section-count">Tech Feed</div></div>
@@ -491,6 +443,8 @@
           <a class="app-card" href="https://stackoverflow.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="stackoverflow" data-title="StackOverflow" data-icon="💡" data-href="https://stackoverflow.com"><i class="ri-star-fill"></i></div><div class="app-icon">💡</div></div><div class="app-name">StackOverflow</div></a>
           <a class="app-card" href="https://replit.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="replit" data-title="Replit" data-icon="💻" data-href="https://replit.com"><i class="ri-star-fill"></i></div><div class="app-icon">💻</div></div><div class="app-name">Replit</div></a>
           <a class="app-card" href="https://codepen.io" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="codepen" data-title="CodePen" data-icon="🧪" data-href="https://codepen.io"><i class="ri-star-fill"></i></div><div class="app-icon">🧪</div></div><div class="app-name">CodePen</div></a>
+          <a class="app-card" href="https://lusion.co/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="lusion" data-title="Lusion" data-icon="✨" data-href="https://lusion.co/"><i class="ri-star-fill"></i></div><div class="app-icon">✨</div></div><div class="app-name">Lusion</div></a>
+          <a class="app-card" href="https://geektyper.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="geektyper" data-title="Geektyper" data-icon="⌨️" data-href="https://geektyper.com/"><i class="ri-star-fill"></i></div><div class="app-icon">⌨️</div></div><div class="app-name">Geektyper</div></a>
           <a class="app-card" href="https://ping.pe" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="pingpe" data-title="Ping.pe" data-icon="📡" data-href="https://ping.pe"><i class="ri-star-fill"></i></div><div class="app-icon">📡</div></div><div class="app-name">Ping.pe</div></a>
           <a class="app-card" href="https://www.hackerone.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="hackerone" data-title="HackerOne" data-icon="🛡️" data-href="https://www.hackerone.com"><i class="ri-star-fill"></i></div><div class="app-icon">🛡️</div></div><div class="app-name">HackerOne</div></a>
           <a class="app-card" href="https://www.bugcrowd.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="bugcrowd" data-title="Bugcrowd" data-icon="🏢" data-href="https://www.bugcrowd.com"><i class="ri-star-fill"></i></div><div class="app-icon">🏢</div></div><div class="app-name">Bugcrowd</div></a>
@@ -502,6 +456,7 @@
           <a class="app-card" href="https://www.reddit.com/r/netsec/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="netsec" data-title="Netsec" data-icon="🧬" data-href="https://www.reddit.com/r/netsec/"><i class="ri-star-fill"></i></div><div class="app-icon">🧬</div></div><div class="app-name">Netsec</div></a>
           <a class="app-card" href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="virustotal" data-title="VirusTotal" data-icon="🧫" data-href="https://www.virustotal.com/gui/home/upload"><i class="ri-star-fill"></i></div><div class="app-icon">🧫</div></div><div class="app-name">VirusTotal</div></a>
           <a class="app-card" href="https://www.shodan.io/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="shodan" data-title="Shodan" data-icon="🛰️" data-href="https://www.shodan.io/"><i class="ri-star-fill"></i></div><div class="app-icon">🛰️</div></div><div class="app-name">Shodan</div></a>
+          <a class="app-card" href="https://cybermap.kaspersky.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="kaspersky" data-title="卡巴斯基图" data-icon="☣️" data-href="https://cybermap.kaspersky.com/"><i class="ri-star-fill"></i></div><div class="app-icon">☣️</div></div><div class="app-name">卡巴斯基图</div></a>
         </div>
       </div>
 
@@ -512,10 +467,16 @@
           <a class="app-card" href="https://www.behance.net" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="behance" data-title="Behance" data-icon="🎨" data-href="https://www.behance.net"><i class="ri-star-fill"></i></div><div class="app-icon">🎨</div></div><div class="app-name">Behance</div></a>
           <a class="app-card" href="https://huaban.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="huaban" data-title="花瓣网" data-icon="🌸" data-href="https://huaban.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🌸</div></div><div class="app-name">花瓣网</div></a>
           <a class="app-card" href="https://unsplash.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="unsplash" data-title="Unsplash" data-icon="📷" data-href="https://unsplash.com"><i class="ri-star-fill"></i></div><div class="app-icon">📷</div></div><div class="app-name">Unsplash</div></a>
+          <a class="app-card" href="https://www.pexels.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="pexels" data-title="Pexels" data-icon="📸" data-href="https://www.pexels.com/"><i class="ri-star-fill"></i></div><div class="app-icon">📸</div></div><div class="app-name">Pexels</div></a>
+          <a class="app-card" href="https://pixabay.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="pixabay" data-title="Pixabay" data-icon="🌄" data-href="https://pixabay.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🌄</div></div><div class="app-name">Pixabay</div></a>
           <a class="app-card" href="https://wallhaven.cc/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="wallhaven" data-title="Wallhaven" data-icon="🖼️" data-href="https://wallhaven.cc/"><i class="ri-star-fill"></i></div><div class="app-icon">🖼️</div></div><div class="app-name">Wallhaven</div></a>
+          <a class="app-card" href="https://wallpaperswide.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="wallpaperswide" data-title="高清壁纸" data-icon="🖥️" data-href="https://wallpaperswide.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🖥️</div></div><div class="app-name">高清壁纸</div></a>
+          <a class="app-card" href="https://pic.netbian.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="netbian" data-title="彼岸图网" data-icon="🌉" data-href="https://pic.netbian.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🌉</div></div><div class="app-name">彼岸图网</div></a>
+          <a class="app-card" href="https://coolbackgrounds.io/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="coolbg" data-title="Cool BG" data-icon="🟦" data-href="https://coolbackgrounds.io/"><i class="ri-star-fill"></i></div><div class="app-icon">🟦</div></div><div class="app-name">Cool BG</div></a>
           <a class="app-card" href="https://www.photopea.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="photopea" data-title="Photopea" data-icon="🖊️" data-href="https://www.photopea.com"><i class="ri-star-fill"></i></div><div class="app-icon">🖊️</div></div><div class="app-name">Photopea</div></a>
           <a class="app-card" href="https://www.remove.bg" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="removebg" data-title="Remove.bg" data-icon="✂️" data-href="https://www.remove.bg"><i class="ri-star-fill"></i></div><div class="app-icon">✂️</div></div><div class="app-name">Remove.bg</div></a>
           <a class="app-card" href="https://www.canva.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="canva" data-title="Canva" data-icon="🎨" data-href="https://www.canva.com"><i class="ri-star-fill"></i></div><div class="app-icon">🎨</div></div><div class="app-name">Canva</div></a>
+          <a class="app-card" href="https://informationisbeautiful.net" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="infobeautiful" data-title="美丽数据" data-icon="📈" data-href="https://informationisbeautiful.net"><i class="ri-star-fill"></i></div><div class="app-icon">📈</div></div><div class="app-name">美丽数据</div></a>
         </div>
       </div>
 
@@ -524,13 +485,26 @@
         <div class="grid">
           <a class="app-card" href="https://earth.google.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="googleearth" data-title="谷歌地球" data-icon="🌎" data-href="https://earth.google.com"><i class="ri-star-fill"></i></div><div class="app-icon">🌎</div></div><div class="app-name">谷歌地球</div></a>
           <a class="app-card" href="https://www.skyscanner.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="skyscanner" data-title="天巡" data-icon="🎫" data-href="https://www.skyscanner.com"><i class="ri-star-fill"></i></div><div class="app-icon">🎫</div></div><div class="app-name">天巡</div></a>
+          <a class="app-card" href="https://www.flightconnections.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="flightconn" data-title="全球航线图" data-icon="🛫" data-href="https://www.flightconnections.com"><i class="ri-star-fill"></i></div><div class="app-icon">🛫</div></div><div class="app-name">全球航线图</div></a>
+          <a class="app-card" href="https://www.atlasobscura.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="atlasobscura" data-title="奇趣地图" data-icon="🗺️" data-href="https://www.atlasobscura.com"><i class="ri-star-fill"></i></div><div class="app-icon">🗺️</div></div><div class="app-name">奇趣地图</div></a>
           <a class="app-card" href="https://www.earthcam.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="earthcam" data-title="EarthCam" data-icon="📹" data-href="https://www.earthcam.com/"><i class="ri-star-fill"></i></div><div class="app-icon">📹</div></div><div class="app-name">EarthCam</div></a>
+          <a class="app-card" href="https://www.webcams.travel/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="webcamstravel" data-title="旅游镜头" data-icon="🔭" data-href="https://www.webcams.travel/"><i class="ri-star-fill"></i></div><div class="app-icon">🔭</div></div><div class="app-name">旅游镜头</div></a>
+          <a class="app-card" href="http://www.window-swap.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="windowswap" data-title="WindowSwap" data-icon="🪟" data-href="http://www.window-swap.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🪟</div></div><div class="app-name">WindowSwap</div></a>
+          <a class="app-card" href="https://driveandlisten.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="driveandlisten" data-title="漫游车窗" data-icon="🚗" data-href="https://driveandlisten.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🚗</div></div><div class="app-name">漫游车窗</div></a>
+          <a class="app-card" href="https://www.mapcrunch.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="mapcrunch" data-title="MapCrunch" data-icon="🧭" data-href="https://www.mapcrunch.com"><i class="ri-star-fill"></i></div><div class="app-icon">🧭</div></div><div class="app-name">MapCrunch</div></a>
+          <a class="app-card" href="https://theuselessweb.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="theuselessweb" data-title="任意门" data-icon="🚪" data-href="https://theuselessweb.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🚪</div></div><div class="app-name">任意门</div></a>
           <a class="app-card" href="https://explore.org/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="exploreorg" data-title="自然生态" data-icon="🐼" data-href="https://explore.org/"><i class="ri-star-fill"></i></div><div class="app-icon">🐼</div></div><div class="app-name">自然生态</div></a>
+          <a class="app-card" href="https://www.skylinewebcams.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="skylinewebcams" data-title="全球实况" data-icon="🔭" data-href="https://www.skylinewebcams.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🔭</div></div><div class="app-name">全球实况</div></a>
           <a class="app-card" href="https://apod.nasa.gov/apod/astropix.html" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="nasa" data-title="NASA图" data-icon="🚀" data-href="https://apod.nasa.gov/apod/astropix.html"><i class="ri-star-fill"></i></div><div class="app-icon">🚀</div></div><div class="app-name">NASA图</div></a>
+          <a class="app-card" href="https://pointerpointer.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="pointer" data-title="看手指" data-icon="👉" data-href="https://pointerpointer.com/"><i class="ri-star-fill"></i></div><div class="app-icon">👉</div></div><div class="app-name">看手指</div></a>
           <a class="app-card" href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="cframdar" data-title="流量雷达" data-icon="🌐" data-href="https://radar.cloudflare.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🌐</div></div><div class="app-name">流量雷达</div></a>
           <a class="app-card" href="https://www.flightradar24.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="flightradar" data-title="实时航班" data-icon="🛫" data-href="https://www.flightradar24.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🛫</div></div><div class="app-name">实时航班</div></a>
           <a class="app-card" href="https://www.marinetraffic.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="marinetraffic" data-title="实时货轮" data-icon="🚢" data-href="https://www.marinetraffic.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🚢</div></div><div class="app-name">实时货轮</div></a>
+          <a class="app-card" href="https://www.submarinecablemap.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="cablemap" data-title="光缆图" data-icon="🌊" data-href="https://www.submarinecablemap.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🌊</div></div><div class="app-name">光缆图</div></a>
+          <a class="app-card" href="https://stat.ripe.net/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="ripe" data-title="BGP站" data-icon="🧷" data-href="https://stat.ripe.net/"><i class="ri-star-fill"></i></div><div class="app-icon">🧷</div></div><div class="app-name">BGP站</div></a>
+          <a class="app-card" href="https://ourworldindata.org/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="ourworld" data-title="宏观数据" data-icon="📊" data-href="https://ourworldindata.org/"><i class="ri-star-fill"></i></div><div class="app-icon">📊</div></div><div class="app-name">宏观数据</div></a>
           <a class="app-card" href="https://earthquake.usgs.gov/earthquakes/map/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="earthquake" data-title="实时地震" data-icon="🌋" data-href="https://earthquake.usgs.gov/earthquakes/map/"><i class="ri-star-fill"></i></div><div class="app-icon">🌋</div></div><div class="app-name">实时地震</div></a>
+          <a class="app-card" href="https://firms.modaps.eosdis.nasa.gov/map/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="nasafires" data-title="全球火灾" data-icon="🔥" data-href="https://firms.modaps.eosdis.nasa.gov/map/"><i class="ri-star-fill"></i></div><div class="app-icon">🔥</div></div><div class="app-name">全球火灾</div></a>
           <a class="app-card" href="https://www.swpc.noaa.gov/products/aurora-30-minute-forecast" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="aurora" data-title="极光预测" data-icon="🌌" data-href="https://www.swpc.noaa.gov/products/aurora-30-minute-forecast"><i class="ri-star-fill"></i></div><div class="app-icon">🌌</div></div><div class="app-name">极光预测</div></a>
         </div>
       </div>
@@ -543,8 +517,20 @@
           <a class="app-card" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="googledrive" data-title="云盘" data-icon="☁️" data-href="https://drive.google.com/"><i class="ri-star-fill"></i></div><div class="app-icon">☁️</div></div><div class="app-name">云盘</div></a>
           <a class="app-card" href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="googlemaps" data-title="谷歌地图" data-icon="🗺️" data-href="https://www.google.com/maps"><i class="ri-star-fill"></i></div><div class="app-icon">🗺️</div></div><div class="app-name">谷歌地图</div></a>
           <a class="app-card" href="https://www.wikipedia.org/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="wikipedia" data-title="维基百科" data-icon="📚" data-href="https://www.wikipedia.org/"><i class="ri-star-fill"></i></div><div class="app-icon">📚</div></div><div class="app-name">维基百科</div></a>
+          <a class="app-card" href="https://images.google.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="googleimages" data-title="谷歌识图" data-icon="🖼️" data-href="https://images.google.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🖼️</div></div><div class="app-name">谷歌识图</div></a>
+          <a class="app-card" href="https://yandex.com/images" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="yandex" data-title="Yandex" data-icon="🔍" data-href="https://yandex.com/images"><i class="ri-star-fill"></i></div><div class="app-icon">🔍</div></div><div class="app-name">Yandex</div></a>
+          <a class="app-card" href="https://pindown.io/en1" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="pindown" data-title="Pin下载" data-icon="📌" data-href="https://pindown.io/en1"><i class="ri-star-fill"></i></div><div class="app-icon">📌</div></div><div class="app-name">Pin下载</div></a>
+          <a class="app-card" href="https://trace.moe" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="tracemoe" data-title="Trace.moe" data-icon="🔎" data-href="https://trace.moe"><i class="ri-star-fill"></i></div><div class="app-icon">🔎</div></div><div class="app-name">Trace.moe</div></a>
+          <a class="app-card" href="https://www.wikihow.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="wikihow" data-title="WikiHow" data-icon="📘" data-href="https://www.wikihow.com"><i class="ri-star-fill"></i></div><div class="app-icon">📘</div></div><div class="app-name">WikiHow</div></a>
           <a class="app-card" href="https://www.speedtest.net" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="speedtest" data-title="Speedtest" data-icon="⚡" data-href="https://www.speedtest.net"><i class="ri-star-fill"></i></div><div class="app-icon">⚡</div></div><div class="app-name">Speedtest</div></a>
+          <a class="app-card" href="https://tinywow.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="tinywow" data-title="TinyWow" data-icon="🧰" data-href="https://tinywow.com"><i class="ri-star-fill"></i></div><div class="app-icon">🧰</div></div><div class="app-name">TinyWow</div></a>
           <a class="app-card" href="https://www.ilovepdf.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="ilovepdf" data-title="iLovePDF" data-icon="📄" data-href="https://www.ilovepdf.com"><i class="ri-star-fill"></i></div><div class="app-icon">📄</div></div><div class="app-name">iLovePDF</div></a>
+          <a class="app-card" href="https://gumroad.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="gumroad" data-title="Gumroad" data-icon="💸" data-href="https://gumroad.com"><i class="ri-star-fill"></i></div><div class="app-icon">💸</div></div><div class="app-name">Gumroad</div></a>
+          <a class="app-card" href="https://www.suijidaquan.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="randcc" data-title="随机卡号" data-icon="🎲" data-href="https://www.suijidaquan.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🎲</div></div><div class="app-name">随机卡号</div></a>
+          <a class="app-card" href="https://www.coinepay.net" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="coinepay" data-title="Coinepay" data-icon="💳" data-href="https://www.coinepay.net"><i class="ri-star-fill"></i></div><div class="app-icon">💳</div></div><div class="app-name">Coinepay</div></a>
+          <a class="app-card" href="https://www.buyaacc.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="buyacc" data-title="BuyAcc" data-icon="🛒" data-href="https://www.buyaacc.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🛒</div></div><div class="app-name">BuyAcc</div></a>
+          <a class="app-card" href="https://www.10minutemail.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="10minmail" data-title="十分邮箱" data-icon="⌛" data-href="https://www.10minutemail.com"><i class="ri-star-fill"></i></div><div class="app-icon">⌛</div></div><div class="app-name">十分邮箱</div></a>
+          <a class="app-card" href="https://mjjfaka.net/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="mjjfaka" data-title="MJJ发卡" data-icon="🏪" data-href="https://mjjfaka.net/"><i class="ri-star-fill"></i></div><div class="app-icon">🏪</div></div><div class="app-name">MJJ发卡</div></a>
           <a class="app-card" href="https://www.binance.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="binance" data-title="币安" data-icon="💰" data-href="https://www.binance.com/"><i class="ri-star-fill"></i></div><div class="app-icon">💰</div></div><div class="app-name">币安</div></a>
           <a class="app-card" href="https://www.okx.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="okx" data-title="欧易" data-icon="🟢" data-href="https://www.okx.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🟢</div></div><div class="app-name">欧易</div></a>
           <a class="app-card" href="https://metamask.io/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="metamask" data-title="小狐狸" data-icon="🦊" data-href="https://metamask.io/"><i class="ri-star-fill"></i></div><div class="app-icon">🦊</div></div><div class="app-name">小狐狸</div></a>
@@ -556,28 +542,47 @@
         <div class="grid">
           <a class="app-card" href="https://telegram.org/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="telegram" data-title="Telegram" data-icon="✈️" data-href="https://telegram.org/"><i class="ri-star-fill"></i></div><div class="app-icon">✈️</div></div><div class="app-name">Telegram</div></a>
           <a class="app-card" href="https://x.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="twitter" data-title="X" data-icon="🕇" data-href="https://x.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🕇</div></div><div class="app-name">X</div></a>
+          <a class="app-card" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="facebook" data-title="Facebook" data-icon="📘" data-href="https://www.facebook.com/"><i class="ri-star-fill"></i></div><div class="app-icon">📘</div></div><div class="app-name">Facebook</div></a>
           <a class="app-card" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="instagram" data-title="Insta" data-icon="📸" data-href="https://www.instagram.com/"><i class="ri-star-fill"></i></div><div class="app-icon">📸</div></div><div class="app-name">Insta</div></a>
+          <a class="app-card" href="https://signal.org/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="signal" data-title="Signal" data-icon="📨" data-href="https://signal.org/"><i class="ri-star-fill"></i></div><div class="app-icon">📨</div></div><div class="app-name">Signal</div></a>
           <a class="app-card" href="https://www.reddit.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="reddit" data-title="Reddit" data-icon="🍊" data-href="https://www.reddit.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🍊</div></div><div class="app-name">Reddit</div></a>
           <a class="app-card" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="youtube" data-title="YouTube" data-icon="▶️" data-href="https://www.youtube.com/"><i class="ri-star-fill"></i></div><div class="app-icon">▶️</div></div><div class="app-name">YouTube</div></a>
           <a class="app-card" href="https://www.netflix.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="netflix" data-title="Netflix" data-icon="🎞️" data-href="https://www.netflix.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🎞️</div></div><div class="app-name">Netflix</div></a>
           <a class="app-card" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="spotify" data-title="Spotify" data-icon="🎵" data-href="https://open.spotify.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🎵</div></div><div class="app-name">Spotify</div></a>
+          <a class="app-card" href="https://everynoise.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="everynoise" data-title="音乐地图" data-icon="🎶" data-href="https://everynoise.com"><i class="ri-star-fill"></i></div><div class="app-icon">🎶</div></div><div class="app-name">音乐地图</div></a>
           <a class="app-card" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="tiktok" data-title="TikTok" data-icon="📱" data-href="https://www.tiktok.com/"><i class="ri-star-fill"></i></div><div class="app-icon">📱</div></div><div class="app-name">TikTok</div></a>
+          <a class="app-card" href="https://nf.video/银河录像局" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="yinhejuxiang" data-title="录像局" data-icon="🎬" data-href="https://nf.video/银河录像局"><i class="ri-star-fill"></i></div><div class="app-icon">🎬</div></div><div class="app-name">录像局</div></a>
         </div>
       </div>
 
       <div class="section-block sensitive-zone locked" id="sec-abyss" data-icon="ri-eye-off-line">
         <div class="sensitive-mask"><div class="mask-badge">Confidential / NSFW</div></div>
         <div class="sensitive-blur">
-          <div class="section-header"><div class="section-title">私有区域</div><span class="section-count">Restricted</span></div>
+          <div class="section-header"><div class="section-title">深海与私藏</div><span class="section-count">Restricted</span></div>
           <div class="grid">
             <a class="app-card" href="https://www.torproject.org/zh-CN/download/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🧅</div></div><div class="app-name">Tor</div></a>
+            <a class="app-card" href="https://fanqianglu.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🪜</div></div><div class="app-name">翻墙路</div></a>
+            <a class="app-card" href="https://baichunlink.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🔗</div></div><div class="app-name">百醇导</div></a>
+            <a class="app-card" href="https://fuun.fun/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🎡</div></div><div class="app-name">Fuun</div></a>
+            <a class="app-card" href="https://www.pornpics.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">👱‍♀️</div></div><div class="app-name">图库</div></a>
+            <a class="app-card" href="https://www.junmeitu.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">💃</div></div><div class="app-name">俊美图</div></a>
+            <a class="app-card" href="https://www.91tulu.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🚗</div></div><div class="app-name">91图</div></a>
+            <a class="app-card" href="https://www.v2ph.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">📸</div></div><div class="app-name">微图</div></a>
+            <a class="app-card" href="https://www.tblop.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">📜</div></div><div class="app-name">TBLOP</div></a>
+            <a class="app-card" href="https://theporndude.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🤠</div></div><div class="app-name">向导</div></a>
             <a class="app-card" href="https://pornhub.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🟧</div></div><div class="app-name">PHub</div></a>
             <a class="app-card" href="https://www.xvideos.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">❌</div></div><div class="app-name">Xvideo</div></a>
             <a class="app-card" href="https://xhamster.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🐹</div></div><div class="app-name">xHam</div></a>
+            <a class="app-card" href="https://www.eporner.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">📺</div></div><div class="app-name">Eporn</div></a>
             <a class="app-card" href="https://stripchat.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">👙</div></div><div class="app-name">Strip</div></a>
             <a class="app-card" href="https://onlyfans.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🔵</div></div><div class="app-name">OFans</div></a>
+            <a class="app-card" href="https://netflav.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">N</div></div><div class="app-name">Netfla</div></a>
             <a class="app-card" href="https://hanime1.me/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🌸</div></div><div class="app-name">Hanim</div></a>
+            <a class="app-card" href="https://supjav.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">S</div></div><div class="app-name">SupJAV</div></a>
+            <a class="app-card" href="https://sukebei.nyaa.si/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🧲</div></div><div class="app-name">Sukebe</div></a>
             <a class="app-card" href="https://nyaa.si/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">N</div></div><div class="app-name">Nyaa</div></a>
+            <a class="app-card" href="https://btsow.motorcycles/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">⚡</div></div><div class="app-name">BTSOW</div></a>
+            <a class="app-card" href="https://www.erome.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">📂</div></div><div class="app-name">Erome</div></a>
           </div>
         </div>
       </div>
@@ -605,7 +610,21 @@
   <script>
     let isAbyssOpen = false;
 
-    // 收藏功能逻辑
+    // ── 闪屏关闭 ──
+    function closeSplash() {
+      const splash = document.getElementById('splash');
+      if (splash) {
+        splash.style.opacity = '0';
+        setTimeout(() => { splash.style.display = 'none'; }, 600);
+        sessionStorage.setItem('archiveSplashSeen', 'true');
+      }
+    }
+    if (sessionStorage.getItem('archiveSplashSeen')) {
+      const splash = document.getElementById('splash');
+      if (splash) splash.style.display = 'none';
+    }
+
+    // ── 收藏功能逻辑 ──
     const FAV_KEY = 'jintong_favorites_ios';
     function loadFavs() {
       try { return JSON.parse(localStorage.getItem(FAV_KEY)) || {}; } catch { return {}; }
@@ -845,7 +864,7 @@
     });
 
     // ==========================================
-    // 备忘录核心逻辑与 Supabase 交互 (完全保留)
+    // 备忘录核心逻辑与 Supabase 交互
     // ==========================================
     const formatTime = (isoString) => {
       try {
