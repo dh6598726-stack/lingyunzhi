@@ -14,56 +14,41 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='red' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>">
     
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
-  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap" rel="stylesheet">
+
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js"></script>
 
   <style>
     :root {
-      --font-main: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-      --font-sys: var(--font-main);
-      
-      --bg-base: #f2f2f7;
-      --bg-sidebar: rgba(255, 255, 255, 0.7);
-      --bg-widget: rgba(255, 255, 255, 0.65);
-      --bg-app: rgba(255, 255, 255, 0.85);
-      --border-glass: rgba(255, 255, 255, 0.4);
-      --border-app: rgba(0, 0, 0, 0.05);
+      --font-main: 'Long Cang', "Xingkai SC", "STXingkai", cursive;
+      --font-sys: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --bg-body: #F5F5F7;
+      --bg-sidebar: transparent;
+      --bg-card: rgba(255, 255, 255, 0.82);
+      --border-color: rgba(0, 0, 0, 0.1);
+      --border-hover: rgba(0, 122, 255, 0.6);
       --text-main: #000000; 
-      --text-sub: #8e8e93; 
+      --text-sub: #666666; 
+      --text-shadow: none;
       --accent: #007aff;
-      --shadow-widget: 0 8px 32px rgba(0, 0, 0, 0.05);
-      --shadow-app: 0 4px 12px rgba(0, 0, 0, 0.06);
-      --shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.12);
-      
+      --shadow-card: 0 4px 12px rgba(0,0,0,0.04);
+      --shadow-hover: 0 10px 28px rgba(0,0,0,0.12);
       --radius-sm: 10px;
       --radius-md: 16px;
-      --radius-lg: 24px;
-      --radius-app: 22%; 
-      
+      --radius-lg: 20px;
       --blur-val: 24px;
       --transition-fast: 0.2s ease;
-      --transition-smooth: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
-
-    body.dark-mode {
-      --bg-base: #000000;
-      --bg-sidebar: rgba(28, 28, 30, 0.6);
-      --bg-widget: rgba(28, 28, 30, 0.55);
-      --bg-app: rgba(44, 44, 46, 0.8);
-      --border-glass: rgba(255, 255, 255, 0.08);
-      --border-app: rgba(255, 255, 255, 0.1);
-      --text-main: #ffffff;
-      --text-sub: #ebebf599;
-      --accent: #0a84ff;
-      --shadow-widget: 0 8px 32px rgba(0, 0, 0, 0.3);
-      --shadow-app: 0 4px 12px rgba(0, 0, 0, 0.3);
-      --shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.5);
+      --transition-smooth: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --progress-height: 3px;
     }
 
     body {
       font-family: var(--font-main);
-      background-color: var(--bg-base);
+      background-color: var(--bg-body);
       color: var(--text-main);
+      text-shadow: var(--text-shadow);
       height: 100vh;
       overflow: hidden;
       transition: color var(--transition-fast), background-color var(--transition-smooth);
@@ -71,228 +56,483 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
+    body.dark-mode {
+      --bg-body: #000000;
+      --bg-sidebar: transparent;
+      --bg-card: rgba(44, 44, 46, 0.85);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --border-hover: rgba(10, 132, 255, 0.5);
+      --text-main: #ffffff;
+      --text-sub: #999999;
+      --text-shadow: none;
+      --accent: #0a84ff;
+      --shadow-card: 0 4px 12px rgba(0,0,0,0.4);
+      --shadow-hover: 0 10px 28px rgba(0,0,0,0.65);
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     
-    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--text-sub); border-radius: 10px; opacity: 0.3; }
+    ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.18); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(128,128,128,0.38); }
 
-    input, textarea { font-family: var(--font-sys); outline: none; }
+    input, textarea { font-family: var(--font-sys); text-shadow: none; }
     
-    #vanta-bg {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;
-      background: 
-        radial-gradient(circle at 15% 10%, rgba(10, 132, 255, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 85% 20%, rgba(94, 92, 230, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 50% 80%, rgba(255, 55, 95, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 10% 90%, rgba(50, 173, 230, 0.15) 0%, transparent 40%);
-      background-size: cover; filter: blur(40px); transition: all 1s ease;
-    }
-    body.dark-mode #vanta-bg {
-      background: 
-        radial-gradient(circle at 20% 0%, rgba(10, 132, 255, 0.25) 0%, transparent 50%),
-        radial-gradient(circle at 90% 10%, rgba(94, 92, 230, 0.25) 0%, transparent 50%),
-        radial-gradient(circle at 60% 100%, rgba(255, 55, 95, 0.15) 0%, transparent 50%);
-    }
-
-    /* ── 闪屏 ── */
-    #splash {
-      position: fixed; inset: 0; z-index: 9999;
-      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-                  url('https://i.pinimg.com/736x/2a/8b/1a/2a8b1a9e6cfd057effd62bda202acd70.jpg') center/cover no-repeat;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      transition: opacity 0.6s ease, visibility 0.6s; user-select: none;
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    }
-    .splash-quote {
-      font-size: 28px; text-align: left; max-width: 600px; line-height: 1.8;
-      padding: 0 20px; color: #ffffff !important; text-shadow: 0 4px 12px rgba(0,0,0,0.5); font-weight: 500;
+    /* ── 阅读进度条 ── */
+    #read-progress {
+      position: fixed; top: 0; left: 0; right: 0; height: var(--progress-height);
+      background: linear-gradient(90deg, #007aff, #af52de, #ff375f);
+      transform-origin: left;
+      transform: scaleX(0);
+      z-index: 9998;
+      transition: transform 0.1s linear;
+      border-radius: 0 2px 2px 0;
     }
 
     #app { display: grid; grid-template-columns: 280px 1fr; height: 100%; position: relative; z-index: 10; }
 
     aside {
       background: var(--bg-sidebar);
-      backdrop-filter: blur(var(--blur-val)) saturate(180%); -webkit-backdrop-filter: blur(var(--blur-val)) saturate(180%);
-      border-right: 1px solid var(--border-glass); padding: 32px 20px; display: flex; flex-direction: column; z-index: 1000;
+      backdrop-filter: blur(var(--blur-val));
+      -webkit-backdrop-filter: blur(var(--blur-val));
+      border-right: 1px solid var(--border-color);
+      padding: 32px 24px;
+      display: flex; flex-direction: column;
+      z-index: 1000;
+      transform: translateZ(0);
     }
     
-    .brand { display: flex; align-items: center; justify-content: center; margin-bottom: 24px; cursor: pointer; }
+    .brand { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; cursor: pointer; }
 
+    /* ── 搜索框 ── */
     .search-box { position: relative; margin-bottom: 24px; }
     .search-input {
-      width: 100%; padding: 10px 36px 10px 36px; background: var(--bg-app); border: 1px solid var(--border-glass); 
-      border-radius: var(--radius-sm); color: var(--text-main); font-size: 15px; box-shadow: var(--shadow-widget); transition: all var(--transition-fast);
+      width: 100%; padding: 12px 36px 12px 40px;
+      background: rgba(128,128,128,0.08);
+      border: 1px solid var(--border-color); border-radius: var(--radius-sm);
+      color: var(--text-main); font-size: 16px; transition: all var(--transition-fast);
     }
-    .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,122,255,0.2); }
-    .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-sub); }
-    .search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-sub); cursor: pointer; opacity: 0; padding: 4px; }
+    .search-input:focus {
+      background: var(--bg-card); border-color: var(--accent); outline: none;
+      box-shadow: 0 0 0 3px rgba(0,122,255,0.15);
+    }
+    .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-sub); pointer-events: none; }
+    .search-clear {
+      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+      font-size: 16px; color: var(--text-sub); cursor: pointer; opacity: 0;
+      transition: opacity var(--transition-fast), color var(--transition-fast);
+      padding: 4px;
+    }
     .search-clear.visible { opacity: 1; }
+    .search-clear:hover { color: var(--text-main); }
 
-    .search-hint { font-size: 12px; color: var(--text-sub); text-align: center; padding: 4px 0 12px; opacity: 0; }
+    /* ── 搜索结果计数 ── */
+    .search-hint {
+      font-size: 12px; color: var(--text-sub); font-family: var(--font-sys);
+      text-align: center; padding: 4px 0 8px; opacity: 0;
+      transition: opacity var(--transition-fast);
+    }
     .search-hint.visible { opacity: 1; }
 
     .nav-scroll { flex: 1; overflow-y: auto; padding-right: 8px; }
+    
     .nav-item {
-      padding: 10px 14px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 500; color: var(--text-sub);
-      text-decoration: none; display: flex; align-items: center; gap: 12px; transition: all var(--transition-fast); cursor: pointer; margin-bottom: 6px;
+      padding: 12px 14px; border-radius: var(--radius-sm); font-size: 16px; font-weight: 500; color: var(--text-sub);
+      text-decoration: none; display: flex; align-items: center; gap: 12px;
+      transition: all var(--transition-fast); cursor: pointer; margin-bottom: 4px;
+      position: relative;
     }
-    .nav-item:hover { background: rgba(128,128,128,0.1); color: var(--text-main); }
-    .nav-item.active { background: var(--accent); color: #fff; }
-    .nav-icon { font-size: 18px; }
-
-    .aside-footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-glass); display: flex; justify-content: space-between; align-items: center; }
-    .time-badge { font-size: 13px; color: var(--text-main); font-weight: 600; display: flex; align-items: center; gap: 6px; }
-    .time-greeting { font-size: 12px; color: var(--text-sub); font-weight: normal; }
-
-    main { padding: 40px 5vw; overflow-y: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
-
-    /* ── 顶部引言 & 凌云触发器 ── */
-    .hero-quote { margin-bottom: 32px; padding: 0 10px; }
-    .quote-text { font-size: 22px; font-weight: 600; line-height: 1.6; color: var(--text-main); margin-bottom: 8px; letter-spacing: 0.5px; }
-    .quote-sub { font-size: 13px; color: var(--text-sub); letter-spacing: 1px; text-transform: uppercase; }
-    .secret-trigger { cursor: pointer; color: var(--accent); position: relative; z-index: 10; padding: 0 2px; transition: opacity 0.2s; }
-    .secret-trigger:hover { opacity: 0.7; }
-
-    /* ── 互联网档案馆 (Time Capsule) ── */
-    .time-capsule {
-      margin-bottom: 40px; padding: 20px 24px;
-      background: var(--bg-widget); border: 1px solid var(--border-glass); border-radius: var(--radius-lg);
-      display: flex; align-items: center; justify-content: space-between;
-      backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%);
-      box-shadow: var(--shadow-widget); text-decoration: none; color: var(--text-main); transition: transform 0.2s; cursor: pointer;
+    .nav-item:hover { background: rgba(128,128,128,0.1); color: var(--text-main); transform: translateX(4px); }
+    .nav-item.active { background: var(--text-main); color: #fff; text-shadow: none; }
+    body.dark-mode .nav-item.active { color: #000; text-shadow: none; }
+    .nav-icon { font-size: 18px; opacity: 0.9; }
+    .nav-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); margin-left: auto; opacity: 0;
+      transition: opacity var(--transition-fast);
     }
-    .time-capsule:hover { transform: scale(1.01); box-shadow: var(--shadow-hover); }
-    .capsule-left { display: flex; align-items: center; gap: 16px; }
-    .capsule-icon-box {
-      width: 44px; height: 44px; background: var(--bg-app); border-radius: 12px;
-      display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: var(--shadow-app);
-    }
-    .capsule-info { display: flex; flex-direction: column; }
-    .capsule-title { font-size: 17px; font-weight: 600; }
-    .capsule-desc { font-size: 13px; color: var(--text-sub); margin-top: 2px; }
-    .capsule-arrow { font-size: 20px; color: var(--text-sub); }
+    .nav-item.active .nav-dot { opacity: 1; }
+    body.dark-mode .nav-item.active .nav-dot { background: #0a84ff; }
 
-    /* ── Section & Grid ── */
-    .section-block {
-      background: var(--bg-widget); backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%);
-      border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 24px 32px; margin-bottom: 40px;
-      box-shadow: var(--shadow-widget); scroll-margin-top: 32px;
+    .aside-footer {
+      margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color);
+      display: flex; justify-content: space-between; align-items: center;
     }
-    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border-glass); }
-    .section-title { font-size: 20px; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
-    .section-count { font-size: 12px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.5px; }
+    .time-badge {
+      font-size: 14px; color: var(--text-sub); font-family: var(--font-sys);
+      background: rgba(128,128,128,0.08); padding: 6px 10px; border-radius: 6px; cursor: default;
+      display: flex; align-items: center; gap: 8px; border: 1px solid var(--border-color);
+    }
+    .time-greeting { font-size: 12px; opacity: 0.8; }
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 28px 16px; justify-items: center; }
+    /* ── 快捷键提示图标 ── */
+    .shortcut-btn {
+      width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border-color);
+      background: rgba(128,128,128,0.08); cursor: pointer; display: flex; align-items: center;
+      justify-content: center; font-size: 14px; color: var(--text-sub);
+      transition: all var(--transition-fast);
+    }
+    .shortcut-btn:hover { background: var(--bg-card); color: var(--text-main); border-color: var(--accent); }
+
+    main { padding: 48px 6vw; overflow-y: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; position: relative; }
+
+    /* ── 返回顶部按钮 ── */
+    #back-top {
+      position: fixed; bottom: 40px; right: 40px;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--bg-sidebar); border: 1px solid var(--border-color);
+      backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
+      box-shadow: var(--shadow-hover);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; color: var(--text-main); cursor: pointer;
+      opacity: 0; transform: translateY(20px);
+      transition: all var(--transition-smooth);
+      z-index: 900;
+    }
+    #back-top.visible { opacity: 1; transform: translateY(0); }
+    #back-top:hover { background: var(--text-main); color: #fff; transform: translateY(-3px); }
+    body.dark-mode #back-top:hover { background: #fff; color: #000; }
+
+    .hero-quote {
+      margin-bottom: 40px; padding: 20px 0;
+      background-color: transparent;
+      position: relative; overflow: hidden;
+    }
+    .quote-text, .quote-sub { position: relative; z-index: 2; }
+    .quote-text { font-size: 32px; line-height: 1.6; color: var(--text-main); margin-bottom: 12px; }
+    .quote-sub { font-size: 16px; color: var(--text-sub); letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-sys); }
+
+    .secret-trigger { cursor: pointer; }
+
+    .section-block { margin-bottom: 56px; scroll-margin-top: 32px; }
+    .section-header {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: 32px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);
+    }
+    .section-title { font-size: 22px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; }
+    .section-count { font-size: 14px; color: var(--text-sub); text-transform: uppercase; font-family: var(--font-sys); }
+
     .hidden { display: none !important; }
 
-    /* ── App 卡片样式 ── */
-    .app-card { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: inherit; cursor: pointer; width: 72px; opacity: 0; animation: fadeUp 0.4s ease forwards; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
-    .app-icon-wrap { position: relative; width: 64px; height: 64px; margin-bottom: 8px; }
-    .app-icon {
-      width: 100%; height: 100%; background: var(--bg-app); border: 1px solid var(--border-app); border-radius: var(--radius-app);
-      display: flex; justify-content: center; align-items: center; font-size: 30px; box-shadow: var(--shadow-app); transition: all var(--transition-fast); color: var(--text-main);
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    .app-card:hover .app-icon { transform: scale(1.05); box-shadow: var(--shadow-hover); }
-    .app-card:active .app-icon { transform: scale(0.92); opacity: 0.8; }
-    .app-name { font-size: 12px; font-weight: 500; text-align: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-main); }
-    
+
+    /* ── 苹果 App 式 图标网格系统 ── */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 32px 16px; justify-items: center; align-items: start; }
+
+    .card {
+      background: transparent; border: none; padding: 0; box-shadow: none;
+      cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px;
+      transition: transform var(--transition-fast); text-decoration: none; color: inherit;
+      opacity: 0; animation: fadeUp 0.4s ease forwards; position: relative;
+    }
+    .card:hover { transform: scale(1.05); }
+
+    .icon-box {
+      width: 64px; height: 64px; border-radius: 16px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: center; font-size: 32px;
+      color: var(--text-main); border: 1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06); text-shadow: none;
+      transition: box-shadow var(--transition-fast);
+    }
+    body.dark-mode .icon-box {
+      background: rgba(44, 44, 46, 0.8);
+      border-color: rgba(255,255,255,0.08);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .card:hover .icon-box { box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+    body.dark-mode .card:hover .icon-box { box-shadow: 0 8px 20px rgba(0,0,0,0.6); }
+
+    .card-title {
+      font-size: 12px; font-weight: 500; color: var(--text-main);
+      font-family: var(--font-sys); text-align: center; line-height: 1.2;
+      width: 76px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    /* ── 收藏角标 (适配为类似通知气泡) ── */
     .card-fav {
-      position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; border-radius: 50%;
-      background: rgba(200,200,200,0.8); backdrop-filter: blur(4px); color: #fff; font-size: 12px; display: flex; align-items: center; justify-content: center;
-      border: 2px solid var(--bg-base); opacity: 0; transform: scale(0.8); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 5;
+      position: absolute; top: -6px; right: -2px;
+      font-size: 12px; opacity: 0; cursor: pointer;
+      transition: all var(--transition-fast);
+      z-index: 5; color: #ff9500; padding: 4px;
+      background: var(--bg-card); border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15); border: 1px solid var(--border-color);
+      line-height: 1; display: flex; align-items: center; justify-content: center;
     }
-    .app-card:hover .card-fav { opacity: 1; transform: scale(1); }
-    .card-fav.active { background: #ff9500; opacity: 1; transform: scale(1); }
-    .card-fav:hover { transform: scale(1.15) !important; background: #ff9500; }
+    .card:hover .card-fav { opacity: 0.5; }
+    .card-fav.active { opacity: 1 !important; }
+    .card-fav:hover { transform: scale(1.2); opacity: 1 !important; }
+
+    /* 搜索高亮 */
+    mark { background: rgba(0,122,255,0.2); color: var(--accent); border-radius: 3px; padding: 0 2px; }
+    body.dark-mode mark { background: rgba(10,132,255,0.25); }
 
     #empty-state { text-align: center; padding: 60px 20px; opacity: 0.6; }
-    #empty-state i { font-size: 40px; color: var(--text-sub); margin-bottom: 12px; display: block; }
-    #empty-state p { font-size: 15px; color: var(--text-main); font-weight: 500; }
+    #empty-state i { font-size: 48px; color: var(--text-sub); margin-bottom: 16px; display: block; }
+    #empty-state p { font-size: 16px; color: var(--text-main); font-weight: 500; font-family: var(--font-sys); }
+
+    .time-capsule {
+      margin-bottom: 56px; padding: 24px 32px;
+      background: linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
+      border-radius: var(--radius-lg); cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+      box-shadow: var(--shadow-hover); border: 1px solid rgba(255,255,255,0.15);
+      position: relative; overflow: hidden; color: #fff;
+      transition: transform var(--transition-fast); text-decoration: none;
+      text-shadow: none;
+    }
+    .time-capsule:hover { transform: scale(1.01) translateY(-2px); border-color: rgba(255,255,255,0.4); }
+    .time-capsule::before {
+      content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transform: skewX(-20deg);
+    }
+    .time-capsule:hover::before { left: 200%; transition: 0.8s ease-in-out; }
+    .capsule-left { display: flex; align-items: center; gap: 20px; z-index: 2; }
+    .capsule-icon-box {
+      width: 48px; height: 48px; background: rgba(255,255,255,0.15); backdrop-filter: blur(5px);
+      border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px;
+    }
+    .capsule-info { display: flex; flex-direction: column; }
+    .capsule-title { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
+    .capsule-desc { color: rgba(255,255,255,0.6); font-size: 14px; margin-top: 4px; font-family: var(--font-sys); }
+    .capsule-arrow {
+      width: 36px; height: 36px; border-radius: 50%; background: #fff; color: #000;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; opacity: 0; transform: translateX(-15px); transition: all var(--transition-fast);
+    }
+    .time-capsule:hover .capsule-arrow { opacity: 1; transform: translateX(0); }
+
+    /* ── 收藏区 ── */
+    #sec-favorites .grid { min-height: 60px; }
+    #fav-empty {
+      font-size: 14px; color: var(--text-sub); font-family: var(--font-sys);
+      padding: 20px 0; text-align: center; opacity: 0.7; grid-column: 1 / -1;
+    }
 
     .sensitive-zone { position: relative; transition: all 0.5s ease; }
     .locked { display: none !important; }
-    .sensitive-blur { filter: blur(16px); opacity: 0.4; transition: 0.4s ease; pointer-events: none; }
-    .sensitive-mask { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5; }
-    .mask-badge {
-      background: rgba(0,0,0,0.6); color: #fff; backdrop-filter: blur(10px);
-      padding: 10px 20px; border-radius: 20px; font-size: 14px; font-weight: 600; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    .sensitive-blur { filter: blur(12px); opacity: 0.3; transition: 0.4s ease; pointer-events: none; }
+    .sensitive-mask {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5; pointer-events: none;
     }
+    .mask-badge {
+      background: rgba(0,0,0,0.8); color: #fff; backdrop-filter: blur(4px);
+      padding: 8px 16px; border-radius: 8px; font-size: 14px; font-family: var(--font-sys);
+      font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+      transition: var(--transition-fast); box-shadow: 0 0 20px rgba(0,0,0,0.5); text-shadow: none;
+    }
+    .sensitive-zone:hover .sensitive-blur { filter: blur(0); opacity: 1; }
     .sensitive-zone.unlocked .sensitive-blur { filter: blur(0); opacity: 1; pointer-events: auto; }
     .sensitive-zone.unlocked .sensitive-mask { display: none; }
 
-    #panic-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); z-index: 99999;
-      display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    /* ── 闪屏 ── */
+    #splash {
+      position: fixed; inset: 0; z-index: 9999;
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                  url('https://i.pinimg.com/736x/2a/8b/1a/2a8b1a9e6cfd057effd62bda202acd70.jpg') center/cover no-repeat;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s; user-select: none;
+      backdrop-filter: blur(10px);
     }
-    #panic-overlay.active { opacity: 1; pointer-events: auto; }
-    .alert-box { background: var(--bg-app); width: 280px; border-radius: 14px; text-align: center; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-    .alert-content { padding: 20px; border-bottom: 1px solid var(--border-glass); }
-    .alert-title { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
-    .alert-msg { font-size: 13px; color: var(--text-sub); }
-    .alert-btn { padding: 12px; font-size: 17px; color: var(--accent); font-weight: 500; cursor: pointer; }
-    .alert-btn:hover { background: rgba(128,128,128,0.1); }
+    .splash-quote {
+      font-size: 32px; text-align: center; max-width: 600px; line-height: 1.6;
+      margin-bottom: 40px; padding: 0 20px; 
+      color: #ffffff !important; 
+      text-shadow: 0 4px 12px rgba(0,0,0,0.8); 
+      max-height: 75vh; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    }
 
-    /* ── 备忘录 (Ghost Memo) ── */
+    /* ── 快捷键面板 ── */
+    #shortcut-panel {
+      position: fixed; inset: 0; z-index: 9995;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity var(--transition-smooth);
+    }
+    #shortcut-panel.active { opacity: 1; pointer-events: auto; }
+    .shortcut-card {
+      background: var(--bg-card); border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg); padding: 32px; min-width: 340px;
+      box-shadow: var(--shadow-hover);
+      transform: scale(0.95); transition: transform var(--transition-smooth);
+    }
+    #shortcut-panel.active .shortcut-card { transform: scale(1); }
+    .shortcut-card h3 { font-size: 18px; margin-bottom: 20px; color: var(--text-main); font-family: var(--font-main); }
+    .shortcut-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid var(--border-color);
+      font-family: var(--font-sys); font-size: 14px; color: var(--text-sub);
+    }
+    .shortcut-row:last-child { border-bottom: none; }
+    .shortcut-row span:first-child { color: var(--text-main); }
+    kbd {
+      background: rgba(128,128,128,0.1); border: 1px solid var(--border-color);
+      border-radius: 5px; padding: 3px 8px; font-size: 12px; font-family: monospace;
+      color: var(--text-main); box-shadow: 0 1px 0 var(--border-color); text-shadow: none;
+    }
+
+    /* ── 备忘录 ── */
     #ghost-memo {
       position: fixed; bottom: 40px; right: 40px; width: 340px; height: 460px;
-      background: var(--bg-widget); color: var(--text-main);
-      backdrop-filter: blur(var(--blur-val)) saturate(180%); -webkit-backdrop-filter: blur(var(--blur-val)) saturate(180%);
-      border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 24px;
-      display: flex; flex-direction: column; box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-      transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none; transition: var(--transition-smooth); z-index: 1000; font-family: var(--font-sys);
+      background: var(--bg-sidebar); color: var(--text-main);
+      backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
+      border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 24px;
+      display: flex; flex-direction: column;
+      box-shadow: var(--shadow-hover); transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none;
+      transition: var(--transition-smooth); z-index: 1000; font-family: var(--font-sys);
     }
     #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
+
     #memo-content {
-      flex: 1; background: var(--bg-app); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px;
-      margin-top: 12px; margin-bottom: 12px; overflow-y: auto; scroll-behavior: smooth; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+      flex: 1; background: rgba(128,128,128,0.05); border: none; outline: none; border-radius: 8px; padding: 14px;
+      margin-top: 12px; margin-bottom: 8px; overflow-y: auto; scroll-behavior: smooth;
     }
-    .memo-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border-glass); color: var(--text-main); font-size: 14px; line-height: 1.5; }
+    .memo-item {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed rgba(128,128,128,0.15);
+      color: var(--text-main); font-size: 14px; line-height: 1.6;
+    }
     .memo-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .memo-text { flex: 1; word-break: break-all; white-space: pre-wrap; cursor: pointer; transition: opacity var(--transition-fast); }
+    .memo-text {
+      flex: 1; word-break: break-all; white-space: pre-wrap; font-family: inherit;
+      cursor: pointer; transition: opacity var(--transition-fast);
+    }
     .memo-text:hover { opacity: 0.7; }
-    .memo-time { font-size: 11px; color: var(--text-sub); display: block; margin-bottom: 4px; }
-    .memo-delete { cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity var(--transition-fast); padding: 0 4px; margin-left: 8px; font-weight: bold; font-size: 16px; user-select: none; }
-    .memo-item:hover .memo-delete { opacity: 0.8; }
+    .memo-time { font-size: 11px; opacity: 0.5; display: block; margin-bottom: 4px; }
+    .memo-delete {
+      cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity var(--transition-fast);
+      padding: 0 4px; margin-left: 8px; font-weight: bold; font-size: 16px; user-select: none; text-shadow: none;
+    }
+    .memo-item:hover .memo-delete { opacity: 0.6; }
     .memo-delete:hover { opacity: 1 !important; transform: scale(1.1); }
+    @media (max-width: 768px) { .memo-delete { opacity: 0.8; } }
+
+    /* 字数统计 */
     .memo-input-wrap { position: relative; }
     #memo-new-record {
-      width: 100%; background: var(--bg-app); border: 1px solid var(--border-glass); outline: none; border-radius: 10px; padding: 12px 48px 12px 14px;
-      color: var(--text-main); font-size: 14px; transition: all var(--transition-fast); box-shadow: var(--shadow-app);
+      width: 100%; background: rgba(128,128,128,0.08); border: 1px solid var(--border-color);
+      outline: none; border-radius: 8px; padding: 12px 48px 12px 12px;
+      color: var(--text-main); font-size: 14px; transition: all var(--transition-fast); font-family: inherit;
     }
-    #memo-new-record:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,122,255,0.2); }
-    #memo-char-count { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--text-sub); pointer-events: none; opacity: 0; transition: opacity var(--transition-fast); }
+    #memo-new-record:focus { background: var(--bg-sidebar); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,122,255,0.15); }
+    #memo-char-count {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      font-size: 11px; color: var(--text-sub); pointer-events: none; opacity: 0;
+      transition: opacity var(--transition-fast);
+    }
     #memo-new-record:focus ~ #memo-char-count { opacity: 1; }
 
-    .toast-container { position: fixed; top: 40px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
-    .toast {
-      background: var(--bg-widget); color: var(--text-main); font-size: 14px; font-weight: 500; padding: 12px 24px; border-radius: 30px; border: 1px solid var(--border-glass);
-      backdrop-filter: blur(20px) saturate(180%); box-shadow: var(--shadow-hover); animation: toast-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, toast-out 0.3s 2.5s forwards;
+    /* ── 恐慌覆盖层 ── */
+    #panic-overlay {
+      position: fixed; inset: 0; background: #ffffff; z-index: 99999;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; font-family: monospace;
     }
-    @keyframes toast-in { from{transform:translateY(-100%);opacity:0} to{transform:translateY(0);opacity:1} }
-    @keyframes toast-out { from{transform:translateY(0);opacity:1} to{transform:translateY(-50%);opacity:0} }
+    #panic-overlay.active { opacity: 1; pointer-events: auto; }
+    .glitch-wrapper { position: relative; }
+    .glitch { font-size: 100px; margin: 0; color: #333; position: relative; font-weight: bold; text-shadow: none; }
+    .glitch::before, .glitch::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8; }
+    .glitch::before { left: 2px; text-shadow: -2px 0 red; clip: rect(24px,550px,90px,0); animation: glitch-anim 2.5s infinite linear alternate-reverse; }
+    .glitch::after { left: -2px; text-shadow: -2px 0 blue; clip: rect(85px,550px,140px,0); animation: glitch-anim 3s infinite linear alternate-reverse; }
+    @keyframes glitch-anim {
+      0%{clip:rect(11px,9999px,86px,0)} 20%{clip:rect(65px,9999px,13px,0)}
+      40%{clip:rect(100px,9999px,10px,0)} 60%{clip:rect(3px,9999px,80px,0)}
+      80%{clip:rect(40px,9999px,15px,0)} 100%{clip:rect(95px,9999px,50px,0)}
+    }
 
+    /* ── Toast ── */
+    .toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+    .toast {
+      background: rgba(0,0,0,0.85); color: #0f0; font-family: monospace; font-size: 14px;
+      padding: 12px 24px; border-radius: 8px; border: 1px solid #0f0; box-shadow: 0 0 15px rgba(0,255,0,0.3); text-shadow: none;
+      animation: toast-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards, toast-out 0.3s 2.5s forwards;
+    }
+    @keyframes toast-in { from{transform:translateY(100%);opacity:0} to{transform:translateY(0);opacity:1} }
+    @keyframes toast-out { from{transform:translateY(0);opacity:1} to{transform:translateY(-50%);opacity:0} }
+    
     .mobile-header, .mobile-overlay { display: none; }
+
+    /* ── 移动端极致修复区域 ── */
     @media (max-width: 768px) {
-      body { height: 100dvh; } #app { display: flex; flex-direction: column; }
-      .mobile-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: var(--bg-sidebar); border-bottom: 1px solid var(--border-glass); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 900; }
-      .mh-left { display: flex; align-items: center; gap: 12px; flex: 1; } .mh-logo { font-size: 24px; cursor: pointer; }
-      .mh-search-box { flex: 1; position: relative; } .mh-search-box input { width: 100%; padding: 8px 30px; border-radius: 10px; font-size: 15px; background: var(--bg-app); border: 1px solid var(--border-glass); color: var(--text-main); }
-      .mh-search-box .search-icon { left: 10px; } .mh-menu-btn { font-size: 24px; color: var(--text-main); cursor: pointer; }
-      aside { position: fixed; top: 0; left: -100%; bottom: 0; width: 280px; height: 100dvh; transition: left var(--transition-smooth); box-shadow: 10px 0 30px rgba(0,0,0,0.2); z-index: 1000; } aside.open { left: 0; } 
-      .mobile-overlay { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 990; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; } .mobile-overlay.open { opacity: 1; pointer-events: auto; }
-      main { padding: 24px 16px calc(80px + env(safe-area-inset-bottom)) 16px; } .section-block { padding: 20px 16px; margin-bottom: 24px; border-radius: 20px; }
-      .grid { grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 20px 12px; } .app-icon-wrap { width: 56px; height: 56px; } .app-icon { font-size: 26px; border-radius: 20%; }
+      body { height: 100dvh; }
+      #app { display: flex; flex-direction: column; }
+      
+      .mobile-header {
+        display: flex; align-items: center; justify-content: space-between; gap: 16px;
+        padding: 12px 20px; 
+        background: var(--bg-sidebar); 
+        border-bottom: 1px solid var(--border-color);
+        position: sticky; top: 0; z-index: 900; flex-shrink: 0;
+      }
+
+      .mh-left { display: flex; align-items: center; gap: 16px; flex: 1; }
+      .mh-logo { color: #ff3b30; font-size: 26px; animation: heartbeat 1.5s infinite; cursor: pointer; text-shadow: none; margin-top: 2px; }
+      .mh-search-box { flex: 1; position: relative; }
+      .mh-search-box input {
+        width: 100%; padding: 10px 36px; border-radius: var(--radius-sm); font-size: 16px;
+        background: rgba(128,128,128,0.08); border: 1px solid transparent; color: var(--text-main);
+      }
+      .mh-search-box .search-icon { left: 12px; }
+      .mh-search-box .search-clear { right: 8px; }
+      .mh-menu-btn { font-size: 26px; color: var(--text-main); cursor: pointer; padding: 4px; }
+
+      aside {
+        position: fixed; top: 0; left: -100%; bottom: 0; width: 280px; height: 100dvh;
+        transition: left var(--transition-smooth); box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+        backdrop-filter: none; -webkit-backdrop-filter: none; background: #f5f5f5; z-index: 1000;
+      }
+      body.dark-mode aside { background: #1c1c1e; }
+      aside.open { left: 0; } 
+      
+      .mobile-overlay {
+        display: block; position: fixed; inset: 0; 
+        background: rgba(0,0,0,0.5); backdrop-filter: none; -webkit-backdrop-filter: none;
+        z-index: 990; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+      }
+      .mobile-overlay.open { opacity: 1; pointer-events: auto; }
+
+      main { padding: 24px 20px calc(80px + env(safe-area-inset-bottom)) 20px; }
+      
+      /* Mobile Grid Adjustments */
+      .grid { grid-template-columns: repeat(auto-fill, minmax(65px, 1fr)); gap: 20px 10px; }
+      .icon-box { width: 54px; height: 54px; border-radius: 12px; font-size: 24px; }
+      .card-title { font-size: 11px; width: 60px; }
+      
+      .hero-quote { padding: 20px 0; margin-bottom: 24px; }
+      .quote-text { font-size: 26px; }
       #ghost-memo { width: auto; left: 16px; right: 16px; bottom: calc(20px + env(safe-area-inset-bottom)); height: 65vh; }
+      #back-top { bottom: calc(100px + env(safe-area-inset-bottom)); right: 20px; width: 38px; height: 38px; font-size: 16px; }
+      #shortcut-panel .shortcut-card { margin: 20px; min-width: unset; }
     }
   </style>
 </head>
 <body class="dark-mode">
 
-  <div id="vanta-bg"></div>
+  <div id="read-progress"></div>
   <div class="toast-container" id="toast-container"></div>
   <div class="mobile-overlay" id="mobile-overlay"></div>
+
+  <div id="panic-overlay">
+    <div class="glitch-wrapper">
+      <h1 class="glitch" data-text="404">404</h1>
+      <p style="font-size:24px;color:#666;font-family:var(--font-sys);">Not Found</p>
+      <div style="margin-top:20px;color:#999;font-size:14px;">nginx/1.18.0 (Ubuntu)</div>
+    </div>
+  </div>
+
+  <div id="shortcut-panel" onclick="if(event.target===this)toggleShortcuts()">
+    <div class="shortcut-card">
+      <h3>⌨️ 快捷键一览</h3>
+      <div class="shortcut-row"><span>打开搜索</span><span><kbd>Ctrl</kbd>+<kbd>K</kbd></span></div>
+      <div class="shortcut-row"><span>查看收藏</span><span><kbd>F</kbd></span></div>
+      <div class="shortcut-row"><span>关闭此面板</span><span><kbd>?</kbd> 或点击背景</span></div>
+    </div>
+  </div>
 
   <div id="splash">
     <div class="splash-quote">
@@ -301,58 +541,72 @@
         唯独星空深处的那轮明月最不认生。<br>
         它在异乡的窗前，守着当年我在故乡没做完的梦。<br>
         <br><br>
-        回头看，<span onclick="closeSplash()" style="cursor:pointer;touch-action:manipulation;padding:10px 5px;margin:-10px -5px;position:relative;z-index:10;color:#0a84ff;">轻舟</span>已过万重山；<br>
+        回头看，<span onclick="closeSplash()" style="cursor:pointer;touch-action:manipulation;padding:10px 5px;margin:-10px -5px;position:relative;z-index:10;">轻舟</span>已过万重山；<br>
         向前看，长路漫漫亦灿烂。
       </p>
-    </div>
-  </div>
-
-  <div id="panic-overlay" onclick="closePanic()">
-    <div class="alert-box" onclick="event.stopPropagation()">
-      <div class="alert-content">
-        <div class="alert-title">连接失败</div>
-        <div class="alert-msg">未找到相关资源，请检查网络连接或稍后再试。</div>
-      </div>
-      <div class="alert-btn" onclick="closePanic()">好</div>
     </div>
   </div>
 
   <div id="app">
     <div class="mobile-header" id="mobile-header">
       <div class="mh-left">
-        <div class="mh-logo" onclick="document.body.classList.toggle('dark-mode')">
-          <model-viewer src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" auto-rotate disable-zoom style="width: 36px; height: 36px; outline: none;"></model-viewer>
+        <div class="mh-logo" onclick="document.body.classList.toggle('dark-mode')" style="animation: none;">
+          <model-viewer 
+            src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+            alt="3D 宇航员 Logo" 
+            auto-rotate 
+            disable-zoom
+            environment-image="neutral"
+            style="width: 44px; height: 44px; background: transparent; outline: none;">
+          </model-viewer>
         </div>
         <div class="mh-search-box">
           <i class="ri-search-2-line search-icon"></i>
-          <input type="text" class="search-input" placeholder="搜索 App">
+          <input type="text" class="search-input" placeholder="搜点什么...">
+          <i class="ri-close-circle-fill search-clear" id="search-clear-mobile" title="清空"></i>
         </div>
       </div>
       <div class="mh-menu-btn" id="mobile-menu-btn"><i class="ri-menu-4-line"></i></div>
     </div>
 
     <aside id="sidebar">
-      <div class="brand" id="theme-toggle" title="切换模式">
-        <model-viewer src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" auto-rotate rotation-per-second="30deg" disable-zoom style="width: 100px; height: 100px; outline: none; cursor: pointer;"></model-viewer>
+      <div class="brand" id="theme-toggle" title="切换主题 (T)" style="justify-content: center; margin-bottom: 20px;">
+        <model-viewer 
+          src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+          alt="3D 宇航员 Logo" 
+          auto-rotate 
+          rotation-per-second="30deg"
+          camera-controls
+          disable-zoom
+          environment-image="neutral"
+          style="width: 140px; height: 140px; background: transparent; outline: none; cursor: grab;">
+        </model-viewer>
       </div>
         
       <div class="search-box">
         <i class="ri-search-2-line search-icon"></i>
-        <input type="text" class="search-input" id="search-input" placeholder="搜索资料库">
-        <i class="ri-close-circle-fill search-clear" id="search-clear-desktop"></i>
+        <input type="text" class="search-input" id="search-input" placeholder="搜点什么 (Ctrl+K)">
+        <i class="ri-close-circle-fill search-clear" id="search-clear-desktop" title="清空"></i>
       </div>
       <div class="search-hint" id="search-hint"></div>
 
       <div class="nav-scroll" id="nav-container"></div>
 
       <div class="aside-footer">
-        <div class="time-badge"><span id="date-pill"></span><span id="time-pill"></span></div>
-        <span class="time-greeting" id="time-greeting">你好</span>
+        <div class="time-badge">
+          <span id="date-pill" style="margin-right:4px;"></span>
+          <span id="time-pill" style="font-weight:600;">00:00</span>
+          <span class="time-greeting" id="time-greeting">你好</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <div class="shortcut-btn" onclick="toggleShortcuts()" title="快捷键 (?)">
+            <i class="ri-keyboard-line"></i>
+          </div>
+        </div>
       </div>
     </aside>
 
     <main id="main-content">
-      
       <div class="hero-quote">
         <div class="quote-text">
           天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo()">凌云</span>之志。
@@ -368,234 +622,244 @@
             <span class="capsule-desc">数据局</span>
           </div>
         </div>
-        <div class="capsule-arrow"><i class="ri-arrow-right-s-line"></i></div>
+        <div class="capsule-arrow"><i class="ri-arrow-right-line"></i></div>
       </a>
 
       <div class="section-block" id="sec-favorites" style="display:none;">
-        <div class="section-header"><div class="section-title">收藏夹</div><div class="section-count" id="fav-count">0 Apps</div></div>
-        <div class="grid" id="fav-grid"></div>
+        <div class="section-header">
+          <div class="section-title">⭐ 收藏</div>
+          <div class="section-count" id="fav-count">0 items</div>
+        </div>
+        <div class="grid" id="fav-grid">
+          <div id="fav-empty">还没有收藏，点击卡片右上角的 ★ 即可收藏</div>
+        </div>
       </div>
 
-      <div id="empty-state" class="hidden"><i class="ri-search-line"></i><p>未找到匹配的 App</p></div>
+      <div id="empty-state" class="hidden">
+        <i class="ri-ghost-line"></i>
+        <p>当前象限未捕捉到相关信号...</p>
+      </div>
 
       <div class="section-block" id="sec-daily" data-icon="ri-newspaper-line">
-        <div class="section-header"><div class="section-title">资讯</div><div class="section-count">Tech Feed</div></div>
+        <div class="section-header"><div class="section-title">资讯</div><div class="section-count">Tech & Startup Feed</div></div>
         <div class="grid">
-          <a class="app-card" href="https://36kr.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="36kr" data-title="36氪" data-icon="📰" data-href="https://36kr.com/"><i class="ri-star-fill"></i></div><div class="app-icon">📰</div></div><div class="app-name">36氪</div></a>
-          <a class="app-card" href="https://sspai.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="sspai" data-title="少数派" data-icon="📱" data-href="https://sspai.com/"><i class="ri-star-fill"></i></div><div class="app-icon">📱</div></div><div class="app-name">少数派</div></a>
-          <a class="app-card" href="https://www.v2ex.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="v2ex" data-title="V2EX" data-icon="💬" data-href="https://www.v2ex.com/"><i class="ri-star-fill"></i></div><div class="app-icon">💬</div></div><div class="app-name">V2EX</div></a>
-          <a class="app-card" href="https://www.producthunt.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="producthunt" data-title="Product Hunt" data-icon="🚀" data-href="https://www.producthunt.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🚀</div></div><div class="app-name">Product Hunt</div></a>
-          <a class="app-card" href="https://www.topgear.com/car-news" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="topgear" data-title="TopGear" data-icon="🏎️" data-href="https://www.topgear.com/car-news"><i class="ri-star-fill"></i></div><div class="app-icon">🏎️</div></div><div class="app-name">TopGear</div></a>
-          <a class="app-card" href="https://thegadgetflow.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="gadgetflow" data-title="Gadget Flow" data-icon="🧰" data-href="https://thegadgetflow.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🧰</div></div><div class="app-name">Gadget Flow</div></a>
-          <a class="app-card" href="https://www.dudeiwantthat.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="dudewant" data-title="想买这个" data-icon="🛒" data-href="https://www.dudeiwantthat.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🛒</div></div><div class="app-name">想买这个</div></a>
-          <a class="app-card" href="https://www.cryptopanic.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="cryptopanic" data-title="CryptoPanic" data-icon="📉" data-href="https://www.cryptopanic.com"><i class="ri-star-fill"></i></div><div class="app-icon">📉</div></div><div class="app-name">CryptoPanic</div></a>
+          <a class="card" href="https://36kr.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📰</div><div class="card-title">36氪</div><div class="card-fav" data-id="36kr" data-title="36氪" data-icon="📰" data-href="https://36kr.com/" title="收藏">★</div></a>
+          <a class="card" href="https://sspai.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📱</div><div class="card-title">少数派</div><div class="card-fav" data-id="sspai" data-title="少数派" data-icon="📱" data-href="https://sspai.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.v2ex.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">💬</div><div class="card-title">V2EX</div><div class="card-fav" data-id="v2ex" data-title="V2EX" data-icon="💬" data-href="https://www.v2ex.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.producthunt.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🚀</div><div class="card-title">Product Hunt</div><div class="card-fav" data-id="producthunt" data-title="Product Hunt" data-icon="🚀" data-href="https://www.producthunt.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.topgear.com/car-news" target="_blank" rel="noopener noreferrer"><div class="icon-box">🏎️</div><div class="card-title">TopGear</div><div class="card-fav" data-id="topgear" data-title="TopGear" data-icon="🏎️" data-href="https://www.topgear.com/car-news" title="收藏">★</div></a>
+          <a class="card" href="https://thegadgetflow.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🧰</div><div class="card-title">Gadget Flow</div><div class="card-fav" data-id="gadgetflow" data-title="Gadget Flow" data-icon="🧰" data-href="https://thegadgetflow.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.dudeiwantthat.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🛒</div><div class="card-title">想买这个</div><div class="card-fav" data-id="dudewant" data-title="想买这个" data-icon="🛒" data-href="https://www.dudeiwantthat.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.cryptopanic.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">📉</div><div class="card-title">CryptoPanic</div><div class="card-fav" data-id="cryptopanic" data-title="CryptoPanic" data-icon="📉" data-href="https://www.cryptopanic.com" title="收藏">★</div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-news" data-icon="ri-global-line">
-        <div class="section-header"><div class="section-title">权威新闻</div><div class="section-count">News</div></div>
+        <div class="section-header"><div class="section-title">权威新闻</div><div class="section-count">Global News</div></div>
         <div class="grid">
-          <a class="app-card" href="https://www.reuters.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="reuters" data-title="路透社" data-icon="🌐" data-href="https://www.reuters.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🌐</div></div><div class="app-name">路透社</div></a>
-          <a class="app-card" href="https://apnews.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="apnews" data-title="美联社" data-icon="📡" data-href="https://apnews.com/"><i class="ri-star-fill"></i></div><div class="app-icon">📡</div></div><div class="app-name">美联社</div></a>
-          <a class="app-card" href="https://www.bbc.com/news" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="bbc" data-title="BBC 新闻" data-icon="🎙️" data-href="https://www.bbc.com/news"><i class="ri-star-fill"></i></div><div class="app-icon">🎙️</div></div><div class="app-name">BBC 新闻</div></a>
-          <a class="app-card" href="https://www.bloomberg.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="bloomberg" data-title="彭博社" data-icon="📈" data-href="https://www.bloomberg.com/"><i class="ri-star-fill"></i></div><div class="app-icon">📈</div></div><div class="app-name">彭博社</div></a>
-          <a class="app-card" href="https://www.wsj.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="wsj" data-title="华尔街日报" data-icon="📰" data-href="https://www.wsj.com/"><i class="ri-star-fill"></i></div><div class="app-icon">📰</div></div><div class="app-name">华尔街日报</div></a>
-          <a class="app-card" href="https://www.nytimes.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="nytimes" data-title="纽约时报" data-icon="🗞️" data-href="https://www.nytimes.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🗞️</div></div><div class="app-name">纽约时报</div></a>
-          <a class="app-card" href="https://www.zaobao.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="zaobao" data-title="联合早报" data-icon="🌏" data-href="https://www.zaobao.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🌏</div></div><div class="app-name">联合早报</div></a>
-          <a class="app-card" href="http://www.news.cn/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="xinhua" data-title="新华社" data-icon="🇨🇳" data-href="http://www.news.cn/"><i class="ri-star-fill"></i></div><div class="app-icon">🇨🇳</div></div><div class="app-name">新华社</div></a>
+          <a class="card" href="https://www.reuters.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🌐</div><div class="card-title">路透社</div><div class="card-fav" data-id="reuters" data-title="路透社" data-icon="🌐" data-href="https://www.reuters.com/" title="收藏">★</div></a>
+          <a class="card" href="https://apnews.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📡</div><div class="card-title">美联社</div><div class="card-fav" data-id="apnews" data-title="美联社" data-icon="📡" data-href="https://apnews.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.bbc.com/news" target="_blank" rel="noopener noreferrer"><div class="icon-box">🎙️</div><div class="card-title">BBC 新闻</div><div class="card-fav" data-id="bbc" data-title="BBC 新闻" data-icon="🎙️" data-href="https://www.bbc.com/news" title="收藏">★</div></a>
+          <a class="card" href="https://www.bloomberg.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📈</div><div class="card-title">彭博社</div><div class="card-fav" data-id="bloomberg" data-title="彭博社" data-icon="📈" data-href="https://www.bloomberg.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.wsj.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📰</div><div class="card-title">华尔街日报</div><div class="card-fav" data-id="wsj" data-title="华尔街日报" data-icon="📰" data-href="https://www.wsj.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.nytimes.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🗞️</div><div class="card-title">纽约时报</div><div class="card-fav" data-id="nytimes" data-title="纽约时报" data-icon="🗞️" data-href="https://www.nytimes.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.zaobao.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🌏</div><div class="card-title">联合早报</div><div class="card-fav" data-id="zaobao" data-title="联合早报" data-icon="🌏" data-href="https://www.zaobao.com/" title="收藏">★</div></a>
+          <a class="card" href="http://www.news.cn/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🇨🇳</div><div class="card-title">新华社</div><div class="card-fav" data-id="xinhua" data-title="新华社" data-icon="🇨🇳" data-href="http://www.news.cn/" title="收藏">★</div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-ai" data-icon="ri-brain-line">
-        <div class="section-header"><div class="section-title">AI 工具</div><div class="section-count">Intelligence</div></div>
+        <div class="section-header"><div class="section-title">AI</div><div class="section-count">Artificial Intelligence</div></div>
         <div class="grid">
-          <a class="app-card" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="chatgpt" data-title="ChatGPT" data-icon="🧠" data-href="https://chatgpt.com"><i class="ri-star-fill"></i></div><div class="app-icon">🧠</div></div><div class="app-name">ChatGPT</div></a>
-          <a class="app-card" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="gemini" data-title="Gemini" data-icon="✨" data-href="https://gemini.google.com/"><i class="ri-star-fill"></i></div><div class="app-icon">✨</div></div><div class="app-name">Gemini</div></a>
-          <a class="app-card" href="https://grok.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="grok" data-title="Grok" data-icon="✖️" data-href="https://grok.com"><i class="ri-star-fill"></i></div><div class="app-icon">✖️</div></div><div class="app-name">Grok</div></a>
-          <a class="app-card" href="https://www.perplexity.ai" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="perplexity" data-title="Perplexity" data-icon="🔎" data-href="https://www.perplexity.ai"><i class="ri-star-fill"></i></div><div class="app-icon">🔎</div></div><div class="app-name">Perplexity</div></a>
-          <a class="app-card" href="https://www.midjourney.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="midjourney" data-title="Midjourney" data-icon="🖌️" data-href="https://www.midjourney.com"><i class="ri-star-fill"></i></div><div class="app-icon">🖌️</div></div><div class="app-name">Midjourney</div></a>
-          <a class="app-card" href="https://runwayml.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="runway" data-title="Runway" data-icon="🎥" data-href="https://runwayml.com"><i class="ri-star-fill"></i></div><div class="app-icon">🎥</div></div><div class="app-name">Runway</div></a>
-          <a class="app-card" href="https://www.suno.ai" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="suno" data-title="Suno" data-icon="🎧" data-href="https://www.suno.ai"><i class="ri-star-fill"></i></div><div class="app-icon">🎧</div></div><div class="app-name">Suno</div></a>
-          <a class="app-card" href="https://elevenlabs.io" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="elevenlabs" data-title="ElevenLabs" data-icon="🎙️" data-href="https://elevenlabs.io"><i class="ri-star-fill"></i></div><div class="app-icon">🎙️</div></div><div class="app-name">ElevenLabs</div></a>
-          <a class="app-card" href="https://gamma.app" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="gamma" data-title="Gamma" data-icon="📊" data-href="https://gamma.app"><i class="ri-star-fill"></i></div><div class="app-icon">📊</div></div><div class="app-name">Gamma</div></a>
-          <a class="app-card" href="https://www.nvidia.com/en-us/research/ai-playground" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="nvidiaai" data-title="Nvidia AI" data-icon="🟢" data-href="https://www.nvidia.com/en-us/research/ai-playground"><i class="ri-star-fill"></i></div><div class="app-icon">🟢</div></div><div class="app-name">Nvidia AI</div></a>
-          <a class="app-card" href="https://futurepedia.io" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="futurepedia" data-title="Futurepedia" data-icon="🧭" data-href="https://futurepedia.io"><i class="ri-star-fill"></i></div><div class="app-icon">🧭</div></div><div class="app-name">Futurepedia</div></a>
+          <a class="card" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🧠</div><div class="card-title">ChatGPT</div><div class="card-fav" data-id="chatgpt" data-title="ChatGPT" data-icon="🧠" data-href="https://chatgpt.com" title="收藏">★</div></a>
+          <a class="card" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">✨</div><div class="card-title">Gemini</div><div class="card-fav" data-id="gemini" data-title="Gemini" data-icon="✨" data-href="https://gemini.google.com/" title="收藏">★</div></a>
+          <a class="card" href="https://grok.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">✖️</div><div class="card-title">Grok</div><div class="card-fav" data-id="grok" data-title="Grok" data-icon="✖️" data-href="https://grok.com" title="收藏">★</div></a>
+          <a class="card" href="https://www.perplexity.ai" target="_blank" rel="noopener noreferrer"><div class="icon-box">🔎</div><div class="card-title">Perplexity</div><div class="card-fav" data-id="perplexity" data-title="Perplexity" data-icon="🔎" data-href="https://www.perplexity.ai" title="收藏">★</div></a>
+          <a class="card" href="https://www.midjourney.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🖌️</div><div class="card-title">Midjourney</div><div class="card-fav" data-id="midjourney" data-title="Midjourney" data-icon="🖌️" data-href="https://www.midjourney.com" title="收藏">★</div></a>
+          <a class="card" href="https://runwayml.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🎥</div><div class="card-title">Runway</div><div class="card-fav" data-id="runway" data-title="Runway" data-icon="🎥" data-href="https://runwayml.com" title="收藏">★</div></a>
+          <a class="card" href="https://www.suno.ai" target="_blank" rel="noopener noreferrer"><div class="icon-box">🎧</div><div class="card-title">Suno</div><div class="card-fav" data-id="suno" data-title="Suno" data-icon="🎧" data-href="https://www.suno.ai" title="收藏">★</div></a>
+          <a class="card" href="https://elevenlabs.io" target="_blank" rel="noopener noreferrer"><div class="icon-box">🎙️</div><div class="card-title">ElevenLabs</div><div class="card-fav" data-id="elevenlabs" data-title="ElevenLabs" data-icon="🎙️" data-href="https://elevenlabs.io" title="收藏">★</div></a>
+          <a class="card" href="https://gamma.app" target="_blank" rel="noopener noreferrer"><div class="icon-box">📊</div><div class="card-title">Gamma</div><div class="card-fav" data-id="gamma" data-title="Gamma" data-icon="📊" data-href="https://gamma.app" title="收藏">★</div></a>
+          <a class="card" href="https://www.nvidia.com/en-us/research/ai-playground" target="_blank" rel="noopener noreferrer"><div class="icon-box">🟢</div><div class="card-title">Nvidia AI</div><div class="card-fav" data-id="nvidiaai" data-title="Nvidia AI" data-icon="🟢" data-href="https://www.nvidia.com/en-us/research/ai-playground" title="收藏">★</div></a>
+          <a class="card" href="https://futurepedia.io" target="_blank" rel="noopener noreferrer"><div class="icon-box">🧭</div><div class="card-title">Futurepedia</div><div class="card-fav" data-id="futurepedia" data-title="Futurepedia" data-icon="🧭" data-href="https://futurepedia.io" title="收藏">★</div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-webmaster" data-icon="ri-server-line">
-        <div class="section-header"><div class="section-title">站长</div><div class="section-count">Infrastructure</div></div>
+        <div class="section-header"><div class="section-title">站长</div><div class="section-count">Webmaster</div></div>
         <div class="grid">
-          <a class="app-card" href="https://dashboard.decodo.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="decodo" data-title="Decodo" data-icon="🎛️" data-href="https://dashboard.decodo.com"><i class="ri-star-fill"></i></div><div class="app-icon">🎛️</div></div><div class="app-name">Decodo</div></a>
-          <a class="app-card" href="https://github.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="github" data-title="GitHub" data-icon="📦" data-href="https://github.com/"><i class="ri-star-fill"></i></div><div class="app-icon">📦</div></div><div class="app-name">GitHub</div></a>
-          <a class="app-card" href="https://porkbun.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="porkbun" data-title="Porkbun" data-icon="🐷" data-href="https://porkbun.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🐷</div></div><div class="app-name">Porkbun</div></a>
-          <a class="app-card" href="https://dash.cloudflare.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="cloudflare" data-title="Cloudflare" data-icon="☁️" data-href="https://dash.cloudflare.com/"><i class="ri-star-fill"></i></div><div class="app-icon">☁️</div></div><div class="app-name">Cloudflare</div></a>
-          <a class="app-card" href="https://dashboard.thordata.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="thordata" data-title="Thordata" data-icon="🌐" data-href="https://dashboard.thordata.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🌐</div></div><div class="app-name">Thordata</div></a>
-          <a class="app-card" href="https://app.ipfoxy.net/login?_bt=2" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="ipfoxy" data-title="IPFoxy" data-icon="🦊" data-href="https://app.ipfoxy.net/login?_bt=2"><i class="ri-star-fill"></i></div><div class="app-icon">🦊</div></div><div class="app-name">IPFoxy</div></a>
-          <a class="app-card" href="https://vercel.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="vercel" data-title="Vercel" data-icon="🚀" data-href="https://vercel.com"><i class="ri-star-fill"></i></div><div class="app-icon">🚀</div></div><div class="app-name">Vercel</div></a>
-          <a class="app-card" href="https://supabase.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="supabase" data-title="Supabase" data-icon="💬" data-href="https://supabase.com/"><i class="ri-star-fill"></i></div><div class="app-icon">💬</div></div><div class="app-name">Supabase</div></a>
+          <a class="card" href="https://dashboard.decodo.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🎛️</div><div class="card-title">Decodo</div><div class="card-fav" data-id="decodo" data-title="Decodo" data-icon="🎛️" data-href="https://dashboard.decodo.com" title="收藏">★</div></a>
+          <a class="card" href="https://github.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📦</div><div class="card-title">GitHub</div><div class="card-fav" data-id="github" data-title="GitHub" data-icon="📦" data-href="https://github.com/" title="收藏">★</div></a>
+          <a class="card" href="https://porkbun.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🐷</div><div class="card-title">Porkbun</div><div class="card-fav" data-id="porkbun" data-title="Porkbun" data-icon="🐷" data-href="https://porkbun.com/" title="收藏">★</div></a>
+          <a class="card" href="https://dash.cloudflare.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">☁️</div><div class="card-title">Cloudflare</div><div class="card-fav" data-id="cloudflare" data-title="Cloudflare" data-icon="☁️" data-href="https://dash.cloudflare.com/" title="收藏">★</div></a>
+          <a class="card" href="https://dashboard.thordata.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🌐</div><div class="card-title">Thordata</div><div class="card-fav" data-id="thordata" data-title="Thordata" data-icon="🌐" data-href="https://dashboard.thordata.com/" title="收藏">★</div></a>
+          <a class="card" href="https://app.ipfoxy.net/login?_bt=2" target="_blank" rel="noopener noreferrer"><div class="icon-box">🦊</div><div class="card-title">IPFoxy</div><div class="card-fav" data-id="ipfoxy" data-title="IPFoxy" data-icon="🦊" data-href="https://app.ipfoxy.net/login?_bt=2" title="收藏">★</div></a>
+          <a class="card" href="https://vercel.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🚀</div><div class="card-title">Vercel</div><div class="card-fav" data-id="vercel" data-title="Vercel" data-icon="🚀" data-href="https://vercel.com" title="收藏">★</div></a>
+          <a class="card" href="https://supabase.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">💬</div><div class="card-title">Supabase</div><div class="card-fav" data-id="supabase" data-title="Supabase" data-icon="💬" data-href="https://supabase.com/" title="收藏">★</div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-geek" data-icon="ri-shield-keyhole-line">
-        <div class="section-header"><div class="section-title">开发与安全</div><div class="section-count">Developer</div></div>
+        <div class="section-header"><div class="section-title">代码</div><div class="section-count">Development</div></div>
         <div class="grid">
-          <a class="app-card" href="https://stackoverflow.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="stackoverflow" data-title="StackOverflow" data-icon="💡" data-href="https://stackoverflow.com"><i class="ri-star-fill"></i></div><div class="app-icon">💡</div></div><div class="app-name">StackOverflow</div></a>
-          <a class="app-card" href="https://replit.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="replit" data-title="Replit" data-icon="💻" data-href="https://replit.com"><i class="ri-star-fill"></i></div><div class="app-icon">💻</div></div><div class="app-name">Replit</div></a>
-          <a class="app-card" href="https://codepen.io" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="codepen" data-title="CodePen" data-icon="🧪" data-href="https://codepen.io"><i class="ri-star-fill"></i></div><div class="app-icon">🧪</div></div><div class="app-name">CodePen</div></a>
-          <a class="app-card" href="https://lusion.co/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="lusion" data-title="Lusion" data-icon="✨" data-href="https://lusion.co/"><i class="ri-star-fill"></i></div><div class="app-icon">✨</div></div><div class="app-name">Lusion</div></a>
-          <a class="app-card" href="https://geektyper.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="geektyper" data-title="Geektyper" data-icon="⌨️" data-href="https://geektyper.com/"><i class="ri-star-fill"></i></div><div class="app-icon">⌨️</div></div><div class="app-name">Geektyper</div></a>
-          <a class="app-card" href="https://ping.pe" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="pingpe" data-title="Ping.pe" data-icon="📡" data-href="https://ping.pe"><i class="ri-star-fill"></i></div><div class="app-icon">📡</div></div><div class="app-name">Ping.pe</div></a>
-          <a class="app-card" href="https://www.hackerone.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="hackerone" data-title="HackerOne" data-icon="🛡️" data-href="https://www.hackerone.com"><i class="ri-star-fill"></i></div><div class="app-icon">🛡️</div></div><div class="app-name">HackerOne</div></a>
-          <a class="app-card" href="https://www.bugcrowd.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="bugcrowd" data-title="Bugcrowd" data-icon="🏢" data-href="https://www.bugcrowd.com"><i class="ri-star-fill"></i></div><div class="app-icon">🏢</div></div><div class="app-name">Bugcrowd</div></a>
-          <a class="app-card" href="https://tryhackme.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="tryhackme" data-title="TryHackMe" data-icon="🎓" data-href="https://tryhackme.com"><i class="ri-star-fill"></i></div><div class="app-icon">🎓</div></div><div class="app-name">TryHackMe</div></a>
-          <a class="app-card" href="https://www.hackthebox.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="hackthebox" data-title="HackTheBox" data-icon="🧨" data-href="https://www.hackthebox.com"><i class="ri-star-fill"></i></div><div class="app-icon">🧨</div></div><div class="app-name">HackTheBox</div></a>
-          <a class="app-card" href="https://www.exploit-db.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="exploitdb" data-title="Exploit-DB" data-icon="📂" data-href="https://www.exploit-db.com"><i class="ri-star-fill"></i></div><div class="app-icon">📂</div></div><div class="app-name">Exploit-DB</div></a>
-          <a class="app-card" href="https://owasp.org" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="owasp" data-title="OWASP" data-icon="📜" data-href="https://owasp.org"><i class="ri-star-fill"></i></div><div class="app-icon">📜</div></div><div class="app-name">OWASP</div></a>
-          <a class="app-card" href="https://www.kali.org" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="kali" data-title="Kali Linux" data-icon="🐉" data-href="https://www.kali.org"><i class="ri-star-fill"></i></div><div class="app-icon">🐉</div></div><div class="app-name">Kali Linux</div></a>
-          <a class="app-card" href="https://www.reddit.com/r/netsec/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="netsec" data-title="Netsec" data-icon="🧬" data-href="https://www.reddit.com/r/netsec/"><i class="ri-star-fill"></i></div><div class="app-icon">🧬</div></div><div class="app-name">Netsec</div></a>
-          <a class="app-card" href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="virustotal" data-title="VirusTotal" data-icon="🧫" data-href="https://www.virustotal.com/gui/home/upload"><i class="ri-star-fill"></i></div><div class="app-icon">🧫</div></div><div class="app-name">VirusTotal</div></a>
-          <a class="app-card" href="https://www.shodan.io/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="shodan" data-title="Shodan" data-icon="🛰️" data-href="https://www.shodan.io/"><i class="ri-star-fill"></i></div><div class="app-icon">🛰️</div></div><div class="app-name">Shodan</div></a>
-          <a class="app-card" href="https://cybermap.kaspersky.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="kaspersky" data-title="卡巴斯基图" data-icon="☣️" data-href="https://cybermap.kaspersky.com/"><i class="ri-star-fill"></i></div><div class="app-icon">☣️</div></div><div class="app-name">卡巴斯基图</div></a>
+          <a class="card" href="https://stackoverflow.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">💡</div><div class="card-title">StackOverflow</div><div class="card-fav" data-id="stackoverflow" data-title="StackOverflow" data-icon="💡" data-href="https://stackoverflow.com" title="收藏">★</div></a>
+          <a class="card" href="https://replit.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">💻</div><div class="card-title">Replit</div><div class="card-fav" data-id="replit" data-title="Replit" data-icon="💻" data-href="https://replit.com" title="收藏">★</div></a>
+          <a class="card" href="https://codepen.io" target="_blank" rel="noopener noreferrer"><div class="icon-box">🧪</div><div class="card-title">CodePen</div><div class="card-fav" data-id="codepen" data-title="CodePen" data-icon="🧪" data-href="https://codepen.io" title="收藏">★</div></a>
+          <a class="card" href="https://lusion.co/" target="_blank" rel="noopener noreferrer"><div class="icon-box">✨</div><div class="card-title">Lusion</div><div class="card-fav" data-id="lusion" data-title="Lusion" data-icon="✨" data-href="https://lusion.co/" title="收藏">★</div></a>
+          <a class="card" href="https://geektyper.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">⌨️</div><div class="card-title">Geektyper</div><div class="card-fav" data-id="geektyper" data-title="Geektyper" data-icon="⌨️" data-href="https://geektyper.com/" title="收藏">★</div></a>
+          <a class="card" href="https://ping.pe" target="_blank" rel="noopener noreferrer"><div class="icon-box">📡</div><div class="card-title">Ping.pe</div><div class="card-fav" data-id="pingpe" data-title="Ping.pe" data-icon="📡" data-href="https://ping.pe" title="收藏">★</div></a>
+          <a class="card" href="https://www.hackerone.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🛡️</div><div class="card-title">HackerOne</div><div class="card-fav" data-id="hackerone" data-title="HackerOne" data-icon="🛡️" data-href="https://www.hackerone.com" title="收藏">★</div></a>
+          <a class="card" href="https://www.bugcrowd.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🏢</div><div class="card-title">Bugcrowd</div><div class="card-fav" data-id="bugcrowd" data-title="Bugcrowd" data-icon="🏢" data-href="https://www.bugcrowd.com" title="收藏">★</div></a>
+          <a class="card" href="https://tryhackme.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🎓</div><div class="card-title">TryHackMe</div><div class="card-fav" data-id="tryhackme" data-title="TryHackMe" data-icon="🎓" data-href="https://tryhackme.com" title="收藏">★</div></a>
+          <a class="card" href="https://www.hackthebox.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🧨</div><div class="card-title">HackTheBox</div><div class="card-fav" data-id="hackthebox" data-title="HackTheBox" data-icon="🧨" data-href="https://www.hackthebox.com" title="收藏">★</div></a>
+          <a class="card" href="https://www.exploit-db.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">📂</div><div class="card-title">Exploit-DB</div><div class="card-fav" data-id="exploitdb" data-title="Exploit-DB" data-icon="📂" data-href="https://www.exploit-db.com" title="收藏">★</div></a>
+          <a class="card" href="https://owasp.org" target="_blank" rel="noopener noreferrer"><div class="icon-box">📜</div><div class="card-title">OWASP</div><div class="card-fav" data-id="owasp" data-title="OWASP" data-icon="📜" data-href="https://owasp.org" title="收藏">★</div></a>
+          <a class="card" href="https://www.kali.org" target="_blank" rel="noopener noreferrer"><div class="icon-box">🐉</div><div class="card-title">Kali Linux</div><div class="card-fav" data-id="kali" data-title="Kali Linux" data-icon="🐉" data-href="https://www.kali.org" title="收藏">★</div></a>
+          <a class="card" href="https://www.reddit.com/r/netsec/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🧬</div><div class="card-title">Netsec</div><div class="card-fav" data-id="netsec" data-title="Netsec" data-icon="🧬" data-href="https://www.reddit.com/r/netsec/" title="收藏">★</div></a>
+          <a class="card" href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener noreferrer"><div class="icon-box">🧫</div><div class="card-title">VirusTotal</div><div class="card-fav" data-id="virustotal" data-title="VirusTotal" data-icon="🧫" data-href="https://www.virustotal.com/gui/home/upload" title="收藏">★</div></a>
+          <a class="card" href="https://www.shodan.io/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🛰️</div><div class="card-title">Shodan</div><div class="card-fav" data-id="shodan" data-title="Shodan" data-icon="🛰️" data-href="https://www.shodan.io/" title="收藏">★</div></a>
+          <a class="card" href="https://cybermap.kaspersky.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">☣️</div><div class="card-title">卡巴斯基图</div><div class="card-fav" data-id="kaspersky" data-title="卡巴斯基图" data-icon="☣️" data-href="https://cybermap.kaspersky.com/" title="收藏">★</div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-design" data-icon="ri-palette-line">
         <div class="section-header"><div class="section-title">视觉</div><div class="section-count">Design</div></div>
         <div class="grid">
-          <a class="app-card" href="https://www.pinterest.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="pinterest" data-title="Pinterest" data-icon="🖼️" data-href="https://www.pinterest.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🖼️</div></div><div class="app-name">Pinterest</div></a>
-          <a class="app-card" href="https://www.behance.net" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="behance" data-title="Behance" data-icon="🎨" data-href="https://www.behance.net"><i class="ri-star-fill"></i></div><div class="app-icon">🎨</div></div><div class="app-name">Behance</div></a>
-          <a class="app-card" href="https://huaban.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="huaban" data-title="花瓣网" data-icon="🌸" data-href="https://huaban.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🌸</div></div><div class="app-name">花瓣网</div></a>
-          <a class="app-card" href="https://unsplash.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="unsplash" data-title="Unsplash" data-icon="📷" data-href="https://unsplash.com"><i class="ri-star-fill"></i></div><div class="app-icon">📷</div></div><div class="app-name">Unsplash</div></a>
-          <a class="app-card" href="https://www.pexels.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="pexels" data-title="Pexels" data-icon="📸" data-href="https://www.pexels.com/"><i class="ri-star-fill"></i></div><div class="app-icon">📸</div></div><div class="app-name">Pexels</div></a>
-          <a class="app-card" href="https://pixabay.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="pixabay" data-title="Pixabay" data-icon="🌄" data-href="https://pixabay.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🌄</div></div><div class="app-name">Pixabay</div></a>
-          <a class="app-card" href="https://wallhaven.cc/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="wallhaven" data-title="Wallhaven" data-icon="🖼️" data-href="https://wallhaven.cc/"><i class="ri-star-fill"></i></div><div class="app-icon">🖼️</div></div><div class="app-name">Wallhaven</div></a>
-          <a class="app-card" href="https://wallpaperswide.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="wallpaperswide" data-title="高清壁纸" data-icon="🖥️" data-href="https://wallpaperswide.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🖥️</div></div><div class="app-name">高清壁纸</div></a>
-          <a class="app-card" href="https://pic.netbian.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="netbian" data-title="彼岸图网" data-icon="🌉" data-href="https://pic.netbian.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🌉</div></div><div class="app-name">彼岸图网</div></a>
-          <a class="app-card" href="https://coolbackgrounds.io/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="coolbg" data-title="Cool BG" data-icon="🟦" data-href="https://coolbackgrounds.io/"><i class="ri-star-fill"></i></div><div class="app-icon">🟦</div></div><div class="app-name">Cool BG</div></a>
-          <a class="app-card" href="https://www.photopea.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="photopea" data-title="Photopea" data-icon="🖊️" data-href="https://www.photopea.com"><i class="ri-star-fill"></i></div><div class="app-icon">🖊️</div></div><div class="app-name">Photopea</div></a>
-          <a class="app-card" href="https://www.remove.bg" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="removebg" data-title="Remove.bg" data-icon="✂️" data-href="https://www.remove.bg"><i class="ri-star-fill"></i></div><div class="app-icon">✂️</div></div><div class="app-name">Remove.bg</div></a>
-          <a class="app-card" href="https://www.canva.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="canva" data-title="Canva" data-icon="🎨" data-href="https://www.canva.com"><i class="ri-star-fill"></i></div><div class="app-icon">🎨</div></div><div class="app-name">Canva</div></a>
-          <a class="app-card" href="https://informationisbeautiful.net" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="infobeautiful" data-title="美丽数据" data-icon="📈" data-href="https://informationisbeautiful.net"><i class="ri-star-fill"></i></div><div class="app-icon">📈</div></div><div class="app-name">美丽数据</div></a>
+          <a class="card" href="https://www.pinterest.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🖼️</div><div class="card-title">Pinterest</div><div class="card-fav" data-id="pinterest" data-title="Pinterest" data-icon="🖼️" data-href="https://www.pinterest.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.behance.net" target="_blank" rel="noopener noreferrer"><div class="icon-box">🎨</div><div class="card-title">Behance</div><div class="card-fav" data-id="behance" data-title="Behance" data-icon="🎨" data-href="https://www.behance.net" title="收藏">★</div></a>
+          <a class="card" href="https://huaban.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🌸</div><div class="card-title">花瓣网</div><div class="card-fav" data-id="huaban" data-title="花瓣网" data-icon="🌸" data-href="https://huaban.com/" title="收藏">★</div></a>
+          <a class="card" href="https://unsplash.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">📷</div><div class="card-title">Unsplash</div><div class="card-fav" data-id="unsplash" data-title="Unsplash" data-icon="📷" data-href="https://unsplash.com" title="收藏">★</div></a>
+          <a class="card" href="https://www.pexels.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📸</div><div class="card-title">Pexels</div><div class="card-fav" data-id="pexels" data-title="Pexels" data-icon="📸" data-href="https://www.pexels.com/" title="收藏">★</div></a>
+          <a class="card" href="https://pixabay.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🌄</div><div class="card-title">Pixabay</div><div class="card-fav" data-id="pixabay" data-title="Pixabay" data-icon="🌄" data-href="https://pixabay.com/" title="收藏">★</div></a>
+          <a class="card" href="https://wallhaven.cc/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🖼️</div><div class="card-title">Wallhaven</div><div class="card-fav" data-id="wallhaven" data-title="Wallhaven" data-icon="🖼️" data-href="https://wallhaven.cc/" title="收藏">★</div></a>
+          <a class="card" href="https://wallpaperswide.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🖥️</div><div class="card-title">高清壁纸</div><div class="card-fav" data-id="wallpaperswide" data-title="高清壁纸" data-icon="🖥️" data-href="https://wallpaperswide.com/" title="收藏">★</div></a>
+          <a class="card" href="https://pic.netbian.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🌉</div><div class="card-title">彼岸图网</div><div class="card-fav" data-id="netbian" data-title="彼岸图网" data-icon="🌉" data-href="https://pic.netbian.com/" title="收藏">★</div></a>
+          <a class="card" href="https://coolbackgrounds.io/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🟦</div><div class="card-title">Cool BG</div><div class="card-fav" data-id="coolbg" data-title="Cool BG" data-icon="🟦" data-href="https://coolbackgrounds.io/" title="收藏">★</div></a>
+          <a class="card" href="https://www.photopea.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🖊️</div><div class="card-title">Photopea</div><div class="card-fav" data-id="photopea" data-title="Photopea" data-icon="🖊️" data-href="https://www.photopea.com" title="收藏">★</div></a>
+          <a class="card" href="https://www.remove.bg" target="_blank" rel="noopener noreferrer"><div class="icon-box">✂️</div><div class="card-title">Remove.bg</div><div class="card-fav" data-id="removebg" data-title="Remove.bg" data-icon="✂️" data-href="https://www.remove.bg" title="收藏">★</div></a>
+          <a class="card" href="https://www.canva.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🎨</div><div class="card-title">Canva</div><div class="card-fav" data-id="canva" data-title="Canva" data-icon="🎨" data-href="https://www.canva.com" title="收藏">★</div></a>
+          <a class="card" href="https://informationisbeautiful.net" target="_blank" rel="noopener noreferrer"><div class="icon-box">📈</div><div class="card-title">美丽数据</div><div class="card-fav" data-id="infobeautiful" data-title="美丽数据" data-icon="📈" data-href="https://informationisbeautiful.net" title="收藏">★</div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-explore" data-icon="ri-earth-line">
         <div class="section-header"><div class="section-title">探索</div><div class="section-count">Explore</div></div>
         <div class="grid">
-          <a class="app-card" href="https://earth.google.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="googleearth" data-title="谷歌地球" data-icon="🌎" data-href="https://earth.google.com"><i class="ri-star-fill"></i></div><div class="app-icon">🌎</div></div><div class="app-name">谷歌地球</div></a>
-          <a class="app-card" href="https://www.skyscanner.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="skyscanner" data-title="天巡" data-icon="🎫" data-href="https://www.skyscanner.com"><i class="ri-star-fill"></i></div><div class="app-icon">🎫</div></div><div class="app-name">天巡</div></a>
-          <a class="app-card" href="https://www.flightconnections.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="flightconn" data-title="全球航线图" data-icon="🛫" data-href="https://www.flightconnections.com"><i class="ri-star-fill"></i></div><div class="app-icon">🛫</div></div><div class="app-name">全球航线图</div></a>
-          <a class="app-card" href="https://www.atlasobscura.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="atlasobscura" data-title="奇趣地图" data-icon="🗺️" data-href="https://www.atlasobscura.com"><i class="ri-star-fill"></i></div><div class="app-icon">🗺️</div></div><div class="app-name">奇趣地图</div></a>
-          <a class="app-card" href="https://www.earthcam.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="earthcam" data-title="EarthCam" data-icon="📹" data-href="https://www.earthcam.com/"><i class="ri-star-fill"></i></div><div class="app-icon">📹</div></div><div class="app-name">EarthCam</div></a>
-          <a class="app-card" href="https://www.webcams.travel/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="webcamstravel" data-title="旅游镜头" data-icon="🔭" data-href="https://www.webcams.travel/"><i class="ri-star-fill"></i></div><div class="app-icon">🔭</div></div><div class="app-name">旅游镜头</div></a>
-          <a class="app-card" href="http://www.window-swap.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="windowswap" data-title="WindowSwap" data-icon="🪟" data-href="http://www.window-swap.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🪟</div></div><div class="app-name">WindowSwap</div></a>
-          <a class="app-card" href="https://driveandlisten.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="driveandlisten" data-title="漫游车窗" data-icon="🚗" data-href="https://driveandlisten.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🚗</div></div><div class="app-name">漫游车窗</div></a>
-          <a class="app-card" href="https://www.mapcrunch.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="mapcrunch" data-title="MapCrunch" data-icon="🧭" data-href="https://www.mapcrunch.com"><i class="ri-star-fill"></i></div><div class="app-icon">🧭</div></div><div class="app-name">MapCrunch</div></a>
-          <a class="app-card" href="https://theuselessweb.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="theuselessweb" data-title="任意门" data-icon="🚪" data-href="https://theuselessweb.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🚪</div></div><div class="app-name">任意门</div></a>
-          <a class="app-card" href="https://explore.org/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="exploreorg" data-title="自然生态" data-icon="🐼" data-href="https://explore.org/"><i class="ri-star-fill"></i></div><div class="app-icon">🐼</div></div><div class="app-name">自然生态</div></a>
-          <a class="app-card" href="https://www.skylinewebcams.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="skylinewebcams" data-title="全球实况" data-icon="🔭" data-href="https://www.skylinewebcams.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🔭</div></div><div class="app-name">全球实况</div></a>
-          <a class="app-card" href="https://apod.nasa.gov/apod/astropix.html" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="nasa" data-title="NASA图" data-icon="🚀" data-href="https://apod.nasa.gov/apod/astropix.html"><i class="ri-star-fill"></i></div><div class="app-icon">🚀</div></div><div class="app-name">NASA图</div></a>
-          <a class="app-card" href="https://pointerpointer.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="pointer" data-title="看手指" data-icon="👉" data-href="https://pointerpointer.com/"><i class="ri-star-fill"></i></div><div class="app-icon">👉</div></div><div class="app-name">看手指</div></a>
-          <a class="app-card" href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="cframdar" data-title="流量雷达" data-icon="🌐" data-href="https://radar.cloudflare.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🌐</div></div><div class="app-name">流量雷达</div></a>
-          <a class="app-card" href="https://www.flightradar24.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="flightradar" data-title="实时航班" data-icon="🛫" data-href="https://www.flightradar24.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🛫</div></div><div class="app-name">实时航班</div></a>
-          <a class="app-card" href="https://www.marinetraffic.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="marinetraffic" data-title="实时货轮" data-icon="🚢" data-href="https://www.marinetraffic.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🚢</div></div><div class="app-name">实时货轮</div></a>
-          <a class="app-card" href="https://www.submarinecablemap.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="cablemap" data-title="光缆图" data-icon="🌊" data-href="https://www.submarinecablemap.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🌊</div></div><div class="app-name">光缆图</div></a>
-          <a class="app-card" href="https://stat.ripe.net/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="ripe" data-title="BGP站" data-icon="🧷" data-href="https://stat.ripe.net/"><i class="ri-star-fill"></i></div><div class="app-icon">🧷</div></div><div class="app-name">BGP站</div></a>
-          <a class="app-card" href="https://ourworldindata.org/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="ourworld" data-title="宏观数据" data-icon="📊" data-href="https://ourworldindata.org/"><i class="ri-star-fill"></i></div><div class="app-icon">📊</div></div><div class="app-name">宏观数据</div></a>
-          <a class="app-card" href="https://earthquake.usgs.gov/earthquakes/map/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="earthquake" data-title="实时地震" data-icon="🌋" data-href="https://earthquake.usgs.gov/earthquakes/map/"><i class="ri-star-fill"></i></div><div class="app-icon">🌋</div></div><div class="app-name">实时地震</div></a>
-          <a class="app-card" href="https://firms.modaps.eosdis.nasa.gov/map/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="nasafires" data-title="全球火灾" data-icon="🔥" data-href="https://firms.modaps.eosdis.nasa.gov/map/"><i class="ri-star-fill"></i></div><div class="app-icon">🔥</div></div><div class="app-name">全球火灾</div></a>
-          <a class="app-card" href="https://www.swpc.noaa.gov/products/aurora-30-minute-forecast" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="aurora" data-title="极光预测" data-icon="🌌" data-href="https://www.swpc.noaa.gov/products/aurora-30-minute-forecast"><i class="ri-star-fill"></i></div><div class="app-icon">🌌</div></div><div class="app-name">极光预测</div></a>
+          <a class="card" href="https://earth.google.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🌎</div><div class="card-title">谷歌地球</div><div class="card-fav" data-id="googleearth" data-title="谷歌地球" data-icon="🌎" data-href="https://earth.google.com" title="收藏">★</div></a>
+          <a class="card" href="https://www.skyscanner.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🎫</div><div class="card-title">天巡</div><div class="card-fav" data-id="skyscanner" data-title="天巡" data-icon="🎫" data-href="https://www.skyscanner.com" title="收藏">★</div></a>
+          <a class="card" href="https://www.flightconnections.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🛫</div><div class="card-title">全球航线图</div><div class="card-fav" data-id="flightconn" data-title="全球航线图" data-icon="🛫" data-href="https://www.flightconnections.com" title="收藏">★</div></a>
+          <a class="card" href="https://www.atlasobscura.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🗺️</div><div class="card-title">奇趣地图</div><div class="card-fav" data-id="atlasobscura" data-title="奇趣地图" data-icon="🗺️" data-href="https://www.atlasobscura.com" title="收藏">★</div></a>
+          <a class="card" href="https://www.earthcam.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📹</div><div class="card-title">EarthCam</div><div class="card-fav" data-id="earthcam" data-title="EarthCam" data-icon="📹" data-href="https://www.earthcam.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.webcams.travel/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🔭</div><div class="card-title">旅游镜头</div><div class="card-fav" data-id="webcamstravel" data-title="旅游镜头" data-icon="🔭" data-href="https://www.webcams.travel/" title="收藏">★</div></a>
+          <a class="card" href="http://www.window-swap.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🪟</div><div class="card-title">WindowSwap</div><div class="card-fav" data-id="windowswap" data-title="WindowSwap" data-icon="🪟" data-href="http://www.window-swap.com/" title="收藏">★</div></a>
+          <a class="card" href="https://driveandlisten.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🚗</div><div class="card-title">漫游车窗</div><div class="card-fav" data-id="driveandlisten" data-title="漫游车窗" data-icon="🚗" data-href="https://driveandlisten.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.mapcrunch.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🧭</div><div class="card-title">MapCrunch</div><div class="card-fav" data-id="mapcrunch" data-title="MapCrunch" data-icon="🧭" data-href="https://www.mapcrunch.com" title="收藏">★</div></a>
+          <a class="card" href="https://theuselessweb.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🚪</div><div class="card-title">任意门</div><div class="card-fav" data-id="theuselessweb" data-title="任意门" data-icon="🚪" data-href="https://theuselessweb.com/" title="收藏">★</div></a>
+          <a class="card" href="https://explore.org/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🐼</div><div class="card-title">自然生态</div><div class="card-fav" data-id="exploreorg" data-title="自然生态" data-icon="🐼" data-href="https://explore.org/" title="收藏">★</div></a>
+          <a class="card" href="https://www.skylinewebcams.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🔭</div><div class="card-title">全球实况</div><div class="card-fav" data-id="skylinewebcams" data-title="全球实况" data-icon="🔭" data-href="https://www.skylinewebcams.com/" title="收藏">★</div></a>
+          <a class="card" href="https://apod.nasa.gov/apod/astropix.html" target="_blank" rel="noopener noreferrer"><div class="icon-box">🚀</div><div class="card-title">NASA图</div><div class="card-fav" data-id="nasa" data-title="NASA图" data-icon="🚀" data-href="https://apod.nasa.gov/apod/astropix.html" title="收藏">★</div></a>
+          <a class="card" href="https://pointerpointer.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">👉</div><div class="card-title">看手指</div><div class="card-fav" data-id="pointer" data-title="看手指" data-icon="👉" data-href="https://pointerpointer.com/" title="收藏">★</div></a>
+          <a class="card" href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🌐</div><div class="card-title">流量雷达</div><div class="card-fav" data-id="cframdar" data-title="流量雷达" data-icon="🌐" data-href="https://radar.cloudflare.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.flightradar24.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🛫</div><div class="card-title">实时航班</div><div class="card-fav" data-id="flightradar" data-title="实时航班" data-icon="🛫" data-href="https://www.flightradar24.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.marinetraffic.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🚢</div><div class="card-title">实时货轮</div><div class="card-fav" data-id="marinetraffic" data-title="实时货轮" data-icon="🚢" data-href="https://www.marinetraffic.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.submarinecablemap.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🌊</div><div class="card-title">光缆图</div><div class="card-fav" data-id="cablemap" data-title="光缆图" data-icon="🌊" data-href="https://www.submarinecablemap.com/" title="收藏">★</div></a>
+          <a class="card" href="https://stat.ripe.net/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🧷</div><div class="card-title">BGP站</div><div class="card-fav" data-id="ripe" data-title="BGP站" data-icon="🧷" data-href="https://stat.ripe.net/" title="收藏">★</div></a>
+          <a class="card" href="https://ourworldindata.org/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📊</div><div class="card-title">宏观数据</div><div class="card-fav" data-id="ourworld" data-title="宏观数据" data-icon="📊" data-href="https://ourworldindata.org/" title="收藏">★</div></a>
+          <a class="card" href="https://earthquake.usgs.gov/earthquakes/map/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🌋</div><div class="card-title">实时地震</div><div class="card-fav" data-id="earthquake" data-title="实时地震" data-icon="🌋" data-href="https://earthquake.usgs.gov/earthquakes/map/" title="收藏">★</div></a>
+          <a class="card" href="https://firms.modaps.eosdis.nasa.gov/map/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🔥</div><div class="card-title">全球火灾</div><div class="card-fav" data-id="nasafires" data-title="全球火灾" data-icon="🔥" data-href="https://firms.modaps.eosdis.nasa.gov/map/" title="收藏">★</div></a>
+          <a class="card" href="https://www.swpc.noaa.gov/products/aurora-30-minute-forecast" target="_blank" rel="noopener noreferrer"><div class="icon-box">🌌</div><div class="card-title">极光预测</div><div class="card-fav" data-id="aurora" data-title="极光预测" data-icon="🌌" data-href="https://www.swpc.noaa.gov/products/aurora-30-minute-forecast" title="收藏">★</div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-utils" data-icon="ri-hammer-line">
-        <div class="section-header"><div class="section-title">实用工具</div><div class="section-count">Utilities</div></div>
+        <div class="section-header"><div class="section-title">工具</div><div class="section-count">Tools & Search</div></div>
         <div class="grid">
-          <a class="app-card" href="https://www.google.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="google" data-title="谷歌搜索" data-icon="🔎" data-href="https://www.google.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🔎</div></div><div class="app-name">谷歌搜索</div></a>
-          <a class="app-card" href="https://mail.google.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="gmail" data-title="Gmail" data-icon="✉️" data-href="https://mail.google.com/"><i class="ri-star-fill"></i></div><div class="app-icon">✉️</div></div><div class="app-name">Gmail</div></a>
-          <a class="app-card" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="googledrive" data-title="云盘" data-icon="☁️" data-href="https://drive.google.com/"><i class="ri-star-fill"></i></div><div class="app-icon">☁️</div></div><div class="app-name">云盘</div></a>
-          <a class="app-card" href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="googlemaps" data-title="谷歌地图" data-icon="🗺️" data-href="https://www.google.com/maps"><i class="ri-star-fill"></i></div><div class="app-icon">🗺️</div></div><div class="app-name">谷歌地图</div></a>
-          <a class="app-card" href="https://www.wikipedia.org/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="wikipedia" data-title="维基百科" data-icon="📚" data-href="https://www.wikipedia.org/"><i class="ri-star-fill"></i></div><div class="app-icon">📚</div></div><div class="app-name">维基百科</div></a>
-          <a class="app-card" href="https://images.google.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="googleimages" data-title="谷歌识图" data-icon="🖼️" data-href="https://images.google.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🖼️</div></div><div class="app-name">谷歌识图</div></a>
-          <a class="app-card" href="https://yandex.com/images" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="yandex" data-title="Yandex" data-icon="🔍" data-href="https://yandex.com/images"><i class="ri-star-fill"></i></div><div class="app-icon">🔍</div></div><div class="app-name">Yandex</div></a>
-          <a class="app-card" href="https://pindown.io/en1" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="pindown" data-title="Pin下载" data-icon="📌" data-href="https://pindown.io/en1"><i class="ri-star-fill"></i></div><div class="app-icon">📌</div></div><div class="app-name">Pin下载</div></a>
-          <a class="app-card" href="https://trace.moe" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="tracemoe" data-title="Trace.moe" data-icon="🔎" data-href="https://trace.moe"><i class="ri-star-fill"></i></div><div class="app-icon">🔎</div></div><div class="app-name">Trace.moe</div></a>
-          <a class="app-card" href="https://www.wikihow.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="wikihow" data-title="WikiHow" data-icon="📘" data-href="https://www.wikihow.com"><i class="ri-star-fill"></i></div><div class="app-icon">📘</div></div><div class="app-name">WikiHow</div></a>
-          <a class="app-card" href="https://www.speedtest.net" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="speedtest" data-title="Speedtest" data-icon="⚡" data-href="https://www.speedtest.net"><i class="ri-star-fill"></i></div><div class="app-icon">⚡</div></div><div class="app-name">Speedtest</div></a>
-          <a class="app-card" href="https://tinywow.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="tinywow" data-title="TinyWow" data-icon="🧰" data-href="https://tinywow.com"><i class="ri-star-fill"></i></div><div class="app-icon">🧰</div></div><div class="app-name">TinyWow</div></a>
-          <a class="app-card" href="https://www.ilovepdf.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="ilovepdf" data-title="iLovePDF" data-icon="📄" data-href="https://www.ilovepdf.com"><i class="ri-star-fill"></i></div><div class="app-icon">📄</div></div><div class="app-name">iLovePDF</div></a>
-          <a class="app-card" href="https://gumroad.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="gumroad" data-title="Gumroad" data-icon="💸" data-href="https://gumroad.com"><i class="ri-star-fill"></i></div><div class="app-icon">💸</div></div><div class="app-name">Gumroad</div></a>
-          <a class="app-card" href="https://www.suijidaquan.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="randcc" data-title="随机卡号" data-icon="🎲" data-href="https://www.suijidaquan.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🎲</div></div><div class="app-name">随机卡号</div></a>
-          <a class="app-card" href="https://www.coinepay.net" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="coinepay" data-title="Coinepay" data-icon="💳" data-href="https://www.coinepay.net"><i class="ri-star-fill"></i></div><div class="app-icon">💳</div></div><div class="app-name">Coinepay</div></a>
-          <a class="app-card" href="https://www.buyaacc.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="buyacc" data-title="BuyAcc" data-icon="🛒" data-href="https://www.buyaacc.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🛒</div></div><div class="app-name">BuyAcc</div></a>
-          <a class="app-card" href="https://www.10minutemail.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="10minmail" data-title="十分邮箱" data-icon="⌛" data-href="https://www.10minutemail.com"><i class="ri-star-fill"></i></div><div class="app-icon">⌛</div></div><div class="app-name">十分邮箱</div></a>
-          <a class="app-card" href="https://mjjfaka.net/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="mjjfaka" data-title="MJJ发卡" data-icon="🏪" data-href="https://mjjfaka.net/"><i class="ri-star-fill"></i></div><div class="app-icon">🏪</div></div><div class="app-name">MJJ发卡</div></a>
-          <a class="app-card" href="https://www.binance.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="binance" data-title="币安" data-icon="💰" data-href="https://www.binance.com/"><i class="ri-star-fill"></i></div><div class="app-icon">💰</div></div><div class="app-name">币安</div></a>
-          <a class="app-card" href="https://www.okx.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="okx" data-title="欧易" data-icon="🟢" data-href="https://www.okx.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🟢</div></div><div class="app-name">欧易</div></a>
-          <a class="app-card" href="https://metamask.io/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="metamask" data-title="小狐狸" data-icon="🦊" data-href="https://metamask.io/"><i class="ri-star-fill"></i></div><div class="app-icon">🦊</div></div><div class="app-name">小狐狸</div></a>
+          <a class="card" href="https://www.google.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🔎</div><div class="card-title">谷歌搜索</div><div class="card-fav" data-id="google" data-title="谷歌搜索" data-icon="🔎" data-href="https://www.google.com/" title="收藏">★</div></a>
+          <a class="card" href="https://mail.google.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">✉️</div><div class="card-title">Gmail</div><div class="card-fav" data-id="gmail" data-title="Gmail" data-icon="✉️" data-href="https://mail.google.com/" title="收藏">★</div></a>
+          <a class="card" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">☁️</div><div class="card-title">云盘</div><div class="card-fav" data-id="googledrive" data-title="云盘" data-icon="☁️" data-href="https://drive.google.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer"><div class="icon-box">🗺️</div><div class="card-title">谷歌地图</div><div class="card-fav" data-id="googlemaps" data-title="谷歌地图" data-icon="🗺️" data-href="https://www.google.com/maps" title="收藏">★</div></a>
+          <a class="card" href="https://www.wikipedia.org/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📚</div><div class="card-title">维基百科</div><div class="card-fav" data-id="wikipedia" data-title="维基百科" data-icon="📚" data-href="https://www.wikipedia.org/" title="收藏">★</div></a>
+          <a class="card" href="https://images.google.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🖼️</div><div class="card-title">谷歌识图</div><div class="card-fav" data-id="googleimages" data-title="谷歌识图" data-icon="🖼️" data-href="https://images.google.com/" title="收藏">★</div></a>
+          <a class="card" href="https://yandex.com/images" target="_blank" rel="noopener noreferrer"><div class="icon-box">🔍</div><div class="card-title">Yandex</div><div class="card-fav" data-id="yandex" data-title="Yandex" data-icon="🔍" data-href="https://yandex.com/images" title="收藏">★</div></a>
+          <a class="card" href="https://pindown.io/en1" target="_blank" rel="noopener noreferrer"><div class="icon-box">📌</div><div class="card-title">Pin下载</div><div class="card-fav" data-id="pindown" data-title="Pin下载" data-icon="📌" data-href="https://pindown.io/en1" title="收藏">★</div></a>
+          <a class="card" href="https://trace.moe" target="_blank" rel="noopener noreferrer"><div class="icon-box">🔎</div><div class="card-title">Trace.moe</div><div class="card-fav" data-id="tracemoe" data-title="Trace.moe" data-icon="🔎" data-href="https://trace.moe" title="收藏">★</div></a>
+          <a class="card" href="https://www.wikihow.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">📘</div><div class="card-title">WikiHow</div><div class="card-fav" data-id="wikihow" data-title="WikiHow" data-icon="📘" data-href="https://www.wikihow.com" title="收藏">★</div></a>
+          <a class="card" href="https://www.speedtest.net" target="_blank" rel="noopener noreferrer"><div class="icon-box">⚡</div><div class="card-title">Speedtest</div><div class="card-fav" data-id="speedtest" data-title="Speedtest" data-icon="⚡" data-href="https://www.speedtest.net" title="收藏">★</div></a>
+          <a class="card" href="https://tinywow.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🧰</div><div class="card-title">TinyWow</div><div class="card-fav" data-id="tinywow" data-title="TinyWow" data-icon="🧰" data-href="https://tinywow.com" title="收藏">★</div></a>
+          <a class="card" href="https://www.ilovepdf.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">📄</div><div class="card-title">iLovePDF</div><div class="card-fav" data-id="ilovepdf" data-title="iLovePDF" data-icon="📄" data-href="https://www.ilovepdf.com" title="收藏">★</div></a>
+          <a class="card" href="https://gumroad.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">💸</div><div class="card-title">Gumroad</div><div class="card-fav" data-id="gumroad" data-title="Gumroad" data-icon="💸" data-href="https://gumroad.com" title="收藏">★</div></a>
+          <a class="card" href="https://www.suijidaquan.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🎲</div><div class="card-title">随机卡号</div><div class="card-fav" data-id="randcc" data-title="随机卡号" data-icon="🎲" data-href="https://www.suijidaquan.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.coinepay.net" target="_blank" rel="noopener noreferrer"><div class="icon-box">💳</div><div class="card-title">Coinepay</div><div class="card-fav" data-id="coinepay" data-title="Coinepay" data-icon="💳" data-href="https://www.coinepay.net" title="收藏">★</div></a>
+          <a class="card" href="https://www.buyaacc.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🛒</div><div class="card-title">BuyAcc</div><div class="card-fav" data-id="buyacc" data-title="BuyAcc" data-icon="🛒" data-href="https://www.buyaacc.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.10minutemail.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">⌛</div><div class="card-title">十分邮箱</div><div class="card-fav" data-id="10minmail" data-title="十分邮箱" data-icon="⌛" data-href="https://www.10minutemail.com" title="收藏">★</div></a>
+          <a class="card" href="https://mjjfaka.net/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🏪</div><div class="card-title">MJJ发卡</div><div class="card-fav" data-id="mjjfaka" data-title="MJJ发卡" data-icon="🏪" data-href="https://mjjfaka.net/" title="收藏">★</div></a>
+          <a class="card" href="https://www.binance.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">💰</div><div class="card-title">币安</div><div class="card-fav" data-id="binance" data-title="币安" data-icon="💰" data-href="https://www.binance.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.okx.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🟢</div><div class="card-title">欧易</div><div class="card-fav" data-id="okx" data-title="欧易" data-icon="🟢" data-href="https://www.okx.com/" title="收藏">★</div></a>
+          <a class="card" href="https://metamask.io/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🦊</div><div class="card-title">小狐狸</div><div class="card-fav" data-id="metamask" data-title="小狐狸" data-icon="🦊" data-href="https://metamask.io/" title="收藏">★</div></a>
         </div>
       </div>
 
       <div class="section-block" id="sec-social" data-icon="ri-discuss-line">
-        <div class="section-header"><div class="section-title">社交与影音</div><div class="section-count">Social</div></div>
+        <div class="section-header"><div class="section-title">影音</div><div class="section-count">Social & Media</div></div>
         <div class="grid">
-          <a class="app-card" href="https://telegram.org/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="telegram" data-title="Telegram" data-icon="✈️" data-href="https://telegram.org/"><i class="ri-star-fill"></i></div><div class="app-icon">✈️</div></div><div class="app-name">Telegram</div></a>
-          <a class="app-card" href="https://x.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="twitter" data-title="X" data-icon="🕇" data-href="https://x.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🕇</div></div><div class="app-name">X</div></a>
-          <a class="app-card" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="facebook" data-title="Facebook" data-icon="📘" data-href="https://www.facebook.com/"><i class="ri-star-fill"></i></div><div class="app-icon">📘</div></div><div class="app-name">Facebook</div></a>
-          <a class="app-card" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="instagram" data-title="Insta" data-icon="📸" data-href="https://www.instagram.com/"><i class="ri-star-fill"></i></div><div class="app-icon">📸</div></div><div class="app-name">Insta</div></a>
-          <a class="app-card" href="https://signal.org/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="signal" data-title="Signal" data-icon="📨" data-href="https://signal.org/"><i class="ri-star-fill"></i></div><div class="app-icon">📨</div></div><div class="app-name">Signal</div></a>
-          <a class="app-card" href="https://www.reddit.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="reddit" data-title="Reddit" data-icon="🍊" data-href="https://www.reddit.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🍊</div></div><div class="app-name">Reddit</div></a>
-          <a class="app-card" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="youtube" data-title="YouTube" data-icon="▶️" data-href="https://www.youtube.com/"><i class="ri-star-fill"></i></div><div class="app-icon">▶️</div></div><div class="app-name">YouTube</div></a>
-          <a class="app-card" href="https://www.netflix.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="netflix" data-title="Netflix" data-icon="🎞️" data-href="https://www.netflix.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🎞️</div></div><div class="app-name">Netflix</div></a>
-          <a class="app-card" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="spotify" data-title="Spotify" data-icon="🎵" data-href="https://open.spotify.com/"><i class="ri-star-fill"></i></div><div class="app-icon">🎵</div></div><div class="app-name">Spotify</div></a>
-          <a class="app-card" href="https://everynoise.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="everynoise" data-title="音乐地图" data-icon="🎶" data-href="https://everynoise.com"><i class="ri-star-fill"></i></div><div class="app-icon">🎶</div></div><div class="app-name">音乐地图</div></a>
-          <a class="app-card" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="tiktok" data-title="TikTok" data-icon="📱" data-href="https://www.tiktok.com/"><i class="ri-star-fill"></i></div><div class="app-icon">📱</div></div><div class="app-name">TikTok</div></a>
-          <a class="app-card" href="https://nf.video/银河录像局" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="card-fav" data-id="yinhejuxiang" data-title="录像局" data-icon="🎬" data-href="https://nf.video/银河录像局"><i class="ri-star-fill"></i></div><div class="app-icon">🎬</div></div><div class="app-name">录像局</div></a>
+          <a class="card" href="https://telegram.org/" target="_blank" rel="noopener noreferrer"><div class="icon-box">✈️</div><div class="card-title">Telegram</div><div class="card-fav" data-id="telegram" data-title="Telegram" data-icon="✈️" data-href="https://telegram.org/" title="收藏">★</div></a>
+          <a class="card" href="https://x.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🕇</div><div class="card-title">X</div><div class="card-fav" data-id="twitter" data-title="X" data-icon="🕇" data-href="https://x.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📘</div><div class="card-title">Facebook</div><div class="card-fav" data-id="facebook" data-title="Facebook" data-icon="📘" data-href="https://www.facebook.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📸</div><div class="card-title">Insta</div><div class="card-fav" data-id="instagram" data-title="Insta" data-icon="📸" data-href="https://www.instagram.com/" title="收藏">★</div></a>
+          <a class="card" href="https://signal.org/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📨</div><div class="card-title">Signal</div><div class="card-fav" data-id="signal" data-title="Signal" data-icon="📨" data-href="https://signal.org/" title="收藏">★</div></a>
+          <a class="card" href="https://www.reddit.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🍊</div><div class="card-title">Reddit</div><div class="card-fav" data-id="reddit" data-title="Reddit" data-icon="🍊" data-href="https://www.reddit.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">▶️</div><div class="card-title">YouTube</div><div class="card-fav" data-id="youtube" data-title="YouTube" data-icon="▶️" data-href="https://www.youtube.com/" title="收藏">★</div></a>
+          <a class="card" href="https://www.netflix.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🎞️</div><div class="card-title">Netflix</div><div class="card-fav" data-id="netflix" data-title="Netflix" data-icon="🎞️" data-href="https://www.netflix.com/" title="收藏">★</div></a>
+          <a class="card" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🎵</div><div class="card-title">Spotify</div><div class="card-fav" data-id="spotify" data-title="Spotify" data-icon="🎵" data-href="https://open.spotify.com/" title="收藏">★</div></a>
+          <a class="card" href="https://everynoise.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🎶</div><div class="card-title">音乐地图</div><div class="card-fav" data-id="everynoise" data-title="音乐地图" data-icon="🎶" data-href="https://everynoise.com" title="收藏">★</div></a>
+          <a class="card" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📱</div><div class="card-title">TikTok</div><div class="card-fav" data-id="tiktok" data-title="TikTok" data-icon="📱" data-href="https://www.tiktok.com/" title="收藏">★</div></a>
+          <a class="card" href="https://nf.video/银河录像局" target="_blank" rel="noopener noreferrer"><div class="icon-box">🎬</div><div class="card-title">录像局</div><div class="card-fav" data-id="yinhejuxiang" data-title="录像局" data-icon="🎬" data-href="https://nf.video/银河录像局" title="收藏">★</div></a>
         </div>
       </div>
 
       <div class="section-block sensitive-zone locked" id="sec-abyss" data-icon="ri-eye-off-line">
         <div class="sensitive-mask"><div class="mask-badge">Confidential / NSFW</div></div>
         <div class="sensitive-blur">
-          <div class="section-header"><div class="section-title">深海与私藏</div><span class="section-count">Restricted</span></div>
+          <div class="section-header"><div class="section-title">深海与私藏</div><span class="section-count">Abyss & Gentleman</span></div>
           <div class="grid">
-            <a class="app-card" href="https://www.torproject.org/zh-CN/download/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🧅</div></div><div class="app-name">Tor</div></a>
-            <a class="app-card" href="https://fanqianglu.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🪜</div></div><div class="app-name">翻墙路</div></a>
-            <a class="app-card" href="https://baichunlink.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🔗</div></div><div class="app-name">百醇导</div></a>
-            <a class="app-card" href="https://fuun.fun/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🎡</div></div><div class="app-name">Fuun</div></a>
-            <a class="app-card" href="https://www.pornpics.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">👱‍♀️</div></div><div class="app-name">图库</div></a>
-            <a class="app-card" href="https://www.junmeitu.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">💃</div></div><div class="app-name">俊美图</div></a>
-            <a class="app-card" href="https://www.91tulu.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🚗</div></div><div class="app-name">91图</div></a>
-            <a class="app-card" href="https://www.v2ph.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">📸</div></div><div class="app-name">微图</div></a>
-            <a class="app-card" href="https://www.tblop.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">📜</div></div><div class="app-name">TBLOP</div></a>
-            <a class="app-card" href="https://theporndude.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🤠</div></div><div class="app-name">向导</div></a>
-            <a class="app-card" href="https://pornhub.com" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🟧</div></div><div class="app-name">PHub</div></a>
-            <a class="app-card" href="https://www.xvideos.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">❌</div></div><div class="app-name">Xvideo</div></a>
-            <a class="app-card" href="https://xhamster.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🐹</div></div><div class="app-name">xHam</div></a>
-            <a class="app-card" href="https://www.eporner.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">📺</div></div><div class="app-name">Eporn</div></a>
-            <a class="app-card" href="https://stripchat.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">👙</div></div><div class="app-name">Strip</div></a>
-            <a class="app-card" href="https://onlyfans.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🔵</div></div><div class="app-name">OFans</div></a>
-            <a class="app-card" href="https://netflav.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">N</div></div><div class="app-name">Netfla</div></a>
-            <a class="app-card" href="https://hanime1.me/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🌸</div></div><div class="app-name">Hanim</div></a>
-            <a class="app-card" href="https://supjav.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">S</div></div><div class="app-name">SupJAV</div></a>
-            <a class="app-card" href="https://sukebei.nyaa.si/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">🧲</div></div><div class="app-name">Sukebe</div></a>
-            <a class="app-card" href="https://nyaa.si/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">N</div></div><div class="app-name">Nyaa</div></a>
-            <a class="app-card" href="https://btsow.motorcycles/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">⚡</div></div><div class="app-name">BTSOW</div></a>
-            <a class="app-card" href="https://www.erome.com/" target="_blank" rel="noopener noreferrer"><div class="app-icon-wrap"><div class="app-icon">📂</div></div><div class="app-name">Erome</div></a>
+            <a class="card" href="https://www.torproject.org/zh-CN/download/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🧅</div><div class="card-title">Tor</div></a>
+            <a class="card" href="https://fanqianglu.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🪜</div><div class="card-title">翻墙路</div></a>
+            <a class="card" href="https://baichunlink.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🔗</div><div class="card-title">百醇导</div></a>
+            <a class="card" href="https://fuun.fun/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🎡</div><div class="card-title">Fuun</div></a>
+            <a class="card" href="https://www.pornpics.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">👱‍♀️</div><div class="card-title">图库</div></a>
+            <a class="card" href="https://www.junmeitu.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">💃</div><div class="card-title">俊美图</div></a>
+            <a class="card" href="https://www.91tulu.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🚗</div><div class="card-title">91图</div></a>
+            <a class="card" href="https://www.v2ph.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📸</div><div class="card-title">微图</div></a>
+            <a class="card" href="https://www.tblop.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📜</div><div class="card-title">TBLOP</div></a>
+            <a class="card" href="https://theporndude.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🤠</div><div class="card-title">向导</div></a>
+            <a class="card" href="https://pornhub.com" target="_blank" rel="noopener noreferrer"><div class="icon-box">🟧</div><div class="card-title">PHub</div></a>
+            <a class="card" href="https://www.xvideos.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">❌</div><div class="card-title">Xvideo</div></a>
+            <a class="card" href="https://xhamster.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🐹</div><div class="card-title">xHam</div></a>
+            <a class="card" href="https://www.eporner.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📺</div><div class="card-title">Eporn</div></a>
+            <a class="card" href="https://stripchat.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">👙</div><div class="card-title">Strip</div></a>
+            <a class="card" href="https://onlyfans.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🔵</div><div class="card-title">OFans</div></a>
+            <a class="card" href="https://netflav.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">N</div><div class="card-title">Netfla</div></a>
+            <a class="card" href="https://hanime1.me/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🌸</div><div class="card-title">Hanim</div></a>
+            <a class="card" href="https://supjav.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">S</div><div class="card-title">SupJAV</div></a>
+            <a class="card" href="https://sukebei.nyaa.si/" target="_blank" rel="noopener noreferrer"><div class="icon-box">🧲</div><div class="card-title">Sukebe</div></a>
+            <a class="card" href="https://nyaa.si/" target="_blank" rel="noopener noreferrer"><div class="icon-box">N</div><div class="card-title">Nyaa</div></a>
+            <a class="card" href="https://btsow.motorcycles/" target="_blank" rel="noopener noreferrer"><div class="icon-box">⚡</div><div class="card-title">BTSOW</div></a>
+            <a class="card" href="https://www.erome.com/" target="_blank" rel="noopener noreferrer"><div class="icon-box">📂</div><div class="card-title">Erome</div></a>
           </div>
         </div>
       </div>
     </main>
   </div>
 
+  <div id="back-top" title="返回顶部"><i class="ri-arrow-up-line"></i></div>
+
   <div id="ghost-memo">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-bottom:12px;border-bottom:1px solid var(--border-glass);">
-      <span style="font-size:16px;font-weight:600;letter-spacing:0.5px;">云端备忘录</span>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border-color);">
+      <span style="font-size:15px;font-weight:700;letter-spacing:1px;">备忘录</span>
       <div style="display:flex;gap:14px;align-items:center;">
-        <span id="cloud-status" style="font-size:12px;font-weight:500;color:var(--accent);">待机中</span>
-        <span id="cloud-sync-btn" style="cursor:pointer;font-size:13px;font-weight:500;opacity:0.7;transition:opacity var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">同步</span>
-        <span onclick="toggleMemo()" style="cursor:pointer;font-size:13px;font-weight:500;opacity:0.7;transition:opacity var(--transition-fast);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">关闭</span>
+        <span id="cloud-status" style="font-size:12px;font-family:var(--font-sys);font-weight:600;color:var(--accent);">待机中</span>
+        <span id="cloud-sync-btn" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">同步</span>
+        <span onclick="toggleMemo()" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">关闭</span>
       </div>
     </div>
     <div id="memo-content"></div>
@@ -605,32 +869,17 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script>
     let isAbyssOpen = false;
 
-    // ── 闪屏关闭 ──
-    function closeSplash() {
-      const splash = document.getElementById('splash');
-      if (splash) {
-        splash.style.opacity = '0';
-        setTimeout(() => { splash.style.display = 'none'; }, 600);
-        sessionStorage.setItem('archiveSplashSeen', 'true');
-      }
-    }
-    if (sessionStorage.getItem('archiveSplashSeen')) {
-      const splash = document.getElementById('splash');
-      if (splash) splash.style.display = 'none';
-    }
-
-    // ── 收藏功能逻辑 ──
-    const FAV_KEY = 'jintong_favorites_ios';
+    const FAV_KEY = 'jintong_favorites';
     function loadFavs() {
-      try { return JSON.parse(localStorage.getItem(FAV_KEY)) || {}; } catch { return {}; }
+      try { return JSON.parse(localStorage.getItem(FAV_KEY)) || {}; }
+      catch { return {}; }
     }
     function saveFavs(favs) {
-      try { localStorage.setItem(FAV_KEY, JSON.stringify(favs)); } catch {}
+      try { localStorage.setItem(FAV_KEY, JSON.stringify(favs)); }
+      catch {}
     }
 
     function renderFavSection() {
@@ -645,21 +894,19 @@
         return;
       }
       section.style.display = 'block';
-      countEl.textContent = `${ids.length} Apps`;
+      countEl.textContent = `${ids.length} items`;
 
       grid.innerHTML = '';
       ids.forEach(id => {
         const f = favs[id];
         const a = document.createElement('a');
-        a.className = 'app-card';
+        a.className = 'card';
         a.href = f.href; a.target = '_blank'; a.rel = 'noopener noreferrer';
         a.style.opacity = '1'; a.style.animation = 'none';
         a.innerHTML = `
-          <div class="app-icon-wrap">
-            <div class="card-fav active" data-id="${id}" data-title="${f.title}" data-icon="${f.icon}" data-href="${f.href}" title="取消收藏"><i class="ri-star-fill"></i></div>
-            <div class="app-icon">${f.icon}</div>
-          </div>
-          <div class="app-name">${f.title}</div>
+          <div class="icon-box">${f.icon}</div>
+          <div class="card-title">${f.title}</div>
+          <div class="card-fav active" data-id="${id}" data-title="${f.title}" data-icon="${f.icon}" data-href="${f.href}" title="取消收藏">★</div>
         `;
         grid.appendChild(a);
       });
@@ -675,11 +922,11 @@
           if (favs[id]) {
             delete favs[id];
             btn.classList.remove('active');
-            showToast(`已移出收藏：${title}`);
+            showToast(`已取消收藏：${title}`);
           } else {
             favs[id] = { title, icon, href };
             btn.classList.add('active');
-            showToast(`已添加收藏：${title}`);
+            showToast(`已收藏：${title}`);
           }
           saveFavs(favs);
           document.querySelectorAll(`.card-fav[data-id="${id}"]`).forEach(b => {
@@ -692,17 +939,37 @@
 
     const sidebar = document.getElementById('sidebar');
     const mobileOverlay = document.getElementById('mobile-overlay');
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+
     function toggleMobileMenu() {
       if (window.innerWidth <= 768) {
         sidebar.classList.toggle('open');
         mobileOverlay.classList.toggle('open');
       }
     }
-    document.getElementById('mobile-menu-btn')?.addEventListener('click', toggleMobileMenu);
-    mobileOverlay?.addEventListener('click', toggleMobileMenu);
+    if (mobileMenuBtn && mobileOverlay) {
+      mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+      mobileOverlay.addEventListener('click', toggleMobileMenu);
+    }
+
+    function animateCards() {
+      document.querySelectorAll('.card').forEach((card, index) => {
+        if (card.style.animation !== 'none') card.style.animationDelay = `${(index % 12) * 0.05}s`;
+      });
+    }
+
+    const readProgress = document.getElementById('read-progress');
+    const mainEl = document.getElementById('main-content');
+    const backTop = document.getElementById('back-top');
+    mainEl.addEventListener('scroll', () => {
+      const { scrollTop, scrollHeight, clientHeight } = mainEl;
+      const pct = scrollTop / (scrollHeight - clientHeight) || 0;
+      readProgress.style.transform = `scaleX(${pct})`;
+      backTop.classList.toggle('visible', scrollTop > 400);
+    }, { passive: true });
+    backTop.addEventListener('click', () => mainEl.scrollTo({ top: 0, behavior: 'smooth' }));
 
     let navLinks = {};
-    const mainEl = document.getElementById('main-content');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -715,27 +982,35 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       const navContainer = document.getElementById('nav-container');
-      document.querySelectorAll('.section-block').forEach(sec => {
+      const sections = document.querySelectorAll('.section-block');
+
+      sections.forEach(sec => {
         if (sec.classList.contains('sensitive-zone')) return;
         const id = sec.id;
-        const iconClass = sec.dataset.icon || 'ri-apps-2-line';
+        const iconClass = sec.dataset.icon || 'ri-links-line';
         const titleEl = sec.querySelector('.section-title');
         if (!titleEl) return;
-        
+        const title = titleEl.textContent.trim();
+
         const link = document.createElement('a');
         link.className = 'nav-item';
         link.href = '#' + id;
-        link.innerHTML = `<i class="${iconClass} nav-icon"></i><span>${titleEl.textContent.trim()}</span>`;
+        link.innerHTML = `<i class="${iconClass} nav-icon"></i><span>${title}</span><span class="nav-dot"></span>`;
+
         link.addEventListener('click', e => {
           e.preventDefault();
           document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+          document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+          link.classList.add('active');
           if (window.innerWidth <= 768) toggleMobileMenu();
         });
+
         navContainer.appendChild(link);
         navLinks[id] = link;
         observer.observe(sec);
       });
 
+      animateCards();
       bindFavBtns(document.getElementById('main-content'));
       renderFavSection();
 
@@ -745,13 +1020,26 @@
       });
     });
 
+    function closeSplash() {
+      const splash = document.getElementById('splash');
+      if (splash) {
+        splash.style.opacity = '0';
+        setTimeout(() => { splash.style.display = 'none'; }, 600);
+        sessionStorage.setItem('archiveSplashSeen', 'true');
+      }
+    }
+    if (sessionStorage.getItem('archiveSplashSeen')) {
+      const splash = document.getElementById('splash');
+      if (splash) splash.style.display = 'none';
+    }
+
+    const timePill = document.getElementById('time-pill');
+    const datePill = document.getElementById('date-pill');
+    const greeting = document.getElementById('time-greeting');
     function updateTime() {
       const now = new Date();
-      const timePill = document.getElementById('time-pill');
-      const datePill = document.getElementById('date-pill');
-      const greeting = document.getElementById('time-greeting');
       if (timePill) timePill.textContent = now.toLocaleTimeString('zh-CN', { hour12: false });
-      if (datePill) datePill.textContent = now.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' });
+      if (datePill) datePill.textContent = now.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' });
       if (greeting) {
         const h = now.getHours();
         greeting.textContent = h < 5 ? '夜深了' : h < 9 ? '早上好' : h < 12 ? '上午好' : h < 14 ? '中午好' : h < 19 ? '下午好' : '晚上好';
@@ -764,18 +1052,23 @@
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       toast.className = 'toast';
-      toast.textContent = message;
+      toast.textContent = `> ${message}`;
       container.appendChild(toast);
       setTimeout(() => { if (toast.parentNode) toast.remove(); }, 3000);
     }
 
-    function closePanic() {
-      document.getElementById('panic-overlay').classList.remove('active');
-    }
-
     function debounce(func, wait) {
       let timeout;
-      return function (...args) { clearTimeout(timeout); timeout = setTimeout(() => func.apply(this, args), wait); };
+      return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+      };
+    }
+
+    function highlightTextReturn(text, term) {
+      if (!term) return text;
+      const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return text.replace(new RegExp(escaped, 'gi'), m => `<mark>${m}</mark>`);
     }
 
     function filterCards(term) {
@@ -786,45 +1079,72 @@
         if (sec.id === 'sec-abyss' && isAbyssOpen) { sec.style.display = 'block'; return; }
 
         let hasVisible = false;
-        sec.querySelectorAll('.app-card').forEach(card => {
-          const titleEl = card.querySelector('.app-name');
+        sec.querySelectorAll('.card').forEach(card => {
+          const titleEl = card.querySelector('.card-title');
+          
           if (titleEl && !titleEl.dataset.orig) titleEl.dataset.orig = titleEl.textContent;
+
           const text = (titleEl ? titleEl.dataset.orig : '').toLowerCase();
           const isMatch = !term || text.includes(term);
           
           card.style.display = isMatch ? 'flex' : 'none';
-          if (isMatch) { hasVisible = true; totalVisible++; }
+          
+          if (isMatch) {
+            hasVisible = true; totalVisible++;
+            if (term) {
+              if (titleEl) titleEl.innerHTML = highlightTextReturn(titleEl.dataset.orig, term);
+            } else {
+              if (titleEl) titleEl.textContent = titleEl.dataset.orig;
+            }
+          }
         });
         sec.style.display = (hasVisible || !term) ? 'block' : 'none';
       });
 
       const hint = document.getElementById('search-hint');
-      if (hint) {
-        hint.textContent = term ? (totalVisible > 0 ? `找到 ${totalVisible} 个 App` : '无结果') : '';
-        hint.classList.toggle('visible', !!term);
+      if (term && hint) {
+        hint.textContent = totalVisible > 0 ? `找到 ${totalVisible} 个结果` : '无结果';
+        hint.classList.add('visible');
+      } else if (hint) {
+        hint.classList.remove('visible');
       }
-      document.getElementById('empty-state').classList.toggle('hidden', totalVisible > 0 || !term);
+
+      const emptyState = document.getElementById('empty-state');
+      if (emptyState) emptyState.classList.toggle('hidden', totalVisible > 0 || !term);
+      animateCards();
     }
 
     const debouncedFilter = debounce(filterCards, 150);
 
-    const searchInputs = document.querySelectorAll('.search-input');
-    searchInputs.forEach(input => {
-      input.addEventListener('input', e => {
-        const term = e.target.value.toLowerCase().trim();
-        searchInputs.forEach(i => { if (i !== e.target) i.value = term; });
-        debouncedFilter(term);
-        document.querySelectorAll('.search-clear').forEach(c => c.classList.toggle('visible', term.length > 0));
-      });
-    });
-
-    document.querySelectorAll('.search-clear').forEach(btn => {
+    function setupSearchClear(inputId, clearId) {
+      const inp = document.getElementById(inputId);
+      const btn = document.getElementById(clearId);
+      if (!inp || !btn) return;
+      inp.addEventListener('input', () => btn.classList.toggle('visible', inp.value.length > 0));
       btn.addEventListener('click', () => {
-        searchInputs.forEach(i => i.value = '');
+        inp.value = '';
+        btn.classList.remove('visible');
+        searchInputs.forEach(i => { i.value = ''; });
         debouncedFilter('');
-        document.querySelectorAll('.search-clear').forEach(c => c.classList.remove('visible'));
+        inp.focus();
       });
-    });
+    }
+    setupSearchClear('search-input', 'search-clear-desktop');
+
+    const mobileSearchClear = document.getElementById('search-clear-mobile');
+    const mobileSearchInput = document.querySelector('.mobile-header .search-input');
+    if (mobileSearchClear && mobileSearchInput) {
+      mobileSearchInput.addEventListener('input', () => {
+        mobileSearchClear.classList.toggle('visible', mobileSearchInput.value.length > 0);
+      });
+      mobileSearchClear.addEventListener('click', () => {
+        mobileSearchInput.value = '';
+        mobileSearchClear.classList.remove('visible');
+        searchInputs.forEach(i => { i.value = ''; });
+        debouncedFilter('');
+        mobileSearchInput.focus();
+      });
+    }
 
     function toggleAbyss() {
       isAbyssOpen = !isAbyssOpen;
@@ -832,8 +1152,86 @@
         if (isAbyssOpen) { zone.classList.remove('locked'); zone.classList.add('unlocked'); zone.style.display = 'block'; }
         else { zone.classList.add('locked'); zone.classList.remove('unlocked'); zone.style.display = 'none'; }
       });
-      showToast(isAbyssOpen ? "私有资源已挂载" : "连接已断开");
+      if (isAbyssOpen) {
+        showToast("深海区域已解禁。");
+        if (window.innerWidth <= 768) {
+          sidebar.classList.remove('open');
+          mobileOverlay.classList.remove('open');
+          if (document.activeElement) document.activeElement.blur();
+        }
+        setTimeout(() => {
+          const zone = document.querySelector('.sensitive-zone');
+          if (zone) zone.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
+      } else {
+        showToast("连接已终止。");
+      }
     }
+
+    function toggleShortcuts() {
+      document.getElementById('shortcut-panel').classList.toggle('active');
+    }
+
+    const searchInputs = document.querySelectorAll('.search-input');
+    searchInputs.forEach(input => {
+      input.addEventListener('input', e => {
+        const term = e.target.value.toLowerCase().trim();
+        if (term === 'open') {
+          e.target.blur();
+          searchInputs.forEach(i => { i.value = ''; });
+          document.querySelectorAll('.search-clear').forEach(c => c.classList.remove('visible'));
+          setTimeout(() => { filterCards(''); toggleAbyss(); }, 50);
+          return;
+        }
+        searchInputs.forEach(i => { if (i !== e.target) i.value = term; });
+        debouncedFilter(term);
+      });
+    });
+    
+    let secretCode = '';
+    document.addEventListener('keydown', e => {
+      const activeEl = document.activeElement;
+      const isInput = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA');
+
+      if (e.key === 'Escape') {
+        const sp = document.getElementById('shortcut-panel');
+        if (sp.classList.contains('active')) { sp.classList.remove('active'); return; }
+        if (isInput) { activeEl.blur(); return; }
+        const po = document.getElementById('panic-overlay');
+        const app = document.getElementById('app');
+        if (po.classList.contains('active')) { po.classList.remove('active'); app.style.filter = 'none'; }
+        else { po.classList.add('active'); app.style.filter = 'blur(10px) grayscale(100%)'; }
+        return;
+      }
+
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        const visibleSearch = Array.from(searchInputs).find(i => i.offsetParent !== null);
+        if (visibleSearch) visibleSearch.focus();
+        return;
+      }
+
+      if (isInput) return;
+
+      if (e.key === '?') { toggleShortcuts(); return; }
+      if (e.key === 't' || e.key === 'T') { document.body.classList.toggle('dark-mode'); return; }
+      if (e.key === 'm' || e.key === 'M') { toggleMemo(); return; }
+      if (e.key === 'f' || e.key === 'F') {
+        const favSec = document.getElementById('sec-favorites');
+        if (favSec && favSec.style.display !== 'none') {
+          favSec.scrollIntoView({ behavior: 'smooth' });
+        } else { showToast("暂无收藏内容"); }
+        return;
+      }
+
+      secretCode += e.key.toLowerCase();
+      if (secretCode.length > 4) secretCode = secretCode.slice(-4);
+      if (secretCode === 'open') { toggleAbyss(); secretCode = ''; }
+    });
+
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+    });
 
     window.toggleMemo = function () {
       const ghostMemo = document.getElementById('ghost-memo');
@@ -844,28 +1242,18 @@
       }
     };
 
-    let secretCode = '';
-    document.addEventListener('keydown', e => {
-      const activeEl = document.activeElement;
-      if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA')) return;
-      
-      if (e.key === 'Escape') { 
-        const memo = document.getElementById('ghost-memo');
-        if(memo.classList.contains('active')) { memo.classList.remove('active'); return; }
-        closePanic(); 
-        return; 
-      }
-      if (e.key === 't' || e.key === 'T') { document.body.classList.toggle('dark-mode'); return; }
-      if (e.key === 'm' || e.key === 'M') { toggleMemo(); return; }
+    const memoInput = document.getElementById('memo-new-record');
+    const charCount = document.getElementById('memo-char-count');
+    if (memoInput && charCount) {
+      memoInput.addEventListener('input', () => {
+        charCount.textContent = `${memoInput.value.length}/200`;
+      });
+    }
+  </script>
 
-      secretCode += e.key.toLowerCase();
-      if (secretCode.length > 4) secretCode = secretCode.slice(-4);
-      if (secretCode === 'open') { toggleAbyss(); secretCode = ''; }
-    });
-
-    // ==========================================
-    // 备忘录核心逻辑与 Supabase 交互
-    // ==========================================
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <script>
     const formatTime = (isoString) => {
       try {
         const d = new Date(isoString);
@@ -876,7 +1264,7 @@
       }
     };
 
-    const LOCAL_CACHE_KEY = 'jintong_memos_cache_ios';
+    const LOCAL_CACHE_KEY = 'jintong_memos_cache';
     function saveMemoCache(data) {
       try { localStorage.setItem(LOCAL_CACHE_KEY, JSON.stringify(data)); } catch(e){}
     }
@@ -892,13 +1280,6 @@
       const memoContent = document.getElementById('memo-content');
       const memoNewRecord = document.getElementById('memo-new-record');
       const statusText = document.getElementById('cloud-status');
-      const charCount = document.getElementById('memo-char-count');
-
-      if (memoNewRecord && charCount) {
-        memoNewRecord.addEventListener('input', () => {
-          charCount.textContent = `${memoNewRecord.value.length}/200`;
-        });
-      }
 
       const setStatus = (text, color = 'var(--text-main)', autoReset = true) => {
         statusText.textContent = text;
@@ -916,7 +1297,7 @@
       function renderMemos(data) {
         memoContent.innerHTML = '';
         if (!data || data.length === 0) {
-          memoContent.innerHTML = '<div style="opacity:.4;text-align:center;margin-top:40px;font-size:13px;">记忆之海干涸，输入点什么吧...</div>';
+          memoContent.innerHTML = '<div style="opacity:.4;text-align:center;margin-top:40px;font-size:13px;font-family:var(--font-sys);">记忆之海干涸，输入点什么吧...</div>';
           return;
         }
         
@@ -936,6 +1317,7 @@
           textDiv.className = 'memo-text';
           textDiv.title = '点击复制';
           textDiv.textContent = row.content;
+          
           textDiv.onclick = () => window.copyMemo(row.content);
 
           leftDiv.appendChild(timeSpan);
@@ -1004,7 +1386,9 @@
             const { error } = await supabase.from('memos').insert([{ content: newText }]);
             if (error) throw error;
             setStatus('已封存', 'var(--text-main)');
+            
             window.loadFromCloud();
+            
           } catch (err) {
             console.error('[Save Error]:', err);
             setStatus('保存失败', '#ff3b30', false);
