@@ -11,7 +11,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="JIN Tong">
 
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='red' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23007aff' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>">
     
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,22 +20,22 @@
 
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
 
   <style>
     :root {
       --font-main: 'Long Cang', "Xingkai SC", "STXingkai", cursive;
       --font-sys: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --bg-sidebar: transparent;
-      --bg-card: rgba(255, 255, 255, 0.82);
+      --bg-sidebar: rgba(255, 255, 255, 0.4);
+      --bg-card: rgba(255, 255, 255, 0.7);
       --border-color: rgba(255, 255, 255, 0.45);
       --border-hover: rgba(0, 122, 255, 0.6);
-      --text-main: #000000; 
-      --text-sub: #333333; 
-      --text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8), 0 0 5px rgba(255, 255, 255, 0.5);
+      --text-main: #2c3e50; 
+      --text-sub: #546e7a; 
+      --text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
       --accent: #007aff;
       --shadow-card: 0 4px 12px rgba(0,0,0,0.04);
-      --shadow-hover: 0 10px 28px rgba(0,0,0,0.12);
+      --shadow-hover: 0 10px 28px rgba(0,0,0,0.08);
       --radius-sm: 10px;
       --radius-md: 16px;
       --radius-lg: 20px;
@@ -45,29 +45,30 @@
       --progress-height: 3px;
     }
 
+    body.dark-mode {
+      --bg-sidebar: rgba(18, 18, 20, 0.5);
+      --bg-card: rgba(28, 28, 30, 0.65);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --border-hover: rgba(10, 132, 255, 0.5);
+      --text-main: #f0f0f5;
+      --text-sub: #a0a0a5;
+      --text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+      --accent: #0a84ff;
+      --shadow-card: 0 4px 12px rgba(0,0,0,0.4);
+      --shadow-hover: 0 10px 28px rgba(0,0,0,0.5);
+    }
+
     body {
       font-family: var(--font-main);
-      background-color: #080808;
+      background-color: transparent;
       color: var(--text-main);
       text-shadow: var(--text-shadow);
       height: 100vh;
       overflow: hidden;
-      transition: color var(--transition-fast);
+      transition: color var(--transition-fast), text-shadow var(--transition-fast);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-    }
-
-    body.dark-mode {
-      --bg-sidebar: transparent;
-      --bg-card: rgba(44, 44, 46, 0.85);
-      --border-color: rgba(255, 255, 255, 0.1);
-      --border-hover: rgba(10, 132, 255, 0.5);
-      --text-main: #ffffff;
-      --text-sub: #cccccc;
-      --text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 5px rgba(0, 0, 0, 0.6);
-      --accent: #0a84ff;
-      --shadow-card: 0 4px 12px rgba(0,0,0,0.4);
-      --shadow-hover: 0 10px 28px rgba(0,0,0,0.65);
+      margin: 0; padding: 0; box-sizing: border-box;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -79,7 +80,6 @@
 
     input, textarea { font-family: var(--font-sys); text-shadow: none; }
     
-    /* ── 阅读进度条 ── */
     #read-progress {
       position: fixed; top: 0; left: 0; right: 0; height: var(--progress-height);
       background: linear-gradient(90deg, #007aff, #af52de, #ff375f);
@@ -90,7 +90,6 @@
       border-radius: 0 2px 2px 0;
     }
 
-    /* 确保主应用层覆盖在 3D 背景之上 */
     #app { display: grid; grid-template-columns: 280px 1fr; height: 100%; position: relative; z-index: 10; }
 
     aside {
@@ -102,11 +101,11 @@
       display: flex; flex-direction: column;
       z-index: 1000;
       transform: translateZ(0);
+      transition: background var(--transition-smooth), border var(--transition-smooth);
     }
     
-    .brand { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; cursor: pointer; }
+    .brand { display: flex; align-items: center; justify-content: center; margin-bottom: 32px; cursor: pointer; }
 
-    /* ── 搜索框（含清除按钮）── */
     .search-box { position: relative; margin-bottom: 24px; }
     .search-input {
       width: 100%; padding: 12px 36px 12px 40px;
@@ -128,12 +127,7 @@
     .search-clear.visible { opacity: 1; }
     .search-clear:hover { color: var(--text-main); }
 
-    /* ── 搜索结果计数 ── */
-    .search-hint {
-      font-size: 12px; color: var(--text-sub); font-family: var(--font-sys);
-      text-align: center; padding: 4px 0 8px; opacity: 0;
-      transition: opacity var(--transition-fast);
-    }
+    .search-hint { font-size: 12px; color: var(--text-sub); font-family: var(--font-sys); text-align: center; padding: 4px 0 8px; opacity: 0; transition: opacity var(--transition-fast); }
     .search-hint.visible { opacity: 1; }
 
     .nav-scroll { flex: 1; overflow-y: auto; padding-right: 8px; }
@@ -148,127 +142,70 @@
     .nav-item.active { background: var(--text-main); color: #fff; text-shadow: none; }
     body.dark-mode .nav-item.active { color: #000; text-shadow: none; }
     .nav-icon { font-size: 18px; opacity: 0.9; }
-    /* 侧边栏活跃指示点 */
-    .nav-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--accent); margin-left: auto; opacity: 0;
-      transition: opacity var(--transition-fast);
-    }
+    .nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-left: auto; opacity: 0; transition: opacity var(--transition-fast); }
     .nav-item.active .nav-dot { opacity: 1; }
     body.dark-mode .nav-item.active .nav-dot { background: #0a84ff; }
 
-    .aside-footer {
-      margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color);
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .time-badge {
-      font-size: 14px; color: var(--text-sub); font-family: var(--font-sys);
-      background: rgba(128,128,128,0.08); padding: 6px 10px; border-radius: 6px; cursor: default;
-      display: flex; align-items: center; gap: 8px; border: 1px solid var(--border-color);
-    }
+    .aside-footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+    .time-badge { font-size: 14px; color: var(--text-sub); font-family: var(--font-sys); background: rgba(128,128,128,0.08); padding: 6px 10px; border-radius: 6px; cursor: default; display: flex; align-items: center; gap: 8px; border: 1px solid var(--border-color); }
     .time-greeting { font-size: 12px; opacity: 0.8; }
 
-    /* ── 快捷键提示图标 ── */
-    .shortcut-btn {
-      width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border-color);
-      background: rgba(128,128,128,0.08); cursor: pointer; display: flex; align-items: center;
-      justify-content: center; font-size: 14px; color: var(--text-sub);
-      transition: all var(--transition-fast);
-    }
+    .shortcut-btn { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border-color); background: rgba(128,128,128,0.08); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--text-sub); transition: all var(--transition-fast); }
     .shortcut-btn:hover { background: var(--bg-card); color: var(--text-main); border-color: var(--accent); }
 
     main { padding: 48px 6vw; overflow-y: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; position: relative; }
 
-    /* ── 返回顶部按钮 ── */
     #back-top {
-      position: fixed; bottom: 40px; right: 40px;
-      width: 44px; height: 44px; border-radius: 50%;
+      position: fixed; bottom: 40px; right: 40px; width: 44px; height: 44px; border-radius: 50%;
       background: var(--bg-sidebar); border: 1px solid var(--border-color);
       backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
-      box-shadow: var(--shadow-hover);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px; color: var(--text-main); cursor: pointer;
-      opacity: 0; transform: translateY(20px);
-      transition: all var(--transition-smooth);
-      z-index: 900;
+      box-shadow: var(--shadow-hover); display: flex; align-items: center; justify-content: center;
+      font-size: 20px; color: var(--text-main); cursor: pointer; opacity: 0; transform: translateY(20px);
+      transition: all var(--transition-smooth); z-index: 900;
     }
     #back-top.visible { opacity: 1; transform: translateY(0); }
     #back-top:hover { background: var(--text-main); color: #fff; transform: translateY(-3px); }
     body.dark-mode #back-top:hover { background: #fff; color: #000; }
 
-    .hero-quote {
-      margin-bottom: 40px; padding: 20px 0;
-      background-color: transparent;
-      position: relative; overflow: hidden;
-    }
-    .quote-text, .quote-sub { position: relative; z-index: 2; }
+    .hero-quote { margin-bottom: 40px; padding: 20px 0; background-color: transparent; position: relative; overflow: hidden; }
     .quote-text { font-size: 32px; line-height: 1.6; color: var(--text-main); margin-bottom: 12px; }
     .quote-sub { font-size: 16px; color: var(--text-sub); letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-sys); }
-
-    .secret-trigger { cursor: pointer; }
+    .secret-trigger { cursor: pointer; transition: color var(--transition-fast); }
+    .secret-trigger:hover { color: var(--accent); }
 
     .section-block { margin-bottom: 56px; scroll-margin-top: 32px; }
-    .section-header {
-      display: flex; align-items: baseline; justify-content: space-between;
-      margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);
-    }
+    .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
     .section-title { font-size: 22px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; }
     .section-count { font-size: 14px; color: var(--text-sub); text-transform: uppercase; font-family: var(--font-sys); }
 
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
     .hidden { display: none !important; }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
     .card {
-      background: transparent;
+      background: var(--bg-card);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
       border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;
       cursor: default; display: flex; flex-direction: column; gap: 12px;
-      transition: var(--transition-smooth);
-      text-decoration: none; color: inherit;
-      opacity: 0; animation: fadeUp 0.4s ease forwards;
-      transform: translateZ(0);
-      position: relative;
+      transition: var(--transition-smooth); text-decoration: none; color: inherit;
+      opacity: 0; animation: fadeUp 0.4s ease forwards; transform: translateZ(0); position: relative;
     }
-    .card:hover {
-      border-color: var(--border-hover); transform: translateY(-5px) scale(1.02);
-      box-shadow: var(--shadow-hover); background: transparent;
-    }
+    .card:hover { border-color: var(--border-hover); transform: translateY(-5px) scale(1.02); box-shadow: var(--shadow-hover); background: var(--bg-card); }
 
-    /* ── 收藏角标 ── */
-    .card-fav {
-      position: absolute; top: 10px; right: 10px;
-      font-size: 14px; opacity: 0; cursor: pointer;
-      transition: opacity var(--transition-fast), transform var(--transition-fast);
-      z-index: 5; color: #ff9500; padding: 4px;
-      background: none; border: none; line-height: 1;
-      text-shadow: none;
-    }
+    .card-fav { position: absolute; top: 10px; right: 10px; font-size: 14px; opacity: 0; cursor: pointer; transition: opacity var(--transition-fast), transform var(--transition-fast); z-index: 5; color: #ff9500; padding: 4px; background: none; border: none; line-height: 1; text-shadow: none; }
     .card:hover .card-fav { opacity: 0.5; }
     .card-fav.active { opacity: 1 !important; }
     .card-fav:hover { transform: scale(1.2); opacity: 1 !important; }
 
     .card-head { display: flex; justify-content: space-between; align-items: flex-start; }
-    .icon-box {
-      width: 36px; height: 36px; border-radius: 10px; background: rgba(128,128,128,0.1);
-      display: flex; align-items: center; justify-content: center; font-size: 18px;
-      color: var(--text-main); border: 1px solid var(--border-color);
-      text-shadow: none;
-      cursor: pointer;
-    }
+    .icon-box { width: 36px; height: 36px; border-radius: 10px; background: rgba(128,128,128,0.1); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--text-main); border: 1px solid var(--border-color); text-shadow: none; cursor: pointer; }
     .link-arrow { font-size: 14px; color: var(--text-sub); transition: var(--transition-fast); }
     .card:hover .link-arrow { color: var(--accent); transform: translate(3px, -3px); }
     
     .card-body { display: flex; flex-direction: column; gap: 4px; }
     .card-title { font-size: 18px; font-weight: 600; color: var(--text-main); }
-    /* 搜索高亮 */
-    mark {
-      background: rgba(0,122,255,0.2); color: var(--accent);
-      border-radius: 3px; padding: 0 2px;
-    }
+    mark { background: rgba(0,122,255,0.2); color: var(--accent); border-radius: 3px; padding: 0 2px; }
     body.dark-mode mark { background: rgba(10,132,255,0.25); }
 
     #empty-state { text-align: center; padding: 60px 20px; opacity: 0.6; }
@@ -277,105 +214,60 @@
 
     .time-capsule {
       margin-bottom: 56px; padding: 24px 32px;
-      background: linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
+      background: linear-gradient(135deg, rgba(43,43,43,0.8) 0%, rgba(26,26,26,0.8) 100%);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       border-radius: var(--radius-lg); cursor: pointer; display: flex; align-items: center; justify-content: space-between;
       box-shadow: var(--shadow-hover); border: 1px solid rgba(255,255,255,0.15);
       position: relative; overflow: hidden; color: #fff;
-      transition: transform var(--transition-fast); text-decoration: none;
-      text-shadow: none;
+      transition: transform var(--transition-fast); text-decoration: none; text-shadow: none;
     }
     .time-capsule:hover { transform: scale(1.01) translateY(-2px); border-color: rgba(255,255,255,0.4); }
-    .time-capsule::before {
-      content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-      transform: skewX(-20deg);
-    }
-    .time-capsule:hover::before { left: 200%; transition: 0.8s ease-in-out; }
     .capsule-left { display: flex; align-items: center; gap: 20px; z-index: 2; }
-    .capsule-icon-box {
-      width: 48px; height: 48px; background: rgba(255,255,255,0.15); backdrop-filter: blur(5px);
-      border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px;
-    }
+    .capsule-icon-box { width: 48px; height: 48px; background: rgba(255,255,255,0.15); backdrop-filter: blur(5px); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
     .capsule-info { display: flex; flex-direction: column; }
     .capsule-title { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
     .capsule-desc { color: rgba(255,255,255,0.6); font-size: 14px; margin-top: 4px; font-family: var(--font-sys); }
-    .capsule-arrow {
-      width: 36px; height: 36px; border-radius: 50%; background: #fff; color: #000;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; opacity: 0; transform: translateX(-15px); transition: all var(--transition-fast);
-    }
+    .capsule-arrow { width: 36px; height: 36px; border-radius: 50%; background: #fff; color: #000; display: flex; align-items: center; justify-content: center; font-size: 18px; opacity: 0; transform: translateX(-15px); transition: all var(--transition-fast); }
     .time-capsule:hover .capsule-arrow { opacity: 1; transform: translateX(0); }
 
-    /* ── 收藏区 ── */
     #sec-favorites .grid { min-height: 60px; }
-    #fav-empty {
-      font-size: 14px; color: var(--text-sub); font-family: var(--font-sys);
-      padding: 20px 0; text-align: center; opacity: 0.7;
-    }
+    #fav-empty { font-size: 14px; color: var(--text-sub); font-family: var(--font-sys); padding: 20px 0; text-align: center; opacity: 0.7; }
 
     .sensitive-zone { position: relative; transition: all 0.5s ease; }
     .locked { display: none !important; }
     .sensitive-blur { filter: blur(12px); opacity: 0.3; transition: 0.4s ease; pointer-events: none; }
-    .sensitive-mask {
-      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5; pointer-events: none;
-    }
-    .mask-badge {
-      background: rgba(0,0,0,0.8); color: #fff; backdrop-filter: blur(4px);
-      padding: 8px 16px; border-radius: 8px; font-size: 14px; font-family: var(--font-sys);
-      font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-      transition: var(--transition-fast); box-shadow: 0 0 20px rgba(0,0,0,0.5); text-shadow: none;
-    }
+    .sensitive-mask { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5; pointer-events: none; }
+    .mask-badge { background: rgba(0,0,0,0.8); color: #fff; backdrop-filter: blur(4px); padding: 8px 16px; border-radius: 8px; font-size: 14px; font-family: var(--font-sys); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; transition: var(--transition-fast); box-shadow: 0 0 20px rgba(0,0,0,0.5); text-shadow: none; }
     .sensitive-zone:hover .sensitive-blur { filter: blur(0); opacity: 1; }
     .sensitive-zone.unlocked .sensitive-blur { filter: blur(0); opacity: 1; pointer-events: auto; }
     .sensitive-zone.unlocked .sensitive-mask { display: none; }
 
-    /* ── 闪屏 (开屏页修复与背景替换) ── */
     #splash {
       position: fixed; inset: 0; z-index: 9999;
-      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-                  url('https://i.pinimg.com/736x/2a/8b/1a/2a8b1a9e6cfd057effd62bda202acd70.jpg') center/cover no-repeat;
+      background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)), 
+                  url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      transition: opacity 0.6s ease, visibility 0.6s; user-select: none;
-      backdrop-filter: blur(10px);
+      transition: opacity 0.8s ease, visibility 0.8s; user-select: none;
+      backdrop-filter: blur(5px);
     }
     .splash-quote {
       font-size: 32px; text-align: center; max-width: 600px; line-height: 1.6;
       margin-bottom: 40px; padding: 0 20px; 
       color: #ffffff !important; 
-      text-shadow: 0 4px 12px rgba(0,0,0,0.8); 
+      text-shadow: 0 4px 16px rgba(0,0,0,0.6); 
       max-height: 75vh; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
     }
 
-    /* ── 快捷键面板 ── */
-    #shortcut-panel {
-      position: fixed; inset: 0; z-index: 9995;
-      background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none; transition: opacity var(--transition-smooth);
-    }
+    #shortcut-panel { position: fixed; inset: 0; z-index: 9995; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity var(--transition-smooth); }
     #shortcut-panel.active { opacity: 1; pointer-events: auto; }
-    .shortcut-card {
-      background: var(--bg-card); border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg); padding: 32px; min-width: 340px;
-      box-shadow: var(--shadow-hover);
-      transform: scale(0.95); transition: transform var(--transition-smooth);
-    }
+    .shortcut-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 32px; min-width: 340px; box-shadow: var(--shadow-hover); transform: scale(0.95); transition: transform var(--transition-smooth); }
     #shortcut-panel.active .shortcut-card { transform: scale(1); }
     .shortcut-card h3 { font-size: 18px; margin-bottom: 20px; color: var(--text-main); font-family: var(--font-main); }
-    .shortcut-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 0; border-bottom: 1px solid var(--border-color);
-      font-family: var(--font-sys); font-size: 14px; color: var(--text-sub);
-    }
+    .shortcut-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-color); font-family: var(--font-sys); font-size: 14px; color: var(--text-sub); }
     .shortcut-row:last-child { border-bottom: none; }
     .shortcut-row span:first-child { color: var(--text-main); }
-    kbd {
-      background: rgba(128,128,128,0.1); border: 1px solid var(--border-color);
-      border-radius: 5px; padding: 3px 8px; font-size: 12px; font-family: monospace;
-      color: var(--text-main); box-shadow: 0 1px 0 var(--border-color); text-shadow: none;
-    }
+    kbd { background: rgba(128,128,128,0.1); border: 1px solid var(--border-color); border-radius: 5px; padding: 3px 8px; font-size: 12px; font-family: monospace; color: var(--text-main); box-shadow: 0 1px 0 var(--border-color); text-shadow: none; }
 
-    /* ── 备忘录 ── */
     #ghost-memo {
       position: fixed; bottom: 40px; right: 40px; width: 340px; height: 460px;
       background: var(--bg-sidebar); color: var(--text-main);
@@ -386,128 +278,53 @@
       transition: var(--transition-smooth); z-index: 1000; font-family: var(--font-sys);
     }
     #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
-
-    #memo-content {
-      flex: 1; background: rgba(128,128,128,0.05); border: none; outline: none; border-radius: 8px; padding: 14px;
-      margin-top: 12px; margin-bottom: 8px; overflow-y: auto; scroll-behavior: smooth;
-    }
-    .memo-item {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed rgba(128,128,128,0.15);
-      color: var(--text-main); font-size: 14px; line-height: 1.6;
-    }
+    #memo-content { flex: 1; background: rgba(128,128,128,0.05); border: none; outline: none; border-radius: 8px; padding: 14px; margin-top: 12px; margin-bottom: 8px; overflow-y: auto; scroll-behavior: smooth; }
+    .memo-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed rgba(128,128,128,0.15); color: var(--text-main); font-size: 14px; line-height: 1.6; }
     .memo-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .memo-text {
-      flex: 1; word-break: break-all; white-space: pre-wrap; font-family: inherit;
-      cursor: pointer; transition: opacity var(--transition-fast);
-    }
+    .memo-text { flex: 1; word-break: break-all; white-space: pre-wrap; font-family: inherit; cursor: pointer; transition: opacity var(--transition-fast); }
     .memo-text:hover { opacity: 0.7; }
     .memo-time { font-size: 11px; opacity: 0.5; display: block; margin-bottom: 4px; }
-    .memo-delete {
-      cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity var(--transition-fast);
-      padding: 0 4px; margin-left: 8px; font-weight: bold; font-size: 16px; user-select: none; text-shadow: none;
-    }
+    .memo-delete { cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity var(--transition-fast); padding: 0 4px; margin-left: 8px; font-weight: bold; font-size: 16px; user-select: none; text-shadow: none; }
     .memo-item:hover .memo-delete { opacity: 0.6; }
     .memo-delete:hover { opacity: 1 !important; transform: scale(1.1); }
     @media (max-width: 768px) { .memo-delete { opacity: 0.8; } }
 
-    /* 字数统计 */
     .memo-input-wrap { position: relative; }
-    #memo-new-record {
-      width: 100%; background: rgba(128,128,128,0.08); border: 1px solid var(--border-color);
-      outline: none; border-radius: 8px; padding: 12px 48px 12px 12px;
-      color: var(--text-main); font-size: 14px; transition: all var(--transition-fast); font-family: inherit;
-    }
-    #memo-new-record:focus { background: var(--bg-sidebar); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,122,255,0.15); }
-    #memo-char-count {
-      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-      font-size: 11px; color: var(--text-sub); pointer-events: none; opacity: 0;
-      transition: opacity var(--transition-fast);
-    }
+    #memo-new-record { width: 100%; background: rgba(128,128,128,0.08); border: 1px solid var(--border-color); outline: none; border-radius: 8px; padding: 12px 48px 12px 12px; color: var(--text-main); font-size: 14px; transition: all var(--transition-fast); font-family: inherit; }
+    #memo-new-record:focus { background: var(--bg-card); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,122,255,0.15); }
+    #memo-char-count { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--text-sub); pointer-events: none; opacity: 0; transition: opacity var(--transition-fast); }
     #memo-new-record:focus ~ #memo-char-count { opacity: 1; }
 
-    /* ── 恐慌覆盖层 ── */
-    #panic-overlay {
-      position: fixed; inset: 0; background: #ffffff; z-index: 99999;
-      display: flex; align-items: center; justify-content: center;
-      text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; font-family: monospace;
-    }
+    #panic-overlay { position: fixed; inset: 0; background: #ffffff; z-index: 99999; display: flex; align-items: center; justify-content: center; text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; font-family: monospace; }
     #panic-overlay.active { opacity: 1; pointer-events: auto; }
     .glitch-wrapper { position: relative; }
     .glitch { font-size: 100px; margin: 0; color: #333; position: relative; font-weight: bold; text-shadow: none; }
-    .glitch::before, .glitch::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8; }
-    .glitch::before { left: 2px; text-shadow: -2px 0 red; clip: rect(24px,550px,90px,0); animation: glitch-anim 2.5s infinite linear alternate-reverse; }
-    .glitch::after { left: -2px; text-shadow: -2px 0 blue; clip: rect(85px,550px,140px,0); animation: glitch-anim 3s infinite linear alternate-reverse; }
-    @keyframes glitch-anim {
-      0%{clip:rect(11px,9999px,86px,0)} 20%{clip:rect(65px,9999px,13px,0)}
-      40%{clip:rect(100px,9999px,10px,0)} 60%{clip:rect(3px,9999px,80px,0)}
-      80%{clip:rect(40px,9999px,15px,0)} 100%{clip:rect(95px,9999px,50px,0)}
-    }
 
-    /* ── Toast ── */
     .toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
-    .toast {
-      background: rgba(0,0,0,0.85); color: #0f0; font-family: monospace; font-size: 14px;
-      padding: 12px 24px; border-radius: 8px; border: 1px solid #0f0; box-shadow: 0 0 15px rgba(0,255,0,0.3); text-shadow: none;
-      animation: toast-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards, toast-out 0.3s 2.5s forwards;
-    }
+    .toast { background: rgba(0,0,0,0.85); color: #0f0; font-family: monospace; font-size: 14px; padding: 12px 24px; border-radius: 8px; border: 1px solid #0f0; box-shadow: 0 0 15px rgba(0,255,0,0.3); text-shadow: none; animation: toast-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards, toast-out 0.3s 2.5s forwards; }
     @keyframes toast-in { from{transform:translateY(100%);opacity:0} to{transform:translateY(0);opacity:1} }
     @keyframes toast-out { from{transform:translateY(0);opacity:1} to{transform:translateY(-50%);opacity:0} }
     
     .mobile-header, .mobile-overlay { display: none; }
 
-    /* ── 移动端极致修复区域 ── */
     @media (max-width: 768px) {
       body { height: 100dvh; }
       #app { display: flex; flex-direction: column; }
       
-      .mobile-header {
-        display: flex; align-items: center; justify-content: space-between; gap: 16px;
-        padding: 12px 20px; 
-        background: var(--bg-sidebar); 
-        border-bottom: 1px solid var(--border-color);
-        position: sticky; top: 0; z-index: 900; flex-shrink: 0;
-      }
-
+      .mobile-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; background: var(--bg-sidebar); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 900; flex-shrink: 0; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
       .mh-left { display: flex; align-items: center; gap: 16px; flex: 1; }
-      .mh-logo { color: #ff3b30; font-size: 26px; animation: heartbeat 1.5s infinite; cursor: pointer; text-shadow: none; margin-top: 2px; }
+      .mh-logo { font-size: 26px; cursor: pointer; text-shadow: none; margin-top: 2px; }
       .mh-search-box { flex: 1; position: relative; }
-      .mh-search-box input {
-        width: 100%; padding: 10px 36px; border-radius: var(--radius-sm); font-size: 16px;
-        background: rgba(128,128,128,0.08); border: 1px solid transparent; color: var(--text-main);
-      }
+      .mh-search-box input { width: 100%; padding: 10px 36px; border-radius: var(--radius-sm); font-size: 16px; background: rgba(128,128,128,0.08); border: 1px solid transparent; color: var(--text-main); }
       .mh-search-box .search-icon { left: 12px; }
       .mh-search-box .search-clear { right: 8px; }
       .mh-menu-btn { font-size: 26px; color: var(--text-main); cursor: pointer; padding: 4px; }
 
-      /* 撤回所有 !important 和 transform, 回归最稳的 left 动画，同时关闭毛玻璃确保字体锐利 */
-      aside {
-        position: fixed; 
-        top: 0; 
-        left: -100%; 
-        bottom: 0; 
-        width: 280px; 
-        height: 100dvh;
-        transition: left var(--transition-smooth); 
-        box-shadow: 10px 0 30px rgba(0,0,0,0.5);
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        background: #f5f5f5;
-        z-index: 1000;
-      }
-      body.dark-mode aside {
-        background: #1c1c1e;
-      }
+      aside { position: fixed; top: 0; left: -100%; bottom: 0; width: 280px; height: 100dvh; transition: left var(--transition-smooth); box-shadow: 10px 0 30px rgba(0,0,0,0.5); backdrop-filter: none; -webkit-backdrop-filter: none; background: #f5f5f5; z-index: 1000; }
+      body.dark-mode aside { background: #1c1c1e; }
       aside.open { left: 0; } 
       
-      .mobile-overlay {
-        display: block; position: fixed; inset: 0; 
-        background: rgba(0,0,0,0.5);
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        z-index: 990;
-        opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-      }
+      .mobile-overlay { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 990; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
       .mobile-overlay.open { opacity: 1; pointer-events: auto; }
 
       main { padding: 24px 20px calc(80px + env(safe-area-inset-bottom)) 20px; }
@@ -516,7 +333,6 @@
       .quote-text { font-size: 26px; }
       #ghost-memo { width: auto; left: 16px; right: 16px; bottom: calc(20px + env(safe-area-inset-bottom)); height: 65vh; }
       #back-top { bottom: calc(100px + env(safe-area-inset-bottom)); right: 20px; width: 38px; height: 38px; font-size: 16px; }
-      #shortcut-panel .shortcut-card { margin: 20px; min-width: unset; }
     }
   </style>
 </head>
@@ -552,7 +368,7 @@
         唯独星空深处的那轮明月最不认生。<br>
         它在异乡的窗前，守着当年我在故乡没做完的梦。<br>
         <br><br>
-        回头看，<span onclick="closeSplash()" style="cursor:pointer;touch-action:manipulation;padding:10px 5px;margin:-10px -5px;position:relative;z-index:10;">轻舟</span>已过万重山；<br>
+        回头看，<span onclick="closeSplash()" style="cursor:pointer;touch-action:manipulation;padding:10px 5px;margin:-10px -5px;position:relative;z-index:10;border-bottom:2px dashed rgba(255,255,255,0.5);">轻舟</span>已过万重山；<br>
         向前看，长路漫漫亦灿烂。
       </p>
     </div>
@@ -561,7 +377,7 @@
   <div id="app">
     <div class="mobile-header" id="mobile-header">
       <div class="mh-left">
-        <div class="mh-logo" onclick="document.body.classList.toggle('dark-mode')" style="animation: none;">
+        <div class="mh-logo" id="mobile-theme-toggle" style="animation: none;">
           <model-viewer 
             src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
             alt="3D 宇航员 Logo" 
@@ -581,7 +397,7 @@
     </div>
 
     <aside id="sidebar">
-      <div class="brand" id="theme-toggle" title="切换主题 (T)" style="justify-content: center; margin-bottom: 20px;">
+      <div class="brand" id="theme-toggle" title="点击切换主题 (T)">
         <model-viewer 
           src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
           alt="3D 宇航员 Logo" 
@@ -829,59 +645,80 @@
       </div>
 
     <div class="section-block sensitive-zone locked" id="sec-abyss" data-icon="ri-eye-off-line">
-        <div class="sensitive-mask"><div class="mask-badge">Confidential / NSFW</div></div>
-        <div class="sensitive-blur">
-          <div class="section-header"><div class="section-title">深海与私藏</div><span class="section-count">Abyss & Gentleman</span></div>
-          <div class="grid">
-            <a class="card" href="https://www.torproject.org/zh-CN/download/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🧅</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Tor</div></div></a>
-            <a class="card" href="https://fanqianglu.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🪜</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">翻墙路</div></div></a>
-            <a class="card" href="https://baichunlink.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🔗</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">百醇导</div></div></a>
-            <a class="card" href="https://fuun.fun/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🎡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Fuun</div></div></a>
-            <a class="card" href="https://www.pornpics.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">👱‍♀️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">图库</div></div></a>
-            <a class="card" href="https://www.junmeitu.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">💃</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">俊美图</div></div></a>
-            <a class="card" href="https://www.91tulu.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🚗</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">91图</div></div></a>
-            <a class="card" href="https://www.v2ph.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">微图</div></div></a>
-            <a class="card" href="https://www.tblop.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📜</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">TBLOP</div></div></a>
-            <a class="card" href="https://theporndude.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🤠</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">向导</div></div></a>
-            <a class="card" href="https://pornhub.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🟧</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">PHub</div></div></a>
-            <a class="card" href="https://www.xvideos.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">❌</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Xvideo</div></div></a>
-            <a class="card" href="https://xhamster.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🐹</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">xHam</div></div></a>
-            <a class="card" href="https://www.eporner.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📺</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Eporn</div></div></a>
-            <a class="card" href="https://stripchat.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">👙</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Strip</div></div></a>
-            <a class="card" href="https://onlyfans.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🔵</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">OFans</div></div></a>
-            <a class="card" href="https://netflav.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">N</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Netfla</div></div></a>
-            <a class="card" href="https://hanime1.me/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🌸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Hanim</div></div></a>
-            <a class="card" href="https://supjav.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">S</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">SupJAV</div></div></a>
-            <a class="card" href="https://sukebei.nyaa.si/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🧲</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Sukebe</div></div></a>
-            <a class="card" href="https://nyaa.si/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">N</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Nyaa</div></div></a>
-            <a class="card" href="https://btsow.motorcycles/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">⚡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">BTSOW</div></div></a>
-            <a class="card" href="https://www.erome.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📂</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Erome</div></div></a>
-            <a class="card" href="https://2fa.show/ga4vmtpn7csfupkvfhgeamytkkgdgdw2" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🔐</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">2FA</div></div></a>
-          </div>
-        </div>
-      </div>
-    </main>  
-  </div>
-
-  <div id="back-top" title="返回顶部"><i class="ri-arrow-up-line"></i></div>
-
-  <div id="ghost-memo">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border-color);">
-      <span style="font-size:15px;font-weight:700;letter-spacing:1px;">备忘录</span>
-      <div style="display:flex;gap:14px;align-items:center;">
-        <span id="cloud-status" style="font-size:12px;font-family:var(--font-sys);font-weight:600;color:var(--accent);">待机中</span>
-        <span id="cloud-sync-btn" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">同步</span>
-        <span onclick="toggleMemo()" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">关闭</span>
+        <div class="sensitive-mask"><div class="mask-badge">Confidential / NSFW</div></div>
+        <div class="sensitive-blur">
+          <div class="section-header"><div class="section-title">深海与私藏</div><span class="section-count">Abyss & Gentleman</span></div>
+          <div class="grid">
+            <a class="card" href="https://www.torproject.org/zh-CN/download/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🧅</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Tor</div></div></a>
+            <a class="card" href="https://fanqianglu.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🪜</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">翻墙路</div></div></a>
+            <a class="card" href="https://baichunlink.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🔗</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">百醇导</div></div></a>
+            <a class="card" href="https://fuun.fun/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🎡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Fuun</div></div></a>
+            <a class="card" href="https://www.pornpics.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">👱‍♀️</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">图库</div></div></a>
+            <a class="card" href="https://www.junmeitu.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">💃</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">俊美图</div></div></a>
+            <a class="card" href="https://www.91tulu.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🚗</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">91图</div></div></a>
+            <a class="card" href="https://www.v2ph.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">微图</div></div></a>
+            <a class="card" href="https://www.tblop.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📜</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">TBLOP</div></div></a>
+            <a class="card" href="https://theporndude.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🤠</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">向导</div></div></a>
+            <a class="card" href="https://pornhub.com" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🟧</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">PHub</div></div></a>
+            <a class="card" href="https://www.xvideos.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">❌</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Xvideo</div></div></a>
+            <a class="card" href="https://xhamster.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🐹</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">xHam</div></div></a>
+            <a class="card" href="https://www.eporner.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📺</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Eporn</div></div></a>
+            <a class="card" href="https://stripchat.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">👙</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Strip</div></div></a>
+            <a class="card" href="https://onlyfans.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🔵</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">OFans</div></div></a>
+            <a class="card" href="https://netflav.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">N</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Netfla</div></div></a>
+            <a class="card" href="https://hanime1.me/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🌸</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Hanim</div></div></a>
+            <a class="card" href="https://supjav.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">S</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">SupJAV</div></div></a>
+            <a class="card" href="https://sukebei.nyaa.si/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🧲</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Sukebe</div></div></a>
+            <a class="card" href="https://nyaa.si/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">N</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Nyaa</div></div></a>
+            <a class="card" href="https://btsow.motorcycles/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">⚡</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">BTSOW</div></div></a>
+            <a class="card" href="https://www.erome.com/" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">📂</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">Erome</div></div></a>
+            <a class="card" href="https://2fa.show/ga4vmtpn7csfupkvfhgeamytkkgdgdw2" target="_blank" rel="noopener noreferrer"><div class="card-head"><div class="icon-box">🔐</div><i class="ri-arrow-right-up-line link-arrow"></i></div><div class="card-body"><div class="card-title">2FA</div></div></a>
+          </div>
+        </div>
       </div>
-    </div>
-    <div id="memo-content"></div>
-    <div class="memo-input-wrap">
-      <input type="text" id="memo-new-record" placeholder="写入新记录，回车封存..." autocomplete="off" maxlength="200" />
-      <span id="memo-char-count">0/200</span>
-    </div>
+    </main>  
   </div>
 
   <script>
+    let vantaEffect = null;
+
+    function initVantaBackground(isDarkMode) {
+      if (vantaEffect) vantaEffect.destroy();
+      if (typeof VANTA !== 'undefined') {
+        vantaEffect = VANTA.WAVES({
+          el: "#vanta-bg",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: isDarkMode ? 0x0a192f : 0x74ccf4,
+          shininess: 35.00,
+          waveHeight: 12.50,
+          waveSpeed: 0.55,
+          zoom: 0.85
+        });
+      }
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      body.classList.toggle('dark-mode');
+      const isDark = body.classList.contains('dark-mode');
+      initVantaBackground(isDark);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initVantaBackground(document.body.classList.contains('dark-mode'));
+    });
+
+    document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+    if(document.getElementById('mobile-theme-toggle')) {
+       document.getElementById('mobile-theme-toggle').addEventListener('click', toggleTheme);
+    }
+
     let isAbyssOpen = false;
 
     const FAV_KEY = 'jintong_favorites';
@@ -899,7 +736,6 @@
       const grid = document.getElementById('fav-grid');
       const section = document.getElementById('sec-favorites');
       const countEl = document.getElementById('fav-count');
-      const empty = document.getElementById('fav-empty');
       const ids = Object.keys(favs);
 
       if (ids.length === 0) {
@@ -1037,7 +873,7 @@
       const splash = document.getElementById('splash');
       if (splash) {
         splash.style.opacity = '0';
-        setTimeout(() => { splash.style.display = 'none'; }, 600);
+        setTimeout(() => { splash.style.display = 'none'; }, 800);
         sessionStorage.setItem('archiveSplashSeen', 'true');
       }
     }
@@ -1094,7 +930,6 @@
         let hasVisible = false;
         sec.querySelectorAll('.card').forEach(card => {
           const titleEl = card.querySelector('.card-title');
-          
           if (titleEl && !titleEl.dataset.orig) titleEl.dataset.orig = titleEl.textContent;
 
           const text = (titleEl ? titleEl.dataset.orig : '').toLowerCase();
@@ -1227,7 +1062,7 @@
       if (isInput) return;
 
       if (e.key === '?') { toggleShortcuts(); return; }
-      if (e.key === 't' || e.key === 'T') { document.body.classList.toggle('dark-mode'); return; }
+      if (e.key === 't' || e.key === 'T') { toggleTheme(); return; }
       if (e.key === 'm' || e.key === 'M') { toggleMemo(); return; }
       if (e.key === 'f' || e.key === 'F') {
         const favSec = document.getElementById('sec-favorites');
@@ -1240,10 +1075,6 @@
       secretCode += e.key.toLowerCase();
       if (secretCode.length > 4) secretCode = secretCode.slice(-4);
       if (secretCode === 'open') { toggleAbyss(); secretCode = ''; }
-    });
-
-    document.getElementById('theme-toggle').addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
     });
 
     window.toggleMemo = function () {
@@ -1262,27 +1093,6 @@
         charCount.textContent = `${memoInput.value.length}/200`;
       });
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      if (typeof VANTA !== 'undefined') {
-        VANTA.NET({
-          el: "#vanta-bg",
-          mouseControls: true,
-          touchControls: true,
-          gyroControls: false,
-          minHeight: 200.00,
-          minWidth: 200.00,
-          scale: 1.00,
-          scaleMobile: 1.00,
-          color: 0xff003c,
-          backgroundColor: 0x080808,
-          points: 12.00,
-          maxDistance: 22.00,
-          spacing: 16.00,
-          showDots: true
-        });
-      }
-    });
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
