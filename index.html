@@ -433,7 +433,7 @@
     <main id="main-content">
       <div class="hero-quote">
         <div class="quote-text">
-          天下英雄如过江之鲫，人中龙凤尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo()">凌云</span>之志。
+          天下英雄如过江之鲫，人中<span class="secret-trigger" onclick="toggleGitHubMemo()">龙凤</span>尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo()">凌云</span>之志。
         </div>
         <div class="quote-sub">Long live freedom / The Visual Archive</div>
       </div>
@@ -691,6 +691,25 @@
     <div class="memo-input-wrap">
       <input type="text" id="memo-new-record" placeholder="写入新记录，回车封存..." autocomplete="off" maxlength="200" />
       <span id="memo-char-count">0/200</span>
+    </div>
+  </div>
+
+  <style>
+    #ghost-memo-github { right: 400px; background: rgba(13, 17, 23, 0.95); border-color: #58a6ff; z-index: 1001; }
+    @media (max-width: 768px) { #ghost-memo-github { right: 16px !important; left: 16px !important; } }
+  </style>
+
+  <div id="ghost-memo-github" class="ghost-memo">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(88, 166, 255, 0.3);">
+      <span style="font-size:15px;font-weight:700;letter-spacing:1px;color:#58a6ff;">深海节点 (GitHub)</span>
+      <div style="display:flex;gap:14px;align-items:center;">
+        <span id="gh-cloud-status" style="font-size:12px;font-family:var(--font-sys);font-weight:600;color:#58a6ff;">待机中</span>
+        <span onclick="document.getElementById('ghost-memo-github').classList.remove('active')" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;">关闭</span>
+      </div>
+    </div>
+    <div id="gh-memo-content" style="flex:1; background: rgba(88,166,255,0.05); border-radius: 8px; padding: 14px; margin-top: 12px; margin-bottom: 8px; overflow-y: auto; scroll-behavior: smooth;"></div>
+    <div class="memo-input-wrap">
+      <input type="text" id="gh-memo-input" placeholder="将秘密推入深海..." autocomplete="off" maxlength="200" style="width: 100%; background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.3); outline: none; border-radius: 8px; padding: 12px 12px; color: #c9d1d9; font-size: 14px; transition: all 0.2s ease;"/>
     </div>
   </div>
 
@@ -1222,6 +1241,121 @@
         statusEl.style.color = '#ff3b30';
       }
     }
+  </script>
+
+  <script>
+    'use strict';
+    
+    const GITHUB_TOKEN = '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'; 
+    const GIST_ID = '1047544f935362bac95f139c53a5caf4';
+
+    const ghContainer = document.getElementById('gh-memo-content');
+    const ghInput = document.getElementById('gh-memo-input');
+    const ghStatus = document.getElementById('gh-cloud-status');
+
+    let gistDataArray = [];
+
+    const setGHStatus = (text, color = '#c9d1d9') => {
+      if(ghStatus) {
+        ghStatus.textContent = text;
+        ghStatus.style.color = color;
+      }
+    };
+
+    const renderGist = () => {
+      ghContainer.innerHTML = '';
+      if (gistDataArray.length === 0) {
+        ghContainer.innerHTML = '<div style="opacity:.4;text-align:center;margin-top:40px;font-size:13px;">深海尚无回音...</div>';
+        return;
+      }
+      gistDataArray.forEach(row => {
+        ghContainer.insertAdjacentHTML('beforeend', `
+          <div class="memo-item" id="gh-${row.id}">
+            <div style="flex:1;">
+              <span class="memo-time" style="color:#58a6ff;">${row.time}</span>
+              <div class="memo-text" onclick="window.copyMemo('${row.content.replace(/'/g, "\\'")}')">${row.content}</div>
+            </div>
+            <span class="memo-delete" style="color:#ff7b72;" onclick="deleteGistRecord(${row.id})">×</span>
+          </div>
+        `);
+      });
+      ghContainer.scrollTop = ghContainer.scrollHeight;
+    };
+
+    async function loadFromGitHub() {
+      setGHStatus('同步中...', '#f0883e');
+      try {
+        const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+          headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Accept': 'application/vnd.github.v3+json', 'Cache-Control': 'no-cache' }
+        });
+        if (!res.ok) throw new Error('API 拒绝访问');
+        const data = await res.json();
+        const content = data.files['abyss.json'].content;
+        gistDataArray = JSON.parse(content || '[]');
+        renderGist();
+        setGHStatus('加密连接', '#58a6ff');
+      } catch (err) {
+        console.error(err);
+        setGHStatus('节点失联', '#ff7b72');
+      }
+    }
+
+    async function saveToGitHub() {
+      setGHStatus('写入深海...', '#f0883e');
+      try {
+        const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+          method: 'PATCH',
+          headers: { 
+            'Authorization': `token ${GITHUB_TOKEN}`, 
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            files: { 'abyss.json': { content: JSON.stringify(gistDataArray) } }
+          })
+        });
+        if (!res.ok) throw new Error('保存失败');
+        setGHStatus('加密连接', '#58a6ff');
+      } catch (err) {
+        console.error(err);
+        setGHStatus('写入被拦截', '#ff7b72');
+      }
+    }
+
+    window.deleteGistRecord = async function(id) {
+      if (!confirm('彻底抹除此条记录？')) return;
+      gistDataArray = gistDataArray.filter(item => item.id !== id);
+      renderGist(); 
+      await saveToGitHub(); 
+    };
+
+    if(ghInput) {
+      ghInput.addEventListener('keydown', async (e) => {
+        if (e.key === 'Enter' && ghInput.value.trim() !== '') {
+          e.preventDefault();
+          const text = ghInput.value.trim();
+          ghInput.value = '';
+          
+          const now = new Date();
+          const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+          
+          gistDataArray.push({ id: Date.now(), content: text, time: timeStr });
+          renderGist(); 
+          await saveToGitHub(); 
+        }
+      });
+    }
+
+    window.toggleGitHubMemo = function() {
+      const el = document.getElementById('ghost-memo-github');
+      if (el) {
+        const isActive = el.classList.toggle('active');
+        if (isActive) {
+          loadFromGitHub();
+          setTimeout(() => ghInput.focus(), 300);
+        }
+      }
+    };
   </script>
 </body>
 </html>
