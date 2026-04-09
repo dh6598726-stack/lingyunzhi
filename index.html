@@ -433,7 +433,7 @@
     <main id="main-content">
       <div class="hero-quote">
         <div class="quote-text">
-          天下英雄如过江之鲫，人中<span class="secret-trigger" onclick="toggleGitHubMemo()">龙凤</span>尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo()">凌云</span>之志。
+          天下英雄如过江之鲫，人中<span class="secret-trigger" onclick="toggleGitHubMemo(event)">龙凤</span>尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo(event)">凌云</span>之志。
         </div>
         <div class="quote-sub">Long live freedom / The Visual Archive</div>
       </div>
@@ -684,7 +684,7 @@
       <div style="display:flex;gap:14px;align-items:center;">
         <span id="cloud-status" style="font-size:12px;font-family:var(--font-sys);font-weight:600;color:var(--accent);">待机中</span>
         <span id="cloud-sync-btn" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">同步</span>
-        <span onclick="toggleMemo()" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">关闭</span>
+        <span onclick="toggleMemo(event)" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">关闭</span>
       </div>
     </div>
     <div id="memo-content"></div>
@@ -1046,7 +1046,7 @@
 
       if (e.key === '?') { toggleShortcuts(); return; }
       if (e.key === 't' || e.key === 'T') { document.body.classList.toggle('dark-mode'); return; }
-      if (e.key === 'm' || e.key === 'M') { toggleMemo(); return; }
+      if (e.key === 'm' || e.key === 'M') { toggleMemo(e); return; }
       if (e.key === 'f' || e.key === 'F') {
         const favSec = document.getElementById('sec-favorites');
         if (favSec && favSec.style.display !== 'none') { favSec.scrollIntoView({ behavior: 'smooth' }); } 
@@ -1063,12 +1063,13 @@
       document.body.classList.toggle('dark-mode');
     });
 
-    window.toggleMemo = function () {
+    window.toggleMemo = function (e) {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
       const ghostMemo = document.getElementById('ghost-memo');
       const isActive = ghostMemo.classList.toggle('active');
       if (isActive) {
         if (typeof window.loadFromCloud === 'function') window.loadFromCloud();
-        setTimeout(() => document.getElementById('memo-new-record').focus(), 300);
+        setTimeout(() => document.getElementById('memo-new-record').focus({ preventScroll: true }), 300);
       }
     };
 
@@ -1246,7 +1247,8 @@
   <script>
     'use strict';
     
-    const GITHUB_TOKEN = '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'; 
+    // ⚠️ 填入你新生成的 Token
+    const GITHUB_TOKEN = 'ghp_这里填入你新生成的Token'; 
     const GIST_ID = '1047544f935362bac95f139c53a5caf4';
 
     const ghContainer = document.getElementById('gh-memo-content');
@@ -1346,13 +1348,14 @@
       });
     }
 
-    window.toggleGitHubMemo = function() {
+    window.toggleGitHubMemo = function(e) {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
       const el = document.getElementById('ghost-memo-github');
       if (el) {
         const isActive = el.classList.toggle('active');
         if (isActive) {
           loadFromGitHub();
-          setTimeout(() => ghInput.focus(), 300);
+          setTimeout(() => ghInput.focus({ preventScroll: true }), 300);
         }
       }
     };
