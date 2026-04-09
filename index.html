@@ -281,9 +281,6 @@
     .shortcut-row span:first-child { color: var(--text-main); }
     kbd { background: rgba(128,128,128,0.1); border: 1px solid var(--border-color); border-radius: 5px; padding: 3px 8px; font-size: 12px; font-family: monospace; color: var(--text-main); box-shadow: 0 1px 0 var(--border-color); text-shadow: none; }
 
-    /* =========================================================
-       ⚠️ 核心修复区：统一分配底层基础样式给两个面板的 ID
-       ========================================================= */
     #ghost-memo, #ghost-memo-github { 
       position: fixed; bottom: 40px; right: 40px; width: 340px; height: 460px; 
       background: var(--bg-sidebar); color: var(--text-main); 
@@ -297,7 +294,6 @@
       transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; 
     }
     
-    /* Github 面板的专属覆写 (覆盖位置、颜色和层级) */
     #ghost-memo-github { right: 400px; background: rgba(13, 17, 23, 0.95); border-color: #58a6ff; z-index: 1001; }
 
     #memo-content { flex: 1; background: rgba(128,128,128,0.05); border: none; outline: none; border-radius: 8px; padding: 14px; margin-top: 12px; margin-bottom: 8px; overflow-y: auto; scroll-behavior: smooth; }
@@ -356,7 +352,6 @@
       .hero-quote { padding: 20px 0; margin-bottom: 24px; }
       .quote-text { font-size: 26px; }
       
-      /* ⚠️ 移动端也统一修正两个面板的位置 */
       #ghost-memo, #ghost-memo-github { width: auto; left: 16px; right: 16px !important; bottom: calc(20px + env(safe-area-inset-bottom)); height: 65vh; }
       #back-top { bottom: calc(100px + env(safe-area-inset-bottom)); right: 20px; width: 38px; height: 38px; font-size: 16px; }
       #shortcut-panel .shortcut-card { margin: 20px; min-width: unset; }
@@ -707,7 +702,7 @@
     </div>
   </div>
 
-  <div id="ghost-memo-github">
+  <div id="ghost-memo-github" class="ghost-memo">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(88, 166, 255, 0.3);">
       <span style="font-size:15px;font-weight:700;letter-spacing:1px;color:#58a6ff;">深海节点 (GitHub)</span>
       <div style="display:flex;gap:14px;align-items:center;">
@@ -715,7 +710,7 @@
         <span onclick="document.getElementById('ghost-memo-github').classList.remove('active')" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;">关闭</span>
       </div>
     </div>
-    <div id="gh-memo-content"></div>
+    <div id="gh-memo-content" style="flex:1; background: rgba(88,166,255,0.05); border-radius: 8px; padding: 14px; margin-top: 12px; margin-bottom: 8px; overflow-y: auto; scroll-behavior: smooth;"></div>
     <div class="memo-input-wrap">
       <input type="text" id="gh-memo-input" placeholder="将秘密推入深海..." autocomplete="off" maxlength="200" style="width: 100%; background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.3); outline: none; border-radius: 8px; padding: 12px 12px; color: #c9d1d9; font-size: 14px; transition: all 0.2s ease;"/>
     </div>
@@ -1052,7 +1047,7 @@
 
       if (e.key === '?') { toggleShortcuts(); return; }
       if (e.key === 't' || e.key === 'T') { document.body.classList.toggle('dark-mode'); return; }
-      if (e.key === 'm' || e.key === 'M') { toggleMemo(); return; }
+      if (e.key === 'm' || e.key === 'M') { toggleMemo(e); return; }
       if (e.key === 'f' || e.key === 'F') {
         const favSec = document.getElementById('sec-favorites');
         if (favSec && favSec.style.display !== 'none') { favSec.scrollIntoView({ behavior: 'smooth' }); } 
@@ -1253,8 +1248,7 @@
   <script>
     'use strict';
     
-    // ⚠️ 填入你新生成的 Token
-    const GITHUB_TOKEN = 'ghp_这里填入你新生成的Token'; 
+    const GITHUB_TOKEN = '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'; 
     const GIST_ID = '1047544f935362bac95f139c53a5caf4';
 
     const ghContainer = document.getElementById('gh-memo-content');
