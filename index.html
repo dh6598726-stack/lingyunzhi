@@ -70,12 +70,10 @@
     /* ── 极致优化的静态心旷神怡背景 ── */
     #zen-bg {
       position: fixed; inset: 0; z-index: -1; pointer-events: none;
-      /* 选用云淡风轻、心旷神怡的高清天空自然景象 */
       background: url('https://images.unsplash.com/photo-1499346030926-9a72daac6c63?q=80&w=2560&auto=format&fit=crop') center/cover no-repeat;
       transition: filter 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
     body.dark-mode #zen-bg {
-      /* 暗黑模式下自然压暗，保护视力且沉浸 */
       filter: brightness(0.35) saturate(0.85) contrast(1.1);
     }
 
@@ -86,7 +84,6 @@
 
     input, textarea { font-family: var(--font-sys); text-shadow: none; }
     
-    /* ── 进度条 ── */
     #read-progress {
       position: fixed; top: 0; left: 0; right: 0; height: var(--progress-height);
       background: linear-gradient(90deg, #007aff, #af52de, #ff375f);
@@ -107,7 +104,6 @@
     
     .brand { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 20px; cursor: pointer; }
 
-    /* ── 搜索框组件 ── */
     .search-box { position: relative; margin-bottom: 24px; }
     .search-input {
       width: 100%; padding: 12px 36px 12px 40px;
@@ -168,7 +164,6 @@
     .section-title { font-size: 22px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; }
     .section-count { font-size: 14px; color: var(--text-sub); text-transform: uppercase; font-family: var(--font-sys); }
 
-    /* 重构为 Apple App 排列风格的网格 */
     .grid { 
       display: grid; 
       grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); 
@@ -178,7 +173,6 @@
 
     @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* ── Apple App / visionOS 磨砂玻璃风格卡片 ── */
     .card {
       background: var(--bg-card); 
       backdrop-filter: blur(28px);
@@ -220,7 +214,7 @@
     }
     .card:hover .icon-box { transform: scale(1.1); }
     
-    .link-arrow { display: none; } /* App 风格下隐藏跳转箭头 */
+    .link-arrow { display: none; }
     
     .card-body { display: flex; flex-direction: column; align-items: center; width: 100%; }
     
@@ -287,8 +281,25 @@
     .shortcut-row span:first-child { color: var(--text-main); }
     kbd { background: rgba(128,128,128,0.1); border: 1px solid var(--border-color); border-radius: 5px; padding: 3px 8px; font-size: 12px; font-family: monospace; color: var(--text-main); box-shadow: 0 1px 0 var(--border-color); text-shadow: none; }
 
-    #ghost-memo { position: fixed; bottom: 40px; right: 40px; width: 340px; height: 460px; background: var(--bg-sidebar); color: var(--text-main); backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val)); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 24px; display: flex; flex-direction: column; box-shadow: var(--shadow-hover); transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none; transition: var(--transition-smooth); z-index: 1000; font-family: var(--font-sys); }
-    #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
+    /* =========================================================
+       ⚠️ 核心修复区：统一分配底层基础样式给两个面板的 ID
+       ========================================================= */
+    #ghost-memo, #ghost-memo-github { 
+      position: fixed; bottom: 40px; right: 40px; width: 340px; height: 460px; 
+      background: var(--bg-sidebar); color: var(--text-main); 
+      backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val)); 
+      border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 24px; 
+      display: flex; flex-direction: column; box-shadow: var(--shadow-hover); 
+      transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none; 
+      transition: var(--transition-smooth); z-index: 1000; font-family: var(--font-sys); 
+    }
+    #ghost-memo.active, #ghost-memo-github.active { 
+      transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; 
+    }
+    
+    /* Github 面板的专属覆写 (覆盖位置、颜色和层级) */
+    #ghost-memo-github { right: 400px; background: rgba(13, 17, 23, 0.95); border-color: #58a6ff; z-index: 1001; }
+
     #memo-content { flex: 1; background: rgba(128,128,128,0.05); border: none; outline: none; border-radius: 8px; padding: 14px; margin-top: 12px; margin-bottom: 8px; overflow-y: auto; scroll-behavior: smooth; }
     .memo-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed rgba(128,128,128,0.15); color: var(--text-main); font-size: 14px; line-height: 1.6; }
     .memo-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
@@ -344,7 +355,9 @@
       .grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 16px; }
       .hero-quote { padding: 20px 0; margin-bottom: 24px; }
       .quote-text { font-size: 26px; }
-      #ghost-memo { width: auto; left: 16px; right: 16px; bottom: calc(20px + env(safe-area-inset-bottom)); height: 65vh; }
+      
+      /* ⚠️ 移动端也统一修正两个面板的位置 */
+      #ghost-memo, #ghost-memo-github { width: auto; left: 16px; right: 16px !important; bottom: calc(20px + env(safe-area-inset-bottom)); height: 65vh; }
       #back-top { bottom: calc(100px + env(safe-area-inset-bottom)); right: 20px; width: 38px; height: 38px; font-size: 16px; }
       #shortcut-panel .shortcut-card { margin: 20px; min-width: unset; }
     }
@@ -694,12 +707,7 @@
     </div>
   </div>
 
-  <style>
-    #ghost-memo-github { right: 400px; background: rgba(13, 17, 23, 0.95); border-color: #58a6ff; z-index: 1001; }
-    @media (max-width: 768px) { #ghost-memo-github { right: 16px !important; left: 16px !important; } }
-  </style>
-
-  <div id="ghost-memo-github" class="ghost-memo">
+  <div id="ghost-memo-github">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(88, 166, 255, 0.3);">
       <span style="font-size:15px;font-weight:700;letter-spacing:1px;color:#58a6ff;">深海节点 (GitHub)</span>
       <div style="display:flex;gap:14px;align-items:center;">
@@ -707,7 +715,7 @@
         <span onclick="document.getElementById('ghost-memo-github').classList.remove('active')" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;">关闭</span>
       </div>
     </div>
-    <div id="gh-memo-content" style="flex:1; background: rgba(88,166,255,0.05); border-radius: 8px; padding: 14px; margin-top: 12px; margin-bottom: 8px; overflow-y: auto; scroll-behavior: smooth;"></div>
+    <div id="gh-memo-content"></div>
     <div class="memo-input-wrap">
       <input type="text" id="gh-memo-input" placeholder="将秘密推入深海..." autocomplete="off" maxlength="200" style="width: 100%; background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.3); outline: none; border-radius: 8px; padding: 12px 12px; color: #c9d1d9; font-size: 14px; transition: all 0.2s ease;"/>
     </div>
@@ -784,7 +792,6 @@
     const mobileOverlay = document.getElementById('mobile-overlay');
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 
-    /* 优化侧边栏显示逻辑，避免冲突 */
     function toggleMobileMenu() {
       if (window.innerWidth <= 768) {
         const isOpen = sidebar.classList.toggle('open');
@@ -963,7 +970,6 @@
 
     const debouncedFilter = debounce(filterCards, 150);
 
-    /* 统一配置清理按钮，代码复用 */
     function setupSearchClear(inputId, clearId) {
       const inp = document.getElementById(inputId);
       const btn = document.getElementById(clearId);
@@ -1046,7 +1052,7 @@
 
       if (e.key === '?') { toggleShortcuts(); return; }
       if (e.key === 't' || e.key === 'T') { document.body.classList.toggle('dark-mode'); return; }
-      if (e.key === 'm' || e.key === 'M') { toggleMemo(e); return; }
+      if (e.key === 'm' || e.key === 'M') { toggleMemo(); return; }
       if (e.key === 'f' || e.key === 'F') {
         const favSec = document.getElementById('sec-favorites');
         if (favSec && favSec.style.display !== 'none') { favSec.scrollIntoView({ behavior: 'smooth' }); } 
