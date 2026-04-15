@@ -33,7 +33,7 @@
       --shadow-card: 0 8px 24px rgba(0,0,0,0.06);
       --shadow-hover: 0 16px 32px rgba(0,0,0,0.12);
       --radius-sm: 10px;
-      --radius-md: 24px; /* Apple App 级别的圆角 */
+      --radius-md: 24px;
       --radius-lg: 28px;
       --blur-val: 24px;
       --transition-fast: 0.2s ease;
@@ -67,7 +67,6 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* ── 极致优化的静态心旷神怡背景 ── */
     #zen-bg {
       position: fixed; inset: 0; z-index: -1; pointer-events: none;
       background: url('https://images.unsplash.com/photo-1499346030926-9a72daac6c63?q=80&w=2560&auto=format&fit=crop') center/cover no-repeat;
@@ -281,7 +280,7 @@
     .shortcut-row span:first-child { color: var(--text-main); }
     kbd { background: rgba(128,128,128,0.1); border: 1px solid var(--border-color); border-radius: 5px; padding: 3px 8px; font-size: 12px; font-family: monospace; color: var(--text-main); box-shadow: 0 1px 0 var(--border-color); text-shadow: none; }
 
-    #ghost-memo, #ghost-memo-github { 
+    #ghost-memo { 
       position: fixed; bottom: 40px; right: 40px; width: 340px; height: 460px; 
       background: var(--bg-sidebar); color: var(--text-main); 
       backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val)); 
@@ -290,18 +289,29 @@
       transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none; 
       transition: var(--transition-smooth); z-index: 1000; font-family: var(--font-sys); 
     }
-    #ghost-memo.active, #ghost-memo-github.active { 
+    #ghost-memo.active { 
       transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; 
     }
     
-    #ghost-memo-github { right: 400px; background: rgba(13, 17, 23, 0.95); border-color: #58a6ff; z-index: 1001; }
-
     #memo-content { flex: 1; background: rgba(128,128,128,0.05); border: none; outline: none; border-radius: 8px; padding: 14px; margin-top: 12px; margin-bottom: 8px; overflow-y: auto; scroll-behavior: smooth; }
     .memo-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed rgba(128,128,128,0.15); color: var(--text-main); font-size: 14px; line-height: 1.6; }
     .memo-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
     .memo-text { flex: 1; word-break: break-all; white-space: pre-wrap; font-family: inherit; cursor: pointer; transition: opacity var(--transition-fast); }
     .memo-text:hover { opacity: 0.7; }
-    .memo-time { font-size: 11px; opacity: 0.5; display: block; margin-bottom: 4px; }
+    .memo-time { font-size: 11px; opacity: 0.5; display: flex; align-items: center; margin-bottom: 4px; }
+    
+    /* 设备标识样式 */
+    .memo-device { 
+      font-size: 10px; 
+      background: rgba(128,128,128,0.15); 
+      padding: 1px 6px; 
+      border-radius: 4px; 
+      margin-left: 8px; 
+      color: var(--text-sub);
+      display: inline-block;
+      vertical-align: middle;
+    }
+
     .memo-delete { cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity var(--transition-fast); padding: 0 4px; margin-left: 8px; font-weight: bold; font-size: 16px; user-select: none; text-shadow: none; }
     .memo-item:hover .memo-delete { opacity: 0.6; }
     .memo-delete:hover { opacity: 1 !important; transform: scale(1.1); }
@@ -352,7 +362,7 @@
       .hero-quote { padding: 20px 0; margin-bottom: 24px; }
       .quote-text { font-size: 26px; }
       
-      #ghost-memo, #ghost-memo-github { width: auto; left: 16px; right: 16px !important; bottom: calc(20px + env(safe-area-inset-bottom)); height: 65vh; }
+      #ghost-memo { width: auto; left: 16px; right: 16px !important; bottom: calc(20px + env(safe-area-inset-bottom)); height: 65vh; }
       #back-top { bottom: calc(100px + env(safe-area-inset-bottom)); right: 20px; width: 38px; height: 38px; font-size: 16px; }
       #shortcut-panel .shortcut-card { margin: 20px; min-width: unset; }
     }
@@ -441,7 +451,7 @@
     <main id="main-content">
       <div class="hero-quote">
         <div class="quote-text">
-          天下英雄如过江之鲫，人中<span class="secret-trigger" onclick="toggleGitHubMemo(event)">龙凤</span>尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo(event)">凌云</span>之志。
+          天下英雄如过江之鲫，人中<span class="secret-trigger">龙凤</span>尚且举步维艰。<br>我等鱼目，一生命运多舛，却从未失那颗赤子之心，<span class="secret-trigger" onclick="toggleMemo(event)">凌云</span>之志。
         </div>
         <div class="quote-sub">Long live freedom / The Visual Archive</div>
       </div>
@@ -702,22 +712,20 @@
     </div>
   </div>
 
-  <div id="ghost-memo-github" class="ghost-memo">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(88, 166, 255, 0.3);">
-      <span style="font-size:15px;font-weight:700;letter-spacing:1px;color:#58a6ff;">深海节点 (GitHub)</span>
-      <div style="display:flex;gap:14px;align-items:center;">
-        <span id="gh-cloud-status" style="font-size:12px;font-family:var(--font-sys);font-weight:600;color:#58a6ff;">待机中</span>
-        <span onclick="document.getElementById('ghost-memo-github').classList.remove('active')" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;">关闭</span>
-      </div>
-    </div>
-    <div id="gh-memo-content" style="flex:1; background: rgba(88,166,255,0.05); border-radius: 8px; padding: 14px; margin-top: 12px; margin-bottom: 8px; overflow-y: auto; scroll-behavior: smooth;"></div>
-    <div class="memo-input-wrap">
-      <input type="text" id="gh-memo-input" placeholder="将秘密推入深海..." autocomplete="off" maxlength="200" style="width: 100%; background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.3); outline: none; border-radius: 8px; padding: 12px 12px; color: #c9d1d9; font-size: 14px; transition: all 0.2s ease;"/>
-    </div>
-  </div>
-
   <script>
     'use strict';
+    
+    // 解析 User-Agent 获取设备类型
+    function getDeviceName() {
+      const ua = navigator.userAgent;
+      if (/iPhone/i.test(ua)) return 'iPhone';
+      if (/iPad/i.test(ua)) return 'iPad';
+      if (/Android/i.test(ua)) return 'Android';
+      if (/Macintosh|Mac OS X/i.test(ua)) return 'Mac';
+      if (/Windows NT/i.test(ua)) return 'Windows';
+      if (/Linux/i.test(ua)) return 'Linux';
+      return 'Web';
+    }
     
     let isAbyssOpen = false;
     const FAV_KEY = 'jintong_favorites';
@@ -1138,7 +1146,9 @@
 
           const timeSpan = document.createElement('span');
           timeSpan.className = 'memo-time';
-          timeSpan.textContent = formatTime(row.created_at);
+          const timeStr = formatTime(row.created_at);
+          const deviceHtml = row.device ? `<span class="memo-device">${row.device}</span>` : '';
+          timeSpan.innerHTML = `${timeStr} ${deviceHtml}`;
 
           const textDiv = document.createElement('div');
           textDiv.className = 'memo-text';
@@ -1165,7 +1175,7 @@
       window.loadFromCloud = async function () {
         setStatus('同步中...', 'var(--text-main)', false);
         try {
-          const { data, error } = await supabase.from('memos').select('id, content, created_at').order('created_at', { ascending: true });
+          const { data, error } = await supabase.from('memos').select('id, content, created_at, device').order('created_at', { ascending: true });
           if (error) throw error;
           renderMemos(data);
           saveMemoCache(data);
@@ -1207,7 +1217,7 @@
           this.disabled = true;
           setStatus('发送中...', 'var(--text-main)', false);
           try {
-            const { error } = await supabase.from('memos').insert([{ content: newText }]);
+            const { error } = await supabase.from('memos').insert([{ content: newText, device: getDeviceName() }]);
             if (error) throw error;
             setStatus('已封存', 'var(--text-main)');
             window.loadFromCloud();
@@ -1243,122 +1253,6 @@
         statusEl.style.color = '#ff3b30';
       }
     }
-  </script>
-
-  <script>
-    'use strict';
-    
-    const GITHUB_TOKEN = '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'; 
-    const GIST_ID = '1047544f935362bac95f139c53a5caf4';
-
-    const ghContainer = document.getElementById('gh-memo-content');
-    const ghInput = document.getElementById('gh-memo-input');
-    const ghStatus = document.getElementById('gh-cloud-status');
-
-    let gistDataArray = [];
-
-    const setGHStatus = (text, color = '#c9d1d9') => {
-      if(ghStatus) {
-        ghStatus.textContent = text;
-        ghStatus.style.color = color;
-      }
-    };
-
-    const renderGist = () => {
-      ghContainer.innerHTML = '';
-      if (gistDataArray.length === 0) {
-        ghContainer.innerHTML = '<div style="opacity:.4;text-align:center;margin-top:40px;font-size:13px;">深海尚无回音...</div>';
-        return;
-      }
-      gistDataArray.forEach(row => {
-        ghContainer.insertAdjacentHTML('beforeend', `
-          <div class="memo-item" id="gh-${row.id}">
-            <div style="flex:1;">
-              <span class="memo-time" style="color:#58a6ff;">${row.time}</span>
-              <div class="memo-text" onclick="window.copyMemo('${row.content.replace(/'/g, "\\'")}')">${row.content}</div>
-            </div>
-            <span class="memo-delete" style="color:#ff7b72;" onclick="deleteGistRecord(${row.id})">×</span>
-          </div>
-        `);
-      });
-      ghContainer.scrollTop = ghContainer.scrollHeight;
-    };
-
-    async function loadFromGitHub() {
-      setGHStatus('同步中...', '#f0883e');
-      try {
-        const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-          headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Accept': 'application/vnd.github.v3+json', 'Cache-Control': 'no-cache' }
-        });
-        if (!res.ok) throw new Error('API 拒绝访问');
-        const data = await res.json();
-        const content = data.files['abyss.json'].content;
-        gistDataArray = JSON.parse(content || '[]');
-        renderGist();
-        setGHStatus('加密连接', '#58a6ff');
-      } catch (err) {
-        console.error(err);
-        setGHStatus('节点失联', '#ff7b72');
-      }
-    }
-
-    async function saveToGitHub() {
-      setGHStatus('写入深海...', '#f0883e');
-      try {
-        const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-          method: 'PATCH',
-          headers: { 
-            'Authorization': `token ${GITHUB_TOKEN}`, 
-            'Accept': 'application/vnd.github.v3+json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            files: { 'abyss.json': { content: JSON.stringify(gistDataArray) } }
-          })
-        });
-        if (!res.ok) throw new Error('保存失败');
-        setGHStatus('加密连接', '#58a6ff');
-      } catch (err) {
-        console.error(err);
-        setGHStatus('写入被拦截', '#ff7b72');
-      }
-    }
-
-    window.deleteGistRecord = async function(id) {
-      if (!confirm('彻底抹除此条记录？')) return;
-      gistDataArray = gistDataArray.filter(item => item.id !== id);
-      renderGist(); 
-      await saveToGitHub(); 
-    };
-
-    if(ghInput) {
-      ghInput.addEventListener('keydown', async (e) => {
-        if (e.key === 'Enter' && ghInput.value.trim() !== '') {
-          e.preventDefault();
-          const text = ghInput.value.trim();
-          ghInput.value = '';
-          
-          const now = new Date();
-          const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-          
-          gistDataArray.push({ id: Date.now(), content: text, time: timeStr });
-          renderGist(); 
-          await saveToGitHub(); 
-        }
-      });
-    }
-
-    window.toggleGitHubMemo = function(e) {
-      if (e) { e.preventDefault(); e.stopPropagation(); }
-      const el = document.getElementById('ghost-memo-github');
-      if (el) {
-        const isActive = el.classList.toggle('active');
-        if (isActive) {
-          loadFromGitHub();
-          setTimeout(() => ghInput.focus({ preventScroll: true }), 300);
-        }
-      }
-    };
   </script>
 </body>
 </html>
