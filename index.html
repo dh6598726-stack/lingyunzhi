@@ -715,15 +715,51 @@
   <script>
     'use strict';
     
-    // 解析 User-Agent 获取设备类型
+    // 解析 User-Agent 获取设备类型（升级版）
     function getDeviceName() {
       const ua = navigator.userAgent;
-      if (/iPhone/i.test(ua)) return 'iPhone';
-      if (/iPad/i.test(ua)) return 'iPad';
-      if (/Android/i.test(ua)) return 'Android';
-      if (/Macintosh|Mac OS X/i.test(ua)) return 'Mac';
-      if (/Windows NT/i.test(ua)) return 'Windows';
+
+      // 1. 尝试获取 Android 具体型号
+      if (/Android/i.test(ua)) {
+        const match = ua.match(/Android\s+[.\d]+;\s+([^;]+)\s+Build\//i);
+        if (match && match[1]) {
+          return match[1].trim(); 
+        }
+        return 'Android';
+      }
+
+      // 2. iOS 提取系统版本号辅助区分
+      if (/iPhone/i.test(ua)) {
+        const match = ua.match(/OS (\d+_\d+)/i);
+        const osVer = match ? ` iOS ${match[1].replace('_', '.')}` : '';
+        return `iPhone${osVer}`; 
+      }
+      
+      if (/iPad/i.test(ua)) {
+        const match = ua.match(/OS (\d+_\d+)/i);
+        return match ? `iPad iOS ${match[1].replace('_', '.')}` : 'iPad';
+      }
+
+      // 3. 桌面端优化：提取系统具体版本
+      if (/Macintosh|Mac OS X/i.test(ua)) {
+        const match = ua.match(/Mac OS X (\d+[_.]\d+)/i);
+        return match ? `Mac ${match[1].replace(/_/g, '.')}` : 'Mac';
+      }
+      
+      if (/Windows NT/i.test(ua)) {
+        const match = ua.match(/Windows NT (\d+\.\d+)/i);
+        let winVer = 'Windows';
+        if (match) {
+          if (match[1] === '10.0') winVer = 'Win 10/11';
+          else if (match[1] === '6.3') winVer = 'Win 8.1';
+          else if (match[1] === '6.2') winVer = 'Win 8';
+          else if (match[1] === '6.1') winVer = 'Win 7';
+        }
+        return winVer;
+      }
+      
       if (/Linux/i.test(ua)) return 'Linux';
+
       return 'Web';
     }
     
