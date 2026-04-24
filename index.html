@@ -23,21 +23,21 @@
       --font-main: 'Long Cang', "Xingkai SC", "STXingkai", cursive;
       --font-sys: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       --bg-sidebar: transparent;
-      --bg-card: rgba(255, 255, 255, 0.6);
+      --bg-card: rgba(255, 255, 255, 0.65);
       --border-color: rgba(255, 255, 255, 0.5);
-      --border-hover: rgba(255, 255, 255, 0.8);
-      --text-main: #000000; 
-      --text-sub: #333333; 
+      --border-hover: rgba(255, 255, 255, 0.9);
+      --text-main: #111111; 
+      --text-sub: #444444; 
       --text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8), 0 0 5px rgba(255, 255, 255, 0.5);
       --accent: #007aff;
-      --shadow-card: 0 8px 24px rgba(0,0,0,0.06);
-      --shadow-hover: 0 16px 32px rgba(0,0,0,0.12);
-      --radius-sm: 10px;
-      --radius-md: 24px;
+      --shadow-card: 0 4px 16px rgba(0,0,0,0.04);
+      --shadow-hover: 0 12px 28px rgba(0,0,0,0.12);
+      --radius-sm: 12px;
+      --radius-md: 18px; /* 调整卡片圆角更柔和 */
       --radius-lg: 28px;
       --blur-val: 24px;
       --transition-fast: 0.2s ease;
-      --transition-smooth: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --transition-smooth: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); /* 加入一点点回弹效果 */
       --progress-height: 3px;
     }
 
@@ -47,10 +47,10 @@
       --border-color: rgba(255, 255, 255, 0.12);
       --border-hover: rgba(255, 255, 255, 0.25);
       --text-main: #ffffff;
-      --text-sub: #cccccc;
+      --text-sub: #bbbbbb;
       --text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 5px rgba(0, 0, 0, 0.6);
       --accent: #0a84ff;
-      --shadow-card: 0 8px 24px rgba(0,0,0,0.3);
+      --shadow-card: 0 8px 24px rgba(0,0,0,0.25);
       --shadow-hover: 0 16px 32px rgba(0,0,0,0.5);
     }
 
@@ -72,14 +72,12 @@
       background: url('https://images.unsplash.com/photo-1499346030926-9a72daac6c63?q=80&w=2560&auto=format&fit=crop') center/cover no-repeat;
       transition: filter 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-    body.dark-mode #zen-bg {
-      filter: brightness(0.35) saturate(0.85) contrast(1.1);
-    }
+    body.dark-mode #zen-bg { filter: brightness(0.35) saturate(0.85) contrast(1.1); }
 
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.18); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(128,128,128,0.38); }
+    ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.2); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(128,128,128,0.4); }
 
     input, textarea { font-family: var(--font-sys); text-shadow: none; }
     
@@ -92,6 +90,7 @@
 
     #app { display: grid; grid-template-columns: 280px 1fr; height: 100%; position: relative; z-index: 10; }
 
+    /* 侧边栏排版优化 */
     aside {
       background: var(--bg-sidebar);
       backdrop-filter: blur(var(--blur-val));
@@ -101,14 +100,14 @@
       z-index: 1000; transform: translateZ(0);
     }
     
-    .brand { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 20px; cursor: pointer; }
+    .brand { display: flex; align-items: center; justify-content: center; margin-bottom: 24px; cursor: pointer; }
 
     .search-box { position: relative; margin-bottom: 24px; }
     .search-input {
       width: 100%; padding: 12px 36px 12px 40px;
       background: rgba(128,128,128,0.12);
       border: 1px solid var(--border-color); border-radius: var(--radius-sm);
-      color: var(--text-main); font-size: 16px; transition: all var(--transition-fast);
+      color: var(--text-main); font-size: 15px; transition: all var(--transition-fast);
       backdrop-filter: blur(8px);
     }
     .search-input:focus { background: var(--bg-card); border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(0,122,255,0.15); }
@@ -119,24 +118,22 @@
     .search-hint { font-size: 12px; color: var(--text-sub); font-family: var(--font-sys); text-align: center; padding: 4px 0 8px; opacity: 0; transition: opacity var(--transition-fast); }
     .search-hint.visible { opacity: 1; }
 
-    .nav-scroll { flex: 1; overflow-y: auto; padding-right: 8px; }
+    .nav-scroll { flex: 1; overflow-y: auto; padding-right: 4px; }
     .nav-item {
-      padding: 12px 14px; border-radius: var(--radius-sm); font-size: 16px; font-weight: 500; color: var(--text-sub);
-      text-decoration: none; display: flex; align-items: center; gap: 12px;
-      transition: all var(--transition-fast); cursor: pointer; margin-bottom: 4px; position: relative;
+      padding: 12px 16px; border-radius: var(--radius-sm); font-size: 16px; font-weight: 500; color: var(--text-sub);
+      text-decoration: none; display: flex; align-items: center; gap: 14px;
+      transition: all var(--transition-fast); cursor: pointer; margin-bottom: 6px; position: relative;
     }
-    .nav-item:hover { background: rgba(128,128,128,0.15); color: var(--text-main); transform: translateX(4px); }
-    .nav-item.active { background: var(--text-main); color: #fff; text-shadow: none; }
-    body.dark-mode .nav-item.active { color: #000; text-shadow: none; }
+    .nav-item:hover { background: rgba(128,128,128,0.1); color: var(--text-main); transform: translateX(4px); }
+    .nav-item.active { background: rgba(128,128,128,0.15); color: var(--text-main); box-shadow: inset 2px 0 0 var(--accent); text-shadow: none; }
     .nav-icon { font-size: 18px; opacity: 0.9; }
     .nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-left: auto; opacity: 0; transition: opacity var(--transition-fast); }
     .nav-item.active .nav-dot { opacity: 1; }
-    body.dark-mode .nav-item.active .nav-dot { background: #0a84ff; }
 
     .aside-footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
-    .time-badge { font-size: 14px; color: var(--text-sub); font-family: var(--font-sys); background: rgba(128,128,128,0.12); padding: 6px 10px; border-radius: 6px; cursor: default; display: flex; align-items: center; gap: 8px; border: 1px solid var(--border-color); backdrop-filter: blur(4px); }
+    .time-badge { font-size: 13px; color: var(--text-sub); font-family: var(--font-sys); background: rgba(128,128,128,0.12); padding: 6px 12px; border-radius: 8px; cursor: default; display: flex; align-items: center; gap: 8px; border: 1px solid var(--border-color); backdrop-filter: blur(4px); }
     .time-greeting { font-size: 12px; opacity: 0.8; }
-    .shortcut-btn { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border-color); background: rgba(128,128,128,0.12); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--text-sub); transition: all var(--transition-fast); backdrop-filter: blur(4px); }
+    .shortcut-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border-color); background: rgba(128,128,128,0.12); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--text-sub); transition: all var(--transition-fast); backdrop-filter: blur(4px); }
     .shortcut-btn:hover { background: var(--bg-card); color: var(--text-main); border-color: var(--accent); }
 
     main { padding: 48px 6vw; overflow-y: auto; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; position: relative; }
@@ -150,76 +147,77 @@
       transition: all var(--transition-smooth); z-index: 900;
     }
     #back-top.visible { opacity: 1; transform: translateY(0); }
-    #back-top:hover { background: var(--text-main); color: #fff; transform: translateY(-3px); }
+    #back-top:hover { background: var(--text-main); color: #fff; transform: translateY(-5px); }
     body.dark-mode #back-top:hover { background: #fff; color: #000; }
 
-    .hero-quote { margin-bottom: 40px; padding: 20px 0; background-color: transparent; position: relative; overflow: hidden; }
-    .quote-text { font-size: 32px; line-height: 1.6; color: var(--text-main); margin-bottom: 12px; position: relative; z-index: 2; }
-    .quote-sub { font-size: 16px; color: var(--text-sub); letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-sys); position: relative; z-index: 2; }
-    .secret-trigger { cursor: pointer; }
+    /* 优化 Hero Quote */
+    .hero-quote { margin-bottom: 48px; padding: 24px 0; background-color: transparent; position: relative; overflow: hidden; }
+    .quote-text { font-size: 36px; line-height: 1.5; color: var(--text-main); margin-bottom: 12px; position: relative; z-index: 2; font-weight: 500; }
+    .quote-sub { font-size: 14px; color: var(--text-sub); letter-spacing: 3px; text-transform: uppercase; font-family: var(--font-sys); position: relative; z-index: 2; opacity: 0.8; }
+    .secret-trigger { cursor: pointer; color: var(--accent); transition: opacity 0.3s; }
+    .secret-trigger:hover { opacity: 0.7; }
 
-    .section-block { margin-bottom: 56px; scroll-margin-top: 32px; }
-    .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
-    .section-title { font-size: 22px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; }
-    .section-count { font-size: 14px; color: var(--text-sub); text-transform: uppercase; font-family: var(--font-sys); }
+    .section-block { margin-bottom: 64px; scroll-margin-top: 32px; }
+    .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color); }
+    .section-title { font-size: 24px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px; }
+    .section-count { font-size: 13px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; font-family: var(--font-sys); }
 
     .grid { 
       display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); 
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); 
       gap: 24px 20px; 
     }
     .hidden { display: none !important; }
 
     @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
+    /* 卡片视觉优化 */
     .card {
       background: var(--bg-card); 
       backdrop-filter: blur(28px);
       -webkit-backdrop-filter: blur(28px);
       border: 1px solid var(--border-color); 
       border-radius: var(--radius-md); 
-      padding: 16px 12px;
+      padding: 18px 12px;
       cursor: pointer; 
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
       transition: var(--transition-smooth); text-decoration: none; color: inherit;
       opacity: 0; animation: fadeUp 0.4s ease forwards; transform: translateZ(0); position: relative;
       aspect-ratio: 1 / 1;
       box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.4);
     }
     
-    body.dark-mode .card {
-      box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    }
+    body.dark-mode .card { box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.1); }
 
     .card:hover { 
       border-color: var(--border-hover); 
-      transform: translateY(-6px) scale(1.02); 
+      transform: translateY(-8px) scale(1.03); 
       box-shadow: var(--shadow-hover), inset 0 1px 0 rgba(255, 255, 255, 0.6); 
       background: var(--bg-card); 
     }
 
-    .card-fav { position: absolute; top: 12px; right: 12px; font-size: 16px; opacity: 0; cursor: pointer; transition: opacity var(--transition-fast), transform var(--transition-fast); z-index: 5; color: #ff9500; padding: 4px; background: none; border: none; line-height: 1; text-shadow: none; }
-    .card:hover .card-fav { opacity: 0.5; }
+    .card-fav { position: absolute; top: 12px; right: 12px; font-size: 18px; opacity: 0; cursor: pointer; transition: opacity var(--transition-fast), transform var(--transition-fast); z-index: 5; color: #ff9f0a; padding: 4px; background: none; border: none; line-height: 1; text-shadow: none; }
+    .card:hover .card-fav { opacity: 0.4; }
     .card-fav.active { opacity: 1 !important; }
-    .card-fav:hover { transform: scale(1.2); opacity: 1 !important; }
+    .card-fav:hover { transform: scale(1.25); opacity: 1 !important; }
 
     .card-head { display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 2px; }
     
     .icon-box { 
-      width: 52px; height: 52px; border-radius: 12px; background: transparent; 
+      width: 56px; height: 56px; border-radius: 14px; background: transparent; 
       display: flex; align-items: center; justify-content: center; 
-      font-size: 36px; color: var(--text-main); border: none; 
-      text-shadow: none; cursor: pointer; transition: transform var(--transition-fast);
+      font-size: 38px; color: var(--text-main); border: none; 
+      text-shadow: none; cursor: pointer; transition: transform var(--transition-smooth);
     }
-    .card:hover .icon-box { transform: scale(1.1); }
+    .card:hover .icon-box { transform: scale(1.15) rotate(2deg); }
     
     .link-arrow { display: none; }
     
     .card-body { display: flex; flex-direction: column; align-items: center; width: 100%; }
     
     .card-title { 
-      font-size: 13px; font-weight: 500; color: var(--text-main); 
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px; font-weight: 500; color: var(--text-main); 
+      font-family: var(--font-sys);
       text-align: center; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
       padding: 0 4px;
     }
@@ -237,9 +235,9 @@
       backdrop-filter: blur(12px);
       border-radius: var(--radius-lg); cursor: pointer; display: flex; align-items: center; justify-content: space-between;
       box-shadow: var(--shadow-hover); border: 1px solid rgba(255,255,255,0.15); position: relative; overflow: hidden; color: #fff;
-      transition: transform var(--transition-fast); text-decoration: none; text-shadow: none;
+      transition: transform var(--transition-smooth); text-decoration: none; text-shadow: none;
     }
-    .time-capsule:hover { transform: scale(1.01) translateY(-2px); border-color: rgba(255,255,255,0.4); }
+    .time-capsule:hover { transform: scale(1.02) translateY(-2px); border-color: rgba(255,255,255,0.4); }
     .time-capsule::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); transform: skewX(-20deg); }
     .time-capsule:hover::before { left: 200%; transition: 0.8s ease-in-out; }
     .capsule-left { display: flex; align-items: center; gap: 20px; z-index: 2; }
@@ -251,35 +249,29 @@
     .time-capsule:hover .capsule-arrow { opacity: 1; transform: translateX(0); }
 
     #sec-favorites .grid { min-height: 60px; }
-    #fav-empty { font-size: 14px; color: var(--text-sub); font-family: var(--font-sys); padding: 20px 0; text-align: center; opacity: 0.7; }
+    #fav-empty { font-size: 14px; color: var(--text-sub); font-family: var(--font-sys); padding: 20px 0; text-align: center; opacity: 0.7; grid-column: 1 / -1; }
 
+    /* 深海区 */
     .sensitive-zone { position: relative; transition: all 0.5s ease; }
     .locked { display: none !important; }
     .sensitive-blur { filter: blur(12px); opacity: 0.3; transition: 0.4s ease; pointer-events: none; }
     .sensitive-mask { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5; pointer-events: none; }
-    .mask-badge { background: rgba(0,0,0,0.8); color: #fff; backdrop-filter: blur(4px); padding: 8px 16px; border-radius: 8px; font-size: 14px; font-family: var(--font-sys); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; transition: var(--transition-fast); box-shadow: 0 0 20px rgba(0,0,0,0.5); text-shadow: none; }
+    .mask-badge { background: rgba(0,0,0,0.8); color: #fff; backdrop-filter: blur(4px); padding: 10px 20px; border-radius: 8px; font-size: 14px; font-family: var(--font-sys); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; transition: var(--transition-fast); box-shadow: 0 0 24px rgba(0,0,0,0.6); text-shadow: none; }
     .sensitive-zone:hover .sensitive-blur { filter: blur(0); opacity: 1; }
     .sensitive-zone.unlocked .sensitive-blur { filter: blur(0); opacity: 1; pointer-events: auto; }
     .sensitive-zone.unlocked .sensitive-mask { display: none; }
 
-    #splash {
-      position: fixed; inset: 0; z-index: 9999;
-      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://i.pinimg.com/736x/2a/8b/1a/2a8b1a9e6cfd057effd62bda202acd70.jpg') center/cover no-repeat;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      transition: opacity 0.6s ease, visibility 0.6s; user-select: none; backdrop-filter: blur(10px);
-    }
-    .splash-quote { font-size: 32px; text-align: center; max-width: 600px; line-height: 1.6; margin-bottom: 40px; padding: 0 20px; color: #ffffff !important; text-shadow: 0 4px 12px rgba(0,0,0,0.8); max-height: 75vh; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-
     #shortcut-panel { position: fixed; inset: 0; z-index: 9995; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity var(--transition-smooth); }
     #shortcut-panel.active { opacity: 1; pointer-events: auto; }
-    .shortcut-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 32px; min-width: 340px; box-shadow: var(--shadow-hover); transform: scale(0.95); transition: transform var(--transition-smooth); }
+    .shortcut-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 32px; min-width: 360px; box-shadow: var(--shadow-hover); transform: scale(0.95); transition: transform var(--transition-smooth); }
     #shortcut-panel.active .shortcut-card { transform: scale(1); }
-    .shortcut-card h3 { font-size: 18px; margin-bottom: 20px; color: var(--text-main); font-family: var(--font-main); }
-    .shortcut-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-color); font-family: var(--font-sys); font-size: 14px; color: var(--text-sub); }
-    .shortcut-row:last-child { border-bottom: none; }
-    .shortcut-row span:first-child { color: var(--text-main); }
-    kbd { background: rgba(128,128,128,0.1); border: 1px solid var(--border-color); border-radius: 5px; padding: 3px 8px; font-size: 12px; font-family: monospace; color: var(--text-main); box-shadow: 0 1px 0 var(--border-color); text-shadow: none; }
+    .shortcut-card h3 { font-size: 20px; margin-bottom: 24px; color: var(--text-main); font-family: var(--font-main); }
+    .shortcut-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color); font-family: var(--font-sys); font-size: 14px; color: var(--text-sub); }
+    .shortcut-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .shortcut-row span:first-child { color: var(--text-main); font-weight: 500; }
+    kbd { background: rgba(128,128,128,0.15); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-family: monospace; color: var(--text-main); box-shadow: 0 1px 0 var(--border-color); text-shadow: none; }
 
+    /* 备忘录 */
     #ghost-memo { 
       position: fixed; bottom: 40px; right: 40px; width: 340px; height: 460px; 
       background: var(--bg-sidebar); color: var(--text-main); 
@@ -289,37 +281,26 @@
       transform: translateY(30px) scale(0.95); opacity: 0; pointer-events: none; 
       transition: var(--transition-smooth); z-index: 1000; font-family: var(--font-sys); 
     }
-    #ghost-memo.active { 
-      transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; 
-    }
+    #ghost-memo.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
     
-    #memo-content { flex: 1; background: rgba(128,128,128,0.05); border: none; outline: none; border-radius: 8px; padding: 14px; margin-top: 12px; margin-bottom: 8px; overflow-y: auto; scroll-behavior: smooth; }
-    .memo-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed rgba(128,128,128,0.15); color: var(--text-main); font-size: 14px; line-height: 1.6; }
+    #memo-content { flex: 1; background: rgba(128,128,128,0.05); border: none; outline: none; border-radius: 12px; padding: 14px; margin-top: 12px; margin-bottom: 12px; overflow-y: auto; scroll-behavior: smooth; }
+    .memo-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px dashed rgba(128,128,128,0.15); color: var(--text-main); font-size: 14px; line-height: 1.6; }
     .memo-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
     .memo-text { flex: 1; word-break: break-all; white-space: pre-wrap; font-family: inherit; cursor: pointer; transition: opacity var(--transition-fast); }
     .memo-text:hover { opacity: 0.7; }
-    .memo-time { font-size: 11px; opacity: 0.5; display: flex; align-items: center; margin-bottom: 4px; }
+    .memo-time { font-size: 11px; opacity: 0.6; display: flex; align-items: center; margin-bottom: 6px; }
     
-    /* 设备标识样式 */
-    .memo-device { 
-      font-size: 10px; 
-      background: rgba(128,128,128,0.15); 
-      padding: 1px 6px; 
-      border-radius: 4px; 
-      margin-left: 8px; 
-      color: var(--text-sub);
-      display: inline-block;
-      vertical-align: middle;
-    }
+    .memo-device { font-size: 10px; background: rgba(128,128,128,0.15); padding: 2px 6px; border-radius: 4px; margin-left: 8px; color: var(--text-sub); display: inline-block; vertical-align: middle; }
 
-    .memo-delete { cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity var(--transition-fast); padding: 0 4px; margin-left: 8px; font-weight: bold; font-size: 16px; user-select: none; text-shadow: none; }
+    .memo-delete { cursor: pointer; color: #ff3b30; opacity: 0; transition: opacity var(--transition-fast), transform var(--transition-fast); padding: 0 6px; margin-left: 8px; font-weight: bold; font-size: 18px; user-select: none; text-shadow: none; }
     .memo-item:hover .memo-delete { opacity: 0.6; }
-    .memo-delete:hover { opacity: 1 !important; transform: scale(1.1); }
+    .memo-delete:hover { opacity: 1 !important; transform: scale(1.2); }
     @media (max-width: 768px) { .memo-delete { opacity: 0.8; } }
+    
     .memo-input-wrap { position: relative; }
-    #memo-new-record { width: 100%; background: rgba(128,128,128,0.08); border: 1px solid var(--border-color); outline: none; border-radius: 8px; padding: 12px 48px 12px 12px; color: var(--text-main); font-size: 14px; transition: all var(--transition-fast); font-family: inherit; }
+    #memo-new-record { width: 100%; background: rgba(128,128,128,0.08); border: 1px solid var(--border-color); outline: none; border-radius: 10px; padding: 12px 54px 12px 14px; color: var(--text-main); font-size: 14px; transition: all var(--transition-fast); font-family: inherit; }
     #memo-new-record:focus { background: var(--bg-sidebar); border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,122,255,0.15); }
-    #memo-char-count { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--text-sub); pointer-events: none; opacity: 0; transition: opacity var(--transition-fast); }
+    #memo-char-count { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--text-sub); pointer-events: none; opacity: 0; transition: opacity var(--transition-fast); }
     #memo-new-record:focus ~ #memo-char-count { opacity: 1; }
 
     #panic-overlay { position: fixed; inset: 0; background: #ffffff; z-index: 99999; display: flex; align-items: center; justify-content: center; text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; font-family: monospace; }
@@ -358,12 +339,12 @@
       .mobile-overlay.open { opacity: 1; pointer-events: auto; }
       
       main { padding: 24px 20px calc(80px + env(safe-area-inset-bottom)) 20px; }
-      .grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 16px; }
-      .hero-quote { padding: 20px 0; margin-bottom: 24px; }
-      .quote-text { font-size: 26px; }
+      .grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 16px; }
+      .hero-quote { padding: 12px 0; margin-bottom: 32px; }
+      .quote-text { font-size: 28px; }
       
       #ghost-memo { width: auto; left: 16px; right: 16px !important; bottom: calc(20px + env(safe-area-inset-bottom)); height: 65vh; }
-      #back-top { bottom: calc(100px + env(safe-area-inset-bottom)); right: 20px; width: 38px; height: 38px; font-size: 16px; }
+      #back-top { bottom: calc(100px + env(safe-area-inset-bottom)); right: 20px; width: 40px; height: 40px; font-size: 18px; }
       #shortcut-panel .shortcut-card { margin: 20px; min-width: unset; }
     }
   </style>
@@ -388,20 +369,8 @@
       <h3>⌨️ 快捷键一览</h3>
       <div class="shortcut-row"><span>打开搜索</span><span><kbd>Ctrl</kbd>+<kbd>K</kbd></span></div>
       <div class="shortcut-row"><span>查看收藏</span><span><kbd>F</kbd></span></div>
+      <div class="shortcut-row"><span>打开/关闭备忘录</span><span><kbd>M</kbd></span></div>
       <div class="shortcut-row"><span>关闭此面板</span><span><kbd>?</kbd> 或点击背景</span></div>
-    </div>
-  </div>
-
-  <div id="splash">
-    <div class="splash-quote">
-      <p style="font-size:28px;text-align:left;line-height:1.8;">
-        走了很长的路，也见过很多风景。<br>
-        唯独星空深处的那轮明月最不认生。<br>
-        它在异乡的窗前，守着当年我在故乡没做完的梦。<br>
-        <br><br>
-        回头看，<span onclick="closeSplash()" style="cursor:pointer;touch-action:manipulation;padding:10px 5px;margin:-10px -5px;position:relative;z-index:10;">轻舟</span>已过万重山；<br>
-        向前看，长路漫漫亦灿烂。
-      </p>
     </div>
   </div>
 
@@ -698,7 +667,7 @@
 
   <div id="ghost-memo">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border-color);">
-      <span style="font-size:15px;font-weight:700;letter-spacing:1px;">备忘录</span>
+      <span style="font-size:16px;font-weight:700;letter-spacing:1px;">备忘录</span>
       <div style="display:flex;gap:14px;align-items:center;">
         <span id="cloud-status" style="font-size:12px;font-family:var(--font-sys);font-weight:600;color:var(--accent);">待机中</span>
         <span id="cloud-sync-btn" style="cursor:pointer;font-size:13px;font-weight:bold;opacity:0.7;transition:opacity var(--transition-fast);" title="强制同步" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">同步</span>
@@ -715,37 +684,27 @@
   <script>
     'use strict';
     
-    // 解析 User-Agent 获取设备类型（升级版）
+    // 解析 User-Agent 获取设备类型
     function getDeviceName() {
       const ua = navigator.userAgent;
-
-      // 1. 尝试获取 Android 具体型号
       if (/Android/i.test(ua)) {
         const match = ua.match(/Android\s+[.\d]+;\s+([^;]+)\s+Build\//i);
-        if (match && match[1]) {
-          return match[1].trim(); 
-        }
+        if (match && match[1]) return match[1].trim(); 
         return 'Android';
       }
-
-      // 2. iOS 提取系统版本号辅助区分
       if (/iPhone/i.test(ua)) {
         const match = ua.match(/OS (\d+_\d+)/i);
         const osVer = match ? ` iOS ${match[1].replace('_', '.')}` : '';
         return `iPhone${osVer}`; 
       }
-      
       if (/iPad/i.test(ua)) {
         const match = ua.match(/OS (\d+_\d+)/i);
         return match ? `iPad iOS ${match[1].replace('_', '.')}` : 'iPad';
       }
-
-      // 3. 桌面端优化：提取系统具体版本
       if (/Macintosh|Mac OS X/i.test(ua)) {
         const match = ua.match(/Mac OS X (\d+[_.]\d+)/i);
         return match ? `Mac ${match[1].replace(/_/g, '.')}` : 'Mac';
       }
-      
       if (/Windows NT/i.test(ua)) {
         const match = ua.match(/Windows NT (\d+\.\d+)/i);
         let winVer = 'Windows';
@@ -757,9 +716,7 @@
         }
         return winVer;
       }
-      
       if (/Linux/i.test(ua)) return 'Linux';
-
       return 'Web';
     }
     
@@ -845,7 +802,7 @@
 
     function animateCards() {
       document.querySelectorAll('.card').forEach((card, index) => {
-        if (card.style.animation !== 'none') card.style.animationDelay = `${(index % 12) * 0.05}s`;
+        if (card.style.animation !== 'none') card.style.animationDelay = `${(index % 12) * 0.04}s`;
       });
     }
 
@@ -912,20 +869,6 @@
         if (favs[btn.dataset.id]) btn.classList.add('active');
       });
     });
-
-    window.closeSplash = function() {
-      const splash = document.getElementById('splash');
-      if (splash) {
-        splash.style.opacity = '0';
-        setTimeout(() => { splash.style.display = 'none'; }, 600);
-        sessionStorage.setItem('archiveSplashSeen', 'true');
-      }
-    };
-    
-    if (sessionStorage.getItem('archiveSplashSeen')) {
-      const splash = document.getElementById('splash');
-      if (splash) splash.style.display = 'none';
-    }
 
     const timePill = document.getElementById('time-pill');
     const datePill = document.getElementById('date-pill');
